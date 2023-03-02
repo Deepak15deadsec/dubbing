@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap");
+
+
+html,
+body {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", cursive;
+}
+
+
+
+
+input[type="month"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  padding: 4px;
+  background-clip: content-box;
+  background-color: #fff;
+  border: 2px solid #CCCCCC;
+  border-radius: 100%;
+}
+
+input[type="radio"]:checked {
+  background-color: #01A4EF;
+  border: 2px solid #01A4EF;
+}
+
+.PhoneInputInput {
+  background-color: transparent
+}
+
+.PhoneInputInput:focus-visible {
+  flex: 1;
+  border: none;
+  outline: none;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
