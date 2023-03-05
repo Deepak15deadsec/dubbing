@@ -1,47 +1,36 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import SignInlogo from'../../images/SignInlogo.png';
+import SignInlogo from '../../images/SignInlogo.png';
 
-export function FramLeft(){
-    return(
-        <div className="grid gap-4 grid-cols-2" style={{position: 'absolute',
-            width: '50%',
-            height: '100%',
+export function FramLeft() {
+    return (
+        <div className="flex justify-center items-center h-full flex-col" style={{
+            width: '100%',
             left: '0px',
             top: '0px',
-            background: 'radial-gradient(50% 50% at 50% 50%, #508CA0 0%, #15506B 100%)'}}
+            background: 'radial-gradient(50% 50% at 50% 50%, #508CA0 0%, #15506B 100%)'
+        }}
         >
-            <div  style={{
-            fontFamily: 'Open Sans',
-            fontStyle: 'normal',
-            fontWeight: 300,
-            fontSize: '30px',
-            lineHeight: '40px',
-            color: '#FFFFFF',
-            position:'relative',
-            width: '95%',
-            height: '100%',
-            left: '30%',
-            top: '65%',
-            // bottom:'40%'
-
-            }}>
-            Acquire customers and grow your business
+            <div className='flex p-8'>
+                <div className='w-3/4' style={{
+                    fontFamily: 'Open Sans',
+                    fontStyle: 'normal',
+                    fontWeight: 300,
+                    fontSize: '30px',
+                    lineHeight: '40px',
+                    color: '#FFFFFF',
+                    textAlign:'center'
+                }}>
+                    Acquire customers and grow your business
+                </div>
+                <div className='w-1/4'>
+                    <img src={SignInlogo} alt="fireSpot" style={{
+                        width: '80px',
+                        transform: 'rotate(3.41deg)'
+                    }} />
+                </div>
             </div>
-            <div>
-                <img  src={SignInlogo}  alt="fireSpot" style={{
-                position: 'relative',
-                width: '35%',
-                height: '30%',
-                left: '30%',
-                top: '55%',
-                transform: 'rotate(3.41deg)'
-                }}/>
-            </div>
-            <div  style={{
-                position:'relative',
-                left: '30%',
-                top: '10%',
+            <div style={{
                 fontFamily: 'Open Sans',
                 fontStyle: 'normal',
                 fontWeight: 200,

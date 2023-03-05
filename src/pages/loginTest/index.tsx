@@ -17,17 +17,11 @@ import { FramLeft } from "../util/framLeft";
 
 const LoginTest = () => {
   const navigate = useNavigate();
-
-
-
   return (
-    <div className="grid gap-4 grid-cols-2">
+    <div className="flex h-screen">
       <FramLeft />
-      <div className="grid gap-4 grid-cols-1" style={{position: 'absolute',
-            width: '50%',
-            height: '100%',
-            left: '60%',
-            top: '30%',
+      <div className="flex flex-col justify-center items-center" style={{
+            width: '100%',      
       }}>
         <div style={{
           fontFamily: 'Open Sans',
@@ -42,39 +36,21 @@ const LoginTest = () => {
 
         <div style={{
           fontFamily: 'Open Sans',
-          fontStyle: 'normal',
           fontWeight: 200,
           fontSize: '20px',
           lineHeight: '26px',
           color: '#AAAAAA',
-          position:'relative',
-          // width: '95%',
-          // height: '100%',
-          // left: '30%',
-          top: '-90%',
         }}>
           Enter your information.
         </div>
-        <div style={{
-          // fontFamily: 'Open Sans',
-          // fontStyle: 'normal',
-          // fontWeight: 200,
-          // fontSize: '20px',
-          // lineHeight: '26px',
-          // color: '#AAAAAA',
-          position:'relative',
-          // width: '95%',
-          // height: '100%',
-          // left: '30%',
-          top: '-65%',
-        }}>
+        <div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-              <input style={{width:'70%'}} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+              <input style={{width:'100%',height:'56px'}} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-              <input style={{width:'70%'}} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+              <input style={{width:'100%',height:'56px'}} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
             </div>
             <div>
              <div>
@@ -104,7 +80,7 @@ const LoginTest = () => {
                     padding: '16px 214px',
                     gap: '10px',
                     // position: 'absolute',
-                    width: '40%',
+                    width: '100%',
                     height: '56px',
                     left: '1157px',
                     top: '816px',

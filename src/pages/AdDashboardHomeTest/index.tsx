@@ -13,224 +13,170 @@ import { AppContext } from "../../context/appContext";
 import { Header } from "./header";
 import { Footer } from "./footer";
 import { useNavigate } from 'react-router-dom';
-import mainLogo from'../../images/logo.png';
+import mainLogo from '../../images/logo.png';
 import Group65 from '../../images/Group65.png';
 import Group67 from '../../images/Group67.png';
 import Group66 from '../../images/Group66.png';
-import Logo2 from'../../images/logo2.png';
+import Logo2 from '../../images/logo2.png';
 
 const AdDashboardHomeTest = () => {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="min-h-[100vh]">
       <Header />
-      <div className="grid gap-4 grid-cols-1" style={{ maxHeight: "900px",
-      overflowY: "scroll"}}>
-        <div className="grid gap-4 grid-cols-2" >
-
-          <div className="grid gap-4 grid-cols-1">
+      <div className="grid gap-4 grid-cols-1 pl-20 pr-20 mt-8 mb-12">
+        <div className="grid gap-4 lg:grid-cols-2 sm:grid-cols-1" id="main" >
+          <div className="flex flex-col justify-center">
             <div style={{
               fontFamily: 'Open Sans',
-              fontSize: '30px',
-              fontWeight: 300,
-              lineHeight: '40px',
-              letterSpacing: '0em',
+              fontSize: '40px',
+              fontWeight: 400,
+              lineHeight: '50px',
               textAlign: 'left',
               color: '#01A4EF',
-              marginLeft: '130px'
             }}>
               Acquire customers and grow your businss with Avni
             </div>
-            <div style={{
-                fontFamily: 'Open Sans',
-                fontSize: '12px',
-                fontWeight: 200,
-                lineHeight: '16px',
-                letterSpacing: '0em',
-                textAlign: 'left',
-                marginLeft: '130px'
+            <div className="mt-4 mb-4" style={{
+              fontFamily: 'Open Sans',
+              fontSize: '16px',
+              fontWeight: 400,
+              textAlign: 'justify',
             }}>
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
             </div>
-            <div style={{
-              marginLeft: '130px'
-            }}>
+            <div >
               <button
                 type="submit"
                 style={{
-                        height: '56px',
-                        width: '151px',
-                        left: '1630px',
-                        top: '22px',
-                        borderRadius: '12px',
-                        padding: '16px 20px 16px 20px',
-                        border: '1px solid #01A4EF'
-                    }}
-                onClick={()=>{
-                  navigate('/signup');
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  minWidth: '150px',
+                  height: '56px',
+                  left: '1630px',
+                  top: '22px',
+                  borderRadius: '12px',
+                  textAlign: "center",
+                  border: '1px solid #01A4EF',
+                  color: '#01A4EF'
+                }}
+                onClick={() => {
+                  navigate('/signupTest');
                 }}
               >
-                <div style={{
-                    color: '#01A4EF'
-                }}>
-                  Get Started
-                </div>
+                Get Started
               </button>
             </div>
           </div>
           <div className="flex justify-center">
-            <img  src={Group65}  alt="fireSpot" style={{
-              // height: '320.3762817382812px',
-              width: '150.2215270996094px',
-              left: '612.768310546875px',
-              top: '80.197265625px',
-              borderRadius: '0px'
-              
-            }}  />
+            <img className="max-h-fit lg:max-w-lg sm:max-w-sm" src={Group65} alt="fireSpot" />
           </div>
-          <div className="flex justify-center">
-            <img  src={Group66}  alt="fireSpot" style={{
-              // height: '320.3762817382812px',
-              width: '150.2215270996094px',
-              left: '612.768310546875px',
-              top: '80.197265625px',
-              borderRadius: '0px'
-            }}  />
-          </div>
-          <div className="grid gap-4 grid-cols-1">
-            <div style={{
-              fontFamily: 'Open Sans',
-              fontSize: '10px',
-              fontWeight: 200,
-              lineHeight: '10px',
-              letterSpacing: '0em',
-              textAlign: 'left'
-              
-            }}>
-              STEP 1
-            </div>
-            <div style={{
-            fontFamily: 'Open Sans',
-            fontStyle: 'normal',
-            fontWeight: 150,
-            fontSize: '15px',
-            lineHeight: '20px',
-            color: '#FF6154'
-
-              
-            }}>
-              Company Details
-            </div>
-            <div style={{
-              fontFamily: 'Open Sans',
-              fontStyle: 'normal',
-              fontWeight: 200,
-              fontSize: '12px',
-              lineHeight: '16px',
-            }}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+          <div className="mt-12 sm:mt-8" >
+            <div className="flex justify-center">
+              <img className="max-h-fit max-w-lg" src={Group66} alt="fireSpot" />
             </div>
           </div>
-          <div className="grid gap-4 grid-cols-1">
-            <div className="grid gap-4 grid-cols-1" style={{ marginLeft: '130px'}}>
+          <div className="mt-12 sm:8 h-full flex  justify-center items-center">
+            <div className="grid gap-4 grid-cols-1 h-1/3">
               <div style={{
-                  fontFamily: 'Open Sans',
-                  fontSize: '10px',
-                  fontWeight: 200,
-                  lineHeight: '10px',
-                  letterSpacing: '0em',
-                  textAlign: 'left'
-                  
-                }}>
-                  STEP 2
-                </div>
-                <div style={{
-                  fontFamily: 'Open Sans',
-                  fontStyle: 'normal',
-                  fontWeight: 300,
-                  fontSize: '30px',
-                  lineHeight: '40px',            
-                  color: '#67DF87',
-                  // marginLeft: '130px'
-                }}>
-                  Login Details
-                </div>
-                <div style={{
-                  fontFamily: 'Open Sans',
-                  fontStyle: 'normal',
-                  fontWeight: 200,
-                  fontSize: '12px',
-                  lineHeight: '16px',
-                  color: '#333333',
-                  // marginLeft: '130px',
-                }}>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                </div>
+                fontFamily: 'Open Sans',
+                fontSize: '16px',
+                fontWeight: 400,
+                lineHeight: '20px',
+                letterSpacing: '0em',
+                textAlign: 'left'
+
+              }}>
+                STEP 1
+              </div>
+              <div style={{
+                fontFamily: 'Open Sans',
+                fontWeight: 600,
+                fontSize: '40px',
+                lineHeight: '20px',
+                color: '#FF6154'
+              }}>
+                Company Details
+              </div>
+              <div style={{
+                fontFamily: 'Open Sans',
+                fontWeight: 400,
+                fontSize: '16px',
+                textAlign:'justify'
+              }}>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+              </div>
             </div>
-            
           </div>
-
-          <div className="flex justify-center">
-            <img  src={Group67}  alt="fireSpot" style={{
-              // height: '320.3762817382812px',
-              width: '150.2215270996094px',
-              left: '612.768310546875px',
-              top: '80.197265625px',
-              borderRadius: '0px'
-            }}  />
+          <div className="mt-12 sm:mt-8 h-full flex  justify-center items-center">
+            <div className="grid gap-4 grid-cols-1 h-1/3">
+              <div style={{
+                fontFamily: 'Open Sans',
+                fontSize: '16px',
+                fontWeight: 400,
+                lineHeight: '10px',
+                letterSpacing: '0em',
+              }}>
+                STEP 2
+              </div>
+              <div style={{
+                fontFamily: 'Open Sans',
+                fontStyle: 'normal',
+                fontWeight: 600,
+                fontSize: '40px',
+                lineHeight: '30px',
+                color: '#67DF87'
+              }}>
+                Login Details
+              </div>
+              <div style={{
+                fontFamily: 'Open Sans',
+                fontWeight: 400,
+                fontSize: '16px',
+                textAlign:'justify'
+              }}>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+              </div>
+            </div>
           </div>
-
-      
-
-
-
-          {/* <div className="grid gap-4 grid-cols-1">
-          
-          </div> */}
-
-          
+          <div className="mt-12 sm:mt-8" >
+            <div className="flex justify-center">
+              <img className="max-h-fit max-w-lg" src={Group67} alt="fireSpot" />
+            </div>
+          </div>
         </div>
       </div>
-      {/* <div className="grid gap-4 grid-cols-1">
-        <div className="flex justify-center">
-            <img  src={Logo2}  alt="fireSpot" style={{
-            width: '71px',
-            height: '99px',
-            //  left: '836px',
-            //  top: '2186.98px',
-            }}  />
-            
+      <div className="flex flex-col justify-center items-center mt-16 mb-16">
+        <div className="w-36 h-20">
+          <img src={Logo2} />
         </div>
-        <div className="flex justify-center" style={{
-          fontFamily: 'Open Sans',
-          fontStyle: 'normal',
-          fontWeight: 300,
-          fontSize: '30px',
-          lineHeight: '40px',
-          textAlign: 'center',
-          color: '#FFB703',
-        }}>
+        <div style={{ "color": "#FFB703", fontFamily: 'open sans', fontWeight: 600, fontSize: '40px' }}>
           Create your first ad
         </div>
-        <div className="flex justify-center" style={{
-          fontFamily: 'Open Sans',
-          fontStyle: 'normal',
-          fontWeight: 200,
-          fontSize: '12px',
-          lineHeight: '16px',
-          textAlign: 'center',
-          color: '#333333'
-        }}>
+        <div className="w-3/4 mb-4 text-center" style={{ "fontFamily": "open sans", fontSize: '16px' }}>
           Get started with free personalised support. Create your custom ad plan with a Google Ads Expert.
         </div>
-      </div> */}
-
-
+        <div>
+          <button style={{ 
+           "backgroundColor": "#01A4EF",
+           borderRadius: '12px', 
+           textAlign: 'center', 
+           color: "#fff", 
+           fontFamily: "Open Sans", 
+           fontSize: "20px",
+           height:'56px',
+           width:'150px' 
+            }}
+            onClick={()=>{
+              navigate('/signupTest');
+          }}>Get Started</button>
+        </div>
+      </div>
       <div className="grid gap-4 grid-cols-1">
         <Footer />
       </div>
 
-      
+
     </div>
   );
 };
