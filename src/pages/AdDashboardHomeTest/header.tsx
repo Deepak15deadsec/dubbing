@@ -27,7 +27,7 @@ export function Header(){
                             background: '#01A4EF'
                         }}
                         onClick={()=>{
-                            navigate('/signupTest');
+                            navigate('/loginTest');
                         }}
                     >
                         <div style={{

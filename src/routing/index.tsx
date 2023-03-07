@@ -9,6 +9,8 @@ import Signup from "../pages/signup";
 import AdDashboardHomeTest from "../pages/AdDashboardHomeTest";
 import SignupTest from "../pages/signupTest";
 import LoginTest from "../pages/loginTest";
+import ForgetPassWord from "../pages/forgetPass";
+import OtpVerification from "../pages/otpVerification";
 
 
 const Routing = () => {
@@ -26,7 +28,9 @@ const Routing = () => {
          {/* <Route path="/signupTest" element={<SignupTest />} /> */}
          <Route path="/loginTest" element={<LoginTest />} />
         {/* <Route index element={<Login />} /> */}
-        <Route path="/forgetPassword" element={<ForgetPassword />} />
+        {/* <Route path="/forgetPassword" element={<ForgetPassword />} /> */}
+        <Route path="/forgetPassword" element={<ForgetPassWord />} />
+        <Route path="/otpverification" element={<OtpVerification />} />
         {/* <Route index element={<Overview />} /> */}
         <Route path="/earnings" element={<Earnings />} />
         <Route path="/offer" element={<Offer />} />
