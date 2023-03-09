@@ -11,6 +11,10 @@ import SignupTest from "../pages/signupTest";
 import LoginTest from "../pages/loginTest";
 import ForgetPassWord from "../pages/forgetPass";
 import OtpVerification from "../pages/otpVerification";
+import SuccessfullyRegistered from "../pages/successfulregistered";
+import FirstCampaign from "../pages/Dashboard/FirstCampaign";
+import SideBar from "../pages/Dashboard/SideBar/side_bar";
+import MainDashBoard from "../pages/Dashboard/SideBar/side_bar";
 
 
 const Routing = () => {
@@ -27,10 +31,12 @@ const Routing = () => {
          <Route path="/signupTest" element={<SignupTest />} />
          {/* <Route path="/signupTest" element={<SignupTest />} /> */}
          <Route path="/loginTest" element={<LoginTest />} />
+         <Route path="/dashboard" element={<MainDashBoard />} />
         {/* <Route index element={<Login />} /> */}
         {/* <Route path="/forgetPassword" element={<ForgetPassword />} /> */}
         <Route path="/forgetPassword" element={<ForgetPassWord />} />
         <Route path="/otpverification" element={<OtpVerification />} />
+        <Route path="/registered" element={<SuccessfullyRegistered />} />
         {/* <Route index element={<Overview />} /> */}
         <Route path="/earnings" element={<Earnings />} />
         <Route path="/offer" element={<Offer />} />

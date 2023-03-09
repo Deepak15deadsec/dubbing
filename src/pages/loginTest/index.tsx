@@ -158,7 +158,7 @@ const LoginTest = () => {
                     marginTop: "10px",
                   }}
                   onClick={() => {
-                    // navigate('/signupTest');
+                     navigate('/dashboard');
                   }}
                 >
                   <div

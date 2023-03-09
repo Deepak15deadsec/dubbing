@@ -30,10 +30,10 @@ const SignupTest = () => {
   const [userDetails, setUserDetails] = useState({
     email: "",
     password: "",
-    confirmpassword: "",   
+    confirmpassword: "",
   });
 
-  const[selectCheck,setSelectCheck] = useState(false);
+  const [selectCheck, setSelectCheck] = useState(false);
 
   return (
     <div className="grid gap-4 grid-cols-2 h-screen">
@@ -85,7 +85,9 @@ const SignupTest = () => {
               >
                 <span
                   data-te-stepper-head-icon-ref
-                  style={{"backgroundColor":nextStep?"#01A4EF":'bg-[#ebedef]'}}
+                  style={{
+                    backgroundColor: nextStep ? "#01A4EF" : "bg-[#ebedef]",
+                  }}
                   className="mr-3 flex h-[1.938rem] w-[1.938rem] items-center justify-center rounded-full bg-[#ebedef] text-sm font-medium text-[#40464f]"
                 >
                   1
@@ -220,9 +222,9 @@ const SignupTest = () => {
                         ) {
                           setnextStep(true);
                         } else {
-                          toast.error('All Values are Required !', {
-                            position: toast.POSITION.TOP_RIGHT
-                        });
+                          toast.error("All Values are Required !", {
+                            position: toast.POSITION.TOP_RIGHT,
+                          });
                         }
                       }}
                     >
@@ -315,8 +317,11 @@ const SignupTest = () => {
                       type="text"
                       id="first_name"
                       value={userDetails.email}
-                      onChange={(e:any)=>{
-                        setUserDetails({...userDetails,email:e.target.value})
+                      onChange={(e: any) => {
+                        setUserDetails({
+                          ...userDetails,
+                          email: e.target.value,
+                        });
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
@@ -330,8 +335,11 @@ const SignupTest = () => {
                       type="text"
                       id="first_name"
                       value={userDetails.password}
-                      onChange={(e:any)=>{
-                        setUserDetails({...userDetails,password:e.target.value})
+                      onChange={(e: any) => {
+                        setUserDetails({
+                          ...userDetails,
+                          password: e.target.value,
+                        });
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
@@ -345,8 +353,11 @@ const SignupTest = () => {
                       type="text"
                       id="first_name"
                       value={userDetails.confirmpassword}
-                      onChange={(e:any)=>{
-                        setUserDetails({...userDetails,confirmpassword:e.target.value})
+                      onChange={(e: any) => {
+                        setUserDetails({
+                          ...userDetails,
+                          confirmpassword: e.target.value,
+                        });
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
@@ -355,12 +366,12 @@ const SignupTest = () => {
                     <div className="flex items-center h-8">
                       <div className="flex items-center">
                         <input
-                        className="h-4 w-4 rounded-sm mr-2 cursor-pointer"
+                          className="h-4 w-4 rounded-sm mr-2 cursor-pointer"
                           type="checkbox"
                           checked={selectCheck}
                           id="checkboxDefault"
-                          onClick={()=>{
-                            setSelectCheck(!selectCheck)
+                          onClick={() => {
+                            setSelectCheck(!selectCheck);
                           }}
                         />
                         <label className="inline-block pl-[0.15rem] hover:cursor-pointer">
@@ -402,16 +413,30 @@ const SignupTest = () => {
                         if (
                           regex.test(userDetails.email) &&
                           regex.test(userDetails.password) &&
-                          regex.test(userDetails.confirmpassword)
+                          regex.test(userDetails.confirmpassword) &&
+                          userDetails.password === userDetails.confirmpassword && selectCheck
                         ) {
-                          toast.success("Successfully Registered !",{
+                          toast.success("Successfully Registered !", {
+                            position: toast.POSITION.TOP_RIGHT,
+                          });
+                          navigate("/registered");
+                        }else if (
+                          regex.test(userDetails.email) &&
+                          regex.test(userDetails.password) &&
+                          regex.test(userDetails.confirmpassword) &&
+                          userDetails.password !== userDetails.confirmpassword 
+                        ) {
+                          toast.warn("Password and Confirmed Password are not Matched !", {
+                            position: toast.POSITION.TOP_RIGHT,
+                          });
+                        }else if(!selectCheck){
+                          toast.warn("Please Accept Terms And Conditions",{
                             position:toast.POSITION.TOP_RIGHT
                           })
-                          // navigate('/')
                         } else {
-                          toast.error('All Values are Required !', {
-                            position: toast.POSITION.TOP_RIGHT
-                        });
+                          toast.error("All Values are Required !", {
+                            position: toast.POSITION.TOP_RIGHT,
+                          });
                         }
                       }}
                     >
