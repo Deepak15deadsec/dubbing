@@ -1,5 +1,5 @@
 import React from "react";
-import FirstCampaign from "../FirstCampaign";
+import FirstCampaign from "../CreateCampaign/FirstCampaign";
 
 const SideBarLogo = require("../../../images/sidebarlogo.png");
 const loudSpeaker = require("../../../images/loudspeaker.png");
@@ -8,12 +8,12 @@ const profileSetting = require("../../../images/profileSetting.png");
 
 function MainDashBoard() {
   return (
-    <div className="flex min-h-screen w-full ">
+    <div className="flex min-h-screen w-full " style={{'backgroundColor': '#F6F8FA'}}>
     <div
-      className="min-h-screen w-1/5 flex flex-col items-center"
+      className="min-h-screen w-1/5 flex flex-col items-center bg-white"
       style={{ borderRight: "1px solid #dbdbdb" }}
     >
-      <div className="mt-20">
+      <div className="mt-12">
         <img src={SideBarLogo} />
       </div>
       <div className="mt-16">
@@ -21,7 +21,7 @@ function MainDashBoard() {
           <div className="mr-6">
             <img src={loudSpeaker} className="w-5 h-5" />
           </div>
-          <div style={{'fontFamily':"Open Sans", fontSize:'20px'}}>
+          <div style={{'fontFamily':"Open Sans", fontSize:'16px',fontWeight:600}}>
             Campaigns
           </div>
         </div>
@@ -29,7 +29,7 @@ function MainDashBoard() {
           <div className="mr-6">
             <img src={plusSign} className="w-5 h-5" />
           </div>
-          <div style={{'fontFamily':"Open Sans", fontSize:'20px'}}>
+          <div style={{'fontFamily':"Open Sans", fontSize:'16px',fontWeight:600}}>
           Add Campaign
           </div>
         </div>
@@ -37,7 +37,7 @@ function MainDashBoard() {
           <div className="mr-6">
             <img src={profileSetting} className="w-5 h-5" />
           </div>
-          <div style={{'fontFamily':"Open Sans", fontSize:'20px'}}>
+          <div style={{'fontFamily':"Open Sans", fontSize:'16px',fontWeight:600}}>
           Profile & Settings
           </div>
         </div>

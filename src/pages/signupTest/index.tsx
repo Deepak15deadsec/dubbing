@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { FramLeft } from "../util/framLeft";
 import { toast } from "react-toastify";
 
-const regex = /^(?!\s*$).+/;
+export const regex = /^(?!\s*$).+/;
 
 const SignupTest = () => {
   const navigate = useNavigate();

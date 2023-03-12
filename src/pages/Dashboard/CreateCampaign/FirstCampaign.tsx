@@ -1,11 +1,15 @@
-import React from "react";
-const campaignLogo = require("../../images/campaignLogo.png");
-const redPlus = require("../../images/redPlus.png");
+import React ,{useState} from "react";
+import CreateCampaign from "./createCampaign";
+const campaignLogo = require("../../../images/campaignLogo.png");
+const redPlus = require("../../../images/redPlus.png");
 
 function FirstCampaign() {
+
+  const [showNextTab, setShowNextTab] = useState(false);
+
   return (
     <div className="w-full min-h-screen flex">
-      <div className="flex flex-col justify-center items-center min-h-screen w-full">
+      {!showNextTab &&(<div className="flex flex-col justify-center items-center min-h-screen w-full">
         <div>
           <img src={campaignLogo} className="w-64 h-64" />
         </div>
@@ -32,6 +36,9 @@ function FirstCampaign() {
             alignItems: "center",
             cursor:'pointer'
           }}
+          onClick={()=>{
+            setShowNextTab(true)
+          }}
         >
           <div>
             <img src={redPlus} style={{ width: "18px", height: "18px" }} />
@@ -49,6 +56,12 @@ function FirstCampaign() {
           </div>
         </div>
       </div>
+      )}
+      {showNextTab&&(
+        <div className="w-full">
+          <CreateCampaign/>
+        </div>
+      )}
     </div>
   );
 }
