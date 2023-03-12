@@ -11,6 +11,7 @@ const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
 const mapPic = require("../../../images/mapPic.png");
 const group80 = require("../../../images/Group80.png");
+const cross = require("../../../images/cross.png");
 
 const marks = [
   {
@@ -237,14 +238,12 @@ const ImageUploadingButton = (props: any) => {
   return (
     <ImageUploading value={value} onChange={onChange}>
       {({ onImageUpload, onImageUpdate }) => (
-        <img 
+        <img
           src={redPlus}
-          className='w-5 h-5'
+          className="w-5 h-5"
           onClick={value ? onImageUpload : () => onImageUpdate(0)}
           {...props}
-          /
-        >
-         
+        />
       )}
     </ImageUploading>
   );
@@ -264,6 +263,8 @@ function CreateCampaign() {
   const [country, setCountry] = useState("");
   const [image, setImage] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
+  const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
 
   const [switchTab, setSwitchTab] = useState(1);
   const ChangeSlider = (event: any, newValue: any) => {
@@ -389,7 +390,7 @@ function CreateCampaign() {
 
               <div className="w-full flex items-center mt-8 ">
                 <button
-                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-md"
+                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                   onClick={() => {
                     if (
                       regex.test(adValue) &&
@@ -476,12 +477,50 @@ function CreateCampaign() {
                 </div>
                 <div className="mt-2 w-full">
                   <TextField
+                    value={keywords}
                     size="small"
                     className="w-full"
                     onChange={(e: any) => {
                       setKeywords(e.target.value);
                     }}
+                    onKeyUp={(e: any) => {
+                      if (e.keyCode === 13) {
+                        if (keywords !== "") {
+                          setKeywordsArray([...keywordsArray, keywords]);
+                        }
+                        setKeywords("");
+                      }
+                    }}
                   />
+                </div>
+                <div className="w-full mt-2 mb-2 flex">
+                  {keywordsArray.map((data: any, index: any) => {
+                    if (data !== "") {
+                      return (
+                        <div
+                          key={index}
+                          className=" text-gray-300 text-xs p-2 border border-gray-300 mr-2 rounded-md flex items-center justify-center h-5"
+                        >
+                          {data}
+                          <div className="ml-3">
+                            <img
+                              src={cross}
+                              className="w-2 h-2 cursor-pointer"
+                              onClick={() => {
+                                setKeywordsArray([
+                                  ...keywordsArray.slice(0, index),
+                                  ...keywordsArray.slice(
+                                    index + 1,
+                                    keywordsArray.length
+                                  ),
+                                ]);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
                 </div>
               </div>
 
@@ -494,23 +533,60 @@ function CreateCampaign() {
                 <div className="mt-2 w-full">
                   <TextField
                     size="small"
+                    value={donotTarget}
                     className="w-full"
                     onChange={(e: any) => {
                       setDonotTarget(e.target.value);
                     }}
+                    onKeyUp={(e: any) => {
+                      if (e.keyCode === 13) {
+                        if (donotTarget !== "") {
+                          setDonotTargetArray([
+                            ...donotTargetArray,
+                            donotTarget,
+                          ]);
+                        }
+                        setDonotTarget("");
+                      }
+                    }}
                   />
+                </div>
+                <div className="w-full mt-2 mb-2 flex">
+                  {donotTargetArray.map((data: any, index: any) => {
+                    if (data !== "") {
+                      return (
+                        <div
+                          key={index}
+                          className=" text-gray-300 text-xs p-2 border border-gray-300 mr-2 rounded-md flex items-center justify-center h-5"
+                        >
+                          {data}
+                          <div className="ml-3">
+                            <img
+                              src={cross}
+                              className="w-2 h-2 cursor-pointer"
+                              onClick={() => {
+                                setDonotTargetArray([
+                                  ...donotTargetArray.slice(0, index),
+                                  ...donotTargetArray.slice(
+                                    index + 1,
+                                    donotTargetArray.length
+                                  ),
+                                ]);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
                 </div>
               </div>
 
               <div className="w-full flex items-center mt-8 ">
                 <button
-                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-md"
+                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                   onClick={() => {
-                    if (
-                      regex.test(gender) &&
-                      regex.test(keywords) &&
-                      regex.test(donotTarget)
-                    ) {
+                    if (regex.test(gender)) {
                       setSwitchTab(3);
                     } else {
                       toast.error("All Values are Required !", {
@@ -686,7 +762,7 @@ function CreateCampaign() {
                   </div>
                 </div>
               </div>
-              <div className="w-full m-5 border border-gray-200 rounded-md mt-4 mb-4 b-4">
+              <div className="w-full m-5 border border-gray-200 rounded-md mt-4 mb-4 b-4 pb-4">
                 <div
                   className="w-full h-10 flex items-center pl-4 text-sm"
                   style={{ borderBottom: "1px solid #EEEEEE" }}
@@ -708,14 +784,19 @@ function CreateCampaign() {
                   </div>
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Keywords:</div>
-                    <div className="w-full text-xs text-gray-400">
-                      {keywords}
+                    <div className="w-full text-xs text-gray-400 flex">
+                      {keywordsArray.map((data: any, index: number) => {
+                        return <div className="mr-2">{data},</div>;
+                      })}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Do Not Target:</div>
-                    <div className="w-full text-xs text-gray-400">
-                      {donotTarget}
+
+                    <div className="w-full text-xs text-gray-400 flex">
+                      {donotTargetArray.map((data: any, index: number) => {
+                        return <div className="mr-2">{data},</div>;
+                      })}
                     </div>
                   </div>
                 </div>
@@ -750,7 +831,7 @@ function CreateCampaign() {
               </div>
               <div className="w-full flex items-center mt-8 ">
                 <button
-                  className="w-16 ml-5 bg-blue-500 h-8 text-white rounded-md"
+                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                   onClick={() => {
                     // if(regex.test(startDate) && regex.test(country)&& cardNumber!==0 && numberOfSignups !==0){
                     //   setSwitchTab(4);
