@@ -13,9 +13,10 @@ import ForgetPassWord from "../pages/forgetPass";
 import OtpVerification from "../pages/otpVerification";
 import SuccessfullyRegistered from "../pages/successfulregistered";
 import FirstCampaign from "../pages/Dashboard/CreateCampaign/FirstCampaign";
-import SideBar from "../pages/Dashboard/SideBar/side_bar";
-import MainDashBoard from "../pages/Dashboard/SideBar/side_bar";
+import SideBar from "../pages/Dashboard/SideBar/maindashboard";
+import MainDashBoard from "../pages/Dashboard/SideBar/maindashboard";
 import CreateCampaign from "../pages/Dashboard/CreateCampaign/createCampaign";
+import CreatedCampaign from "../pages/Dashboard/CreateCampaign/createdCampaign";
 
 
 const Routing = () => {
@@ -39,6 +40,7 @@ const Routing = () => {
         <Route path="/otpverification" element={<OtpVerification />} />
         <Route path="/registered" element={<SuccessfullyRegistered />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
+        <Route path="/createdcampaign" element={<CreatedCampaign />} />
         {/* <Route index element={<Overview />} /> */}
         <Route path="/earnings" element={<Earnings />} />
         <Route path="/offer" element={<Offer />} />

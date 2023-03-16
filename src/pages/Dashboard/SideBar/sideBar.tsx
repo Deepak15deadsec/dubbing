@@ -1,14 +1,11 @@
-import React from "react";
-import FirstCampaign from "../CreateCampaign/FirstCampaign";
-
+import React from 'react'
 const SideBarLogo = require("../../../images/sidebarlogo.png");
 const loudSpeaker = require("../../../images/loudspeaker.png");
 const plusSign = require("../../../images/plusSign.png");
 const profileSetting = require("../../../images/profileSetting.png");
 
-function MainDashBoard() {
+function SideBar() {
   return (
-    <div className="flex min-h-screen w-full " style={{'backgroundColor': '#F6F8FA'}}>
     <div
       className="min-h-screen w-1/5 flex flex-col items-center bg-white"
       style={{ borderRight: "1px solid #dbdbdb" }}
@@ -43,11 +40,7 @@ function MainDashBoard() {
         </div>
       </div>
     </div>
-    <div className="w-full flex items-center" style={{'backgroundColor': '#F6F8FA'}}>
-        <FirstCampaign />
-    </div>
-    </div>
-  );
+  )
 }
 
-export default MainDashBoard;
+export default SideBar

@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
 import Select from "@mui/material/Select";
-import { Input, Slider, TextField, Tooltip } from "@mui/material";
+import { Input, Slider, TextField, Theme, Tooltip, useTheme } from "@mui/material";
 import ReactDatePicker from "react-datepicker";
 import { regex } from "../../signupTest";
 import { toast } from "react-toastify";
+import { Navigate, useNavigate } from "react-router-dom";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
@@ -24,6 +25,26 @@ const marks = [
     label: "100",
   },
 ];
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name: string, personName: string[], theme: Theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 const country_list = [
   "Afghanistan",
@@ -253,18 +274,20 @@ function CreateCampaign() {
   const [adValue, setAdValue] = useState("");
   const [headline, setHeadline] = useState("");
   const [description, setDescription] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] =useState<string[]>([]);
   const [sliderValue, setSliderValue] = React.useState([20, 40]);
   const [keywords, setKeywords] = useState("");
   const [donotTarget, setDonotTarget] = useState("");
   const [startDate, setStartDate] = useState("");
   const [numberOfSignups, setNumberOfSignups] = useState(0);
   const [cardNumber, setCardNumber] = useState(0);
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState<string[]>([]);
   const [image, setImage] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
   const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
+
+  const theme = useTheme();
 
   const [switchTab, setSwitchTab] = useState(1);
   const ChangeSlider = (event: any, newValue: any) => {
@@ -272,7 +295,13 @@ function CreateCampaign() {
   };
 
   const SelectCountry = (event: any) => {
-    setCountry(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setCountry(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
   };
 
   const handleChange = (event: any) => {
@@ -280,8 +309,16 @@ function CreateCampaign() {
   };
 
   const changeGender = (event: any) => {
-    setGender(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setGender(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="w-full min-h-screen py-6 px-4">
@@ -317,6 +354,7 @@ function CreateCampaign() {
                     style={{ fontSize: "14px" }}
                     value={adValue}
                     onChange={handleChange}
+                   
                   >
                     <MenuItem value={10} style={{ fontSize: "14px" }}>
                       Ten
@@ -443,14 +481,16 @@ function CreateCampaign() {
                     style={{ fontSize: "14px" }}
                     value={gender}
                     onChange={changeGender}
+                    MenuProps={MenuProps}
+                    multiple
                   >
-                    <MenuItem value={10} style={{ fontSize: "14px" }}>
+                    <MenuItem value="Male" style={{ fontSize: "14px" }}>
                       Male
                     </MenuItem>
-                    <MenuItem value={20} style={{ fontSize: "14px" }}>
+                    <MenuItem value="Female" style={{ fontSize: "14px" }}>
                       Female
                     </MenuItem>
-                    <MenuItem value={30} style={{ fontSize: "14px" }}>
+                    <MenuItem value="Other" style={{ fontSize: "14px" }}>
                       Other
                     </MenuItem>
                   </Select>
@@ -586,7 +626,7 @@ function CreateCampaign() {
                 <button
                   className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                   onClick={() => {
-                    if (regex.test(gender)) {
+                    if (gender.length>0) {
                       setSwitchTab(3);
                     } else {
                       toast.error("All Values are Required !", {
@@ -664,9 +704,11 @@ function CreateCampaign() {
                     onChange={SelectCountry}
                     className="w-full"
                     size="small"
+                    MenuProps={MenuProps}
+                    multiple
                   >
                     {country_list.map((data: any, index: number) => {
-                      return <MenuItem value={index}>{data}</MenuItem>;
+                      return <MenuItem value={data} key={index}>{data}</MenuItem>;
                     })}
                   </Select>{" "}
                 </div>
@@ -696,7 +738,7 @@ function CreateCampaign() {
                   onClick={() => {
                     if (
                       regex.test(startDate) &&
-                      regex.test(country) &&
+                      country.length>0 &&
                       cardNumber !== 0 &&
                       numberOfSignups !== 0
                     ) {
@@ -772,7 +814,11 @@ function CreateCampaign() {
                 <div className="w-full mt-4 pl-4">
                   <div className="w-full flex">
                     <div className="w-1/3 text-xs">Gender:</div>
-                    <div className="w-full text-xs text-gray-400">{gender}</div>
+                    <div className="w-full text-xs flex text-gray-400">{gender.map((val:any,index:any)=>{
+                      return(
+                      <div className=" mr-2">{val},</div>
+                      )
+                    })}</div>
                   </div>
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Age Range:</div>
@@ -822,6 +868,14 @@ function CreateCampaign() {
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
+                    <div className="w-1/3 text-xs">Country:</div>
+                    <div className="w-full text-xs text-gray-400 flex">
+                      {country.map((data: any, index: number) => {
+                        return <div key={index} className="mr-2">{data},</div>;
+                      })}
+                    </div>
+                  </div>
+                  <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Card Number:</div>
                     <div className="w-full text-xs text-gray-400">
                       {cardNumber}
@@ -833,13 +887,21 @@ function CreateCampaign() {
                 <button
                   className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                   onClick={() => {
-                    // if(regex.test(startDate) && regex.test(country)&& cardNumber!==0 && numberOfSignups !==0){
                     //   setSwitchTab(4);
-                    //   }else{
-                    //     toast.error("All Values are Required !", {
-                    //       position: toast.POSITION.TOP_RIGHT,
-                    //     });
-                    //   }
+                    localStorage.setItem('avniInfo',JSON.stringify({
+                      "adtype":adValue,
+                      "headline":headline,
+                      "description":description,
+                      "gender":gender,
+                      "agerange":sliderValue,
+                      "donottarget":donotTargetArray,
+                      'keywords':keywordsArray,
+                      "startdate":startDate,
+                      "numberofsignups":numberOfSignups,
+                      "billingcountry":country,
+                      "cardnumber":cardNumber,
+                    }))
+                   navigate('/createdcampaign')
                   }}
                 >
                   Submit
