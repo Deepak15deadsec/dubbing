@@ -1,8 +1,6 @@
 import { useEffect, useContext } from "react";
-import Sidebar from "./components/sidebar";
 import Routing from "./routing";
 import { useAuth } from "./hooks/getAuth";
-import Footer from "./components/Footer";
 import ReactQueryLoading, {
   optimisticOptions,
   queries,

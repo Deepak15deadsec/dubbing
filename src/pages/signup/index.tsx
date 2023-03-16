@@ -11,7 +11,7 @@ import {
 import { useMutation, useQuery } from "react-query";
 import { AppContext } from "../../context/appContext";
 import { useNavigate } from 'react-router-dom';
-import mainLogo from'../../images/logo.png';
+import mainLogo from '../../images/logo.png';
 
 
 
@@ -118,99 +118,101 @@ const Signup = () => {
           Welcome!
         </p> */}
         <form onSubmit={submit}>
-        {/* <div className="grid gap-x-1 gap-y-1 grid-cols-5 px-[4rem] mt-[2rem]" > */}
-        <div className="grid gap-4 grid-cols-2">
-          <div>
-            <div style={{position: 'absolute',
-            width: '50%',
-            height: '100%',
-            left: '0px',
-            top: '0px',
-            background: 'radial-gradient(50% 50% at 50% 50%, #508CA0 0%, #15506B 100%)'}} >
-              
-        <div className="space-y-2">
-          <img  src={mainLogo}  alt="fireSpot"/>
-        </div>
-        <div>
-        Acquire customers and grow your business
-        </div>
-        <div>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        </div>
+          {/* <div className="grid gap-x-1 gap-y-1 grid-cols-5 px-[4rem] mt-[2rem]" > */}
+          <div className="grid gap-4 grid-cols-2">
+            <div>
+              <div style={{
+                position: 'absolute',
+                width: '50%',
+                height: '100%',
+                left: '0px',
+                top: '0px',
+                background: 'radial-gradient(50% 50% at 50% 50%, #508CA0 0%, #15506B 100%)'
+              }} >
+
+                <div className="space-y-2">
+                  <img src={mainLogo} alt="fireSpot" />
+                </div>
+                <div>
+                  Acquire customers and grow your business
+                </div>
+                <div>
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                </div>
+
+              </div>
+            </div>
+            <div className="grid gap-4 grid-cols-1">
+              <div>
+                Great relationships starts here
+              </div>
+              <div>
+                <label className="block text-[1.5rem] font-[400] text-[#333333]">
+                  Company Name
+                </label>
+                <div className="w-full inline-flex px-5 items-center space-x-5 bg-gray-50 border border-gray-300 rounded-[0.5rem]">
+                  <input
+                    className="w-full h-full py-4 text-[#333333] focus:outline-none bg-transparent"
+                    type="text"
+                    value={input.name}
+                    onChange={(e) => onChangeHandler(e.target.value, "name")}
+                  // placeholder="Enter your Name"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[1.5rem] font-[400] text-[#333333]">
+                  Website
+                </label>
+                <div className="w-full inline-flex px-5 items-center space-x-5 bg-gray-50 border border-gray-300 rounded-[0.5rem]">
+                  <input
+                    className="w-full h-full py-4 text-[#333333] focus:outline-none bg-transparent"
+                    type="text"
+                    value={input.name}
+                    onChange={(e) => onChangeHandler(e.target.value, "name")}
+                  // placeholder="Enter your Name"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[1.5rem] font-[400] text-[#333333]">
+                  Contact Person
+                </label>
+                <div className="w-full inline-flex px-5 items-center space-x-5 bg-gray-50 border border-gray-300 rounded-[0.5rem]">
+                  <input
+                    className="w-full h-full py-4 text-[#333333] focus:outline-none bg-transparent"
+                    type="text"
+                    value={input.name}
+                    onChange={(e) => onChangeHandler(e.target.value, "name")}
+                  // placeholder="Enter your Name"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[1.5rem] font-[400] text-[#333333]">
+                  Contact Number
+                </label>
+                <div className="w-full inline-flex px-5 items-center space-x-5 bg-gray-50 border border-gray-300 rounded-[0.5rem]">
+                  <input
+                    className="w-full h-full py-4 text-[#333333] focus:outline-none bg-transparent"
+                    type="number"
+                    value={input.name}
+                    onChange={(e) => onChangeHandler(e.target.value, "name")}
+                  // placeholder="Enter your Name"
+                  />
+                </div>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
+                >
+                  Next
+                </button>
+              </div>
+
 
             </div>
-          </div>
-<div className="grid gap-4 grid-cols-1">
-  <div>
-  Great relationships starts here
-  </div>
-  <div>
-  <label className="block text-[1.5rem] font-[400] text-[#333333]">
-                Company Name
-              </label>
-              <div className="w-full inline-flex px-5 items-center space-x-5 bg-gray-50 border border-gray-300 rounded-[0.5rem]">
-                <input
-                  className="w-full h-full py-4 text-[#333333] focus:outline-none bg-transparent"
-                  type="text"
-                  value={input.name}
-                  onChange={(e) => onChangeHandler(e.target.value, "name")}
-                  // placeholder="Enter your Name"
-                />
-              </div>
-  </div>
-  <div>
-  <label className="block text-[1.5rem] font-[400] text-[#333333]">
-  Website
-              </label>
-              <div className="w-full inline-flex px-5 items-center space-x-5 bg-gray-50 border border-gray-300 rounded-[0.5rem]">
-                <input
-                  className="w-full h-full py-4 text-[#333333] focus:outline-none bg-transparent"
-                  type="text"
-                  value={input.name}
-                  onChange={(e) => onChangeHandler(e.target.value, "name")}
-                  // placeholder="Enter your Name"
-                />
-              </div>
-  </div>
-  <div>
-  <label className="block text-[1.5rem] font-[400] text-[#333333]">
-  Contact Person
-              </label>
-              <div className="w-full inline-flex px-5 items-center space-x-5 bg-gray-50 border border-gray-300 rounded-[0.5rem]">
-                <input
-                  className="w-full h-full py-4 text-[#333333] focus:outline-none bg-transparent"
-                  type="text"
-                  value={input.name}
-                  onChange={(e) => onChangeHandler(e.target.value, "name")}
-                  // placeholder="Enter your Name"
-                />
-              </div>
-  </div>
-  <div>
-  <label className="block text-[1.5rem] font-[400] text-[#333333]">
-  Contact Number
-              </label>
-              <div className="w-full inline-flex px-5 items-center space-x-5 bg-gray-50 border border-gray-300 rounded-[0.5rem]">
-                <input
-                  className="w-full h-full py-4 text-[#333333] focus:outline-none bg-transparent"
-                  type="number"
-                  value={input.name}
-                  onChange={(e) => onChangeHandler(e.target.value, "name")}
-                  // placeholder="Enter your Name"
-                />
-              </div>
-  </div>
-<div>
-<button
-              type="submit"
-              className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
-            >
-              Next
-            </button>
-</div>
-
-
-</div>
 
           </div>
         </form>

@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-import { Earnings, Error, Overview, Settings, Offer } from "../pages";
-import Footer from "../components/Footer";
+import {  Error } from "../pages";
 import Login from "../pages/login";
 import ForgetPassword from "../pages/forgetPassword";
 import AdDashboardHome from "../pages/adDashboardHome";
@@ -42,9 +41,8 @@ const Routing = () => {
         <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/createdcampaign" element={<CreatedCampaign />} />
         {/* <Route index element={<Overview />} /> */}
-        <Route path="/earnings" element={<Earnings />} />
-        <Route path="/offer" element={<Offer />} />
-        <Route path="/settings" element={<Settings />} />
+        
+   
         <Route path="*" element={<Error />} />
       </Route>
     </Routes>

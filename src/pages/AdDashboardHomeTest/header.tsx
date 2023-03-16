@@ -5,15 +5,13 @@ import mainLogo from'../../images/logo.png';
 export function Header(){
     const navigate = useNavigate();
     return(
-        <div className="grid gap-2 grid-cols-2" style={{
-            
-        }}>
+        <div className="flex justify-between px-20 mt-[1rem]" >
             <div>
-                <img  src={mainLogo}  alt="fireSpot" style={{width:'89px', height:'48px', margin:'26px 0px 26px 141px'}}/>
+                <img  src='https://res.cloudinary.com/dgjxmcrkg/image/upload/v1678778021/avni-logo2_p0fzel.webp'  alt="fireSpot" style={{width:'57px', height:'68px' }}/>
             </div>
-            <div className="flex justify-end">
+            <div className="flex space-x-2">
                 <div style={{
-                    margin: '22px 0px'
+                    
                 }}>
                     <button
                         type="submit"
@@ -38,7 +36,7 @@ export function Header(){
                     </button>
                 </div>
                     <div style={{
-                        margin:'22px 139px 22px 20px'
+                        
                     }}>
                         <button
                             type="submit"
