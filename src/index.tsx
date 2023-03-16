@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 import 'react-phone-number-input/style.css'
 import "react-datepicker/dist/react-datepicker.css";
 import AppContextProvider from "./context/appContext";
+import { StoreProvider } from 'easy-peasy';
+import { store } from "./store/easy-peasy";
 
 
 const root = ReactDOM.createRoot(
@@ -20,6 +22,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   // <React.StrictMode>
+  <StoreProvider store={store}>
   <QueryClientProvider client={queryClient}>
     <Router>
       <AppContextProvider>
@@ -31,6 +34,7 @@ root.render(
 
     </Router>
   </QueryClientProvider>
+  </StoreProvider>
   // </React.StrictMode>
 );
 

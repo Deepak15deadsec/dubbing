@@ -24,7 +24,7 @@ export function FramLeft() {
                     Acquire customers and grow your business
                 </div>
                 <div className='w-1/4'>
-                    <img src={SignInlogo} alt="fireSpot" style={{
+                    <img src='https://res.cloudinary.com/dgjxmcrkg/image/upload/v1678950521/just-logo_nmy0bh.webp' alt="fireSpot" style={{
                         width: '80px',
                         transform: 'rotate(3.41deg)'
                     }} />

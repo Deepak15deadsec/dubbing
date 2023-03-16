@@ -5,10 +5,10 @@ import mainLogo from '../../images/logo.png';
 export function Footer() {
     const navigate = useNavigate();
     return (
-        <div className="flex pt-12 pb-12 items-center pl-20 pr-20" style={{ background: '#EEEEEE' }} >
+        <div className="flex pt-12 pb-12 items-center px-20" style={{ background: '#EEEEEE' }} >
             <div className="justify-center grid gap-2 grid-cols-1 w-1/3">
                 <div>
-                    <img src={mainLogo} alt="fireSpot" style={{ width: '89px', height: '48px', }} />
+                    <img src='https://res.cloudinary.com/dgjxmcrkg/image/upload/v1678950521/just-logo_nmy0bh.webp' alt="fireSpot" style={{ width: '58px', height: '44px', }} />
                 </div>
                 <div style={{
                     fontFamily: 'Open Sans',

@@ -39,12 +39,12 @@ const SignupTest = () => {
     <div className="grid gap-4 grid-cols-2 h-screen">
       <FramLeft />
       <div
-        className="grid gap-4 grid-cols-1"
+        className="grid gap-4 px-[2rem] grid-cols-1"
         style={{
           width: "100%",
         }}
       >
-        <div
+        <div className="mt-[2rem]"
           style={{
             fontFamily: "Open Sans",
             fontStyle: "normal",
@@ -81,7 +81,7 @@ const SignupTest = () => {
             >
               <div
                 data-te-stepper-head-ref
-                className="flex cursor-pointer items-center p-6 leading-[1.3rem] no-underline after:bg-[#e0e0e0] after:content-[''] hover:bg-[#f9f9f9] focus:outline-none dark:after:bg-neutral-600 dark:hover:bg-[#3b3b3b]"
+                className="flex cursor-pointer items-center p-6 leading-[1.3rem] no-underline after:bg-[#e0e0e0] after:content-['']  focus:outline-none "
               >
                 <span
                   data-te-stepper-head-icon-ref
@@ -94,7 +94,7 @@ const SignupTest = () => {
                 </span>
                 <span
                   data-te-stepper-head-text-ref
-                  className="text-neutral-500 after:absolute after:flex after:text-[0.8rem] after:content-[data-content] dark:text-neutral-300"
+                  className="text-neutral-500 after:absolute after:flex after:text-[0.8rem] after:content-[data-content] "
                 >
                   <span>Company Details</span>
                   <br />
@@ -118,7 +118,7 @@ const SignupTest = () => {
                   className="ps-1 transition-[height, margin-bottom, padding-top, padding-bottom] left-0 overflow-hidden pr-6 pb-6 pl-[3.75rem] duration-300 ease-in-out"
                 >
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
                       Company Name
                     </label>
                     <input
@@ -127,7 +127,7 @@ const SignupTest = () => {
                       style={{ width: "70%" }}
                       type="text"
                       id="first_name"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       onChange={(e: any) => {
                         setCompanyDetails({
                           ...companyDetails,
@@ -137,7 +137,7 @@ const SignupTest = () => {
                     />
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
                       Website
                     </label>
                     <input
@@ -146,7 +146,7 @@ const SignupTest = () => {
                       style={{ width: "70%" }}
                       type="text"
                       id="first_name"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       onChange={(e: any) => {
                         setCompanyDetails({
                           ...companyDetails,
@@ -156,7 +156,7 @@ const SignupTest = () => {
                     />
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
                       Contact Person
                     </label>
                     <input
@@ -165,7 +165,7 @@ const SignupTest = () => {
                       style={{ width: "70%" }}
                       type="text"
                       id="first_name"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       onChange={(e: any) => {
                         setCompanyDetails({
                           ...companyDetails,
@@ -175,7 +175,7 @@ const SignupTest = () => {
                     />
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
                       Contact Number
                     </label>
                     <input
@@ -184,7 +184,7 @@ const SignupTest = () => {
                       style={{ width: "70%" }}
                       type="text"
                       id="first_name"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       onChange={(e: any) => {
                         setCompanyDetails({
                           ...companyDetails,
@@ -257,6 +257,10 @@ const SignupTest = () => {
                           fontSize: "14px",
                           lineHeight: "20px",
                           color: "#FF6154",
+                          cursor:'pointer'
+                        }}
+                        onClick={() => {
+                          navigate("/loginTest");
                         }}
                       >
                         Login
@@ -272,7 +276,7 @@ const SignupTest = () => {
             >
               <div
                 data-te-stepper-head-ref
-                className="flex cursor-pointer items-center pl-6 leading-[1.3rem] no-underline after:bg-[#e0e0e0] after:content-[''] hover:bg-[#f9f9f9] focus:outline-none dark:after:bg-neutral-600 dark:hover:bg-[#3b3b3b]"
+                className="flex cursor-pointer items-center pl-6 leading-[1.3rem] no-underline after:bg-[#e0e0e0] after:content-['']  focus:outline-none "
               >
                 <span
                   data-te-stepper-head-icon-ref
@@ -282,7 +286,7 @@ const SignupTest = () => {
                 </span>
                 <span
                   data-te-stepper-head-text-ref
-                  className="text-neutral-500 after:absolute after:flex after:text-[0.8rem] after:content-[data-content] dark:text-neutral-300"
+                  className="text-gray-900 after:absolute after:flex after:text-[0.8rem] after:content-[data-content] dark:text-neutral-300"
                 >
                   Login Info
                 </span>
@@ -309,7 +313,7 @@ const SignupTest = () => {
                   className="ps-1 transition-[height, margin-bottom, padding-top, padding-bottom] left-0 overflow-hidden pr-6 pb-6 pl-[3.75rem] duration-300 ease-in-out"
                 >
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
                       Email
                     </label>
                     <input
@@ -323,11 +327,11 @@ const SignupTest = () => {
                           email: e.target.value,
                         });
                       }}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     />
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
                       Password
                     </label>
                     <input
@@ -341,11 +345,11 @@ const SignupTest = () => {
                           password: e.target.value,
                         });
                       }}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     />
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
                       Conform Password
                     </label>
                     <input
@@ -359,7 +363,7 @@ const SignupTest = () => {
                           confirmpassword: e.target.value,
                         });
                       }}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     />
                   </div>
                   <div>
@@ -459,7 +463,7 @@ const SignupTest = () => {
                           color: "#333333",
                         }}
                       >
-                        Already have an account?
+                        Already have an account? 
                       </span>
                       <span
                         style={{
@@ -469,6 +473,7 @@ const SignupTest = () => {
                           fontSize: "14px",
                           lineHeight: "20px",
                           color: "#FF6154",
+                          cursor:'pointer'
                         }}
                         onClick={() => {
                           navigate("/loginTest");
