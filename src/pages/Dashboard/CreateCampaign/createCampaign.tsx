@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
 import Select from "@mui/material/Select";
-import { Input, Slider, TextField, Theme, Tooltip, useTheme } from "@mui/material";
+import {
+  Input,
+  Slider,
+  TextField,
+  Theme,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
 import ReactDatePicker from "react-datepicker";
 import { regex } from "../../signupTest";
 import { toast } from "react-toastify";
@@ -272,14 +279,15 @@ const ImageUploadingButton = (props: any) => {
 
 function CreateCampaign() {
   const [adValue, setAdValue] = useState("");
+  const [category, setCategory] = useState("");
   const [headline, setHeadline] = useState("");
   const [description, setDescription] = useState("");
-  const [gender, setGender] =useState<string[]>([]);
-  const [sliderValue, setSliderValue] = React.useState([20, 40]);
+  const [gender, setGender] = useState<string[]>([]);
+  const [sliderValue, setSliderValue] = React.useState([18, 60]);
   const [keywords, setKeywords] = useState("");
   const [donotTarget, setDonotTarget] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [numberOfSignups, setNumberOfSignups] = useState(0);
+  const [numberOfSignups, setNumberOfSignups] = useState("");
   const [cardNumber, setCardNumber] = useState(0);
   const [country, setCountry] = useState<string[]>([]);
   const [image, setImage] = useState([]);
@@ -288,6 +296,15 @@ function CreateCampaign() {
   const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
 
   const theme = useTheme();
+
+  const [errorMessageOne, setErrorMessageOne] = useState({
+    isRequired: "Value is Required",
+  });
+  const [showErrorMessage, setShowErrorMessage] = useState({
+    one: false,
+    two: false,
+    three: false,
+  });
 
   const [switchTab, setSwitchTab] = useState(1);
   const ChangeSlider = (event: any, newValue: any) => {
@@ -300,7 +317,7 @@ function CreateCampaign() {
     } = event;
     setCountry(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === "string" ? value.split(",") : value
     );
   };
 
@@ -314,7 +331,7 @@ function CreateCampaign() {
     } = event;
     setGender(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === "string" ? value.split(",") : value
     );
   };
 
@@ -337,8 +354,8 @@ function CreateCampaign() {
             <div className="w-full">
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">Ad Type</div>
-                  <div className="w-full flex justify-end">
+                  <div className="text-sm font-semibold">Ad Type</div>
+                  <div className="ml-2 items-center flex justify-end">
                     <Tooltip
                       title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
                       placement="top"
@@ -354,26 +371,79 @@ function CreateCampaign() {
                     style={{ fontSize: "14px" }}
                     value={adValue}
                     onChange={handleChange}
-                   
                   >
-                    <MenuItem value={10} style={{ fontSize: "14px" }}>
+                    <MenuItem value="Ten" style={{ fontSize: "14px" }}>
                       Ten
                     </MenuItem>
-                    <MenuItem value={20} style={{ fontSize: "14px" }}>
+                    <MenuItem value="Twenty" style={{ fontSize: "14px" }}>
                       Twenty
                     </MenuItem>
-                    <MenuItem value={30} style={{ fontSize: "14px" }}>
+                    <MenuItem value="Thirty" style={{ fontSize: "14px" }}>
                       Thirty
                     </MenuItem>
                   </Select>
                 </div>
+                {!regex.test(adValue) && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
               </div>
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">Headline</div>
+                  <div className="text-sm font-semibold">Category</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    className="w-full h-10"
+                    style={{ fontSize: "14px" }}
+                    value={category}
+                    onChange={(e: any) => {
+                      setCategory(e.target.value);
+                    }}
+                  >
+                    <MenuItem value="Category1" style={{ fontSize: "14px" }}>
+                      Category1
+                    </MenuItem>
+                    <MenuItem value="Category2" style={{ fontSize: "14px" }}>
+                      Category2
+                    </MenuItem>
+                    <MenuItem value="Category3" style={{ fontSize: "14px" }}>
+                      Category3
+                    </MenuItem>
+                  </Select>
+                </div>
+                {!regex.test(category) && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+              </div>
+              <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="text-sm font-semibold">Headline</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
+                  </div>
                 </div>
                 <div className="mt-2 w-full">
                   <TextField
+                    value={headline}
                     size="small"
                     className="w-full"
                     onChange={(e: any) => {
@@ -381,12 +451,24 @@ function CreateCampaign() {
                     }}
                   />
                 </div>
+                {!regex.test(headline) && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
               </div>
 
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Upload Image
+                  <div className="text-sm font-semibold">Upload Image</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
                   </div>
                 </div>
                 <div className="mt-2 w-full h-24 rounded-lg cursor-pointer flex items-center border justify-center border-dashed border-orange-400">
@@ -410,13 +492,21 @@ function CreateCampaign() {
 
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Description
+                  <div className="text-sm font-semibold">Description</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
                   </div>
                 </div>
                 <div className="mt-2 w-full">
                   <TextField
                     multiline
+                    value={description}
                     rows={3}
                     className="w-full"
                     onChange={(e: any) => {
@@ -424,6 +514,11 @@ function CreateCampaign() {
                     }}
                   />
                 </div>
+                {!regex.test(description) && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-2">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
               </div>
 
               <div className="w-full flex items-center mt-8 ">
@@ -432,14 +527,16 @@ function CreateCampaign() {
                   onClick={() => {
                     if (
                       regex.test(adValue) &&
+                      regex.test(category) &&
                       regex.test(headline) &&
                       regex.test(description)
                     ) {
                       setSwitchTab(2);
                     } else {
-                      toast.error("All Values are Required !", {
-                        position: toast.POSITION.TOP_RIGHT,
-                      });
+                      setShowErrorMessage({ ...showErrorMessage, one: true });
+                      // toast.error("All Values are Required !", {
+                      //   position: toast.POSITION.TOP_RIGHT,
+                      // });
                     }
                   }}
                 >
@@ -495,6 +592,11 @@ function CreateCampaign() {
                     </MenuItem>
                   </Select>
                 </div>
+                {gender.length === 0 && showErrorMessage.two === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
               </div>
               <div className="w-full mt-4 pl-4">
                 <div className="w-full mt-4 flex">
@@ -508,6 +610,7 @@ function CreateCampaign() {
                     onChange={ChangeSlider}
                     valueLabelDisplay="on"
                     marks={marks}
+                    step={5}
                   />
                 </div>
               </div>
@@ -533,6 +636,12 @@ function CreateCampaign() {
                     }}
                   />
                 </div>
+                {keywordsArray.length === 0 &&
+                  showErrorMessage.two === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
                 <div className="w-full mt-2 mb-2 flex">
                   {keywordsArray.map((data: any, index: any) => {
                     if (data !== "") {
@@ -562,6 +671,7 @@ function CreateCampaign() {
                     }
                   })}
                 </div>
+                
               </div>
 
               <div className="w-full pl-4">
@@ -591,6 +701,12 @@ function CreateCampaign() {
                     }}
                   />
                 </div>
+                {donotTargetArray.length === 0 &&
+                  showErrorMessage.two === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
                 <div className="w-full mt-2 mb-2 flex">
                   {donotTargetArray.map((data: any, index: any) => {
                     if (data !== "") {
@@ -620,18 +736,31 @@ function CreateCampaign() {
                     }
                   })}
                 </div>
+                
               </div>
 
               <div className="w-full flex items-center mt-8 ">
                 <button
                   className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                   onClick={() => {
-                    if (gender.length>0) {
+                    setSwitchTab(1);
+                    setShowErrorMessage({ ...showErrorMessage, one: false });
+                  }}
+                >
+                  Back
+                </button>
+                <hr style={{ border: "1px dashed #CCCCCC", width: "140px" }} />
+                <button
+                  className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  onClick={() => {
+                    if (
+                      gender.length > 0 &&
+                      keywordsArray.length > 0 &&
+                      donotTargetArray.length > 0
+                    ) {
                       setSwitchTab(3);
                     } else {
-                      toast.error("All Values are Required !", {
-                        position: toast.POSITION.TOP_RIGHT,
-                      });
+                      setShowErrorMessage({ ...showErrorMessage, two: true });
                     }
                   }}
                 >
@@ -666,6 +795,7 @@ function CreateCampaign() {
                 <div className="mt-2 w-full">
                   <TextField
                     type="date"
+                    value={startDate}
                     size="small"
                     className="w-full"
                     onChange={(e: any) => {
@@ -673,6 +803,12 @@ function CreateCampaign() {
                     }}
                   />
                 </div>
+                {!regex.test(startDate) &&
+                  showErrorMessage.three === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
               </div>
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
@@ -682,6 +818,7 @@ function CreateCampaign() {
                 </div>
                 <div className="mt-2 w-full">
                   <TextField
+                    value={numberOfSignups}
                     size="small"
                     className="w-full"
                     type="number"
@@ -690,6 +827,12 @@ function CreateCampaign() {
                     }}
                   />
                 </div>
+                {numberOfSignups === "" &&
+                  showErrorMessage.three === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full pl-4">
@@ -705,16 +848,25 @@ function CreateCampaign() {
                     className="w-full"
                     size="small"
                     MenuProps={MenuProps}
-                    multiple
                   >
                     {country_list.map((data: any, index: number) => {
-                      return <MenuItem value={data} key={index}>{data}</MenuItem>;
+                      return (
+                        <MenuItem value={data} key={index}>
+                          {data}
+                        </MenuItem>
+                      );
                     })}
                   </Select>{" "}
                 </div>
+                {country.length === 0 &&
+                  showErrorMessage.three === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
               </div>
 
-              <div className="w-full pl-4">
+              {/* <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="w-full text-sm font-semibold">
                     Card Number
@@ -730,23 +882,30 @@ function CreateCampaign() {
                     }}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="w-full flex items-center mt-8 ">
                 <button
-                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-md"
+                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  onClick={() => {
+                    setSwitchTab(2);
+                    setShowErrorMessage({ ...showErrorMessage, two: false });
+                  }}
+                >
+                  Back
+                </button>
+                <hr style={{ border: "1px dashed #CCCCCC", width: "140px" }} />
+                <button
+                  className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                   onClick={() => {
                     if (
                       regex.test(startDate) &&
-                      country.length>0 &&
-                      cardNumber !== 0 &&
-                      numberOfSignups !== 0
+                      country.length > 0 &&
+                      numberOfSignups !== ""
                     ) {
                       setSwitchTab(4);
                     } else {
-                      toast.error("All Values are Required !", {
-                        position: toast.POSITION.TOP_RIGHT,
-                      });
+                     setShowErrorMessage({...showErrorMessage,three:true})
                     }
                   }}
                 >
@@ -785,6 +944,12 @@ function CreateCampaign() {
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
+                    <div className="w-1/3 text-xs">Category:</div>
+                    <div className="w-full text-xs text-gray-400">
+                      {category}
+                    </div>
+                  </div>
+                  <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Headline:</div>
                     <div className="w-full text-xs text-gray-400">
                       {headline}
@@ -814,11 +979,11 @@ function CreateCampaign() {
                 <div className="w-full mt-4 pl-4">
                   <div className="w-full flex">
                     <div className="w-1/3 text-xs">Gender:</div>
-                    <div className="w-full text-xs flex text-gray-400">{gender.map((val:any,index:any)=>{
-                      return(
-                      <div className=" mr-2">{val},</div>
-                      )
-                    })}</div>
+                    <div className="w-full text-xs flex text-gray-400">
+                      {gender.map((val: any, index: any) => {
+                        return <div className=" mr-2">{val},</div>;
+                      })}
+                    </div>
                   </div>
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Age Range:</div>
@@ -871,41 +1036,62 @@ function CreateCampaign() {
                     <div className="w-1/3 text-xs">Country:</div>
                     <div className="w-full text-xs text-gray-400 flex">
                       {country.map((data: any, index: number) => {
-                        return <div key={index} className="mr-2">{data},</div>;
+                        return (
+                          <div key={index} className="mr-2">
+                            {data},
+                          </div>
+                        );
                       })}
                     </div>
                   </div>
-                  <div className="w-full flex mt-1">
+                  {/* <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Card Number:</div>
                     <div className="w-full text-xs text-gray-400">
                       {cardNumber}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
-              <div className="w-full flex items-center mt-8 ">
-                <button
-                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
-                  onClick={() => {
-                    //   setSwitchTab(4);
-                    localStorage.setItem('avniInfo',JSON.stringify({
-                      "adtype":adValue,
-                      "headline":headline,
-                      "description":description,
-                      "gender":gender,
-                      "agerange":sliderValue,
-                      "donottarget":donotTargetArray,
-                      'keywords':keywordsArray,
-                      "startdate":startDate,
-                      "numberofsignups":numberOfSignups,
-                      "billingcountry":country,
-                      "cardnumber":cardNumber,
-                    }))
-                   navigate('/createdcampaign')
-                  }}
-                >
-                  Submit
-                </button>
+              <div className="w-full ml-3 flex items-center mt-8 ">
+                <div className="w-full flex ">
+                  <button
+                    className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                    onClick={() => {
+                      setSwitchTab(3);
+                      setShowErrorMessage({...showErrorMessage,three:false})
+                    }}
+                  >
+                    Back
+                  </button>
+                </div>
+                <div className="w-full flex justify-end">
+                  <button
+                    className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                    onClick={() => {
+                      //   setSwitchTab(4);
+                      localStorage.setItem(
+                        "avniInfo",
+                        JSON.stringify({
+                          adtype: adValue,
+                          category:category,
+                          headline: headline,
+                          description: description,
+                          gender: gender,
+                          agerange: sliderValue,
+                          donottarget: donotTargetArray,
+                          keywords: keywordsArray,
+                          startdate: startDate,
+                          numberofsignups: numberOfSignups,
+                          billingcountry: country,
+                          cardnumber: cardNumber,
+                        })
+                      );
+                      navigate("/createdcampaign");
+                    }}
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
 
