@@ -13,16 +13,27 @@ import { AppContext } from "../../context/appContext";
 import { useNavigate } from "react-router-dom";
 // import SignInlogo from'../../images/SignInlogo.png';
 import { FramLeft } from "../util/framLeft";
-const showicon= require('../../images/open.png');
-const hideicon= require('../../images/hide.png');
+import { regex } from "../signupTest";
+const showicon = require("../../images/open.png");
+const hideicon = require("../../images/hide.png");
 
 const LoginTest = () => {
   const [loginCredentials, setLoginCredentials] = useState({
     username: "",
     password: "",
   });
+
+  const [errorMessageOne, setErrorMessageOne] = useState({
+    isRequired: "Value is Required",
+  });
+  const [showErrorMessage, setShowErrorMessage] = useState({
+    one: false,
+    two: false,
+    three: false,
+  });
+
   const [showpassword, setShowpassword] = useState(false);
-  const [passwordfocus, setPasswordfocus] = useState(false)
+  const [passwordfocus, setPasswordfocus] = useState(false);
   const navigate = useNavigate();
   return (
     <div className="flex h-screen">
@@ -64,7 +75,7 @@ const LoginTest = () => {
             </label>
             <input
               value={loginCredentials.username}
-              type="text"
+              type="email"
               style={{ width: "100%", height: "56px" }}
               id="first_name"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -76,14 +87,27 @@ const LoginTest = () => {
               }}
             />
           </div>
+          {!regex.test(loginCredentials.username) &&
+            showErrorMessage.one === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isRequired}
+              </div>
+            )}
           <div>
             <label className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Password
             </label>
-            <div className="w-full flex items-center bg-gray-50 rounded-lg" style={{'border':passwordfocus?"2px solid":'1px solid rgb(209 213 219)'}}>
+            <div
+              className="w-full flex items-center bg-gray-50 rounded-lg"
+              style={{
+                border: passwordfocus
+                  ? "2px solid"
+                  : "1px solid rgb(209 213 219)",
+              }}
+            >
               <input
                 value={loginCredentials.password}
-                type={showpassword?"text":"password"}
+                type={showpassword ? "text" : "password"}
                 style={{ width: "100%", height: "56px", outline: "none" }}
                 id="first_name"
                 className="bg-gray-50 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400 dark:text-white"
@@ -93,19 +117,32 @@ const LoginTest = () => {
                     password: e.target.value,
                   });
                 }}
-                onFocus={()=>{
-                  setPasswordfocus(true)
+                onFocus={() => {
+                  setPasswordfocus(true);
                 }}
-                onBlur={()=>{
-                  setPasswordfocus(false)
+                onBlur={() => {
+                  setPasswordfocus(false);
                 }}
               />
               <div className="w-8 text-end">
-                <img src={showpassword?showicon:hideicon} className='w-5 h-5 cursor-pointer' alt="passwordicon" onClick={()=>{
-                  setShowpassword(!showpassword)
-                }} />
+                <img
+                  src={showpassword ? showicon : hideicon}
+                  className="w-5 h-5 cursor-pointer"
+                  alt="passwordicon"
+                  onClick={() => {
+                    setShowpassword(!showpassword);
+                  }}
+                />
               </div>
             </div>
+            </div>
+          {!regex.test(loginCredentials.password) &&
+            showErrorMessage.one === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isRequired}
+              </div>
+            )}
+          <div>
           </div>
           <div>
             <div>
@@ -158,7 +195,14 @@ const LoginTest = () => {
                     marginTop: "10px",
                   }}
                   onClick={() => {
-                     navigate('/dashboard');
+                    if (
+                      regex.test(loginCredentials.username) &&
+                      regex.test(loginCredentials.password)
+                    ) {
+                      navigate("/dashboard");
+                    } else {
+                      setShowErrorMessage({ ...showErrorMessage, one: true });
+                    }
                   }}
                 >
                   <div
@@ -190,7 +234,7 @@ const LoginTest = () => {
                       fontSize: "14px",
                       lineHeight: "20px",
                       color: "#FF6154",
-                      cursor:'pointer'
+                      cursor: "pointer",
                     }}
                     onClick={() => {
                       navigate("/signupTest");
