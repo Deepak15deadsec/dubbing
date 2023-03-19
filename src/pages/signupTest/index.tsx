@@ -14,8 +14,12 @@ import { useNavigate } from "react-router-dom";
 // import SignInlogo from'../../images/SignInlogo.png';
 import { FramLeft } from "../util/framLeft";
 import { toast } from "react-toastify";
+import { emailRegex } from "../loginTest";
+import axios from "axios";
 
 export const regex = /^(?!\s*$).+/;
+export const isWbsite =
+  /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
 const SignupTest = () => {
   const navigate = useNavigate();
@@ -33,6 +37,27 @@ const SignupTest = () => {
     confirmpassword: "",
   });
 
+  //   {
+  //     "name": "abc",
+  // "email": userDetails.email,
+  // "password": userDetails.password,
+  // "companyName": companyDetails.companyname,
+  // "website": companyDetails.website,
+  // "contactPerson": companyDetails.contactperson,
+  // "companyNumber": companyDetails.contactnumber
+  //   }
+
+  const [errorMessageOne, setErrorMessageOne] = useState({
+    isRequired: "Value is Required",
+    isEmail: "Invalid Email",
+    isWebsite: "Invalid Website URL",
+    isPhoneNumber: "Contact number should be of 10 digits",
+  });
+  const [showErrorMessage, setShowErrorMessage] = useState({
+    one: false,
+    two: false,
+  });
+
   const [selectCheck, setSelectCheck] = useState(false);
 
   return (
@@ -44,7 +69,8 @@ const SignupTest = () => {
           width: "100%",
         }}
       >
-        <div className="mt-[2rem]"
+        <div
+          className="mt-[2rem]"
           style={{
             fontFamily: "Open Sans",
             fontStyle: "normal",
@@ -86,9 +112,14 @@ const SignupTest = () => {
                 <span
                   data-te-stepper-head-icon-ref
                   style={{
-                    backgroundColor: nextStep ? "#01A4EF" : "bg-[#ebedef]",
+                    backgroundColor: nextStep === true ? "#01A4EF" : "#ebedef",
                   }}
                   className="mr-3 flex h-[1.938rem] w-[1.938rem] items-center justify-center rounded-full bg-[#ebedef] text-sm font-medium text-[#40464f]"
+                  onClick={() => {
+                    if (nextStep === true) {
+                      setnextStep(false);
+                    }
+                  }}
                 >
                   1
                 </span>
@@ -118,7 +149,7 @@ const SignupTest = () => {
                   className="ps-1 transition-[height, margin-bottom, padding-top, padding-bottom] left-0 overflow-hidden pr-6 pb-6 pl-[3.75rem] duration-300 ease-in-out"
                 >
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                    <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Company Name
                     </label>
                     <input
@@ -135,9 +166,15 @@ const SignupTest = () => {
                         });
                       }}
                     />
+                    {!regex.test(companyDetails.companyname) &&
+                      showErrorMessage.one === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                    <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Website
                     </label>
                     <input
@@ -154,9 +191,22 @@ const SignupTest = () => {
                         });
                       }}
                     />
+                    {!regex.test(companyDetails.website) &&
+                      showErrorMessage.one === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
+                    {!isWbsite.test(companyDetails.website) &&
+                      regex.test(companyDetails.website) &&
+                      showErrorMessage.one === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isWebsite}
+                        </div>
+                      )}
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                    <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Contact Person
                     </label>
                     <input
@@ -173,9 +223,15 @@ const SignupTest = () => {
                         });
                       }}
                     />
+                    {!regex.test(companyDetails.contactperson) &&
+                      showErrorMessage.one === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                    <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Contact Number
                     </label>
                     <input
@@ -184,14 +240,34 @@ const SignupTest = () => {
                       style={{ width: "70%" }}
                       type="text"
                       id="first_name"
+                      minLength={10}
+                      maxLength={10}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       onChange={(e: any) => {
-                        setCompanyDetails({
-                          ...companyDetails,
-                          contactnumber: e.target.value,
-                        });
+                        if (
+                          /^[0-9]*$/.test(e.target.value) &&
+                          companyDetails.contactnumber.length <= 10
+                        ) {
+                          setCompanyDetails({
+                            ...companyDetails,
+                            contactnumber: e.target.value,
+                          });
+                        }
                       }}
                     />
+                    {!regex.test(companyDetails.contactnumber) &&
+                      showErrorMessage.one === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
+                    {regex.test(companyDetails.contactnumber) &&
+                      companyDetails.contactnumber.length !== 10 &&
+                      showErrorMessage.one === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isPhoneNumber}
+                        </div>
+                      )}
                   </div>
                   <div>
                     <button
@@ -218,12 +294,22 @@ const SignupTest = () => {
                           regex.test(companyDetails.companyname) &&
                           regex.test(companyDetails.contactnumber) &&
                           regex.test(companyDetails.contactperson) &&
-                          regex.test(companyDetails.website)
+                          regex.test(companyDetails.website) &&
+                          isWbsite.test(companyDetails.website) &&
+                          companyDetails.contactnumber.length === 10
                         ) {
                           setnextStep(true);
+                          setShowErrorMessage({
+                            ...showErrorMessage,
+                            one: false,
+                          });
                         } else {
-                          toast.error("All Values are Required !", {
-                            position: toast.POSITION.TOP_RIGHT,
+                          // toast.error("All Values are Required !", {
+                          //   position: toast.POSITION.TOP_RIGHT,
+                          // });
+                          setShowErrorMessage({
+                            ...showErrorMessage,
+                            one: true,
                           });
                         }
                       }}
@@ -257,7 +343,7 @@ const SignupTest = () => {
                           fontSize: "14px",
                           lineHeight: "20px",
                           color: "#FF6154",
-                          cursor:'pointer'
+                          cursor: "pointer",
                         }}
                         onClick={() => {
                           navigate("/loginTest");
@@ -313,7 +399,7 @@ const SignupTest = () => {
                   className="ps-1 transition-[height, margin-bottom, padding-top, padding-bottom] left-0 overflow-hidden pr-6 pb-6 pl-[3.75rem] duration-300 ease-in-out"
                 >
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                    <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Email
                     </label>
                     <input
@@ -329,9 +415,15 @@ const SignupTest = () => {
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     />
+                    {!regex.test(userDetails.email) &&
+                      showErrorMessage.one === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                    <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Password
                     </label>
                     <input
@@ -347,10 +439,16 @@ const SignupTest = () => {
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     />
+                    {!regex.test(userDetails.password) &&
+                      showErrorMessage.two === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
-                      Conform Password
+                    <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
+                      Confirm Password
                     </label>
                     <input
                       style={{ width: "70%", height: "56px" }}
@@ -365,6 +463,19 @@ const SignupTest = () => {
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     />
+                    {!regex.test(userDetails.confirmpassword) &&
+                      showErrorMessage.two === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
+                    {regex.test(userDetails.email) &&
+                      userDetails.password !== userDetails.confirmpassword &&
+                      showErrorMessage.two === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          Password and confirm password are not matched
+                        </div>
+                      )}
                   </div>
                   <div>
                     <div className="flex items-center h-8">
@@ -398,6 +509,11 @@ const SignupTest = () => {
                         </label>
                       </div>
                     </div>
+                    {selectCheck === false && showErrorMessage.two === true && (
+                      <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                        Please Accept the terms and conditions
+                      </div>
+                    )}
                   </div>
                   <div>
                     <button
@@ -418,28 +534,34 @@ const SignupTest = () => {
                           regex.test(userDetails.email) &&
                           regex.test(userDetails.password) &&
                           regex.test(userDetails.confirmpassword) &&
-                          userDetails.password === userDetails.confirmpassword && selectCheck
+                          userDetails.password ===
+                            userDetails.confirmpassword &&
+                          selectCheck
                         ) {
-                          toast.success("Successfully Registered !", {
-                            position: toast.POSITION.TOP_RIGHT,
-                          });
-                          navigate("/registered");
-                        }else if (
-                          regex.test(userDetails.email) &&
-                          regex.test(userDetails.password) &&
-                          regex.test(userDetails.confirmpassword) &&
-                          userDetails.password !== userDetails.confirmpassword 
-                        ) {
-                          toast.warn("Password and Confirmed Password are not Matched !", {
-                            position: toast.POSITION.TOP_RIGHT,
-                          });
-                        }else if(!selectCheck){
-                          toast.warn("Please Accept Terms And Conditions",{
-                            position:toast.POSITION.TOP_RIGHT
-                          })
+                          // toast.success("Successfully Registered !", {
+                          //   position: toast.POSITION.TOP_RIGHT,
+                          // });
+                          // navigate("/registered");
+                          axios
+                            .post(
+                              "https://adsapi.avniads.com/advertiser-user",
+                              {
+                                name: "abc",
+                                email: userDetails.email,
+                                password: userDetails.password,
+                                companyName: companyDetails.companyname,
+                                website: companyDetails.website,
+                                contactPerson: companyDetails.contactperson,
+                                companyNumber: companyDetails.contactnumber,
+                              }
+                            )
+                            .then((response) => {
+                              console.log(response);
+                            });
                         } else {
-                          toast.error("All Values are Required !", {
-                            position: toast.POSITION.TOP_RIGHT,
+                          setShowErrorMessage({
+                            ...showErrorMessage,
+                            two: true,
                           });
                         }
                       }}
@@ -463,7 +585,7 @@ const SignupTest = () => {
                           color: "#333333",
                         }}
                       >
-                        Already have an account? 
+                        Already have an account?
                       </span>
                       <span
                         style={{
@@ -473,7 +595,7 @@ const SignupTest = () => {
                           fontSize: "14px",
                           lineHeight: "20px",
                           color: "#FF6154",
-                          cursor:'pointer'
+                          cursor: "pointer",
                         }}
                         onClick={() => {
                           navigate("/loginTest");

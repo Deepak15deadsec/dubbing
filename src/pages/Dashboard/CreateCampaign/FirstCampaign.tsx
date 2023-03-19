@@ -3,7 +3,8 @@ import CreateCampaign from "./createCampaign";
 const campaignLogo = require("../../../images/campaignLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 
-function FirstCampaign() {
+function FirstCampaign(props:any) {
+  const {id} = props
 
   const [showNextTab, setShowNextTab] = useState(false);
 
@@ -59,7 +60,7 @@ function FirstCampaign() {
       )}
       {showNextTab&&(
         <div className="w-full">
-          <CreateCampaign/>
+          <CreateCampaign id={id}/>
         </div>
       )}
     </div>

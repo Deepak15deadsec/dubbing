@@ -14,8 +14,12 @@ import { useNavigate } from "react-router-dom";
 // import SignInlogo from'../../images/SignInlogo.png';
 import { FramLeft } from "../util/framLeft";
 import { regex } from "../signupTest";
+import axios from "axios";
+import { toast } from "react-toastify";
 const showicon = require("../../images/open.png");
 const hideicon = require("../../images/hide.png");
+
+export const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
 
 const LoginTest = () => {
   const [loginCredentials, setLoginCredentials] = useState({
@@ -25,11 +29,11 @@ const LoginTest = () => {
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
+    isEmail: "Invalid Email",
   });
   const [showErrorMessage, setShowErrorMessage] = useState({
     one: false,
     two: false,
-    three: false,
   });
 
   const [showpassword, setShowpassword] = useState(false);
@@ -87,12 +91,19 @@ const LoginTest = () => {
               }}
             />
           </div>
+
           {!regex.test(loginCredentials.username) &&
             showErrorMessage.one === true && (
               <div className="w-full text-xs font-semibold text-red-500 mt-1">
                 {errorMessageOne.isRequired}
               </div>
             )}
+             {/* {!emailRegex.test(loginCredentials.username) && regex.test(loginCredentials.username) &&
+            showErrorMessage.one === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isEmail}
+              </div>
+            )} */}
           <div>
             <label className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Password
@@ -135,15 +146,14 @@ const LoginTest = () => {
                 />
               </div>
             </div>
-            </div>
+          </div>
           {!regex.test(loginCredentials.password) &&
             showErrorMessage.one === true && (
               <div className="w-full text-xs font-semibold text-red-500 mt-1">
                 {errorMessageOne.isRequired}
               </div>
             )}
-          <div>
-          </div>
+          <div></div>
           <div>
             <div>
               <div
@@ -199,7 +209,20 @@ const LoginTest = () => {
                       regex.test(loginCredentials.username) &&
                       regex.test(loginCredentials.password)
                     ) {
-                      navigate("/dashboard");
+                       navigate("/dashboard",{ state : { id : ' your-query ' }});
+
+                      // axios.post('https://adsapi.avniads.com/auth/advertiser-login', {
+                      //   "email":"a1@gmail.com",
+                      //   "password":"123"
+                      // })
+                      // .then((response) => {
+                      //   console.log(response);
+                      // }, (error) => {
+                      //   console.log(error);
+                      //    toast.error(error?.message, {
+                      //       position: toast.POSITION.TOP_RIGHT,
+                      //     });
+                      // });
                     } else {
                       setShowErrorMessage({ ...showErrorMessage, one: true });
                     }

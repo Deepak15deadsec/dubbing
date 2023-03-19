@@ -2,6 +2,7 @@ import { MenuItem, Select, Slider } from "@mui/material";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer,Tooltip } from "recharts";
 import React, { useState } from "react";
 import SideBar from "../SideBar/sideBar";
+import { useLocation } from "react-router-dom";
 const iPhone = require("../../../images/iPhone.png");
 const adPic = require("../../../images/adPic.png");
 const editIcon = require("../../../images/editIcon.png");
@@ -365,7 +366,7 @@ function Settings() {
 
 function CreatedCampaign() {
   const [switchTab, setSwitchTab] = useState(2);
-
+  
   return (
     <div className="flex h-1/2 w-full " style={{ backgroundColor: "#F6F8FA" }}>
       <SideBar />

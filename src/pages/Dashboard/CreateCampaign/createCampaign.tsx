@@ -10,7 +10,6 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material";
-import ReactDatePicker from "react-datepicker";
 import { regex } from "../../signupTest";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -278,7 +277,9 @@ const ImageUploadingButton = (props: any) => {
   );
 };
 
-function CreateCampaign() {
+function CreateCampaign(props: any) {
+  const { id } = props;
+  console.log("---->", id);
   const [adValue, setAdValue] = useState("");
   const [category, setCategory] = useState("");
   const [headline, setHeadline] = useState("");
@@ -288,9 +289,10 @@ function CreateCampaign() {
   const [keywords, setKeywords] = useState("");
   const [donotTarget, setDonotTarget] = useState("");
   const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [numberOfSignups, setNumberOfSignups] = useState("");
   const [cardNumber, setCardNumber] = useState(0);
-  const [country, setCountry] = useState<string[]>([]);
+  const [country, setCountry] = useState("");
   const [image, setImage] = useState([
     {
       dataURL: "",
@@ -314,11 +316,13 @@ function CreateCampaign() {
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
+    isEndDate: "End date should be greated than start date",
   });
   const [showErrorMessage, setShowErrorMessage] = useState({
     one: false,
     two: false,
     three: false,
+    four: false,
   });
 
   const [switchTab, setSwitchTab] = useState(1);
@@ -327,13 +331,7 @@ function CreateCampaign() {
   };
 
   const SelectCountry = (event: any) => {
-    const {
-      target: { value },
-    } = event;
-    setCountry(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setCountry(event.target.value)
   };
 
   const handleChange = (event: any) => {
@@ -830,25 +828,67 @@ function CreateCampaign() {
           <div className="w-full flex">
             <div className="w-full">
               <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">Start Date</div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    type="date"
-                    value={startDate}
-                    size="small"
-                    className="w-full"
-                    onChange={(e: any) => {
-                      setStartDate(e.target.value);
-                    }}
-                  />
-                </div>
-                {!regex.test(startDate) && showErrorMessage.three === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
+                <div className="mt-2 w-full flex">
+                  <div className="w-full mr-3">
+                    <div className="w-full mb-2 text-sm font-semibold">
+                      Start Date
+                    </div>
+                    <TextField
+                      type="date"
+                      value={startDate}
+                      size="small"
+                      className="w-full"
+                      onChange={(e: any) => {
+                        setStartDate(e.target.value);
+                      }}
+                    />
+                    {!regex.test(startDate) &&
+                      showErrorMessage.three === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
                   </div>
-                )}
+                  <div className="w-full ml-2">
+                    <div className="w-full mb-2 text-sm font-semibold">
+                      End Date
+                    </div>
+                    <TextField
+                      type="date"
+                      value={endDate}
+                      size="small"
+                      className="w-full"
+                      onChange={(e: any) => {
+                        setEndDate(e.target.value);
+                        if (
+                          new Date(startDate).getTime() <=
+                          new Date(e.target.value).getTime()
+                        ) {
+                          setShowErrorMessage({
+                            ...showErrorMessage,
+                            four: false,
+                          });
+                        } else {
+                          setShowErrorMessage({
+                            ...showErrorMessage,
+                            four: true,
+                          });
+                        }
+                      }}
+                    />
+                    {!regex.test(endDate) &&
+                      showErrorMessage.three === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
+                    {showErrorMessage.four === true && regex.test(endDate) && (
+                      <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                        {errorMessageOne.isEndDate}
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
@@ -938,6 +978,9 @@ function CreateCampaign() {
                   onClick={() => {
                     if (
                       regex.test(startDate) &&
+                      regex.test(endDate) &&
+                      new Date(startDate).getTime() <=
+                        new Date(endDate).getTime() &&
                       country.length > 0 &&
                       numberOfSignups !== ""
                     ) {
@@ -1073,13 +1116,7 @@ function CreateCampaign() {
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Country:</div>
                     <div className="w-full text-xs text-gray-400 flex">
-                      {country.map((data: any, index: number) => {
-                        return (
-                          <div key={index} className="mr-2">
-                            {data},
-                          </div>
-                        );
-                      })}
+                      {country}
                     </div>
                   </div>
                   {/* <div className="w-full flex mt-1">

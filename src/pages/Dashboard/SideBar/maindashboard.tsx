@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import FirstCampaign from "../CreateCampaign/FirstCampaign";
 import SideBar from "./sideBar";
 
@@ -8,11 +9,14 @@ import SideBar from "./sideBar";
 // const profileSetting = require("../../../images/profileSetting.png");
 
 function MainDashBoard() {
+  const { state } = useLocation();
+  const { id } = state;
+ 
   return (
     <div className="flex min-h-screen w-full " style={{'backgroundColor': '#F6F8FA'}}>
     <SideBar/>
     <div className="w-full flex items-center" style={{'backgroundColor': '#F6F8FA'}}>
-        <FirstCampaign />
+        <FirstCampaign id={id} />
     </div>
     </div>
   );
