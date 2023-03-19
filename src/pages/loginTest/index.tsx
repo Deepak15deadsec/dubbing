@@ -78,7 +78,7 @@ const LoginTest = () => {
               type="email"
               style={{ width: "100%", height: "56px" }}
               id="first_name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               onChange={(e: any) => {
                 setLoginCredentials({
                   ...loginCredentials,
@@ -94,7 +94,7 @@ const LoginTest = () => {
               </div>
             )}
           <div>
-            <label className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <label className="block mt-4 mb-2 text-sm font-medium text-gray-900 ">
               Password
             </label>
             <div
@@ -110,7 +110,7 @@ const LoginTest = () => {
                 type={showpassword ? "text" : "password"}
                 style={{ width: "100%", height: "56px", outline: "none" }}
                 id="first_name"
-                className="bg-gray-50 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
                 onChange={(e: any) => {
                   setLoginCredentials({
                     ...loginCredentials,
