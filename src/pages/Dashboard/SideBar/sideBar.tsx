@@ -10,8 +10,8 @@ function SideBar() {
       className="min-h-screen w-1/5 flex flex-col items-center bg-white"
       style={{ borderRight: "1px solid #dbdbdb" }}
     >
-      <div className="mt-12">
-        <img src={SideBarLogo} />
+      <div className="mt-12 w-20 h-20">
+        <img src='https://res.cloudinary.com/dgjxmcrkg/image/upload/v1678778021/avni-logo2_p0fzel.webp' />
       </div>
       <div className="mt-16">
         <div className="flex mb-6">
