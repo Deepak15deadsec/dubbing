@@ -1,15 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Switch } from "@headlessui/react";
-import PhoneInput from "react-phone-number-input";
-import DatePicker from "react-datepicker";
-import {
-  optimisticOptions,
-  queries,
-  getRequest,
-  updateRequest,
-} from "../../react-query";
-import { useMutation, useQuery } from "react-query";
-import { AppContext } from "../../context/appContext";
+import { useStoreActions } from "../../store/easy-peasy/hooks";
 import { useNavigate } from "react-router-dom";
 // import SignInlogo from'../../images/SignInlogo.png';
 import { FramLeft } from "../util/framLeft";
@@ -36,8 +26,43 @@ const LoginTest = () => {
     two: false,
   });
 
+
+  const [input, setInput] = useState({ email: "", password: "" })
+  const addUser = useStoreActions((state) => state.addUser)
   const [showpassword, setShowpassword] = useState(false);
-  const [passwordfocus, setPasswordfocus] = useState(false);
+  const [passwordfocus, setPasswordfocus] = useState(false)
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+
+
+    const { data: login } = await axios({
+      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-login`,
+      method: "POST",
+      data: {
+        email: input?.email,
+        password: input?.password,
+
+      },
+    });
+
+    if (login && login.accessToken) {
+      console.log("login", login)
+      addUser({
+        token:login.accessToken, name:login.name, email:login.email, id:login?.id
+      })
+      navigate('/dashboard');
+    }
+    else {
+      toast.error("Invalid credentials")
+    }
+  }
+
+
+  const onChangeHandler = (value: string, email: string) => {
+    setInput({ ...input, [email]: value })
+  }
+
   const navigate = useNavigate();
   return (
     <div className="flex h-screen">
@@ -72,23 +97,18 @@ const LoginTest = () => {
         >
           Enter your information.
         </div>
-        <div>
+        <form onSubmit={handleSubmit}>
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <label className="block mb-2 text-sm font-medium text-gray-900 ">
               Email
             </label>
             <input
-              value={loginCredentials.username}
-              type="email"
+              value={input.email}
+              type="text"
               style={{ width: "100%", height: "56px" }}
               id="first_name"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              onChange={(e: any) => {
-                setLoginCredentials({
-                  ...loginCredentials,
-                  username: e.target.value,
-                });
-              }}
+              onChange={(e) => onChangeHandler(e.target.value, "email")}
             />
           </div>
 
@@ -108,42 +128,25 @@ const LoginTest = () => {
             <label className="block mt-4 mb-2 text-sm font-medium text-gray-900 ">
               Password
             </label>
-            <div
-              className="w-full flex items-center bg-gray-50 rounded-lg"
-              style={{
-                border: passwordfocus
-                  ? "2px solid"
-                  : "1px solid rgb(209 213 219)",
-              }}
-            >
+            <div className="w-full flex items-center bg-gray-50 rounded-lg" style={{ 'border': passwordfocus ? "2px solid" : '1px solid rgb(209 213 219)' }}>
               <input
-                value={loginCredentials.password}
+                value={input.password}
                 type={showpassword ? "text" : "password"}
                 style={{ width: "100%", height: "56px", outline: "none" }}
                 id="first_name"
                 className="bg-gray-50 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
-                onChange={(e: any) => {
-                  setLoginCredentials({
-                    ...loginCredentials,
-                    password: e.target.value,
-                  });
-                }}
+                onChange={(e) => onChangeHandler(e.target.value, "password")}
                 onFocus={() => {
-                  setPasswordfocus(true);
+                  setPasswordfocus(true)
                 }}
                 onBlur={() => {
-                  setPasswordfocus(false);
+                  setPasswordfocus(false)
                 }}
               />
               <div className="w-8 text-end">
-                <img
-                  src={showpassword ? showicon : hideicon}
-                  className="w-5 h-5 cursor-pointer"
-                  alt="passwordicon"
-                  onClick={() => {
-                    setShowpassword(!showpassword);
-                  }}
-                />
+                <img src={showpassword ? showicon : hideicon} className='w-5 h-5 cursor-pointer' alt="passwordicon" onClick={() => {
+                  setShowpassword(!showpassword)
+                }} />
               </div>
             </div>
           </div>
@@ -204,29 +207,6 @@ const LoginTest = () => {
                     borderRadius: "12px",
                     marginTop: "10px",
                   }}
-                  onClick={() => {
-                    if (
-                      regex.test(loginCredentials.username) &&
-                      regex.test(loginCredentials.password)
-                    ) {
-                       navigate("/dashboard",{ state : { id : ' your-query ' }});
-
-                      // axios.post('https://adsapi.avniads.com/auth/advertiser-login', {
-                      //   "email":"a1@gmail.com",
-                      //   "password":"123"
-                      // })
-                      // .then((response) => {
-                      //   console.log(response);
-                      // }, (error) => {
-                      //   console.log(error);
-                      //    toast.error(error?.message, {
-                      //       position: toast.POSITION.TOP_RIGHT,
-                      //     });
-                      // });
-                    } else {
-                      setShowErrorMessage({ ...showErrorMessage, one: true });
-                    }
-                  }}
                 >
                   <div
                     style={{
@@ -257,10 +237,10 @@ const LoginTest = () => {
                       fontSize: "14px",
                       lineHeight: "20px",
                       color: "#FF6154",
-                      cursor: "pointer",
+                      cursor: 'pointer'
                     }}
                     onClick={() => {
-                      navigate("/signupTest");
+                      navigate("/signup");
                     }}
                   >
                     Sign Up
@@ -269,10 +249,10 @@ const LoginTest = () => {
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default LoginTest;

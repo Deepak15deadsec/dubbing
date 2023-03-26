@@ -344,9 +344,10 @@ const SignupTest = () => {
                           lineHeight: "20px",
                           color: "#FF6154",
                           cursor: "pointer",
+
                         }}
                         onClick={() => {
-                          navigate("/loginTest");
+                          navigate("/login");
                         }}
                       >
                         Login
@@ -529,41 +530,64 @@ const SignupTest = () => {
                         borderRadius: "12px",
                         marginTop: "10px",
                       }}
-                      onClick={() => {
+                      onClick={async () => {
                         if (
                           regex.test(userDetails.email) &&
                           regex.test(userDetails.password) &&
                           regex.test(userDetails.confirmpassword) &&
                           userDetails.password ===
-                            userDetails.confirmpassword &&
+                          userDetails.confirmpassword &&
                           selectCheck
                         ) {
-                          // toast.success("Successfully Registered !", {
-                          //   position: toast.POSITION.TOP_RIGHT,
-                          // });
-                          // navigate("/registered");
-                          axios
-                            .post(
-                              "https://adsapi.avniads.com/advertiser-user",
-                              {
-                                name: "abc",
-                                email: userDetails.email,
-                                password: userDetails.password,
-                                companyName: companyDetails.companyname,
-                                website: companyDetails.website,
-                                contactPerson: companyDetails.contactperson,
-                                companyNumber: companyDetails.contactnumber,
-                              }
-                            )
-                            .then((response) => {
-                              console.log(response);
+
+                          const payload = {
+                            "name": "abc",
+                            "email": userDetails.email,
+                            "password": userDetails.password,
+                            "companyName": companyDetails.companyname,
+                            "website": companyDetails.website,
+                            "contactPerson": companyDetails.contactperson,
+                            "companyNumber": companyDetails.contactnumber
+
+
+                          }
+                          const { data: signup } = await axios({
+                            url: `${process.env.REACT_APP_SERVER_ENDPOINT}/advertiser-user`,
+                            method: "POST",
+                            data: payload
+                          });
+
+                          if (signup && signup.status == "created") {
+                            toast.success("Successfully Registered !", {
+                              position: toast.POSITION.TOP_RIGHT,
                             });
+                            // addToken(login.accessToken)
+                            navigate("/registered");
+                          }
+                          else {
+                            toast.error("Already created")
+                          }
+
+                        } else if (
+                          regex.test(userDetails.email) &&
+                          regex.test(userDetails.password) &&
+                          regex.test(userDetails.confirmpassword) &&
+                          userDetails.password !== userDetails.confirmpassword
+                        ) {
+                          toast.warn("Password and Confirmed Password are not Matched !", {
+                            position: toast.POSITION.TOP_RIGHT,
+                          });
+                        } else if (!selectCheck) {
+                          toast.warn("Please Accept Terms And Conditions", {
+                            position: toast.POSITION.TOP_RIGHT
+                          })
                         } else {
                           setShowErrorMessage({
                             ...showErrorMessage,
                             two: true,
                           });
                         }
+
                       }}
                     >
                       <div
@@ -595,10 +619,10 @@ const SignupTest = () => {
                           fontSize: "14px",
                           lineHeight: "20px",
                           color: "#FF6154",
-                          cursor: "pointer",
+                          cursor: 'pointer'
                         }}
                         onClick={() => {
-                          navigate("/loginTest");
+                          navigate("/login");
                         }}
                       >
                         Login

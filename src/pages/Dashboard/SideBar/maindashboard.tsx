@@ -10,13 +10,13 @@ import SideBar from "./sideBar";
 
 function MainDashBoard() {
   const { state } = useLocation();
-  const { id } = state;
+  // const { id  } = state;
  
   return (
     <div className="flex min-h-screen w-full " style={{'backgroundColor': '#F6F8FA'}}>
     <SideBar/>
     <div className="w-full flex items-center" style={{'backgroundColor': '#F6F8FA'}}>
-        <FirstCampaign id={id} />
+        <FirstCampaign id={""} />
     </div>
     </div>
   );

@@ -25,7 +25,7 @@ export function Header(){
                             background: '#01A4EF'
                         }}
                         onClick={()=>{
-                            navigate('/loginTest');
+                            navigate('/login');
                         }}
                     >
                         <div style={{
@@ -50,7 +50,7 @@ export function Header(){
                                     border: '1px solid #01A4EF'
                                 }}
                             onClick={()=>{
-                                navigate('/signupTest');
+                                navigate('/signup');
                             }}
                         >
                             <div style={{

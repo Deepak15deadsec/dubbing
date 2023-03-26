@@ -21,6 +21,7 @@ export const store = createStore<EasyPeasyStore>(
     ...initialState,
     addToken: action((state: any, token: string) => {
       state.token = token;
+      
     }),
     addUser: action((state: any, user: User) => {
       state.user = user

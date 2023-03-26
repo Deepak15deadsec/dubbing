@@ -29,9 +29,9 @@ const Routing = () => {
       >
          <Route index element={<AdDashboardHomeTest />} />
          {/* <Route path="/AdDashboardHomeTest" element={<AdDashboardHomeTest />} /> */}
-         <Route path="/signupTest" element={<SignupTest />} />
-         {/* <Route path="/signupTest" element={<SignupTest />} /> */}
-         <Route path="/loginTest" element={<LoginTest />} />
+         <Route path="/signup" element={<SignupTest />} />
+         {/* <Route path="/signup" element={<SignupTest />} /> */}
+         <Route path="/login" element={<LoginTest />} />
          <Route path="/dashboard" element={<MainDashBoard />} />
         {/* <Route index element={<Login />} /> */}
         {/* <Route path="/forgetPassword" element={<ForgetPassword />} /> */}

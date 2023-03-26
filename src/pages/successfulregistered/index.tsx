@@ -24,7 +24,7 @@ function SuccessfullyRegistered() {
               <div className='mt-12 w-full flex justify-center'>
                <button className='text-white bg-blue-500 rounded-lg h-12 w-3/4'
                onClick={()=>{
-                navigate('/loginTest')
+                navigate('/login')
                }}
                >
                  Login

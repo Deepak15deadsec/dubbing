@@ -61,7 +61,7 @@ const AdDashboardHomeTest = () => {
                   color: '#01A4EF'
                 }}
                 onClick={() => {
-                  navigate('/signupTest');
+                  navigate('/signup');
                 }}
               >
                 Get Started
@@ -168,7 +168,7 @@ const AdDashboardHomeTest = () => {
            width:'150px' 
             }}
             onClick={()=>{
-              navigate('/signupTest');
+              navigate('/signup');
           }}>Get Started</button>
         </div>
       </div>

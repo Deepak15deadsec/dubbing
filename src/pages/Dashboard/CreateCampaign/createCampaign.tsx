@@ -13,6 +13,8 @@ import {
 import { regex } from "../../signupTest";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useStoreState } from "../../../store/easy-peasy/hooks";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
@@ -279,6 +281,7 @@ const ImageUploadingButton = (props: any) => {
 
 function CreateCampaign(props: any) {
   const { id } = props;
+  const user = useStoreState((state) => state.user)
   const [adValue, setAdValue] = useState("");
   const [category, setCategory] = useState("");
   const [headline, setHeadline] = useState("");
@@ -324,18 +327,18 @@ function CreateCampaign(props: any) {
         setShowErrorMessage({ ...showErrorMessage, five: true });
       }
     }
-    
+
   }, [image]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (showErrorMessage.five === true) {
       setTimeout(() => {
         setShowErrorMessage({ ...showErrorMessage, five: false });
       }, 5000);
     }
-  },[showErrorMessage])
+  }, [showErrorMessage])
 
- 
+
 
   const [switchTab, setSwitchTab] = useState(1);
   const ChangeSlider = (event: any, newValue: any) => {
@@ -531,7 +534,7 @@ function CreateCampaign(props: any) {
                         );
                       })}
                   </div>
-                  
+
                   <div>
                     <ImageUploadingButton
                       value={image}
@@ -543,15 +546,15 @@ function CreateCampaign(props: any) {
                   </div>
                 </div>
                 {showErrorMessage.five === true && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-2">
-                      {errorMessageOne.isMaxImage}
-                    </div>
-                  )}
-                  {imageArray.length ===0 && showErrorMessage.one === true && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-2">
-                      {errorMessageOne.isRequired}
-                    </div>
-                  )}
+                  <div className="w-full text-xs font-semibold text-red-500 mt-2">
+                    {errorMessageOne.isMaxImage}
+                  </div>
+                )}
+                {imageArray.length === 0 && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-2">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
               </div>
 
               <div className="w-full pl-4">
@@ -1027,7 +1030,7 @@ function CreateCampaign(props: any) {
                       regex.test(startDate) &&
                       regex.test(endDate) &&
                       new Date(startDate).getTime() <=
-                        new Date(endDate).getTime() &&
+                      new Date(endDate).getTime() &&
                       country.length > 0 &&
                       numberOfSignups !== ""
                     ) {
@@ -1221,7 +1224,7 @@ function CreateCampaign(props: any) {
                 <div className="w-full flex justify-end">
                   <button
                     className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
-                    onClick={() => {
+                    onClick={async () => {
                       //   setSwitchTab(4);
                       localStorage.setItem(
                         "avniInfo",
@@ -1241,7 +1244,48 @@ function CreateCampaign(props: any) {
                           cardnumber: cardNumber,
                         })
                       );
-                      navigate("/createdcampaign");
+                      const payload = {
+                        "advertiserId": user?.id,
+                        "campaignName" : "test campaign2",
+                        "campaignType" : adValue,
+                        "adTitle" : headline,
+                        "adImage" : ["https://www.w3schools.com/html/img_girl.jpg","https://www.w3schools.com/html/img_girl.jpg"],
+                        "adDesc" : description,
+                        "transactionCount" : 12,
+                        "adStartDate" : startDate,
+                        "adEndDate" : endDate,
+                        "targetGeoCordinates" : 123,
+                        "targetGeoName" :"targetGeoName",
+                        "targetCategory" : category,
+                        "targetSubCategory" : "target_sub_category",
+                        "targetGender" : gender,
+                        "targetAgeRange" : {
+                            "min":sliderValue[0],
+                            "max":sliderValue[1]
+                        },
+                        "targetKeywords" : keywordsArray,
+                        "targetDonotKeywords" : donotTargetArray,
+                        "billingCountry":country,
+                        "status" : "Active"
+                      }
+                      const { data: campaign } = await axios({
+                        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign`,
+                        method: "POST",
+                        headers: {
+                          "Authorization": `Bearer ${user.token}`
+                        },
+                        data: payload
+                        
+                        
+                      });
+                      
+                      if (campaign && campaign.status == "created") {
+                        toast.success("Successfully Created !", {
+                          position: toast.POSITION.TOP_RIGHT,
+                        });
+                        // addToken(login.accessToken)
+                        navigate("/createdcampaign");
+                      }
                     }}
                   >
                     Submit
