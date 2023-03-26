@@ -18,6 +18,7 @@ import Group65 from '../../images/Group65.png';
 import Group67 from '../../images/Group67.png';
 import Group66 from '../../images/Group66.png';
 import Logo2 from '../../images/logo2.png';
+import Logo from '../../images/just-logo.webp';
 
 const AdDashboardHomeTest = () => {
   const navigate = useNavigate();
@@ -27,120 +28,146 @@ const AdDashboardHomeTest = () => {
       <div className="grid gap-4 grid-cols-1 pl-20 pr-20 mt-8 mb-12">
         <div className="grid gap-4 lg:grid-cols-2 sm:grid-cols-1" id="main" >
           <div className="flex flex-col justify-center">
-            <div style={{
+          <div className="mt-4 mb-4" style={{
               fontFamily: 'Open Sans',
-              fontSize: '40px',
-              fontWeight: 400,
-              lineHeight: '50px',
+              fontSize: '70px',
+              fontWeight: 800,
+              lineHeight: '80px',
               textAlign: 'left',
-              color: '#01A4EF',
+              color: '#434343',
             }}>
-              Acquire customers and grow your businss with Avni
+              Cut through the clutter
             </div>
-            <div className="mt-4 mb-4" style={{
+            <div className="mt-4 mb-4 ml-1.5" style={{
               fontFamily: 'Open Sans',
-              fontSize: '16px',
+              fontSize: '30px',
               fontWeight: 400,
-              textAlign: 'justify',
+              textAlign: 'left',
+              color: 'grey',
             }}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+              <p>Generate <s>impressions</s> that create value </p>
+              <p className="ml-[8.6rem] text-[#54cca0]">transactions</p>
+            </div>
+            <div className="mt-4 mb-4 ml-1.5" style={{
+              fontFamily: 'Open Sans',
+              fontSize: '30px',
+              fontWeight: 400,
+              textAlign: 'left',
+              color: 'grey',
+            }}>
+              <p>Welcome to the world of ad-<s>blockers</s></p>
+              <p className="ml-[24.8rem] text-[#54cca0]">consent</p>
             </div>
             <div >
-              <button
+              
+            </div>
+          </div>
+          <div className="flex flex-col justify-center pl-20">
+            <img className="max-h-fit lg:max-w-lg sm:max-w-sm mb-5" src={Group65} alt="fireSpot" />
+          <div className="pl-3.5">
+          <button 
                 type="submit"
                 style={{
                   fontSize: '20px',
                   fontWeight: 600,
-                  minWidth: '150px',
-                  height: '56px',
+                  width: '500px',
+                  height: '45px',
                   left: '1630px',
                   top: '22px',
                   borderRadius: '12px',
                   textAlign: "center",
                   border: '1px solid #01A4EF',
-                  color: '#01A4EF'
+                  color: '#ffffff',
+                  backgroundColor: '#01A4EF'
                 }}
                 onClick={() => {
                   navigate('/signup');
                 }}
               >
-                Get Started
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-center">
-            <img className="max-h-fit lg:max-w-lg sm:max-w-sm" src={Group65} alt="fireSpot" />
-          </div>
-          <div className="mt-12 sm:mt-8" >
-            <div className="flex justify-center">
+                Create your first ad with free 1000 ad-credits
+              </button></div>
+              </div>
+          <div className="mt-20 sm:mt-20" >
+            <div className="flex justify-center mt-12">
               <img className="max-h-fit max-w-lg" src={Group66} alt="fireSpot" />
             </div>
           </div>
           <div className="mt-12 sm:8 h-full flex  justify-center items-center">
-            <div className="grid gap-4 grid-cols-1 h-1/3">
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontSize: '16px',
-                fontWeight: 400,
-                lineHeight: '20px',
-                letterSpacing: '0em',
-                textAlign: 'left'
-
-              }}>
-                STEP 1
+            <div className="grid gap-4 grid-cols-1 ">
+            <div className="ml-[20rem] mt-4 mb-4" style={{
+              fontFamily: 'Open Sans',
+              fontSize: '55px',
+              fontWeight: 700,
+              lineHeight: '80px',
+              textAlign: 'right',
+              color: '#434343',
+            }}>
+              Leverage zero party market data
+            </div>
+            <div className="ml-[15rem] mt-4 mb-4" 
+            style={{
+              fontFamily: 'Open Sans',
+              fontSize: '33px',
+              fontWeight: 600,
+              lineHeight: '40px',
+              textAlign: 'right',
+              color: 'grey',
+            }}>
+              Reach out to customers who are ready to hear you!
+            </div>
+            <div className="ml-[10rem] mt-4 mb-4" style={{
+              fontFamily: 'Open Sans',
+              fontSize: '18px',
+              fontWeight: 400,
+              lineHeight: '40px',
+              textAlign: 'right',
+              color: 'grey',
+            }}>
+              With the power of consent & a rewarding platform like avni, create ads that are personalized in real sense
+            </div>
+              
+              
+            </div>
+          </div>
+          <div className="mt-15 sm:mt-8 h-full flex  justify-center items-center">
+            <div className="grid gap-4 grid-cols-1 ">
+            <div className="mb-4 mr-[10rem] mt-12" style={{
+              fontFamily: 'Open Sans',
+              fontSize: '70px',
+              fontWeight: 800,
+              lineHeight: '80px',
+              textAlign: 'left',
+              color: '#434343',
+            }}>
+              Generate ROI & hit your campaign goals
+            </div>
+            <div className='mt-5'
+              style={{
+              fontFamily: 'Open Sans',
+              fontSize: '33px',
+              fontWeight: 600,
+              lineHeight: '40px',
+              textAlign: 'left',
+              color: 'grey',
+            }}>
+                Measure each ad unit with avni's transaction settlement system 
               </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: 600,
-                fontSize: '40px',
-                lineHeight: '20px',
-                color: '#FF6154'
-              }}>
-                Company Details
-              </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: 400,
-                fontSize: '16px',
-                textAlign:'justify'
-              }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+              <div className="mr-20 mt-10"
+              style={{
+              fontFamily: 'Open Sans',
+              fontSize: '18px',
+              fontWeight: 400,
+              lineHeight: '40px',
+              textAlign: 'left',
+              color: 'grey',
+            }}>
+                Avni is where people get rewarded for ad-engagement & are on a lookout for brand offers 
+                You can reach out to your relevant customers with personalized brand offers & targeted ad-campaigns
               </div>
             </div>
           </div>
-          <div className="mt-12 sm:mt-8 h-full flex  justify-center items-center">
-            <div className="grid gap-4 grid-cols-1 h-1/3">
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontSize: '16px',
-                fontWeight: 400,
-                lineHeight: '10px',
-                letterSpacing: '0em',
-              }}>
-                STEP 2
-              </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontStyle: 'normal',
-                fontWeight: 600,
-                fontSize: '40px',
-                lineHeight: '30px',
-                color: '#67DF87'
-              }}>
-                Login Details
-              </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: 400,
-                fontSize: '16px',
-                textAlign:'justify'
-              }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-              </div>
-            </div>
-          </div>
-          <div className="mt-12 sm:mt-8" >
-            <div className="flex justify-center">
+          <div className="mt-20 sm:mt-20" >
+            <div className="flex justify-center mt-12">
               <img className="max-h-fit max-w-lg" src={Group67} alt="fireSpot" />
             </div>
           </div>
@@ -148,13 +175,14 @@ const AdDashboardHomeTest = () => {
       </div>
       <div className="flex flex-col justify-center items-center mt-16 mb-16">
         <div className="w-36 h-20">
-          <img src={Logo2} />
+          <img src={Logo} />
         </div>
-        <div style={{ "color": "#FFB703", fontFamily: 'open sans', fontWeight: 600, fontSize: '40px' }}>
-          Create your first ad
+        <div className="mt-20"
+        style={{ "color": "#333333", fontFamily: 'open sans', fontWeight: 600, fontSize: '40px' }}>
+        Acquire more customers with avni
         </div>
-        <div className="w-3/4 mb-4 text-center" style={{ "fontFamily": "open sans", fontSize: '16px' }}>
-          Get started with free personalised support. Create your custom ad plan with a Google Ads Expert.
+        <div className="w-3/4 mb-4 text-center" style={{ "fontFamily": "open sans", fontSize: '25px',fontWeight: 300 }}>
+        Create your first ad with free 1000 ad-credits
         </div>
         <div>
           <button style={{ 
@@ -170,6 +198,9 @@ const AdDashboardHomeTest = () => {
             onClick={()=>{
               navigate('/signup');
           }}>Get Started</button>
+        </div>
+        <div className="w-3/4 mb-4 text-center mt-4" style={{ "fontFamily": "open sans", fontSize: '25px', fontWeight: 300 }}>
+        Still got questions? <a href="/"><u>Contact Us!</u></a>
         </div>
       </div>
       <div className="grid gap-4 grid-cols-1">
