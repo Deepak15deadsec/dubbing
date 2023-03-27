@@ -282,6 +282,7 @@ const ImageUploadingButton = (props: any) => {
 function CreateCampaign(props: any) {
   const { id } = props;
   const user = useStoreState((state) => state.user)
+  const [adTitle, setAdTitle] = useState("");
   const [adValue, setAdValue] = useState("");
   const [category, setCategory] = useState("");
   const [headline, setHeadline] = useState("");
@@ -381,6 +382,35 @@ function CreateCampaign(props: any) {
           <div className="w-full flex">
             <div className="w-full">
               <div className="w-full pl-4">
+              <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="text-sm font-semibold">Ad Title</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <TextField
+                    value={adTitle}
+                    size="small"
+                    className="w-full"
+                    onChange={(e: any) => {
+                      setAdTitle(e.target.value);
+                    }}
+                  />
+                </div>
+                {!regex.test(adTitle) && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+              </div>
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">Ad Type</div>
                   <div className="ml-2 items-center flex justify-end">
@@ -1068,6 +1098,12 @@ function CreateCampaign(props: any) {
                   Add Goal
                 </div>
                 <div className="w-full mt-4 pl-4">
+                <div className="w-full flex">
+                    <div className="w-1/3 text-xs">Ad Title:</div>
+                    <div className="w-full text-xs text-gray-400">
+                      {adTitle}
+                    </div>
+                  </div>
                   <div className="w-full flex">
                     <div className="w-1/3 text-xs">Ad Type:</div>
                     <div className="w-full text-xs text-gray-400">
@@ -1229,6 +1265,7 @@ function CreateCampaign(props: any) {
                       localStorage.setItem(
                         "avniInfo",
                         JSON.stringify({
+                          adTitle:adTitle,
                           adtype: adValue,
                           category: category,
                           headline: headline,
@@ -1248,7 +1285,7 @@ function CreateCampaign(props: any) {
                         "advertiserId": user?.id,
                         "campaignName" : "test campaign2",
                         "campaignType" : adValue,
-                        "adTitle" : headline,
+                        "adTitle" : adTitle,
                         "adImage" : ["https://www.w3schools.com/html/img_girl.jpg","https://www.w3schools.com/html/img_girl.jpg"],
                         "adDesc" : description,
                         "transactionCount" : 12,
