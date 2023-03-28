@@ -1,10 +1,11 @@
+import { Link } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import mainLogo from "../../images/logo.png";
 
-const twitter= require('../../images/twitter.png')
-const telegram= require('../../images/telegram.png')
-const linkedIn= require('../../images/linkedIn.png')
+const twitter = require("../../images/twitter.png");
+const telegram = require("../../images/telegram.png");
+const linkedIn = require("../../images/linkedIn.png");
 
 export function Footer() {
   const navigate = useNavigate();
@@ -38,7 +39,6 @@ export function Footer() {
         </div>
       </div>
       <div className="h-1/2 w-2/3 flex justify-evenly">
-       
         <div>
           <div>
             <div
@@ -55,10 +55,14 @@ export function Footer() {
           <div>
             <div
               style={{
+                cursor: "pointer",
                 fontSize: "14px",
                 fontWeight: 400,
                 marginBottom: "2px",
                 color: "#333333",
+              }}
+              onClick={() => {
+                window.scrollTo(0, 0);
               }}
             >
               Blogs
@@ -71,6 +75,10 @@ export function Footer() {
                 fontWeight: 400,
                 marginBottom: "2px",
                 color: "#333333",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                window.scrollTo(0, 0);
               }}
             >
               Whitepaper
@@ -91,28 +99,40 @@ export function Footer() {
             </div>
           </div>
           <div>
-            <div
-              style={{
-                fontSize: "14px",
-                fontWeight: 400,
-                marginBottom: "2px",
-                color: "#333333",
-              }}
-            >
-              Privacy Policy
-            </div>
+            <Link href="#" underline="none">
+              <div
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  marginBottom: "2px",
+                  color: "#333333",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Privacy Policy
+              </div>
+            </Link>
           </div>
           <div>
-            <div
-              style={{
-                fontSize: "14px",
-                fontWeight: 400,
-                marginBottom: "2px",
-                color: "#333333",
-              }}
-            >
-              Legal Disclosures
-            </div>
+        
+              <div
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  marginBottom: "2px",
+                  color: "#333333",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Legal Disclosures
+              </div>
+           
           </div>
         </div>
         <div>
@@ -129,30 +149,41 @@ export function Footer() {
             </div>
           </div>
           <div>
-            <div
-              style={{
-                fontSize: "14px",
-                fontWeight: 400,
-                marginBottom: "2px",
-                color: "#333333",
-              }}
+            <Link
+              href="https://test.avniads.com/company"
+              target="_blank"
+              underline="none"
             >
-              About us
-            </div>
+              <div
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  marginBottom: "2px",
+                  color: "#333333",
+                }}
+              >
+                About us
+              </div>
+            </Link>
           </div>
           <div>
-            <div
-              style={{
-                fontSize: "14px",
-                fontWeight: 400,
-                marginBottom: "2px",
-                color: "#333333",
-              }}
+            <Link
+              href="https://test.avniads.com/faq"
+              target="_blank"
+              underline="none"
             >
-              FAQs
-            </div>
+              <div
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  marginBottom: "2px",
+                  color: "#333333",
+                }}
+              >
+                FAQs
+              </div>
+            </Link>
           </div>
-          
         </div>
         <div>
           <div>
@@ -167,13 +198,30 @@ export function Footer() {
               Contact Us
             </div>
           </div>
-          
-          <div className="flex p-1 justify-start items-center">
-             <img src={twitter} className="w-7 h-7 mr-2" />
-             <img src={linkedIn} className="w-6 h-6 mr-2" />
-             <img src={telegram} className="w-7 h-7 mr-2" />
-          </div>
 
+          <div className="flex p-1 justify-start items-center">
+            <Link
+              href="https://t.me/s/avniclub"
+              target="_blank"
+              underline="none"
+            >
+              <img src={twitter} className="w-7 h-7 mr-2" />
+            </Link>
+            <Link
+              href="https://t.me/s/avniclub"
+              target="_blank"
+              underline="none"
+            >
+              <img src={linkedIn} className="w-6 h-6 mr-2" />
+            </Link>
+            <Link
+              href="https://t.me/s/avniclub"
+              target="_blank"
+              underline="none"
+            >
+              <img src={telegram} className="w-7 h-7 mr-2" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
