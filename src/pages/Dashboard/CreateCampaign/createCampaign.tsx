@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
+import { CategoryOptions } from "./options";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
@@ -147,119 +148,6 @@ const country_list = [
   "Iraq",
   "Ireland",
   "Isle of Man",
-  "Israel",
-  "Italy",
-  "Jamaica",
-  "Japan",
-  "Jersey",
-  "Jordan",
-  "Kazakhstan",
-  "Kenya",
-  "Kuwait",
-  "Kyrgyz Republic",
-  "Laos",
-  "Latvia",
-  "Lebanon",
-  "Lesotho",
-  "Liberia",
-  "Libya",
-  "Liechtenstein",
-  "Lithuania",
-  "Luxembourg",
-  "Macau",
-  "Macedonia",
-  "Madagascar",
-  "Malawi",
-  "Malaysia",
-  "Maldives",
-  "Mali",
-  "Malta",
-  "Mauritania",
-  "Mauritius",
-  "Mexico",
-  "Moldova",
-  "Monaco",
-  "Mongolia",
-  "Montenegro",
-  "Montserrat",
-  "Morocco",
-  "Mozambique",
-  "Namibia",
-  "Nepal",
-  "Netherlands",
-  "Netherlands Antilles",
-  "New Caledonia",
-  "New Zealand",
-  "Nicaragua",
-  "Niger",
-  "Nigeria",
-  "Norway",
-  "Oman",
-  "Pakistan",
-  "Palestine",
-  "Panama",
-  "Papua New Guinea",
-  "Paraguay",
-  "Peru",
-  "Philippines",
-  "Poland",
-  "Portugal",
-  "Puerto Rico",
-  "Qatar",
-  "Reunion",
-  "Romania",
-  "Russia",
-  "Rwanda",
-  "Saint Pierre &amp; Miquelon",
-  "Samoa",
-  "San Marino",
-  "Satellite",
-  "Saudi Arabia",
-  "Senegal",
-  "Serbia",
-  "Seychelles",
-  "Sierra Leone",
-  "Singapore",
-  "Slovakia",
-  "Slovenia",
-  "South Africa",
-  "South Korea",
-  "Spain",
-  "Sri Lanka",
-  "St Kitts &amp; Nevis",
-  "St Lucia",
-  "St Vincent",
-  "St. Lucia",
-  "Sudan",
-  "Suriname",
-  "Swaziland",
-  "Sweden",
-  "Switzerland",
-  "Syria",
-  "Taiwan",
-  "Tajikistan",
-  "Tanzania",
-  "Thailand",
-  "Timor L'Este",
-  "Togo",
-  "Tonga",
-  "Trinidad &amp; Tobago",
-  "Tunisia",
-  "Turkey",
-  "Turkmenistan",
-  "Turks &amp; Caicos",
-  "Uganda",
-  "Ukraine",
-  "United Arab Emirates",
-  "United Kingdom",
-  "Uruguay",
-  "Uzbekistan",
-  "Venezuela",
-  "Vietnam",
-  "Virgin Islands (US)",
-  "Yemen",
-  "Zambia",
-  "Zimbabwe",
 ];
 
 const ImageUploadingButton = (props: any) => {
@@ -281,14 +169,21 @@ const ImageUploadingButton = (props: any) => {
 
 function CreateCampaign(props: any) {
   const { id } = props;
-  const user = useStoreState((state) => state.user)
+  const user = useStoreState((state) => state.user);
   const [adTitle, setAdTitle] = useState("");
   const [adValue, setAdValue] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState({
+    label: "",
+    arrayOpions: [],
+  });
+  const [subcategory, setSubCategory] = useState({
+    label: "",
+    arrayOpions: [],
+  });
   const [headline, setHeadline] = useState("");
   const [description, setDescription] = useState("");
   const [gender, setGender] = useState<string[]>([]);
-  const [sliderValue, setSliderValue] = React.useState([18, 60]);
+  const [sliderValue, setSliderValue] = React.useState([20, 45]);
   const [keywords, setKeywords] = useState("");
   const [donotTarget, setDonotTarget] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -328,7 +223,6 @@ function CreateCampaign(props: any) {
         setShowErrorMessage({ ...showErrorMessage, five: true });
       }
     }
-
   }, [image]);
 
   useEffect(() => {
@@ -337,9 +231,7 @@ function CreateCampaign(props: any) {
         setShowErrorMessage({ ...showErrorMessage, five: false });
       }, 5000);
     }
-  }, [showErrorMessage])
-
-
+  }, [showErrorMessage]);
 
   const [switchTab, setSwitchTab] = useState(1);
   const ChangeSlider = (event: any, newValue: any) => {
@@ -382,35 +274,35 @@ function CreateCampaign(props: any) {
           <div className="w-full flex">
             <div className="w-full">
               <div className="w-full pl-4">
-              <div className="w-full">
-                <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Ad Title</div>
-                  <div className="ml-2 items-center flex justify-end">
-                    <Tooltip
-                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                      placement="top"
-                      arrow
-                    >
-                      <img src={infoLogo} className="w-4 h-4" />
-                    </Tooltip>
+                <div className="w-full">
+                  <div className="w-full mt-4 flex">
+                    <div className="text-sm font-semibold">Ad Title</div>
+                    <div className="ml-2 items-center flex justify-end">
+                      <Tooltip
+                        title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                        placement="top"
+                        arrow
+                      >
+                        <img src={infoLogo} className="w-4 h-4" />
+                      </Tooltip>
+                    </div>
                   </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={adTitle}
-                    size="small"
-                    className="w-full"
-                    onChange={(e: any) => {
-                      setAdTitle(e.target.value);
-                    }}
-                  />
-                </div>
-                {!regex.test(adTitle) && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
+                  <div className="mt-2 w-full">
+                    <TextField
+                      value={adTitle}
+                      size="small"
+                      className="w-full"
+                      onChange={(e: any) => {
+                        setAdTitle(e.target.value);
+                      }}
+                    />
                   </div>
-                )}
-              </div>
+                  {!regex.test(adTitle) && showErrorMessage.one === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
+                </div>
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">Ad Type</div>
                   <div className="ml-2 items-center flex justify-end">
@@ -447,45 +339,7 @@ function CreateCampaign(props: any) {
                   </div>
                 )}
               </div>
-              <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Category</div>
-                  <div className="ml-2 items-center flex justify-end">
-                    <Tooltip
-                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                      placement="top"
-                      arrow
-                    >
-                      <img src={infoLogo} className="w-4 h-4" />
-                    </Tooltip>
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    className="w-full h-10"
-                    style={{ fontSize: "14px" }}
-                    value={category}
-                    onChange={(e: any) => {
-                      setCategory(e.target.value);
-                    }}
-                  >
-                    <MenuItem value="Category1" style={{ fontSize: "14px" }}>
-                      Category1
-                    </MenuItem>
-                    <MenuItem value="Category2" style={{ fontSize: "14px" }}>
-                      Category2
-                    </MenuItem>
-                    <MenuItem value="Category3" style={{ fontSize: "14px" }}>
-                      Category3
-                    </MenuItem>
-                  </Select>
-                </div>
-                {!regex.test(category) && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
-              </div>
+              
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">Headline</div>
@@ -505,7 +359,9 @@ function CreateCampaign(props: any) {
                     size="small"
                     className="w-full"
                     onChange={(e: any) => {
+                      if(headline.length<76){
                       setHeadline(e.target.value);
+                      }
                     }}
                   />
                 </div>
@@ -607,7 +463,9 @@ function CreateCampaign(props: any) {
                     rows={3}
                     className="w-full"
                     onChange={(e: any) => {
+                      if(description.length<301){
                       setDescription(e.target.value);
+                      }
                     }}
                   />
                 </div>
@@ -624,16 +482,13 @@ function CreateCampaign(props: any) {
                   onClick={() => {
                     if (
                       regex.test(adValue) &&
-                      regex.test(category) &&
+                     
                       regex.test(headline) &&
                       regex.test(description)
                     ) {
                       setSwitchTab(2);
                     } else {
                       setShowErrorMessage({ ...showErrorMessage, one: true });
-                      // toast.error("All Values are Required !", {
-                      //   position: toast.POSITION.TOP_RIGHT,
-                      // });
                     }
                   }}
                 >
@@ -710,6 +565,96 @@ function CreateCampaign(props: any) {
                     step={5}
                   />
                 </div>
+              </div>
+              <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="text-sm font-semibold">Category</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    className="w-full h-10"
+                    style={{ fontSize: "14px" }}
+                    value={category.label}
+                    onChange={(e: any) => {
+                      setCategory({ ...category, label: e.target.value });
+                      CategoryOptions.map((data: any, index: any) => {
+                        if (data.label === e.target.value) {
+                          setSubCategory({
+                            ...subcategory,
+                            arrayOpions: data.values,
+                          });
+                        }
+                      });
+                    }}
+                  >
+                    {CategoryOptions.map((data: any, index: number) => {
+                      return (
+                        <MenuItem
+                          value={data.label}
+                          style={{ fontSize: "14px" }}
+                        >
+                          {data.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                {!regex.test(category.label) &&
+                  showErrorMessage.two === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
+              </div>
+              <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="text-sm font-semibold">Sub Category</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    className="w-full h-10"
+                    style={{ fontSize: "14px" }}
+                    value={subcategory.label}
+                    onChange={(e: any) => {
+                      setSubCategory({ ...subcategory, label: e.target.value });
+                    }}
+                  >
+                    {subcategory.arrayOpions.length > 0 &&
+                      subcategory.arrayOpions.map(
+                        (data: any, index: number) => {
+                          return (
+                            <MenuItem value={data} style={{ fontSize: "14px" }}>
+                              {data}
+                            </MenuItem>
+                          );
+                        }
+                      )}
+                  </Select>
+                </div>
+                {!regex.test(subcategory.label) &&
+                  showErrorMessage.two === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
               </div>
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
@@ -875,6 +820,8 @@ function CreateCampaign(props: any) {
                     if (
                       gender.length > 0 &&
                       keywordsArray.length > 0 &&
+                      regex.test(category.label) &&
+                      regex.test(subcategory.label) &&
                       donotTargetArray.length > 0
                     ) {
                       setSwitchTab(3);
@@ -1060,7 +1007,7 @@ function CreateCampaign(props: any) {
                       regex.test(startDate) &&
                       regex.test(endDate) &&
                       new Date(startDate).getTime() <=
-                      new Date(endDate).getTime() &&
+                        new Date(endDate).getTime() &&
                       country.length > 0 &&
                       numberOfSignups !== ""
                     ) {
@@ -1098,7 +1045,7 @@ function CreateCampaign(props: any) {
                   Add Goal
                 </div>
                 <div className="w-full mt-4 pl-4">
-                <div className="w-full flex">
+                  <div className="w-full flex">
                     <div className="w-1/3 text-xs">Ad Title:</div>
                     <div className="w-full text-xs text-gray-400">
                       {adTitle}
@@ -1113,7 +1060,13 @@ function CreateCampaign(props: any) {
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Category:</div>
                     <div className="w-full text-xs text-gray-400">
-                      {category}
+                      {category.label}
+                    </div>
+                  </div>
+                  <div className="w-full flex mt-1">
+                    <div className="w-1/3 text-xs">Sub Category:</div>
+                    <div className="w-full text-xs text-gray-400">
+                      {subcategory.label}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
@@ -1265,7 +1218,7 @@ function CreateCampaign(props: any) {
                       localStorage.setItem(
                         "avniInfo",
                         JSON.stringify({
-                          adTitle:adTitle,
+                          adTitle: adTitle,
                           adtype: adValue,
                           category: category,
                           headline: headline,
@@ -1282,40 +1235,41 @@ function CreateCampaign(props: any) {
                         })
                       );
                       const payload = {
-                        "advertiserId": user?.id,
-                        "campaignName" : "test campaign2",
-                        "campaignType" : adValue,
-                        "adTitle" : adTitle,
-                        "adImage" : ["https://www.w3schools.com/html/img_girl.jpg","https://www.w3schools.com/html/img_girl.jpg"],
-                        "adDesc" : description,
-                        "transactionCount" : 12,
-                        "adStartDate" : startDate,
-                        "adEndDate" : endDate,
-                        "targetGeoCordinates" : 123,
-                        "targetGeoName" :"targetGeoName",
-                        "targetCategory" : category,
-                        "targetSubCategory" : "target_sub_category",
-                        "targetGender" : gender,
-                        "targetAgeRange" : {
-                            "min":sliderValue[0],
-                            "max":sliderValue[1]
+                        advertiserId: user?.id,
+                        campaignName: "test campaign2",
+                        campaignType: adValue,
+                        adTitle: adTitle,
+                        adImage: [
+                          "https://www.w3schools.com/html/img_girl.jpg",
+                          "https://www.w3schools.com/html/img_girl.jpg",
+                        ],
+                        adDesc: description,
+                        transactionCount: 12,
+                        adStartDate: startDate,
+                        adEndDate: endDate,
+                        targetGeoCordinates: 123,
+                        targetGeoName: "targetGeoName",
+                        targetCategory: category.label,
+                        targetSubCategory: subcategory.label,
+                        targetGender: gender,
+                        targetAgeRange: {
+                          min: sliderValue[0],
+                          max: sliderValue[1],
                         },
-                        "targetKeywords" : keywordsArray,
-                        "targetDonotKeywords" : donotTargetArray,
-                        "billingCountry":country,
-                        "status" : "Active"
-                      }
+                        targetKeywords: keywordsArray,
+                        targetDonotKeywords: donotTargetArray,
+                        billingCountry: country,
+                        status: "Active",
+                      };
                       const { data: campaign } = await axios({
                         url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign`,
                         method: "POST",
                         headers: {
-                          "Authorization": `Bearer ${user.token}`
+                          Authorization: `Bearer ${user.token}`,
                         },
-                        data: payload
-                        
-                        
+                        data: payload,
                       });
-                      
+
                       if (campaign && campaign.status == "created") {
                         toast.success("Successfully Created !", {
                           position: toast.POSITION.TOP_RIGHT,

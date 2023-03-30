@@ -1,0 +1,26 @@
+export const CategoryOptions =[
+    {
+        label:"Entertainment",
+        values:["Sports","Music","Dance","Drama","Movie"]
+    },
+    {
+        label:"Medical",
+        values:["Hospital","Clinic","Surgery","Medicine"]
+    },
+    {
+        label:"Civil",
+        values:["Buildings","Brides","Roads","Highways","Cement"]
+    },
+    {
+        label:"Electronics",
+        values:["Television","Radio","Transmitter","Wire","Battery","Laptop"]
+    },
+    {
+        label:"Mechanical",
+        values:["Cars","Bikes","Wheel","Brakes"]
+    },
+    {
+        label:"Agriculture",
+        values:["Irrigation","Farmer","Fields","Fertilizer","Canal","Harvesting"]
+    },
+]
