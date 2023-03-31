@@ -29,6 +29,7 @@ const LoginTest = () => {
 
   const [input, setInput] = useState({ email: "", password: "" })
   const addUser = useStoreActions((state) => state.addUser)
+  const addToken = useStoreActions((state) => state.addToken)
   const [showpassword, setShowpassword] = useState(false);
   const [passwordfocus, setPasswordfocus] = useState(false)
 
@@ -47,7 +48,8 @@ const LoginTest = () => {
     });
 
     if (login && login.accessToken) {
-      console.log("login", login)
+      // console.log("login", login)
+      addToken(login.accessToken)
       addUser({
         token:login.accessToken, name:login.name, email:login.email, id:login?.id
       })

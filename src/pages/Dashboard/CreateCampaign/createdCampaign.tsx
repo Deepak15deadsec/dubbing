@@ -1,8 +1,18 @@
 import { MenuItem, Select, Slider } from "@mui/material";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer,Tooltip } from "recharts";
-import React, { useState } from "react";
+import {
+  PieChart,
+  Pie,
+  Sector,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+import React, { useEffect, useState } from "react";
 import SideBar from "../SideBar/sideBar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { useQueries, useQuery } from "react-query";
+import { queries, getRequest } from "../../../react-query";
+import { useStoreState } from "../../../store/easy-peasy/hooks";
 const iPhone = require("../../../images/iPhone.png");
 const adPic = require("../../../images/adPic.png");
 const editIcon = require("../../../images/editIcon.png");
@@ -27,7 +37,7 @@ const months = [
   "December",
 ];
 
-function Ad() {
+function Ad(props: any) {
   return (
     <div className="w-full rounded-sm flex">
       <div className="w-full p-2 rounded-sm">
@@ -78,12 +88,25 @@ const marks = [
   },
 ];
 
-function Targetting() {
-  const [gender, setGender] = useState(avniData.gender);
-  const [billingcountry, setBillingCountry] = useState(avniData.billingcountry);
-  const [sliderValue, setSliderValue] = React.useState(avniData.agerange);
-  const [keywords, setKeywords] = useState(avniData.keywords);
-  const [donottarget, setDonotTarget] = useState(avniData.donottarget);
+function Targetting(props: any) {
+  const { campaign } = props;
+  const [gender, setGender] = useState([]);
+  const [billingcountry, setBillingCountry] = useState("");
+  const [sliderValue, setSliderValue] = useState<number[]>();
+  const [keywords, setKeywords] = useState([]);
+  const [donottarget, setDonotTarget] = useState([]);
+  console.log("campaign in target ", campaign)
+
+  useEffect(() => {
+    setGender(campaign.targetGender);
+    setBillingCountry(campaign.billingCountry);
+    setSliderValue([
+      campaign?.targetAgeRange?.min as number,
+      campaign?.targetAgeRange?.max as number,
+    ]);
+    setKeywords(campaign.targetKeywords);
+    setDonotTarget(campaign.targetDonotKeywords);
+  }, [campaign]);
 
   const ChangeSlider = (event: any, newValue: any) => {
     setSliderValue(newValue);
@@ -108,7 +131,7 @@ function Targetting() {
             </div>
           </div>
           <div className="w-full mt-2 px-2 flex">
-            {gender.map((val: any, index: any) => {
+            {gender?.map((val: any, index: any) => {
               return (
                 <div
                   key={index}
@@ -146,16 +169,8 @@ function Targetting() {
             </div>
           </div>
           <div className="w-full mt-2 px-2 flex">
-            {billingcountry.map((val: any, index: any) => {
-              return (
-                <div
-                  key={index}
-                  className="border border-yellow-400 text-black rounded-md px-3 py-1 text-xs mr-3"
-                >
-                  {val}
-                </div>
-              );
-            })}
+           
+            {billingcountry}
           </div>
         </div>
         <div className="w-full mb-3 mt-4">
@@ -166,7 +181,7 @@ function Targetting() {
             </div>
           </div>
           <div className="w-full mt-2 px-2 flex">
-            {keywords.map((val: any, index: any) => {
+            {keywords?.map((val: any, index: any) => {
               return (
                 <div
                   key={index}
@@ -186,7 +201,7 @@ function Targetting() {
             </div>
           </div>
           <div className="w-full mt-2 px-2 flex">
-            {donottarget.map((val: any, index: any) => {
+            {donottarget?.map((val: any, index: any) => {
               return (
                 <div
                   key={index}
@@ -233,10 +248,9 @@ function Targetting() {
   );
 }
 
-
 const COLORS = ["#67DF87", "#EEEEEE"];
 
-function Settings() {
+function Settings(props: any) {
   const [startDate, setStartDate] = useState(new Date(avniData.startdate));
   const [numberofsignups, setNumberofsignups] = useState(
     avniData.numberofsignups
@@ -299,7 +313,7 @@ function Settings() {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {data.map((entry, index) => (
+                  {data?.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
@@ -317,17 +331,13 @@ function Settings() {
           style={{ borderRadius: "6px" }}
         >
           <div className="w-full flex items-center">
-            <div className="w-full text-md font-semibold">
-            Billing Country
-            </div>
+            <div className="w-full text-md font-semibold">Billing Country</div>
             <div className="flex justify-end">
               <img src={editIcon} className="w-3 h-3" />
             </div>
           </div>
           <div className="w-full flex mt-3">
-            <div className="w-full text-sm">
-              {"India"}
-            </div>
+            <div className="w-full text-sm">{"India"}</div>
             <div className="w-full flex items-center justify-center">
               <img src={india} className="w-20" />
             </div>
@@ -339,23 +349,18 @@ function Settings() {
           style={{ borderRadius: "6px" }}
         >
           <div className="w-full flex items-center">
-            <div className="w-full text-md font-semibold">
-            Type of Ad
-            </div>
+            <div className="w-full text-md font-semibold">Type of Ad</div>
             <div className="flex justify-end">
               <img src={editIcon} className="w-3 h-3" />
             </div>
           </div>
           <div className="w-full flex mt-3">
-            <div className="w-full text-sm">
-             Mobile Advertising
-            </div>
+            <div className="w-full text-sm">Mobile Advertising</div>
             <div className="w-full flex items-center justify-center">
               <img src={mobileAd} className="w-24" />
             </div>
           </div>
         </div>
-
       </div>
       <div className="w-full flex justify-center">
         <img src={iPhone} />
@@ -364,9 +369,22 @@ function Settings() {
   );
 }
 
-function CreatedCampaign() {
+function ActiveCampaign() {
   const [switchTab, setSwitchTab] = useState(2);
-  
+  const { id } = useParams();
+  const user = useStoreState((store) => store.user);
+  const { data: campaign, isLoading } = useQuery(
+    [queries.campaigns, id, user],
+    () =>
+      getRequest(
+        `/campaign?campaignId=${id}&advertiserId=${user.id}`,
+        user.token
+      ),
+    {
+      enabled: !!id || !!user,
+    }
+  );
+
   return (
     <div className="flex h-1/2 w-full " style={{ backgroundColor: "#F6F8FA" }}>
       <SideBar />
@@ -412,12 +430,12 @@ function CreatedCampaign() {
             Settings
           </div>
         </div>
-        {switchTab === 2 && <Ad />}
-        {switchTab === 3 && <Targetting />}
-        {switchTab === 4 && <Settings />}
+        {switchTab === 2 && <Ad campaign={campaign?.data[0]}/>}
+        {switchTab === 3 && <Targetting campaign={campaign?.data[0]} />}
+        {switchTab === 4 && <Settings campaign={campaign?.data[0]} />}
       </div>
     </div>
   );
 }
 
-export default CreatedCampaign;
+export default ActiveCampaign;

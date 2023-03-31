@@ -50,12 +50,13 @@ const Sidebar = () => {
           icon={<img src={loudSpeaker} />}>
 
           {campaigns?.map((campaign: any, index) => {
+            console.log("-->", campaign)
             return (<MenuItem
               key={index}
               className={`${active === "active-campaigns" ? "text-[#01A4EF] pl-[2rem]" : "text-black pl-[2rem]"}`}
               component={
                 <NavLink
-                  to={`/active-campaigns`}
+                  to={`/active-campaigns/${campaign.id}`}
                   onClick={() => tabSelected("active-campaigns")} />
               }
 

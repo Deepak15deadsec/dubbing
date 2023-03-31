@@ -1215,25 +1215,7 @@ function CreateCampaign(props: any) {
                     className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                     onClick={async () => {
                       //   setSwitchTab(4);
-                      localStorage.setItem(
-                        "avniInfo",
-                        JSON.stringify({
-                          adTitle: adTitle,
-                          adtype: adValue,
-                          category: category,
-                          headline: headline,
-                          description: description,
-                          gender: gender,
-                          endDate: endDate,
-                          agerange: sliderValue,
-                          donottarget: donotTargetArray,
-                          keywords: keywordsArray,
-                          startdate: startDate,
-                          numberofsignups: numberOfSignups,
-                          billingcountry: country,
-                          cardnumber: cardNumber,
-                        })
-                      );
+                      
                       const payload = {
                         advertiserId: user?.id,
                         campaignName: "test campaign2",

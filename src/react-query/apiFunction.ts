@@ -2,12 +2,12 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-const getRequest = async (endPoint: string) => {
+const getRequest = async (endPoint: string,token:string) => {
   const { data } = await axios({
     url:`${process.env.REACT_APP_SERVER_ENDPOINT}${endPoint}`,
     method:"GET",
     headers:{
-      "Authorization": `Bearer ${Cookies.get("key")}`
+      "Authorization": `Bearer ${token}`
     }
   });
   return data;
