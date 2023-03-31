@@ -16,6 +16,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { CategoryOptions } from "./options";
+import DatePicker from "react-datepicker";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
@@ -339,7 +340,7 @@ function CreateCampaign(props: any) {
                   </div>
                 )}
               </div>
-              
+
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">Headline</div>
@@ -359,9 +360,7 @@ function CreateCampaign(props: any) {
                     size="small"
                     className="w-full"
                     onChange={(e: any) => {
-                      if(headline.length<76){
                       setHeadline(e.target.value);
-                      }
                     }}
                   />
                 </div>
@@ -463,8 +462,8 @@ function CreateCampaign(props: any) {
                     rows={3}
                     className="w-full"
                     onChange={(e: any) => {
-                      if(description.length<301){
-                      setDescription(e.target.value);
+                      if (description.length < 301) {
+                        setDescription(e.target.value);
                       }
                     }}
                   />
@@ -482,7 +481,6 @@ function CreateCampaign(props: any) {
                   onClick={() => {
                     if (
                       regex.test(adValue) &&
-                     
                       regex.test(headline) &&
                       regex.test(description)
                     ) {
@@ -657,26 +655,64 @@ function CreateCampaign(props: any) {
                   )}
               </div>
               <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">Keywords</div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={keywords}
-                    size="small"
-                    className="w-full"
-                    onChange={(e: any) => {
-                      setKeywords(e.target.value);
-                    }}
-                    onKeyUp={(e: any) => {
-                      if (e.keyCode === 13) {
-                        if (keywords !== "") {
-                          setKeywordsArray([...keywordsArray, keywords]);
+                <div className="w-full p-1 border border-blue-400 rounded mt-4">
+                  <div className="w-full border border-gray-500 rounded p-1">
+                    {/* <div className="w-fullflex">
+                    <div className="w-full text-sm font-semibold">Keywords</div>
+                  </div> */}
+                    <div className=" w-full">
+                      <TextField
+                        variant="standard"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        label="Keywords"
+                        value={keywords}
+                        size="small"
+                        className="w-full"
+                        onChange={(e: any) => {
+                          setKeywords(e.target.value);
+                        }}
+                        onKeyUp={(e: any) => {
+                          if (e.keyCode === 13) {
+                            if (keywords !== "") {
+                              setKeywordsArray([...keywordsArray, keywords]);
+                            }
+                            setKeywords("");
+                          }
+                        }}
+                      />
+                    </div>
+
+                    <div className="w-full mt-2 mb-2 flex">
+                      {keywordsArray.map((data: any, index: any) => {
+                        if (data !== "") {
+                          return (
+                            <div
+                              key={index}
+                              className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mr-2 rounded-sm flex items-center justify-center h-5"
+                            >
+                              {data}
+                              <div
+                                className="ml-3 text-blue-500 cursor-pointer"
+                                onClick={() => {
+                                  setKeywordsArray([
+                                    ...keywordsArray.slice(0, index),
+                                    ...keywordsArray.slice(
+                                      index + 1,
+                                      keywordsArray.length
+                                    ),
+                                  ]);
+                                }}
+                              >
+                                &#10006;
+                              </div>
+                            </div>
+                          );
                         }
-                        setKeywords("");
-                      }
-                    }}
-                  />
+                      })}
+                    </div>
+                  </div>
                 </div>
                 {keywordsArray.length === 0 &&
                   showErrorMessage.two === true && (
@@ -684,75 +720,72 @@ function CreateCampaign(props: any) {
                       {errorMessageOne.isRequired}
                     </div>
                   )}
-                <div className="w-full mt-2 mb-2 flex">
-                  {keywordsArray.map((data: any, index: any) => {
-                    if (data !== "") {
-                      return (
-                        <div
-                          key={index}
-                          className=" text-blue-500 text-xs p-2 border border-blue-500 mr-2 rounded-md flex items-center justify-center h-5"
-                        >
-                          {data}
-                          <div
-                            className="ml-3 text-blue-500 cursor-pointer"
-                            onClick={() => {
-                              setKeywordsArray([
-                                ...keywordsArray.slice(0, index),
-                                ...keywordsArray.slice(
-                                  index + 1,
-                                  keywordsArray.length
-                                ),
-                              ]);
-                            }}
-                          >
-                            &#10006;
-                            {/* <img
-                              src={cross}
-                              className="w-2 h-2 cursor-pointer"
-                              onClick={() => {
-                                setKeywordsArray([
-                                  ...keywordsArray.slice(0, index),
-                                  ...keywordsArray.slice(
-                                    index + 1,
-                                    keywordsArray.length
-                                  ),
-                                ]);
-                              }}
-                            /> */}
-                          </div>
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
               </div>
 
               <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
+                <div className="w-full p-1 border border-blue-400 rounded mt-4">
+                  <div className="w-full border border-gray-500 rounded p-1">
+                    <div className="w-full flex">
+                      {/* <div className="w-full text-sm font-semibold">
                     Do not Target
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    size="small"
-                    value={donotTarget}
-                    className="w-full"
-                    onChange={(e: any) => {
-                      setDonotTarget(e.target.value);
-                    }}
-                    onKeyUp={(e: any) => {
-                      if (e.keyCode === 13) {
-                        if (donotTarget !== "") {
-                          setDonotTargetArray([
-                            ...donotTargetArray,
-                            donotTarget,
-                          ]);
+                  </div> */}
+                    </div>
+                    <div className="mt-2 w-full">
+                      <TextField
+                        variant="standard"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        label="Do not target"
+                        size="small"
+                        value={donotTarget}
+                        className="w-full"
+                        onChange={(e: any) => {
+                          setDonotTarget(e.target.value);
+                        }}
+                        onKeyUp={(e: any) => {
+                          if (e.keyCode === 13) {
+                            if (donotTarget !== "") {
+                              setDonotTargetArray([
+                                ...donotTargetArray,
+                                donotTarget,
+                              ]);
+                            }
+                            setDonotTarget("");
+                          }
+                        }}
+                      />
+                    </div>
+
+                    <div className="w-full mt-2 mb-2 flex">
+                      {donotTargetArray.map((data: any, index: any) => {
+                        if (data !== "") {
+                          return (
+                            <div
+                              key={index}
+                              className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mr-2 rounded-sm flex items-center justify-center h-5"
+                            >
+                              {data}
+                              <div
+                                className="ml-3 text-blue-500 cursor-pointer"
+                                onClick={() => {
+                                  setDonotTargetArray([
+                                    ...donotTargetArray.slice(0, index),
+                                    ...donotTargetArray.slice(
+                                      index + 1,
+                                      donotTargetArray.length
+                                    ),
+                                  ]);
+                                }}
+                              >
+                                &#10006;
+                              </div>
+                            </div>
+                          );
                         }
-                        setDonotTarget("");
-                      }
-                    }}
-                  />
+                      })}
+                    </div>
+                  </div>
                 </div>
                 {donotTargetArray.length === 0 &&
                   showErrorMessage.two === true && (
@@ -760,47 +793,6 @@ function CreateCampaign(props: any) {
                       {errorMessageOne.isRequired}
                     </div>
                   )}
-                <div className="w-full mt-2 mb-2 flex">
-                  {donotTargetArray.map((data: any, index: any) => {
-                    if (data !== "") {
-                      return (
-                        <div
-                          key={index}
-                          className=" text-blue-500 text-xs p-2 border border-blue-500 mr-2 rounded-md flex items-center justify-center h-5"
-                        >
-                          {data}
-                          <div
-                            className="ml-3 text-blue-500 cursor-pointer"
-                            onClick={() => {
-                              setDonotTargetArray([
-                                ...donotTargetArray.slice(0, index),
-                                ...donotTargetArray.slice(
-                                  index + 1,
-                                  donotTargetArray.length
-                                ),
-                              ]);
-                            }}
-                          >
-                            &#10006;
-                            {/* <img
-                              src={cross}
-                              className="w-2 h-2 cursor-pointer"
-                              onClick={() => {
-                                setDonotTargetArray([
-                                  ...donotTargetArray.slice(0, index),
-                                  ...donotTargetArray.slice(
-                                    index + 1,
-                                    donotTargetArray.length
-                                  ),
-                                ]);
-                              }}
-                            /> */}
-                          </div>
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
               </div>
 
               <div className="w-full flex items-center mt-8 ">
@@ -860,7 +852,7 @@ function CreateCampaign(props: any) {
                     <div className="w-full mb-2 text-sm font-semibold">
                       Start Date
                     </div>
-                    <TextField
+                    {/* <TextField
                       type="date"
                       value={startDate}
                       size="small"
@@ -869,6 +861,40 @@ function CreateCampaign(props: any) {
                         setStartDate(e.target.value);
                       }}
                     />
+                     */}
+                    <DatePicker
+                      placeholderText="mm/dd/yy"
+                      value={startDate}
+                      onChange={(e: any) => {
+                        setStartDate(
+                          `${new Date(e).getMonth() + 1}/${new Date(
+                            e
+                          ).getDate()}/${new Date(e).getFullYear()}`
+                        );
+                        if (endDate.length > 1) {
+                          if (
+                            new Date(
+                              `${new Date(e).getMonth() + 1}/${new Date(
+                                e
+                              ).getDate()}/${new Date(e).getFullYear()}`
+                            ).getTime() <= new Date(endDate).getTime()
+                          ) {
+                            setShowErrorMessage({
+                              ...showErrorMessage,
+                              four: false,
+                            });
+                          } else {
+                            setShowErrorMessage({
+                              ...showErrorMessage,
+                              four: true,
+                            });
+                          }
+                        }
+                      }}
+                      minDate={new Date()}
+                      className="border w-full h-10 pl-4 rounded"
+                    />
+
                     {!regex.test(startDate) &&
                       showErrorMessage.three === true && (
                         <div className="w-full text-xs font-semibold text-red-500 mt-1">
@@ -880,16 +906,24 @@ function CreateCampaign(props: any) {
                     <div className="w-full mb-2 text-sm font-semibold">
                       End Date
                     </div>
-                    <TextField
-                      type="date"
+                    <DatePicker
                       value={endDate}
-                      size="small"
-                      className="w-full"
+                      minDate={new Date()}
+                      placeholderText="mm/dd/yy"
+                      className="border w-full h-10 pl-4 border-gray-300 rounded"
                       onChange={(e: any) => {
-                        setEndDate(e.target.value);
+                        setEndDate(
+                          `${new Date(e).getMonth() + 1}/${new Date(
+                            e
+                          ).getDate()}/${new Date(e).getFullYear()}`
+                        );
                         if (
                           new Date(startDate).getTime() <=
-                          new Date(e.target.value).getTime()
+                          new Date(
+                            `${new Date(e).getMonth() + 1}/${new Date(
+                              e
+                            ).getDate()}/${new Date(e).getFullYear()}`
+                          ).getTime()
                         ) {
                           setShowErrorMessage({
                             ...showErrorMessage,
@@ -1215,7 +1249,7 @@ function CreateCampaign(props: any) {
                     className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                     onClick={async () => {
                       //   setSwitchTab(4);
-                      
+
                       const payload = {
                         advertiserId: user?.id,
                         campaignName: "test campaign2",

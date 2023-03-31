@@ -92,10 +92,9 @@ function Targetting(props: any) {
   const { campaign } = props;
   const [gender, setGender] = useState([]);
   const [billingcountry, setBillingCountry] = useState("");
-  const [sliderValue, setSliderValue] = useState<number[]>();
+  const [sliderValue, setSliderValue] = useState<any[]>();
   const [keywords, setKeywords] = useState([]);
   const [donottarget, setDonotTarget] = useState([]);
-  console.log("campaign in target ", campaign)
 
   useEffect(() => {
     setGender(campaign.targetGender);
@@ -106,6 +105,7 @@ function Targetting(props: any) {
     ]);
     setKeywords(campaign.targetKeywords);
     setDonotTarget(campaign.targetDonotKeywords);
+
   }, [campaign]);
 
   const ChangeSlider = (event: any, newValue: any) => {
@@ -151,14 +151,23 @@ function Targetting(props: any) {
             </div>
           </div>
           <div className="w-full mt-10 px-2">
-            <Slider
-              size="small"
+            {/* <Slider
+              size="medium"
               getAriaLabel={() => "Temperature range"}
               value={sliderValue}
               onChange={ChangeSlider}
               valueLabelDisplay="on"
               marks={marks}
-            />
+            /> */}
+            <Slider
+                    size="small"
+                    getAriaLabel={() => "Temperature range"}
+                    value={sliderValue}
+                    onChange={ChangeSlider}
+                    valueLabelDisplay="on"
+                    marks={marks}
+                    step={5}
+                  />
           </div>
         </div>
         <div className="w-full mb-3 mt-3">
