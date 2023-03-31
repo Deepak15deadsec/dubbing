@@ -684,13 +684,13 @@ function CreateCampaign(props: any) {
                       />
                     </div>
 
-                    <div className="w-full mt-2 mb-2 flex">
+                    <div className="w-full mt-2 mb-2 flex flex-wrap">
                       {keywordsArray.map((data: any, index: any) => {
                         if (data !== "") {
                           return (
                             <div
                               key={index}
-                              className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mr-2 rounded-sm flex items-center justify-center h-5"
+                              className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold m-1 rounded-sm flex items-center justify-center h-5"
                             >
                               {data}
                               <div
@@ -757,13 +757,13 @@ function CreateCampaign(props: any) {
                       />
                     </div>
 
-                    <div className="w-full mt-2 mb-2 flex">
+                    <div className="mt-2 mb-2 flex w-full flex-wrap">
                       {donotTargetArray.map((data: any, index: any) => {
                         if (data !== "") {
                           return (
                             <div
                               key={index}
-                              className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mr-2 rounded-sm flex items-center justify-center h-5"
+                              className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
                             >
                               {data}
                               <div
