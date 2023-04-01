@@ -9,7 +9,7 @@ export default function CountryCode(props:any) {
         <div className="w-[130px] h-full">
             <Listbox value={props?.country} onChange={props?.setCountry}>
                 <div className="relative">
-                    <Listbox.Button className="relative w-full cursor-default rounded border border-black  border-opacity-10 bg-transparent px-3 h-10 text-left  focus:outline-none text-2xl">
+                    <Listbox.Button className="relative w-full cursor-default rounded border border-black  border-opacity-10 bg-transparent px-3 h-10 text-left  focus:outline-none text-sm">
                         <span className="block truncate">{props.country.dial_code}</span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
