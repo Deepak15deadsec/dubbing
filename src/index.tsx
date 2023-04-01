@@ -14,6 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import AppContextProvider from "./context/appContext";
 import { StoreProvider } from 'easy-peasy';
 import { store } from "./store/easy-peasy";
+import Sidebar from "./pages/Dashboard/SideBar/sideBar";
 
 
 const root = ReactDOM.createRoot(

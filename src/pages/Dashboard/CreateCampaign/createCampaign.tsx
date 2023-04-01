@@ -26,13 +26,13 @@ const cross = require("../../../images/cross.png");
 
 const marks = [
   {
-    value: 0,
-    label: "0",
+    value: 13,
+    label: "13",
   },
 
   {
-    value: 100,
-    label: "100",
+    value: 65,
+    label: "65+",
   },
 ];
 
@@ -560,7 +560,9 @@ function CreateCampaign(props: any) {
                     onChange={ChangeSlider}
                     valueLabelDisplay="on"
                     marks={marks}
-                    step={5}
+                    step={10}
+                    max={65}
+                    min={13}
                   />
                 </div>
               </div>
@@ -1252,7 +1254,7 @@ function CreateCampaign(props: any) {
 
                       const payload = {
                         advertiserId: user?.id,
-                        campaignName: "test campaign2",
+                        campaignName: adTitle,
                         campaignType: adValue,
                         adTitle: adTitle,
                         adImage: [
@@ -1260,7 +1262,7 @@ function CreateCampaign(props: any) {
                           "https://www.w3schools.com/html/img_girl.jpg",
                         ],
                         adDesc: description,
-                        transactionCount: 12,
+                        transactionCount: 90,
                         adStartDate: startDate,
                         adEndDate: endDate,
                         targetGeoCordinates: 123,
@@ -1291,7 +1293,7 @@ function CreateCampaign(props: any) {
                           position: toast.POSITION.TOP_RIGHT,
                         });
                         // addToken(login.accessToken)
-                        navigate("/createdcampaign");
+                        navigate("/dashboard");
                       }
                     }}
                   >

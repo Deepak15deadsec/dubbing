@@ -15,12 +15,15 @@ import FirstCampaign from "../pages/Dashboard/CreateCampaign/FirstCampaign";
 import SideBar from "../pages/Dashboard/SideBar/maindashboard";
 import MainDashBoard from "../pages/Dashboard/SideBar/maindashboard";
 import CreateCampaign from "../pages/Dashboard/CreateCampaign/createCampaign";
-import ActiveCampaign from "../pages/Dashboard/CreateCampaign/createdCampaign";
+import ActiveCampaign from "../pages/Dashboard/CreateCampaign/ActiveCampaign";
+import DraftCampaign from "../pages/Dashboard/SideBar/DraftCampaign";
+import Sidebar from "../pages/Dashboard/SideBar/sideBar";
 
 
 const Routing = () => {
   return (
     <Routes>
+      
       <Route
         path="/"
         element={
@@ -39,6 +42,7 @@ const Routing = () => {
         <Route path="/otpverification" element={<OtpVerification />} />
         <Route path="/registered" element={<SuccessfullyRegistered />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
+        <Route path="/draft_campaign" element={<DraftCampaign />}/>
         <Route path="/active-campaigns/:id" element={<ActiveCampaign />} />
         {/* <Route index element={<Overview />} /> */}
         

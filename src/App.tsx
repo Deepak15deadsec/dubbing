@@ -10,6 +10,7 @@ import ReactQueryLoading, {
 import { useMutation, useQuery } from "react-query";
 import { AppContext } from "./context/appContext";
 import Loading from "./components/Loading";
+import Sidebar from "./pages/Dashboard/SideBar/sideBar";
 
 function App() {
   // const { auth } = useAuth();
@@ -49,7 +50,9 @@ function App() {
 
   return (
     <>
+   
      <Routing />
+
       {/* {auth && userDetails ? (
         <div className="flex w-[100vw] h-[100vh] bg-[#F3F3F3]">
           <ReactQueryLoading />

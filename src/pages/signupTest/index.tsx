@@ -16,6 +16,7 @@ import { FramLeft } from "../util/framLeft";
 import { toast } from "react-toastify";
 import { emailRegex } from "../loginTest";
 import axios from "axios";
+import { MenuItem, Select } from "@mui/material";
 
 export const regex = /^(?!\s*$).+/;
 export const isWbsite =
@@ -230,19 +231,23 @@ const SignupTest = () => {
                         </div>
                       )}
                   </div>
-                  <div>
+                  <div style={{'width':"70%"}}>
                     <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Contact Number
                     </label>
+                    <div className="w-full flex">
+                      <Select variant="standard" size="small" className="border-1 rounded-r-sm border-gray-400">
+                        <MenuItem >1kklllllllllllll</MenuItem>
+                      </Select>
                     <input
                       value={companyDetails.contactnumber}
                       required={true}
-                      style={{ width: "70%" }}
+                      
                       type="text"
                       id="first_name"
                       minLength={10}
                       maxLength={10}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       onChange={(e: any) => {
                         if (
                           /^[0-9]*$/.test(e.target.value) &&
@@ -255,6 +260,7 @@ const SignupTest = () => {
                         }
                       }}
                     />
+                    </div>
                     {!regex.test(companyDetails.contactnumber) &&
                       showErrorMessage.one === true && (
                         <div className="w-full text-xs font-semibold text-red-500 mt-1">

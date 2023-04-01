@@ -9,7 +9,7 @@ import {
 } from "recharts";
 import React, { useEffect, useState } from "react";
 import SideBar from "../SideBar/sideBar";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useQueries, useQuery } from "react-query";
 import { queries, getRequest } from "../../../react-query";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
@@ -69,7 +69,7 @@ function Ad(props: any) {
           </div>
         </div>
       </div>
-      <div className="w-full flex justify-center">
+      <div className="w-4/5 flex justify-center">
         <img src={iPhone} />
       </div>
     </div>
@@ -105,7 +105,6 @@ function Targetting(props: any) {
     ]);
     setKeywords(campaign.targetKeywords);
     setDonotTarget(campaign.targetDonotKeywords);
-
   }, [campaign]);
 
   const ChangeSlider = (event: any, newValue: any) => {
@@ -160,14 +159,14 @@ function Targetting(props: any) {
               marks={marks}
             /> */}
             <Slider
-                    size="small"
-                    getAriaLabel={() => "Temperature range"}
-                    value={sliderValue}
-                    onChange={ChangeSlider}
-                    valueLabelDisplay="on"
-                    marks={marks}
-                    step={5}
-                  />
+              size="small"
+              getAriaLabel={() => "Temperature range"}
+              value={sliderValue}
+              onChange={ChangeSlider}
+              valueLabelDisplay="on"
+              marks={marks}
+              step={5}
+            />
           </div>
         </div>
         <div className="w-full mb-3 mt-3">
@@ -177,10 +176,7 @@ function Targetting(props: any) {
               <img src={editIcon} className="w-3 h-3" />
             </div>
           </div>
-          <div className="w-full mt-2 px-2 flex">
-           
-            {billingcountry}
-          </div>
+          <div className="w-full mt-2 px-2 flex">{billingcountry}</div>
         </div>
         <div className="w-full mb-3 mt-4">
           <div className="w-full flex items-center ">
@@ -250,7 +246,7 @@ function Targetting(props: any) {
           </div>
         </div>
       </div>
-      <div className="w-full flex justify-center">
+      <div className="w-4/5 flex justify-center">
         <img src={iPhone} />
       </div>
     </div>
@@ -260,13 +256,16 @@ function Targetting(props: any) {
 const COLORS = ["#67DF87", "#EEEEEE"];
 
 function Settings(props: any) {
-  const [startDate, setStartDate] = useState(new Date(avniData.startdate));
+  const { campaign } = props;
+  const [startDate, setStartDate] = useState(new Date(campaign?.adStartDate));
   const [numberofsignups, setNumberofsignups] = useState(
-    avniData.numberofsignups
+    campaign?.transactionCount
   );
 
+  console.log("page-- ", campaign);
+
   const data = [
-    { name: "SignUps", value: 78 },
+    { name: "SignUps", value: campaign?.transactionCount },
     { name: "Not SignUps", value: 22 },
   ];
 
@@ -346,7 +345,7 @@ function Settings(props: any) {
             </div>
           </div>
           <div className="w-full flex mt-3">
-            <div className="w-full text-sm">{"India"}</div>
+            <div className="w-full text-sm">{campaign?.billingCountry}</div>
             <div className="w-full flex items-center justify-center">
               <img src={india} className="w-20" />
             </div>
@@ -371,8 +370,209 @@ function Settings(props: any) {
           </div>
         </div>
       </div>
-      <div className="w-full flex justify-center">
+      <div className="w-4/5 flex justify-center">
         <img src={iPhone} />
+      </div>
+    </div>
+  );
+}
+
+function Preview(props: any) {
+  const { campaign, setEditTab } = props;
+
+  return (
+    <div className="w-1/2 ml-4 rounded-lg bg-white mt-5 pb-4">
+      <div
+        className=" h-12 flex items-center pl-4 pr-4 text-xs"
+        style={{ borderBottom: "1px solid #F6F8FA" }}
+      >
+        Preview
+      </div>
+      <div className=" flex">
+        <div className="w-full">
+          <div className=" m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4">
+            <div
+              className="h-10 flex items-center pl-4 text-sm"
+              style={{ borderBottom: "1px solid #EEEEEE" }}
+            >
+              Add Goal
+            </div>
+            <div className=" mt-4 pl-4">
+              <div className="w-full flex">
+                <div className="w-1/3 text-xs">Ad Title:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.adTitle}
+                </div>
+              </div>
+              <div className="w-full flex">
+                <div className="w-1/3 text-xs">Ad Type:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.campaignType}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Category:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.targetCategory}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Sub Category:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.targetSubCategory}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Headline:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.adTitle}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 flex items-center text-xs">Image:</div>
+                <div className="w-full items-center flex text-xs text-gray-400">
+                  {campaign?.data[0]?.adImage?.map(
+                    (val: any, index: number) => {
+                      return (
+                        <div className="m-2" key={index}>
+                          <img src={val} className="h-12 w-12" />
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Description:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.adDesc}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className=" m-5 border border-gray-200 rounded-md mt-4 mb-4 b-4 pb-4">
+            <div
+              className="w-full h-10 flex items-center pl-4 text-sm"
+              style={{ borderBottom: "1px solid #EEEEEE" }}
+            >
+              Targeting
+            </div>
+            <div className="w-full mt-4 pl-4">
+              <div className="w-full flex">
+                <div className="w-1/3 text-xs">Gender:</div>
+                <div className="w-full text-xs flex text-gray-400">
+                  {campaign?.data[0]?.targetGender?.map(
+                    (val: any, index: any) => {
+                      return (
+                        <div className=" mr-2">
+                          {val}
+                          {index < campaign?.data[0]?.targetGender?.length - 1
+                            ? ","
+                            : ""}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Age Range:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.targetAgeRange.min}
+                  {" - "}
+                  {campaign?.data[0]?.targetAgeRange.max}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Keywords:</div>
+                <div className="w-full text-xs text-gray-400 flex">
+                  {campaign?.data[0]?.targetKeywords.map(
+                    (data: any, index: number) => {
+                      return (
+                        <div className="mr-2">
+                          {data}
+                          {index < campaign?.data[0]?.targetKeywords.length - 1
+                            ? ","
+                            : ""}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Do Not Target:</div>
+
+                <div className="w-full text-xs text-gray-400 flex">
+                  {campaign?.data[0]?.targetDonotKeywords.map(
+                    (data: any, index: number) => {
+                      return (
+                        <div className="mr-2">
+                          {data}
+                          {index <
+                          campaign?.data[0]?.targetDonotKeywords.length - 1
+                            ? ","
+                            : ""}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4">
+            <div
+              className="w-full h-10 flex items-center pl-4 text-sm"
+              style={{ borderBottom: "1px solid #EEEEEE" }}
+            >
+              Settings
+            </div>
+            <div className="w-full mt-4 pl-4">
+              <div className="w-full flex">
+                <div className="w-1/3 text-xs">Start Date:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.adStartDate}
+                </div>
+              </div>
+              <div className="w-full flex">
+                <div className="w-1/3 text-xs">End Date:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.adEndDate}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Number of Signups:</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.transactionCount}
+                </div>
+              </div>
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Country:</div>
+                <div className="w-full text-xs text-gray-400 flex">
+                  {campaign?.data[0]?.billingCountry}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className=" ml-3 flex items-center mt-2 ">
+            <div className="w-full flex justify-start pr-10">
+              <button className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400">
+                <Link to={`/draft_campaign`}>Back</Link>
+              </button>
+            </div>
+            <div className="w-full flex justify-end pr-10">
+              <button
+                className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                onClick={() => {
+                  setEditTab(true);
+                }}
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -381,6 +581,7 @@ function Settings(props: any) {
 function ActiveCampaign() {
   const [switchTab, setSwitchTab] = useState(2);
   const { id } = useParams();
+  const [editTab, setEditTab] = useState(false);
   const user = useStoreState((store) => store.user);
   const { data: campaign, isLoading } = useQuery(
     [queries.campaigns, id, user],
@@ -397,52 +598,66 @@ function ActiveCampaign() {
   return (
     <div className="flex h-1/2 w-full " style={{ backgroundColor: "#F6F8FA" }}>
       <SideBar />
-      <div className="w-full pt-4 px-4">
-        <div className="w-full h-12 flex items-center rounded-lg bg-white pl-4 font-bold text-xl">
-          Coffee
+      {editTab === false && (
+        <Preview campaign={campaign} setEditTab={setEditTab} />
+      )}
+      {editTab === true && (
+        <div className="w-full pt-4 px-4">
+          <div className="w-full h-12 flex items-center rounded-lg bg-white pl-4 font-bold text-xl">
+            {campaign?.data[0]?.campaignName}
+          </div>
+          <div className="w-full mt-2 mb-2 flex items-center rounded-lg bg-white cursor-pointer text-xs">
+            <div
+              className=" flex items-center justify-center text-xs h-8 rounded-md mr-4 px-3"
+              style={{ backgroundColor: switchTab === 1 ? "#01A4EF" : "#fff" }}
+              onClick={() => {
+                setSwitchTab(1);
+              }}
+            >
+              Performance
+            </div>
+            <div
+              className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
+              style={{ backgroundColor: switchTab === 2 ? "#01A4EF" : "#fff" }}
+              onClick={() => {
+                setSwitchTab(2);
+              }}
+            >
+              Ad
+            </div>
+            <div
+              className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
+              style={{ backgroundColor: switchTab === 3 ? "#01A4EF" : "#fff" }}
+              onClick={() => {
+                setSwitchTab(3);
+              }}
+            >
+              Targetting
+            </div>
+            <div
+              className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
+              style={{ backgroundColor: switchTab === 4 ? "#01A4EF" : "#fff" }}
+              onClick={() => {
+                setSwitchTab(4);
+              }}
+            >
+              Settings
+            </div>
+          </div>
+          {switchTab === 2 && <Ad campaign={campaign?.data[0]} />}
+          {switchTab === 3 && <Targetting campaign={campaign?.data[0]} />}
+          {switchTab === 4 && <Settings campaign={campaign?.data[0]} />}
+          <div className="w-3/4 flex justify-start mb-4">
+          <button className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400">
+              Cancel
+            </button>
+            <button className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400 ml-3">
+              Save
+            </button>
+            
+          </div>
         </div>
-        <div className="w-full mt-2 mb-2 flex items-center rounded-lg bg-white cursor-pointer text-xs">
-          <div
-            className=" flex items-center justify-center text-xs h-8 rounded-md mr-4 px-3"
-            style={{ backgroundColor: switchTab === 1 ? "#01A4EF" : "#fff" }}
-            onClick={() => {
-              setSwitchTab(1);
-            }}
-          >
-            Performance
-          </div>
-          <div
-            className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
-            style={{ backgroundColor: switchTab === 2 ? "#01A4EF" : "#fff" }}
-            onClick={() => {
-              setSwitchTab(2);
-            }}
-          >
-            Ad
-          </div>
-          <div
-            className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
-            style={{ backgroundColor: switchTab === 3 ? "#01A4EF" : "#fff" }}
-            onClick={() => {
-              setSwitchTab(3);
-            }}
-          >
-            Targetting
-          </div>
-          <div
-            className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
-            style={{ backgroundColor: switchTab === 4 ? "#01A4EF" : "#fff" }}
-            onClick={() => {
-              setSwitchTab(4);
-            }}
-          >
-            Settings
-          </div>
-        </div>
-        {switchTab === 2 && <Ad campaign={campaign?.data[0]}/>}
-        {switchTab === 3 && <Targetting campaign={campaign?.data[0]} />}
-        {switchTab === 4 && <Settings campaign={campaign?.data[0]} />}
-      </div>
+      )}
     </div>
   );
 }
