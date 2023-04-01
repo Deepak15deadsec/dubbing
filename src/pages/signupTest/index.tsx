@@ -17,6 +17,8 @@ import { toast } from "react-toastify";
 import { emailRegex } from "../loginTest";
 import axios from "axios";
 import { MenuItem, Select } from "@mui/material";
+import CountryCode from "../loginTest/Countrycodedropdown";
+import countries from "./countries.json";
 
 export const regex = /^(?!\s*$).+/;
 export const isWbsite =
@@ -25,6 +27,11 @@ export const isWbsite =
 const SignupTest = () => {
   const navigate = useNavigate();
   const [nextStep, setnextStep] = useState(false);
+  const [country, setCountry] = useState({
+    name: "India",
+    dial_code: "+91",
+    code: "IN",
+  });
   const [companyDetails, setCompanyDetails] = useState({
     companyname: "",
     website: "",
@@ -37,16 +44,6 @@ const SignupTest = () => {
     password: "",
     confirmpassword: "",
   });
-
-  //   {
-  //     "name": "abc",
-  // "email": userDetails.email,
-  // "password": userDetails.password,
-  // "companyName": companyDetails.companyname,
-  // "website": companyDetails.website,
-  // "contactPerson": companyDetails.contactperson,
-  // "companyNumber": companyDetails.contactnumber
-  //   }
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -224,6 +221,7 @@ const SignupTest = () => {
                         });
                       }}
                     />
+
                     {!regex.test(companyDetails.contactperson) &&
                       showErrorMessage.one === true && (
                         <div className="w-full text-xs font-semibold text-red-500 mt-1">
@@ -231,35 +229,36 @@ const SignupTest = () => {
                         </div>
                       )}
                   </div>
-                  <div style={{'width':"70%"}}>
+                  <div style={{ width: "70%" }}>
                     <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Contact Number
                     </label>
-                    <div className="w-full flex">
-                      <Select variant="standard" size="small" className="border-1 rounded-r-sm border-gray-400">
-                        <MenuItem >1kklllllllllllll</MenuItem>
-                      </Select>
-                    <input
-                      value={companyDetails.contactnumber}
-                      required={true}
-                      
-                      type="text"
-                      id="first_name"
-                      minLength={10}
-                      maxLength={10}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                      onChange={(e: any) => {
-                        if (
-                          /^[0-9]*$/.test(e.target.value) &&
-                          companyDetails.contactnumber.length <= 10
-                        ) {
-                          setCompanyDetails({
-                            ...companyDetails,
-                            contactnumber: e.target.value,
-                          });
-                        }
-                      }}
-                    />
+                    <div className="w-full inline-flex items-center ">
+                      <CountryCode
+                        country={country}
+                        setCountry={setCountry}
+                        countries={countries}
+                      />
+                      <input
+                        value={companyDetails.contactnumber}
+                        required={true}
+                        type="text"
+                        id="first_name"
+                        minLength={10}
+                        maxLength={10}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        onChange={(e: any) => {
+                          if (
+                            /^[0-9]*$/.test(e.target.value) &&
+                            companyDetails.contactnumber.length <= 10
+                          ) {
+                            setCompanyDetails({
+                              ...companyDetails,
+                              contactnumber: e.target.value,
+                            });
+                          }
+                        }}
+                      />
                     </div>
                     {!regex.test(companyDetails.contactnumber) &&
                       showErrorMessage.one === true && (
@@ -350,7 +349,6 @@ const SignupTest = () => {
                           lineHeight: "20px",
                           color: "#FF6154",
                           cursor: "pointer",
-
                         }}
                         onClick={() => {
                           navigate("/login");
@@ -542,25 +540,22 @@ const SignupTest = () => {
                           regex.test(userDetails.password) &&
                           regex.test(userDetails.confirmpassword) &&
                           userDetails.password ===
-                          userDetails.confirmpassword &&
+                            userDetails.confirmpassword &&
                           selectCheck
                         ) {
-
                           const payload = {
-                            "name": "abc",
-                            "email": userDetails.email,
-                            "password": userDetails.password,
-                            "companyName": companyDetails.companyname,
-                            "website": companyDetails.website,
-                            "contactPerson": companyDetails.contactperson,
-                            "companyNumber": companyDetails.contactnumber
-
-
-                          }
+                            name: "abc",
+                            email: userDetails.email,
+                            password: userDetails.password,
+                            companyName: companyDetails.companyname,
+                            website: companyDetails.website,
+                            contactPerson: companyDetails.contactperson,
+                            companyNumber: companyDetails.contactnumber,
+                          };
                           const { data: signup } = await axios({
                             url: `${process.env.REACT_APP_SERVER_ENDPOINT}/advertiser-user`,
                             method: "POST",
-                            data: payload
+                            data: payload,
                           });
 
                           if (signup && signup.status == "created") {
@@ -569,31 +564,31 @@ const SignupTest = () => {
                             });
                             // addToken(login.accessToken)
                             navigate("/registered");
+                          } else {
+                            toast.error("Already created");
                           }
-                          else {
-                            toast.error("Already created")
-                          }
-
                         } else if (
                           regex.test(userDetails.email) &&
                           regex.test(userDetails.password) &&
                           regex.test(userDetails.confirmpassword) &&
                           userDetails.password !== userDetails.confirmpassword
                         ) {
-                          toast.warn("Password and Confirmed Password are not Matched !", {
-                            position: toast.POSITION.TOP_RIGHT,
-                          });
+                          toast.warn(
+                            "Password and Confirmed Password are not Matched !",
+                            {
+                              position: toast.POSITION.TOP_RIGHT,
+                            }
+                          );
                         } else if (!selectCheck) {
                           toast.warn("Please Accept Terms And Conditions", {
-                            position: toast.POSITION.TOP_RIGHT
-                          })
+                            position: toast.POSITION.TOP_RIGHT,
+                          });
                         } else {
                           setShowErrorMessage({
                             ...showErrorMessage,
                             two: true,
                           });
                         }
-
                       }}
                     >
                       <div
@@ -625,7 +620,7 @@ const SignupTest = () => {
                           fontSize: "14px",
                           lineHeight: "20px",
                           color: "#FF6154",
-                          cursor: 'pointer'
+                          cursor: "pointer",
                         }}
                         onClick={() => {
                           navigate("/login");
