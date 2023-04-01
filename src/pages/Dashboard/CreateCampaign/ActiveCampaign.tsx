@@ -1,4 +1,4 @@
-import { MenuItem, Select, Slider } from "@mui/material";
+import { MenuItem, Modal, Select, Slider } from "@mui/material";
 import {
   PieChart,
   Pie,
@@ -19,6 +19,9 @@ const editIcon = require("../../../images/editIcon.png");
 const calenderImage = require("../../../images/calenderImage.png");
 const india = require("../../../images/india.png");
 const mobileAd = require("../../../images/mobileAd.png");
+const dustbinIcon = require("../../../images/dustbin.png");
+const pauseIcon = require("../../../images/pauseIcon.png");
+const stopIcon = require("../../../images/stopIcon.png");
 
 const avniData = JSON.parse(localStorage.getItem("avniInfo") as string);
 
@@ -582,6 +585,14 @@ function ActiveCampaign() {
   const [switchTab, setSwitchTab] = useState(2);
   const { id } = useParams();
   const [editTab, setEditTab] = useState(false);
+  const [openClose, setOpenClose] = useState(false);
+  const handleOpenClose = () => setOpenClose(true);
+  const handleClose = () => setOpenClose(false);
+
+  const [openSave, setOpenSave] = useState(false);
+  const handleOpenSave = () => setOpenSave(true);
+  const handleSave = () => setOpenSave(false);
+
   const user = useStoreState((store) => store.user);
   const { data: campaign, isLoading } = useQuery(
     [queries.campaigns, id, user],
@@ -603,8 +614,15 @@ function ActiveCampaign() {
       )}
       {editTab === true && (
         <div className="w-full pt-4 px-4">
-          <div className="w-full h-12 flex items-center rounded-lg bg-white pl-4 font-bold text-xl">
-            {campaign?.data[0]?.campaignName}
+          <div className="w-full flex rounded-lg bg-white">
+            <div className="w-full h-12 flex items-center  pl-4 font-bold text-xl">
+              {campaign?.data[0]?.campaignName}
+            </div>
+            <div className="w-full flex justify-end items-center pr-8">
+              <img src={pauseIcon} className="w-3 h-4 mx-2 cursor-pointer" />
+              <img src={stopIcon} className="w-4 h-4 mx-2 cursor-pointer"/>
+              <img src={dustbinIcon} className="w-4 h-4 mx-2 cursor-pointer" />
+            </div>
           </div>
           <div className="w-full mt-2 mb-2 flex items-center rounded-lg bg-white cursor-pointer text-xs">
             <div
@@ -648,13 +666,60 @@ function ActiveCampaign() {
           {switchTab === 3 && <Targetting campaign={campaign?.data[0]} />}
           {switchTab === 4 && <Settings campaign={campaign?.data[0]} />}
           <div className="w-3/4 flex justify-start mb-4">
-          <button className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400">
+            <button
+              className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+              onClick={handleOpenClose}
+            >
               Cancel
             </button>
-            <button className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400 ml-3">
+            <Modal
+              className="w-full h-full flex justify-center items-center"
+              open={openClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
+                <div> Do you want to cancel the changes ?</div>
+                <div className="w-full flex justify-center mt-3">
+                  <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
+                    <Link to="/draft_campaign">Yes</Link>
+                  </button>
+                  <button
+                    className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                    onClick={handleClose}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            </Modal>
+            <button
+              className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400 ml-3"
+              onClick={handleOpenSave}
+            >
               Save
             </button>
-            
+            <Modal
+              className="w-full h-full flex justify-center items-center"
+              open={openSave}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
+                <div> Do you want to save the changes ?</div>
+                <div className="w-full flex justify-center mt-3">
+                  <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
+                    Yes
+                  </button>
+                  <button
+                    className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                    onClick={handleSave}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            </Modal>
           </div>
         </div>
       )}
