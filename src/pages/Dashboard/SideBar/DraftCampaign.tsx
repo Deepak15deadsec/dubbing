@@ -53,17 +53,21 @@ function DraftCampaign() {
                           key={index}
                           className="bg-white text-center px-5 h-14 border-b w-full"
                         >
-                          <td>{campaign?.campaignName}</td>
-                          <td>{"This is Drafted Campaign"}</td>
-                          <td>{`${new Date()}`}</td>
-                          <td className="text-red-400 flex h-14 items-center">
-                            <span className="mr-3 cursor-pointer flex items-center">
+                          <td className="pl-6 text-left">
+                            {campaign?.campaignName}
+                          </td>
+                          <td className="pl-6 text-left">
+                            {"This is Drafted Campaign"}
+                          </td>
+                          <td className="pl-6 text-left">{`${new Date()}`}</td>
+                          <td className="flex h-14 items-center">
+                            <span className="mr-3 cursor-pointer flex items-center justify-end">
                               <NavLink to={`/active-campaigns/${campaign.id}`}>
                                 {" "}
                                 <img src={desktopIcon} className="w-6 h-5" />
                               </NavLink>
                             </span>
-                            <span className="mr-8 cursor-pointer">
+                            <span className="mr-8 cursor-pointer text-blue-600">
                               Campaign
                             </span>
                           </td>
