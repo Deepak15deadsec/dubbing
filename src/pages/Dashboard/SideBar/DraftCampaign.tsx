@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import Sidebar from "./sideBar";
+const desktopIcon = require("../../../images/desktopIcon.png");
 
 function DraftCampaign() {
   const [campaigns, setCampaigns] = useState([]);
@@ -25,10 +26,6 @@ function DraftCampaign() {
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log("index ", pageIndex);
-  }, [pageIndex]);
 
   return (
     <div className="flex w-full bg-neutral-100">
@@ -59,14 +56,16 @@ function DraftCampaign() {
                           <td>{campaign?.campaignName}</td>
                           <td>{"This is Drafted Campaign"}</td>
                           <td>{`${new Date()}`}</td>
-                          <td className="text-red-400 text-end">
-                            <span className="mr-3 cursor-pointer">
+                          <td className="text-red-400 flex h-14 items-center">
+                            <span className="mr-3 cursor-pointer flex items-center">
                               <NavLink to={`/active-campaigns/${campaign.id}`}>
                                 {" "}
-                                Preview{" "}
+                                <img src={desktopIcon} className="w-6 h-5" />
                               </NavLink>
                             </span>
-                            <span className="mr-8 cursor-pointer">Domain</span>
+                            <span className="mr-8 cursor-pointer">
+                              Campaign
+                            </span>
                           </td>
                         </tr>
                       );
@@ -84,9 +83,13 @@ function DraftCampaign() {
                 >
                   {"<"}
                 </div>
-                <div className="flex mx-1 items-center text-xs">{
-                  `${pageCount*pageIndex+1} - ${pageIndex*pageCount+pageCount < campaigns?.length ? pageIndex*pageCount+pageCount : campaigns?.length} of ${campaigns?.length}`
-                }</div>
+                <div className="flex mx-1 items-center text-xs">{`${
+                  pageCount * pageIndex + 1
+                } - ${
+                  pageIndex * pageCount + pageCount < campaigns?.length
+                    ? pageIndex * pageCount + pageCount
+                    : campaigns?.length
+                } of ${campaigns?.length}`}</div>
                 <div
                   className="h-5 mx-3 w-5 rounded-full bg-blue-500 cursor-pointer text-center font-bold flex items-center justify-center"
                   onClick={() => {

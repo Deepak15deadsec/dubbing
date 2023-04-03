@@ -81,13 +81,13 @@ function Ad(props: any) {
 
 const marks = [
   {
-    value: 0,
-    label: "0",
+    value: 13,
+    label: "13",
   },
 
   {
-    value: 100,
-    label: "100",
+    value: 65,
+    label: "65+",
   },
 ];
 
@@ -95,7 +95,7 @@ function Targetting(props: any) {
   const { campaign } = props;
   const [gender, setGender] = useState([]);
   const [billingcountry, setBillingCountry] = useState("");
-  const [sliderValue, setSliderValue] = useState<any[]>();
+  const [sliderValue, setSliderValue] = useState([13, 65]);
   const [keywords, setKeywords] = useState([]);
   const [donottarget, setDonotTarget] = useState([]);
 
@@ -153,23 +153,19 @@ function Targetting(props: any) {
             </div>
           </div>
           <div className="w-full mt-10 px-2">
-            {/* <Slider
-              size="medium"
-              getAriaLabel={() => "Temperature range"}
-              value={sliderValue}
-              onChange={ChangeSlider}
-              valueLabelDisplay="on"
-              marks={marks}
-            /> */}
-            <Slider
-              size="small"
-              getAriaLabel={() => "Temperature range"}
-              value={sliderValue}
-              onChange={ChangeSlider}
-              valueLabelDisplay="on"
-              marks={marks}
-              step={5}
-            />
+            {sliderValue && (
+              <Slider
+                size="medium"
+                getAriaLabel={() => "Temperature range"}
+                value={sliderValue}
+                onChange={ChangeSlider}
+                valueLabelDisplay="on"
+                marks={marks}
+                step={10}
+                max={65}
+                min={13}
+              />
+            )}
           </div>
         </div>
         <div className="w-full mb-3 mt-3">
@@ -264,8 +260,6 @@ function Settings(props: any) {
   const [numberofsignups, setNumberofsignups] = useState(
     campaign?.transactionCount
   );
-
-  console.log("page-- ", campaign);
 
   const data = [
     { name: "SignUps", value: campaign?.transactionCount },
@@ -467,7 +461,7 @@ function Preview(props: any) {
                   {campaign?.data[0]?.targetGender?.map(
                     (val: any, index: any) => {
                       return (
-                        <div className=" mr-2">
+                        <div className=" mr-2" key={index}>
                           {val}
                           {index < campaign?.data[0]?.targetGender?.length - 1
                             ? ","
@@ -492,7 +486,7 @@ function Preview(props: any) {
                   {campaign?.data[0]?.targetKeywords.map(
                     (data: any, index: number) => {
                       return (
-                        <div className="mr-2">
+                        <div className="mr-2" key={index}>
                           {data}
                           {index < campaign?.data[0]?.targetKeywords.length - 1
                             ? ","
@@ -510,7 +504,7 @@ function Preview(props: any) {
                   {campaign?.data[0]?.targetDonotKeywords.map(
                     (data: any, index: number) => {
                       return (
-                        <div className="mr-2">
+                        <div className="mr-2" key={index}>
                           {data}
                           {index <
                           campaign?.data[0]?.targetDonotKeywords.length - 1
@@ -620,7 +614,7 @@ function ActiveCampaign() {
             </div>
             <div className="w-full flex justify-end items-center pr-8">
               <img src={pauseIcon} className="w-3 h-4 mx-2 cursor-pointer" />
-              <img src={stopIcon} className="w-4 h-4 mx-2 cursor-pointer"/>
+              <img src={stopIcon} className="w-4 h-4 mx-2 cursor-pointer" />
               <img src={dustbinIcon} className="w-4 h-4 mx-2 cursor-pointer" />
             </div>
           </div>

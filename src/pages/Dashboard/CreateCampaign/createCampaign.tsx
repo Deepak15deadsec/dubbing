@@ -1257,10 +1257,7 @@ function CreateCampaign(props: any) {
                         campaignName: adTitle,
                         campaignType: adValue,
                         adTitle: adTitle,
-                        adImage: [
-                          "https://www.w3schools.com/html/img_girl.jpg",
-                          "https://www.w3schools.com/html/img_girl.jpg",
-                        ],
+                        adImage: imageArray,
                         adDesc: description,
                         transactionCount: 90,
                         adStartDate: startDate,
