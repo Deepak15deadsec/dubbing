@@ -1,16 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import Sidebar from "./sideBar";
-const desktopIcon = require("../../../images/desktopIcon.png");
+const dustbin = require("../../../images/dustbin.png");
 
 function DraftCampaign() {
   const [campaigns, setCampaigns] = useState([]);
   const [campaignsFlag, setCampaignsFlag] = useState(false);
   const user = useStoreState((state) => state.user);
-  const [pageCount, setPageCount] = useState(10);
+  const [pageCount, setPageCount] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
+  const [showDeleteIcon, setShowDeleteIcon] =  useState("")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +27,8 @@ function DraftCampaign() {
     };
     fetchData();
   }, []);
+
+  const navigate = useNavigate()
 
   return (
     <div className="flex w-full bg-neutral-100">
@@ -51,7 +54,16 @@ function DraftCampaign() {
                       return (
                         <tr
                           key={index}
-                          className="bg-white text-center px-5 h-14 border-b w-full"
+                          className="bg-white text-center px-5 h-14 border-b w-full cursor-pointer hover:bg-gray-100"
+                          onClick={()=>{
+                          navigate(`/active-campaigns/${campaign.id}`)
+                          }}
+                          onMouseEnter={()=>{
+                            setShowDeleteIcon(campaign?.id)
+                          }}
+                          onMouseLeave={()=>{
+                            setShowDeleteIcon("")
+                          }}
                         >
                           <td className="pl-6 text-left">
                             {campaign?.campaignName}
@@ -60,8 +72,13 @@ function DraftCampaign() {
                             {"This is Drafted Campaign"}
                           </td>
                           <td className="pl-6 text-left">{`${new Date()}`}</td>
-                          <td className="flex h-14 items-center">
-                            <span className="mr-3 cursor-pointer flex items-center justify-end">
+                          <td className="flex h-7 items-center pr-10">
+                            {showDeleteIcon === campaign?.id &&(
+                              <div>
+                                <img src={dustbin} className="w-5 h-5 absolute" />
+                              </div>
+                            )}
+                            {/* <span className="mr-3 cursor-pointer flex items-center justify-end">
                               <NavLink to={`/active-campaigns/${campaign.id}`}>
                                 {" "}
                                 <img src={desktopIcon} className="w-6 h-5" />
@@ -69,7 +86,7 @@ function DraftCampaign() {
                             </span>
                             <span className="mr-8 cursor-pointer text-blue-600">
                               Campaign
-                            </span>
+                            </span> */}
                           </td>
                         </tr>
                       );

@@ -56,7 +56,7 @@ function getStyles(name: string, personName: string[], theme: Theme) {
   };
 }
 
-const country_list = [
+export const country_list = [
   "Afghanistan",
   "Albania",
   "Algeria",
@@ -152,19 +152,10 @@ const country_list = [
 ];
 
 const ImageUploadingButton = (props: any) => {
-  const { value, onChange } = props;
   return (
-    <ImageUploading value={value} onChange={onChange}>
-      {({ onImageUpload, onImageUpdate }) => (
-        <div
-          onClick={value ? onImageUpload : () => onImageUpdate(0)}
-          {...props}
-          className="mt-2 w-20 h-24 rounded-lg cursor-pointer flex items-center border justify-center border-dashed border-orange-400"
-        >
-          <img src={redPlus} className="w-5 h-5" />
-        </div>
-      )}
-    </ImageUploading>
+    <div className="mt-2 w-20 h-24 rounded-lg cursor-pointer flex items-center border justify-center border-dashed border-orange-400">
+      <img src={redPlus} className="w-5 h-5" />
+    </div>
   );
 };
 
@@ -181,6 +172,7 @@ function CreateCampaign(props: any) {
     label: "",
     arrayOpions: [],
   });
+
   const [headline, setHeadline] = useState("");
   const [description, setDescription] = useState("");
   const [gender, setGender] = useState<string[]>([]);
@@ -216,15 +208,15 @@ function CreateCampaign(props: any) {
     five: false,
   });
 
-  useEffect(() => {
-    if (image[0]?.dataURL !== "" && !imageArray.includes(image[0]?.dataURL)) {
-      if (imageArray.length < 5) {
-        setImageArray((imageArray) => [...imageArray, image[0]?.dataURL]);
-      } else {
-        setShowErrorMessage({ ...showErrorMessage, five: true });
-      }
-    }
-  }, [image]);
+  // useEffect(() => {
+  //   if (image[0]?.dataURL !== "" && !imageArray.includes(image[0]?.dataURL)) {
+  //     if (imageArray.length < 5) {
+  //       setImageArray((imageArray) => [...imageArray, image[0]?.dataURL]);
+  //     } else {
+  //       setShowErrorMessage({ ...showErrorMessage, five: true });
+  //     }
+  //   }
+  // }, [image]);
 
   useEffect(() => {
     if (showErrorMessage.five === true) {
@@ -277,7 +269,7 @@ function CreateCampaign(props: any) {
               <div className="w-full pl-4">
                 <div className="w-full">
                   <div className="w-full mt-4 flex">
-                    <div className="text-sm font-semibold">Ad Title</div>
+                    <div className="text-sm font-semibold">Campaign Name</div>
                     <div className="ml-2 items-center flex justify-end">
                       <Tooltip
                         title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
@@ -305,7 +297,7 @@ function CreateCampaign(props: any) {
                   )}
                 </div>
                 <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Ad Type</div>
+                  <div className="text-sm font-semibold">Campaign Type</div>
                   <div className="ml-2 items-center flex justify-end">
                     <Tooltip
                       title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
@@ -421,11 +413,60 @@ function CreateCampaign(props: any) {
                   </div>
 
                   <div>
-                    <ImageUploadingButton
-                      value={image}
-                      onChange={(newImage: any) => {
-                        setDialogOpen(true);
-                        setImage(newImage);
+                    <label htmlFor="file-upload" className="custom-file-upload">
+                      <ImageUploadingButton />
+                    </label>
+                    <input
+                      style={{ display: "none" }}
+                      id="file-upload"
+                      type="file"
+                      onChange={async (newImage: any) => {
+                        // setDialogOpen(true);
+                        // setImage(newImage);
+                        console.log("newImage ", newImage);
+                        const file = newImage.target.files?.[0]!;
+
+                        const filename = file.name;
+                        const fileType = file.type;
+                        var myHeaders = new Headers();
+                        myHeaders.append(
+                          "Authorization",
+                          `Bearer ${user.token}`
+                        );
+
+                        var requestOptions = {
+                          method: "GET",
+                          headers: myHeaders,
+                          redirect: "follow",
+                        };
+
+                        fetch(
+                          `https://adsapi.avniads.com/presigned-url/create?fileName=${filename}`,
+                          requestOptions as any
+                        )
+                          .then((response) => response.json())
+                          .then((res: any) => {
+                            console.log("response --> ", typeof res);
+                            var myHeaders = new Headers();
+                            myHeaders.append("Content-Type", fileType);
+
+                            var fileData = file;
+
+                            var requestOptions = {
+                              method: "PUT",
+                              headers: myHeaders,
+                              body: fileData,
+                              redirect: "follow",
+                            };
+
+                            fetch(`${res?.data}`, requestOptions as any)
+                              .then((response) => response.text())
+                              .then((result) => {
+                                setImageArray([`https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`])
+                                console.log(result)})
+                              .catch((error) => console.log("error", error));
+                          })
+                          .catch((error) => console.log("error", error));
                       }}
                     />
                   </div>
@@ -854,16 +895,7 @@ function CreateCampaign(props: any) {
                     <div className="w-full mb-2 text-sm font-semibold">
                       Start Date
                     </div>
-                    {/* <TextField
-                      type="date"
-                      value={startDate}
-                      size="small"
-                      className="w-full"
-                      onChange={(e: any) => {
-                        setStartDate(e.target.value);
-                      }}
-                    />
-                     */}
+                    
                     <DatePicker
                       placeholderText="mm/dd/yy"
                       value={startDate}
@@ -1007,24 +1039,6 @@ function CreateCampaign(props: any) {
                 )}
               </div>
 
-              {/* <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Card Number
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    size="small"
-                    type="number"
-                    className="w-full"
-                    onChange={(e: any) => {
-                      setCardNumber(e.target.value);
-                    }}
-                  />
-                </div>
-              </div> */}
-
               <div className="w-full flex items-center mt-8 ">
                 <button
                   className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
@@ -1082,13 +1096,13 @@ function CreateCampaign(props: any) {
                 </div>
                 <div className="w-full mt-4 pl-4">
                   <div className="w-full flex">
-                    <div className="w-1/3 text-xs">Ad Title:</div>
+                    <div className="w-1/3 text-xs">Campaign Name:</div>
                     <div className="w-full text-xs text-gray-400">
                       {adTitle}
                     </div>
                   </div>
                   <div className="w-full flex">
-                    <div className="w-1/3 text-xs">Ad Type:</div>
+                    <div className="w-1/3 text-xs">Campaign Type:</div>
                     <div className="w-full text-xs text-gray-400">
                       {adValue}
                     </div>

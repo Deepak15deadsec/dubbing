@@ -1,4 +1,4 @@
-import { MenuItem, Modal, Select, Slider } from "@mui/material";
+import { MenuItem, Modal, Select, Slider, TextField } from "@mui/material";
 import {
   PieChart,
   Pie,
@@ -9,10 +9,14 @@ import {
 } from "recharts";
 import React, { useEffect, useState } from "react";
 import SideBar from "../SideBar/sideBar";
+import DatePicker from "react-datepicker";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useQueries, useQuery } from "react-query";
 import { queries, getRequest } from "../../../react-query";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
+import { CategoryOptions } from "./options";
+import { regex } from "../../signupTest";
+import { country_list } from "./createCampaign";
 const iPhone = require("../../../images/iPhone.png");
 const adPic = require("../../../images/adPic.png");
 const editIcon = require("../../../images/editIcon.png");
@@ -24,6 +28,17 @@ const pauseIcon = require("../../../images/pauseIcon.png");
 const stopIcon = require("../../../images/stopIcon.png");
 
 const avniData = JSON.parse(localStorage.getItem("avniInfo") as string);
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const months = [
   "January",
@@ -96,8 +111,35 @@ function Targetting(props: any) {
   const [gender, setGender] = useState([]);
   const [billingcountry, setBillingCountry] = useState("");
   const [sliderValue, setSliderValue] = useState([13, 65]);
-  const [keywords, setKeywords] = useState([]);
-  const [donottarget, setDonotTarget] = useState([]);
+  const [keywords, setKeywords] = useState("");
+  const [donotTarget, setDonotTarget] = useState("");
+  const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
+  const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
+  const [category, setCategory] = useState([]);
+  const [subcategory, setSubCategory] = useState({
+    label: [],
+    arrayOpions: [],
+  });
+
+  const changeGender = (event: any) => {
+    const {
+      target: { value },
+    } = event;
+    setGender(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
 
   useEffect(() => {
     setGender(campaign.targetGender);
@@ -106,8 +148,22 @@ function Targetting(props: any) {
       campaign?.targetAgeRange?.min as number,
       campaign?.targetAgeRange?.max as number,
     ]);
-    setKeywords(campaign.targetKeywords);
-    setDonotTarget(campaign.targetDonotKeywords);
+    setKeywordsArray(campaign.targetKeywords);
+    setDonotTargetArray(campaign.targetDonotKeywords);
+    setCategory(campaign.targetCategory);
+    setSubCategory({
+      ...subcategory,
+      label: [campaign.targetSubCategory] as any,
+    });
+
+    CategoryOptions.map((data: any, index: any) => {
+      if (data.label === campaign.targetCategory) {
+        setSubCategory({
+          ...subcategory,
+          arrayOpions: data.values,
+        });
+      }
+    });
   }, [campaign]);
 
   const ChangeSlider = (event: any, newValue: any) => {
@@ -128,11 +184,11 @@ function Targetting(props: any) {
         <div className="w-full mb-3 mt-2">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Gender Type</div>
-            <div className="w-full flex justify-end mx-2">
+            {/* <div className="w-full flex justify-end mx-2">
               <img src={editIcon} className="w-3 h-3" />
-            </div>
+            </div> */}
           </div>
-          <div className="w-full mt-2 px-2 flex">
+          {/* <div className="w-full mt-2 px-2 flex">
             {gender?.map((val: any, index: any) => {
               return (
                 <div
@@ -143,14 +199,34 @@ function Targetting(props: any) {
                 </div>
               );
             })}
+          </div> */}
+          <div className="mt-2 w-full">
+            <Select
+              className="w-full h-10"
+              style={{ fontSize: "14px" }}
+              value={gender}
+              onChange={changeGender}
+              MenuProps={MenuProps}
+              multiple
+            >
+              <MenuItem value="Male" style={{ fontSize: "14px" }}>
+                Male
+              </MenuItem>
+              <MenuItem value="Female" style={{ fontSize: "14px" }}>
+                Female
+              </MenuItem>
+              <MenuItem value="Other" style={{ fontSize: "14px" }}>
+                Other
+              </MenuItem>
+            </Select>
           </div>
         </div>
         <div className="w-full mb-3 mt-4">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Age Range</div>
-            <div className="w-full flex justify-end mx-2">
+            {/* <div className="w-full flex justify-end mx-2">
               <img src={editIcon} className="w-3 h-3" />
-            </div>
+            </div> */}
           </div>
           <div className="w-full mt-10 px-2">
             {sliderValue && (
@@ -171,13 +247,13 @@ function Targetting(props: any) {
         <div className="w-full mb-3 mt-3">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Targeted Location</div>
-            <div className="w-full flex justify-end mx-2">
+            {/* <div className="w-full flex justify-end mx-2">
               <img src={editIcon} className="w-3 h-3" />
-            </div>
+            </div> */}
           </div>
           <div className="w-full mt-2 px-2 flex">{billingcountry}</div>
         </div>
-        <div className="w-full mb-3 mt-4">
+        {/* <div className="w-full mb-3 mt-4">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Keywords</div>
             <div className="w-full flex justify-end mx-2">
@@ -196,8 +272,64 @@ function Targetting(props: any) {
               );
             })}
           </div>
+        </div> */}
+        <div className="w-full p-1 border border-blue-400 rounded mt-4">
+          <div className="w-full border border-gray-500 rounded p-1">
+            <div className=" w-full">
+              <TextField
+                variant="standard"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                label="Keywords"
+                value={keywords}
+                size="small"
+                className="w-full"
+                onChange={(e: any) => {
+                  setKeywords(e.target.value);
+                }}
+                onKeyUp={(e: any) => {
+                  if (e.keyCode === 13) {
+                    if (keywords !== "") {
+                      setKeywordsArray([...keywordsArray, keywords]);
+                    }
+                    setKeywords("");
+                  }
+                }}
+              />
+            </div>
+
+            <div className="w-full mt-2 mb-2 flex flex-wrap">
+              {keywordsArray.map((data: any, index: any) => {
+                if (data !== "") {
+                  return (
+                    <div
+                      key={index}
+                      className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold m-1 rounded-sm flex items-center justify-center h-5"
+                    >
+                      {data}
+                      <div
+                        className="ml-3 text-blue-500 cursor-pointer"
+                        onClick={() => {
+                          setKeywordsArray([
+                            ...keywordsArray.slice(0, index),
+                            ...keywordsArray.slice(
+                              index + 1,
+                              keywordsArray.length
+                            ),
+                          ]);
+                        }}
+                      >
+                        &#10006;
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </div>
         </div>
-        <div className="w-full mb-3 mt-4">
+        {/* <div className="w-full mb-3 mt-4">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Do Not Target</div>
             <div className="w-full flex justify-end mx-2">
@@ -216,8 +348,69 @@ function Targetting(props: any) {
               );
             })}
           </div>
+        </div> */}
+        <div className="w-full p-1 border border-blue-400 rounded mt-4">
+          <div className="w-full border border-gray-500 rounded p-1">
+            <div className="w-full flex">
+              {/* <div className="w-full text-sm font-semibold">
+                    Do not Target
+                  </div> */}
+            </div>
+            <div className="mt-2 w-full">
+              <TextField
+                variant="standard"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                label="Do not target"
+                size="small"
+                value={donotTarget}
+                className="w-full"
+                onChange={(e: any) => {
+                  setDonotTarget(e.target.value);
+                }}
+                onKeyUp={(e: any) => {
+                  if (e.keyCode === 13) {
+                    if (donotTarget !== "") {
+                      setDonotTargetArray([...donotTargetArray, donotTarget]);
+                    }
+                    setDonotTarget("");
+                  }
+                }}
+              />
+            </div>
+
+            <div className="mt-2 mb-2 flex w-full flex-wrap">
+              {donotTargetArray.map((data: any, index: any) => {
+                if (data !== "") {
+                  return (
+                    <div
+                      key={index}
+                      className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
+                    >
+                      {data}
+                      <div
+                        className="ml-3 text-blue-500 cursor-pointer"
+                        onClick={() => {
+                          setDonotTargetArray([
+                            ...donotTargetArray.slice(0, index),
+                            ...donotTargetArray.slice(
+                              index + 1,
+                              donotTargetArray.length
+                            ),
+                          ]);
+                        }}
+                      >
+                        &#10006;
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </div>
         </div>
-        <div className="w-full mb-3 mt-4">
+        {/* <div className="w-full mb-3 mt-4">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Category</div>
             <div className="w-full flex justify-end mx-2">
@@ -243,6 +436,67 @@ function Targetting(props: any) {
               </MenuItem>
             </Select>
           </div>
+        </div> */}
+
+        <div className="w-full">
+          <div className="w-full mt-4 flex">
+            <div className="text-sm font-semibold">Category</div>
+          </div>
+          <div className="mt-2 w-full">
+            <Select
+              className="w-full h-10"
+              style={{ fontSize: "14px" }}
+              MenuProps={MenuProps}
+              value={category}
+              onChange={(e: any) => {
+                setCategory([e.target.value] as any);
+                CategoryOptions.map((data: any, index: any) => {
+                  if (data.label === e.target.value) {
+                    setSubCategory({
+                      ...subcategory,
+                      arrayOpions: data.values,
+                    });
+                  }
+                });
+              }}
+            >
+              {CategoryOptions.map((data: any, index: number) => {
+                return (
+                  <MenuItem value={data.label} style={{ fontSize: "14px" }}>
+                    {data.label}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </div>
+        </div>
+        <div className="w-full">
+          <div className="w-full mt-4 flex">
+            <div className="text-sm font-semibold">Sub Category</div>
+          </div>
+          <div className="mt-2 w-full">
+            <Select
+              className="w-full h-10"
+              style={{ fontSize: "14px" }}
+              value={subcategory.label}
+              MenuProps={MenuProps}
+              onChange={(e: any) => {
+                setSubCategory({
+                  ...subcategory,
+                  label: [e.target.value] as any,
+                });
+              }}
+            >
+              {subcategory.arrayOpions.length > 0 &&
+                subcategory.arrayOpions.map((data: any, index: number) => {
+                  return (
+                    <MenuItem value={data} style={{ fontSize: "14px" }}>
+                      {data}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </div>
         </div>
       </div>
       <div className="w-4/5 flex justify-center">
@@ -256,117 +510,187 @@ const COLORS = ["#67DF87", "#EEEEEE"];
 
 function Settings(props: any) {
   const { campaign } = props;
-  const [startDate, setStartDate] = useState(new Date(campaign?.adStartDate));
+  const [startDate, setStartDate] = useState(campaign?.adStartDate);
+  const [endDate, setEndDate] = useState(campaign?.adEndDate);
   const [numberofsignups, setNumberofsignups] = useState(
     campaign?.transactionCount
   );
+  const [country, setCountry] = useState(campaign?.billingCountry);
+  const [numberOfSignups, setNumberOfSignups] = useState(campaign?.transactionCount);
 
-  const data = [
-    { name: "SignUps", value: campaign?.transactionCount },
-    { name: "Not SignUps", value: 22 },
-  ];
+  // const data = [
+  //   { name: "SignUps", value: campaign?.transactionCount },
+  //   { name: "Not SignUps", value: 22 },
+  // ];
+  const [errorMessageOne, setErrorMessageOne] = useState({
+    isRequired: "Value is Required",
+    isEndDate: "End date should be greated than start date",
+    isMaxImage: "Maximum 5 images can be uploaded",
+  });
+  const [showErrorMessage, setShowErrorMessage] = useState({
+    one: false,
+    two: false,
+    three: false,
+    four: false,
+    five: false,
+  });
+  const SelectCountry = (event: any) => {
+    setCountry(event.target.value);
+  };
 
   return (
     <div className="w-full flex pb-4">
-      <div className="w-full">
-        <div
-          className="bg-white mt-3 p-2 w-2/3"
-          style={{ borderRadius: "6px" }}
-        >
-          <div className="w-full flex items-center">
-            <div className="w-full text-md font-semibold">Date</div>
-            <div className="w-full flex justify-end">
-              <img src={editIcon} className="w-3 h-3" />
-            </div>
-          </div>
-          <div className="w-full flex mt-3">
-            <div className="w-full text-xs text-gray-500">
-              {startDate.getDate()} {months[startDate.getMonth()]}
-              {", "}
-              {startDate.getFullYear()}
-            </div>
-            <div className="w-full flex items-center justify-center">
-              <img src={calenderImage} className="w-28" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="bg-white mt-3 p-2 w-2/3"
-          style={{ borderRadius: "6px" }}
-        >
-          <div className="w-full flex items-center">
-            <div className="w-full text-md font-semibold">
-              Number of SignUps
-            </div>
-            <div className="flex justify-end">
-              <img src={editIcon} className="w-3 h-3" />
-            </div>
-          </div>
-          <div className="w-full flex mt-3">
-            <div className="w-full text-sm">
-              {numberofsignups} {" SignUps"}
-            </div>
-            <div className="w-full flex items-center justify-center">
-              <PieChart width={150} height={90}>
-                <Pie
-                  data={data}
-                  cx={80}
-                  cy={40}
-                  innerRadius={30}
-                  outerRadius={45}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {data?.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
+       <div className="w-full">
+              <div className="w-full pl-4">
+                <div className="mt-2 w-full flex">
+                  <div className="w-full mr-3">
+                    <div className="w-full mb-2 text-sm font-semibold">
+                      Start Date
+                    </div>
+                    
+                    <DatePicker
+                      placeholderText="mm/dd/yy"
+                      value={startDate}
+                      onChange={(e: any) => {
+                        setStartDate(
+                          `${new Date(e).getMonth() + 1}/${new Date(
+                            e
+                          ).getDate()}/${new Date(e).getFullYear()}`
+                        );
+                        if (endDate.length > 1) {
+                          if (
+                            new Date(
+                              `${new Date(e).getMonth() + 1}/${new Date(
+                                e
+                              ).getDate()}/${new Date(e).getFullYear()}`
+                            ).getTime() <= new Date(endDate).getTime()
+                          ) {
+                            setShowErrorMessage({
+                              ...showErrorMessage,
+                              four: false,
+                            });
+                          } else {
+                            setShowErrorMessage({
+                              ...showErrorMessage,
+                              four: true,
+                            });
+                          }
+                        }
+                      }}
+                      minDate={new Date()}
+                      className="border w-full h-10 pl-4 rounded"
                     />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </div>
-          </div>
-        </div>
 
-        <div
-          className="bg-white mt-3 p-2 w-2/3"
-          style={{ borderRadius: "6px" }}
-        >
-          <div className="w-full flex items-center">
-            <div className="w-full text-md font-semibold">Billing Country</div>
-            <div className="flex justify-end">
-              <img src={editIcon} className="w-3 h-3" />
-            </div>
-          </div>
-          <div className="w-full flex mt-3">
-            <div className="w-full text-sm">{campaign?.billingCountry}</div>
-            <div className="w-full flex items-center justify-center">
-              <img src={india} className="w-20" />
-            </div>
-          </div>
-        </div>
+                    {!regex.test(startDate) &&
+                      showErrorMessage.three === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
+                  </div>
+                  <div className="w-full ml-2">
+                    <div className="w-full mb-2 text-sm font-semibold">
+                      End Date
+                    </div>
+                    <DatePicker
+                      value={endDate}
+                      minDate={new Date()}
+                      placeholderText="mm/dd/yy"
+                      className="border w-full h-10 pl-4 border-gray-300 rounded"
+                      onChange={(e: any) => {
+                        setEndDate(
+                          `${new Date(e).getMonth() + 1}/${new Date(
+                            e
+                          ).getDate()}/${new Date(e).getFullYear()}`
+                        );
+                        if (
+                          new Date(startDate).getTime() <=
+                          new Date(
+                            `${new Date(e).getMonth() + 1}/${new Date(
+                              e
+                            ).getDate()}/${new Date(e).getFullYear()}`
+                          ).getTime()
+                        ) {
+                          setShowErrorMessage({
+                            ...showErrorMessage,
+                            four: false,
+                          });
+                        } else {
+                          setShowErrorMessage({
+                            ...showErrorMessage,
+                            four: true,
+                          });
+                        }
+                      }}
+                    />
+                    {!regex.test(endDate) &&
+                      showErrorMessage.three === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isRequired}
+                        </div>
+                      )}
+                    {showErrorMessage.four === true && regex.test(endDate) && (
+                      <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                        {errorMessageOne.isEndDate}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                    Number of Signups
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <TextField
+                    value={numberOfSignups}
+                    size="small"
+                    className="w-full bg-white"
+                    type="number"
+                    onChange={(e: any) => {
+                      setNumberOfSignups(e.target.value);
+                    }}
+                  />
+                </div>
+                {numberOfSignups === "" && showErrorMessage.three === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+              </div>
 
-        <div
-          className="bg-white mt-3 p-2 w-2/3"
-          style={{ borderRadius: "6px" }}
-        >
-          <div className="w-full flex items-center">
-            <div className="w-full text-md font-semibold">Type of Ad</div>
-            <div className="flex justify-end">
-              <img src={editIcon} className="w-3 h-3" />
+              <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                    Biling Country
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    value={country}
+                    onChange={SelectCountry}
+                    className="w-full bg-white"
+                    size="small"
+                    MenuProps={MenuProps}
+                  >
+                    {country_list.map((data: any, index: number) => {
+                      return (
+                        <MenuItem value={data} key={index}>
+                          {data}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>{" "}
+                </div>
+                {country.length === 0 && showErrorMessage.three === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+              </div>    
             </div>
-          </div>
-          <div className="w-full flex mt-3">
-            <div className="w-full text-sm">Mobile Advertising</div>
-            <div className="w-full flex items-center justify-center">
-              <img src={mobileAd} className="w-24" />
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="w-4/5 flex justify-center">
         <img src={iPhone} />
       </div>
@@ -613,6 +937,62 @@ function ActiveCampaign() {
               {campaign?.data[0]?.campaignName}
             </div>
             <div className="w-full flex justify-end items-center pr-8">
+              <div className="w-3/4 flex justify-end mr-4">
+                <button
+                  className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  onClick={handleOpenClose}
+                >
+                  Cancel
+                </button>
+                <Modal
+                  className="w-full h-full flex justify-center items-center"
+                  open={openClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
+                    <div> Do you want to cancel the changes ?</div>
+                    <div className="w-full flex justify-center mt-3">
+                      <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
+                        <Link to="/draft_campaign">Yes</Link>
+                      </button>
+                      <button
+                        className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                        onClick={handleClose}
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                </Modal>
+                <button
+                  className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400 ml-3"
+                  onClick={handleOpenSave}
+                >
+                  Save
+                </button>
+                <Modal
+                  className="w-full h-full flex justify-center items-center"
+                  open={openSave}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
+                    <div> Do you want to save the changes ?</div>
+                    <div className="w-full flex justify-center mt-3">
+                      <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
+                        Yes
+                      </button>
+                      <button
+                        className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                        onClick={handleSave}
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                </Modal>
+              </div>
               <img src={pauseIcon} className="w-3 h-4 mx-2 cursor-pointer" />
               <img src={stopIcon} className="w-4 h-4 mx-2 cursor-pointer" />
               <img src={dustbinIcon} className="w-4 h-4 mx-2 cursor-pointer" />
@@ -659,62 +1039,6 @@ function ActiveCampaign() {
           {switchTab === 2 && <Ad campaign={campaign?.data[0]} />}
           {switchTab === 3 && <Targetting campaign={campaign?.data[0]} />}
           {switchTab === 4 && <Settings campaign={campaign?.data[0]} />}
-          <div className="w-3/4 flex justify-start mb-4">
-            <button
-              className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
-              onClick={handleOpenClose}
-            >
-              Cancel
-            </button>
-            <Modal
-              className="w-full h-full flex justify-center items-center"
-              open={openClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
-                <div> Do you want to cancel the changes ?</div>
-                <div className="w-full flex justify-center mt-3">
-                  <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
-                    <Link to="/draft_campaign">Yes</Link>
-                  </button>
-                  <button
-                    className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
-                    onClick={handleClose}
-                  >
-                    No
-                  </button>
-                </div>
-              </div>
-            </Modal>
-            <button
-              className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400 ml-3"
-              onClick={handleOpenSave}
-            >
-              Save
-            </button>
-            <Modal
-              className="w-full h-full flex justify-center items-center"
-              open={openSave}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
-                <div> Do you want to save the changes ?</div>
-                <div className="w-full flex justify-center mt-3">
-                  <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
-                    Yes
-                  </button>
-                  <button
-                    className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
-                    onClick={handleSave}
-                  >
-                    No
-                  </button>
-                </div>
-              </div>
-            </Modal>
-          </div>
         </div>
       )}
     </div>

@@ -1,26 +1,30 @@
 export const CategoryOptions =[
     {
         label:"Entertainment",
-        values:["Sports","Music","Dance","Drama","Movie"]
+        values:["Games","Events","Movies","Music","TV/ Streaming"]
     },
     {
         label:"Medical",
-        values:["Hospital","Clinic","Surgery","Medicine"]
+        values:["Doctor","Insurance","Medicine"]
     },
     {
-        label:"Civil",
-        values:["Buildings","Brides","Roads","Highways","Cement"]
+        label:"fitness& Wellness",
+        values:["Sports","fitness"]
     },
     {
-        label:"Electronics",
-        values:["Television","Radio","Transmitter","Wire","Battery","Laptop"]
+        label:"Food & Drinks",
+        values:["Online","Grocesory","Quick","Meat"]
     },
     {
-        label:"Mechanical",
-        values:["Cars","Bikes","Wheel","Brakes"]
+        label:"Personal",
+        values:["Beauty","Lifestyle","Kids & Toys","Jewelry","eyewear","Handbags"]
     },
     {
-        label:"Agriculture",
-        values:["Irrigation","Farmer","Fields","Fertilizer","Canal","Harvesting"]
+        label:"Travel",
+        values:["Cabs& local transport","Flights","Hotels","Electric bikes"]
+    },
+    {
+        label:"Finance",
+        values:["Stock","Mutual","Crypto","Banking& Insurance"]
     },
 ]
