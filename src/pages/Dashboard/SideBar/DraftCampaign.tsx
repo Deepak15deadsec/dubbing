@@ -78,15 +78,7 @@ function DraftCampaign() {
                                 <img src={dustbin} className="w-5 h-5 absolute" />
                               </div>
                             )}
-                            {/* <span className="mr-3 cursor-pointer flex items-center justify-end">
-                              <NavLink to={`/active-campaigns/${campaign.id}`}>
-                                {" "}
-                                <img src={desktopIcon} className="w-6 h-5" />
-                              </NavLink>
-                            </span>
-                            <span className="mr-8 cursor-pointer text-blue-600">
-                              Campaign
-                            </span> */}
+                           
                           </td>
                         </tr>
                       );
@@ -114,7 +106,7 @@ function DraftCampaign() {
                 <div
                   className="h-5 mx-3 w-5 rounded-full bg-blue-500 cursor-pointer text-center font-bold flex items-center justify-center"
                   onClick={() => {
-                    if (pageIndex < campaigns?.length / 10 - 1) {
+                    if (pageIndex < campaigns?.length / pageCount - 1) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex + 1));
                     }
                   }}

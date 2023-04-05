@@ -151,9 +151,9 @@ export const country_list = [
   "Isle of Man",
 ];
 
-const ImageUploadingButton = (props: any) => {
+ export const ImageUploadingButton = (props: any) => {
   return (
-    <div className="mt-2 w-20 h-24 rounded-lg cursor-pointer flex items-center border justify-center border-dashed border-orange-400">
+    <div className="mt-2 bg-white w-20 h-24 rounded-lg cursor-pointer flex items-center border justify-center border-dashed border-orange-400">
       <img src={redPlus} className="w-5 h-5" />
     </div>
   );
@@ -182,15 +182,8 @@ function CreateCampaign(props: any) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [numberOfSignups, setNumberOfSignups] = useState("");
-  const [cardNumber, setCardNumber] = useState(0);
   const [country, setCountry] = useState("");
-  const [image, setImage] = useState([
-    {
-      dataURL: "",
-    },
-  ]);
   const [imageArray, setImageArray] = useState<string[]>([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
   const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
 
@@ -207,16 +200,6 @@ function CreateCampaign(props: any) {
     four: false,
     five: false,
   });
-
-  // useEffect(() => {
-  //   if (image[0]?.dataURL !== "" && !imageArray.includes(image[0]?.dataURL)) {
-  //     if (imageArray.length < 5) {
-  //       setImageArray((imageArray) => [...imageArray, image[0]?.dataURL]);
-  //     } else {
-  //       setShowErrorMessage({ ...showErrorMessage, five: true });
-  //     }
-  //   }
-  // }, [image]);
 
   useEffect(() => {
     if (showErrorMessage.five === true) {
@@ -403,7 +386,7 @@ function CreateCampaign(props: any) {
                                   ]);
                                 }}
                               >
-                                x{/* <img src={cross} className="w-2 h-2" /> */}
+                                x
                               </div>
                             </div>
                             <img src={val} className="w-20 h-20" />
@@ -421,9 +404,6 @@ function CreateCampaign(props: any) {
                       id="file-upload"
                       type="file"
                       onChange={async (newImage: any) => {
-                        // setDialogOpen(true);
-                        // setImage(newImage);
-                        console.log("newImage ", newImage);
                         const file = newImage.target.files?.[0]!;
 
                         const filename = file.name;
@@ -700,9 +680,7 @@ function CreateCampaign(props: any) {
               <div className="w-full pl-4">
                 <div className="w-full p-1 border border-blue-400 rounded mt-4">
                   <div className="w-full border border-gray-500 rounded p-1">
-                    {/* <div className="w-fullflex">
-                    <div className="w-full text-sm font-semibold">Keywords</div>
-                  </div> */}
+                   
                     <div className=" w-full">
                       <TextField
                         variant="standard"
@@ -769,9 +747,7 @@ function CreateCampaign(props: any) {
                 <div className="w-full p-1 border border-blue-400 rounded mt-4">
                   <div className="w-full border border-gray-500 rounded p-1">
                     <div className="w-full flex">
-                      {/* <div className="w-full text-sm font-semibold">
-                    Do not Target
-                  </div> */}
+                     
                     </div>
                     <div className="mt-2 w-full">
                       <TextField

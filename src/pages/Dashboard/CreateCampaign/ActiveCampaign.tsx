@@ -1,4 +1,4 @@
-import { MenuItem, Modal, Select, Slider, TextField } from "@mui/material";
+import { CircularProgress, MenuItem, Modal, Select, Slider, TextField } from "@mui/material";
 import {
   PieChart,
   Pie,
@@ -10,13 +10,15 @@ import {
 import React, { useEffect, useState } from "react";
 import SideBar from "../SideBar/sideBar";
 import DatePicker from "react-datepicker";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQueries, useQuery } from "react-query";
 import { queries, getRequest } from "../../../react-query";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { CategoryOptions } from "./options";
 import { regex } from "../../signupTest";
-import { country_list } from "./createCampaign";
+import { ImageUploadingButton, country_list } from "./createCampaign";
+import axios from "axios";
+import { toast } from "react-toastify";
 const iPhone = require("../../../images/iPhone.png");
 const adPic = require("../../../images/adPic.png");
 const editIcon = require("../../../images/editIcon.png");
@@ -56,8 +58,243 @@ const months = [
 ];
 
 function Ad(props: any) {
+  const {
+    adTitle,
+    setAdTitle,
+    adValue,
+    setAdValue,
+    headline,
+    setHeadline,
+    description,
+    setDescription,
+    imageArray,
+    setImageArray,
+  } = props;
+  const user = useStoreState((state) => state.user);
+  const [errorMessageOne, setErrorMessageOne] = useState({
+    isRequired: "Value is Required",
+    isEndDate: "End date should be greated than start date",
+    isMaxImage: "Maximum 5 images can be uploaded",
+  });
+  const [showErrorMessage, setShowErrorMessage] = useState({
+    one: false,
+    two: false,
+    three: false,
+    four: false,
+    five: false,
+  });
+
+  const handleChange = (event: any) => {
+    setAdValue(event.target.value);
+  };
+
   return (
     <div className="w-full rounded-sm flex">
+      <div className="w-full">
+        <div className="w-full pl-4">
+          <div className="w-full">
+            <div className="w-full mt-4 flex">
+              <div className="text-sm font-semibold">Campaign Name</div>
+              <div className="ml-2 items-center flex justify-end"></div>
+            </div>
+            <div className="mt-2 w-full">
+              <TextField
+                value={adTitle}
+                size="small"
+                className="w-full bg-white"
+                onChange={(e: any) => {
+                  setAdTitle(e.target.value);
+                }}
+              />
+            </div>
+            {!regex.test(adTitle) && showErrorMessage.one === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isRequired}
+              </div>
+            )}
+          </div>
+          <div className="w-full mt-4 flex">
+            <div className="text-sm font-semibold">Campaign Type</div>
+            <div className="ml-2 items-center flex justify-end"></div>
+          </div>
+          <div className="mt-2 w-full">
+            <Select
+              className="w-full h-10 bg-white"
+              style={{ fontSize: "14px" }}
+              value={adValue}
+              onChange={handleChange}
+            >
+              <MenuItem value="Ten" style={{ fontSize: "14px" }}>
+                Ten
+              </MenuItem>
+              <MenuItem value="Twenty" style={{ fontSize: "14px" }}>
+                Twenty
+              </MenuItem>
+              <MenuItem value="Thirty" style={{ fontSize: "14px" }}>
+                Thirty
+              </MenuItem>
+            </Select>
+          </div>
+          {!regex.test(adValue) && showErrorMessage.one === true && (
+            <div className="w-full text-xs font-semibold text-red-500 mt-1">
+              {errorMessageOne.isRequired}
+            </div>
+          )}
+        </div>
+
+        <div className="w-full pl-4">
+          <div className="w-full mt-4 flex">
+            <div className="text-sm font-semibold">Headline</div>
+          </div>
+          <div className="mt-2 w-full">
+            <TextField
+              value={headline}
+              size="small"
+              className="w-full bg-white"
+              onChange={(e: any) => {
+                setHeadline(e.target.value);
+              }}
+            />
+          </div>
+          {!regex.test(headline) && showErrorMessage.one === true && (
+            <div className="w-full text-xs font-semibold text-red-500 mt-1">
+              {errorMessageOne.isRequired}
+            </div>
+          )}
+        </div>
+
+        <div className="w-full pl-4">
+          <div className="w-full mt-4 flex">
+            <div className="text-sm font-semibold">Upload Image</div>
+          </div>
+          <div className="w-full flex items-center">
+            <div className="flex mr-2">
+              {imageArray.length > 0 &&
+                imageArray.map((val: any, index: any) => {
+                  return (
+                    <div className="m-1" key={index}>
+                      <div
+                        style={{
+                          position: "absolute",
+                          cursor: "pointer",
+                          zIndex: 10,
+                          marginLeft: "60px",
+                          marginTop: "6px",
+                        }}
+                      >
+                        <div
+                          className="w-3 h-3 bg-gray-100 rounded-full flex items-center text-xs justify-center"
+                          onClick={() => {
+                            setImageArray([
+                              ...imageArray.slice(0, index),
+                              ...imageArray.slice(index + 1, imageArray.length),
+                            ]);
+                          }}
+                        >
+                          x
+                        </div>
+                      </div>
+                      <img src={val} className="w-20 h-20" />
+                    </div>
+                  );
+                })}
+            </div>
+
+            <div>
+              <label
+                htmlFor="file-upload"
+                className="custom-file-upload bg-white"
+              >
+                <ImageUploadingButton />
+              </label>
+              <input
+                style={{ display: "none" }}
+                id="file-upload"
+                type="file"
+                onChange={async (newImage: any) => {
+                  const file = newImage.target.files?.[0]!;
+
+                  const filename = file.name;
+                  const fileType = file.type;
+                  var myHeaders = new Headers();
+                  myHeaders.append("Authorization", `Bearer ${user.token}`);
+
+                  var requestOptions = {
+                    method: "GET",
+                    headers: myHeaders,
+                    redirect: "follow",
+                  };
+
+                  fetch(
+                    `https://adsapi.avniads.com/presigned-url/create?fileName=${filename}`,
+                    requestOptions as any
+                  )
+                    .then((response) => response.json())
+                    .then((res: any) => {
+                      console.log("response --> ", typeof res);
+                      var myHeaders = new Headers();
+                      myHeaders.append("Content-Type", fileType);
+
+                      var fileData = file;
+
+                      var requestOptions = {
+                        method: "PUT",
+                        headers: myHeaders,
+                        body: fileData,
+                        redirect: "follow",
+                      };
+
+                      fetch(`${res?.data}`, requestOptions as any)
+                        .then((response) => response.text())
+                        .then((result) => {
+                          setImageArray([
+                            `https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`,
+                          ]);
+                          console.log(result);
+                        })
+                        .catch((error) => console.log("error", error));
+                    })
+                    .catch((error) => console.log("error", error));
+                }}
+              />
+            </div>
+          </div>
+          {showErrorMessage.five === true && (
+            <div className="w-full text-xs font-semibold text-red-500 mt-2">
+              {errorMessageOne.isMaxImage}
+            </div>
+          )}
+          {imageArray.length === 0 && showErrorMessage.one === true && (
+            <div className="w-full text-xs font-semibold text-red-500 mt-2">
+              {errorMessageOne.isRequired}
+            </div>
+          )}
+        </div>
+
+        <div className="w-full pl-4">
+          <div className="w-full mt-4 flex">
+            <div className="text-sm font-semibold">Description</div>
+          </div>
+          <div className="mt-2 w-full">
+            <TextField
+              multiline
+              value={description}
+              rows={3}
+              className="w-full bg-white"
+              onChange={(e: any) => {
+                if (description.length < 301) {
+                  setDescription(e.target.value);
+                }
+              }}
+            />
+          </div>
+          {!regex.test(description) && showErrorMessage.one === true && (
+            <div className="w-full text-xs font-semibold text-red-500 mt-2">
+              {errorMessageOne.isRequired}
+            </div>
+          )}
+        </div>
+      </div>
       <div className="w-full p-2 rounded-sm">
         <div className="bg-white p-2 rounded-sm">
           <img src={adPic} />
@@ -87,9 +324,6 @@ function Ad(props: any) {
           </div>
         </div>
       </div>
-      <div className="w-4/5 flex justify-center">
-        <img src={iPhone} />
-      </div>
     </div>
   );
 }
@@ -100,6 +334,8 @@ const marks = [
     label: "13",
   },
 
+  { value: 15, label: "15" },
+
   {
     value: 65,
     label: "65+",
@@ -107,28 +343,35 @@ const marks = [
 ];
 
 function Targetting(props: any) {
-  const { campaign } = props;
-  const [gender, setGender] = useState([]);
-  const [billingcountry, setBillingCountry] = useState("");
-  const [sliderValue, setSliderValue] = useState([13, 65]);
-  const [keywords, setKeywords] = useState("");
-  const [donotTarget, setDonotTarget] = useState("");
-  const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
-  const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
-  const [category, setCategory] = useState([]);
-  const [subcategory, setSubCategory] = useState({
-    label: [],
-    arrayOpions: [],
-  });
+  const {
+    campaign,
+    gender,
+    setGender,
+    billingcountry,
+    setBillingCountry,
+    sliderValue,
+    setSliderValue,
+    keywords,
+    setKeywords,
+    donotTarget,
+    setDonotTarget,
+    donotTargetArray,
+    setDonotTargetArray,
+    keywordsArray,
+    setKeywordsArray,
+    category,
+    setCategory,
+    subcategory,
+    setSubCategory,
+    subCategoryArray,
+    setSuCategoryArray,
+  } = props;
 
   const changeGender = (event: any) => {
     const {
       target: { value },
     } = event;
-    setGender(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setGender(typeof value === "string" ? value.split(",") : value);
   };
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -141,42 +384,12 @@ function Targetting(props: any) {
     },
   };
 
-  useEffect(() => {
-    setGender(campaign.targetGender);
-    setBillingCountry(campaign.billingCountry);
-    setSliderValue([
-      campaign?.targetAgeRange?.min as number,
-      campaign?.targetAgeRange?.max as number,
-    ]);
-    setKeywordsArray(campaign.targetKeywords);
-    setDonotTargetArray(campaign.targetDonotKeywords);
-    setCategory(campaign.targetCategory);
-    setSubCategory({
-      ...subcategory,
-      label: [campaign.targetSubCategory] as any,
-    });
-
-    CategoryOptions.map((data: any, index: any) => {
-      if (data.label === campaign.targetCategory) {
-        setSubCategory({
-          ...subcategory,
-          arrayOpions: data.values,
-        });
-      }
-    });
-  }, [campaign]);
-
   const ChangeSlider = (event: any, newValue: any) => {
     setSliderValue(newValue);
   };
 
-  const [adValue, setAdValue] = useState("");
-  const handleChange = (event: any) => {
-    setAdValue(event.target.value);
-  };
-
   return (
-    <div className="w-full flex">
+    <div className="w-full flex mb-4">
       <div
         className="bg-white h-1/2 p-2 w-full"
         style={{ borderRadius: "6px" }}
@@ -184,22 +397,8 @@ function Targetting(props: any) {
         <div className="w-full mb-3 mt-2">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Gender Type</div>
-            {/* <div className="w-full flex justify-end mx-2">
-              <img src={editIcon} className="w-3 h-3" />
-            </div> */}
           </div>
-          {/* <div className="w-full mt-2 px-2 flex">
-            {gender?.map((val: any, index: any) => {
-              return (
-                <div
-                  key={index}
-                  className="border border-gray-300 text-gray-300 rounded-md px-3 py-1 text-xs mr-3"
-                >
-                  {val}
-                </div>
-              );
-            })}
-          </div> */}
+
           <div className="mt-2 w-full">
             <Select
               className="w-full h-10"
@@ -224,9 +423,6 @@ function Targetting(props: any) {
         <div className="w-full mb-3 mt-4">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Age Range</div>
-            {/* <div className="w-full flex justify-end mx-2">
-              <img src={editIcon} className="w-3 h-3" />
-            </div> */}
           </div>
           <div className="w-full mt-10 px-2">
             {sliderValue && (
@@ -247,32 +443,10 @@ function Targetting(props: any) {
         <div className="w-full mb-3 mt-3">
           <div className="w-full flex items-center ">
             <div className="w-full mx-2 text-sm">Targeted Location</div>
-            {/* <div className="w-full flex justify-end mx-2">
-              <img src={editIcon} className="w-3 h-3" />
-            </div> */}
           </div>
           <div className="w-full mt-2 px-2 flex">{billingcountry}</div>
         </div>
-        {/* <div className="w-full mb-3 mt-4">
-          <div className="w-full flex items-center ">
-            <div className="w-full mx-2 text-sm">Keywords</div>
-            <div className="w-full flex justify-end mx-2">
-              <img src={editIcon} className="w-3 h-3" />
-            </div>
-          </div>
-          <div className="w-full mt-2 px-2 flex">
-            {keywords?.map((val: any, index: any) => {
-              return (
-                <div
-                  key={index}
-                  className="border border-blue-300 text-black rounded-md px-3 py-1 text-xs mr-3"
-                >
-                  {val}
-                </div>
-              );
-            })}
-          </div>
-        </div> */}
+
         <div className="w-full p-1 border border-blue-400 rounded mt-4">
           <div className="w-full border border-gray-500 rounded p-1">
             <div className=" w-full">
@@ -300,7 +474,7 @@ function Targetting(props: any) {
             </div>
 
             <div className="w-full mt-2 mb-2 flex flex-wrap">
-              {keywordsArray.map((data: any, index: any) => {
+              {keywordsArray?.map((data: any, index: any) => {
                 if (data !== "") {
                   return (
                     <div
@@ -329,33 +503,10 @@ function Targetting(props: any) {
             </div>
           </div>
         </div>
-        {/* <div className="w-full mb-3 mt-4">
-          <div className="w-full flex items-center ">
-            <div className="w-full mx-2 text-sm">Do Not Target</div>
-            <div className="w-full flex justify-end mx-2">
-              <img src={editIcon} className="w-3 h-3" />
-            </div>
-          </div>
-          <div className="w-full mt-2 px-2 flex">
-            {donottarget?.map((val: any, index: any) => {
-              return (
-                <div
-                  key={index}
-                  className="border border-red-300 text-black rounded-md px-3 py-1 text-xs mr-3"
-                >
-                  {val}
-                </div>
-              );
-            })}
-          </div>
-        </div> */}
+
         <div className="w-full p-1 border border-blue-400 rounded mt-4">
           <div className="w-full border border-gray-500 rounded p-1">
-            <div className="w-full flex">
-              {/* <div className="w-full text-sm font-semibold">
-                    Do not Target
-                  </div> */}
-            </div>
+            <div className="w-full flex"></div>
             <div className="mt-2 w-full">
               <TextField
                 variant="standard"
@@ -381,7 +532,7 @@ function Targetting(props: any) {
             </div>
 
             <div className="mt-2 mb-2 flex w-full flex-wrap">
-              {donotTargetArray.map((data: any, index: any) => {
+              {donotTargetArray?.map((data: any, index: any) => {
                 if (data !== "") {
                   return (
                     <div
@@ -410,33 +561,6 @@ function Targetting(props: any) {
             </div>
           </div>
         </div>
-        {/* <div className="w-full mb-3 mt-4">
-          <div className="w-full flex items-center ">
-            <div className="w-full mx-2 text-sm">Category</div>
-            <div className="w-full flex justify-end mx-2">
-              <img src={editIcon} className="w-3 h-3" />
-            </div>
-          </div>
-          <div className="w-full mt-2 px-2 flex">
-            <Select
-              className="w-3/4"
-              size="small"
-              style={{ fontSize: "14px" }}
-              value={adValue}
-              onChange={handleChange}
-            >
-              <MenuItem value={10} style={{ fontSize: "14px" }}>
-                Ten
-              </MenuItem>
-              <MenuItem value={20} style={{ fontSize: "14px" }}>
-                Twenty
-              </MenuItem>
-              <MenuItem value={30} style={{ fontSize: "14px" }}>
-                Thirty
-              </MenuItem>
-            </Select>
-          </div>
-        </div> */}
 
         <div className="w-full">
           <div className="w-full mt-4 flex">
@@ -450,19 +574,20 @@ function Targetting(props: any) {
               value={category}
               onChange={(e: any) => {
                 setCategory([e.target.value] as any);
-                CategoryOptions.map((data: any, index: any) => {
+                CategoryOptions?.map((data: any, index: any) => {
                   if (data.label === e.target.value) {
-                    setSubCategory({
-                      ...subcategory,
-                      arrayOpions: data.values,
-                    });
+                    setSuCategoryArray(data.values);
                   }
                 });
               }}
             >
               {CategoryOptions.map((data: any, index: number) => {
                 return (
-                  <MenuItem value={data.label} style={{ fontSize: "14px" }}>
+                  <MenuItem
+                    key={index}
+                    value={data.label}
+                    style={{ fontSize: "14px" }}
+                  >
                     {data.label}
                   </MenuItem>
                 );
@@ -478,19 +603,20 @@ function Targetting(props: any) {
             <Select
               className="w-full h-10"
               style={{ fontSize: "14px" }}
-              value={subcategory.label}
+              value={subcategory}
               MenuProps={MenuProps}
               onChange={(e: any) => {
-                setSubCategory({
-                  ...subcategory,
-                  label: [e.target.value] as any,
-                });
+                setSubCategory([e.target.value] as any);
               }}
             >
-              {subcategory.arrayOpions.length > 0 &&
-                subcategory.arrayOpions.map((data: any, index: number) => {
+              {subCategoryArray?.length > 0 &&
+                subCategoryArray?.map((data: any, index: number) => {
                   return (
-                    <MenuItem value={data} style={{ fontSize: "14px" }}>
+                    <MenuItem
+                      key={index}
+                      value={data}
+                      style={{ fontSize: "14px" }}
+                    >
                       {data}
                     </MenuItem>
                   );
@@ -509,19 +635,23 @@ function Targetting(props: any) {
 const COLORS = ["#67DF87", "#EEEEEE"];
 
 function Settings(props: any) {
-  const { campaign } = props;
-  const [startDate, setStartDate] = useState(campaign?.adStartDate);
-  const [endDate, setEndDate] = useState(campaign?.adEndDate);
-  const [numberofsignups, setNumberofsignups] = useState(
-    campaign?.transactionCount
-  );
-  const [country, setCountry] = useState(campaign?.billingCountry);
-  const [numberOfSignups, setNumberOfSignups] = useState(campaign?.transactionCount);
-
-  // const data = [
-  //   { name: "SignUps", value: campaign?.transactionCount },
-  //   { name: "Not SignUps", value: 22 },
-  // ];
+  const {
+    campaign,
+    startDate,
+    endDate,
+    country,
+    numberOfSignups,
+    setNumberOfSignups,
+    setEndDate,
+    setStartDate,
+    setCountry,
+  } = props;
+  // const [startDate, setStartDate] = useState(campaign?.adStartDate);
+  // const [endDate, setEndDate] = useState(campaign?.adEndDate);
+  // const [country, setCountry] = useState(campaign?.billingCountry);
+  // const [numberOfSignups, setNumberOfSignups] = useState(
+  //   campaign?.transactionCount
+  // );
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
     isEndDate: "End date should be greated than start date",
@@ -540,157 +670,151 @@ function Settings(props: any) {
 
   return (
     <div className="w-full flex pb-4">
-       <div className="w-full">
-              <div className="w-full pl-4">
-                <div className="mt-2 w-full flex">
-                  <div className="w-full mr-3">
-                    <div className="w-full mb-2 text-sm font-semibold">
-                      Start Date
-                    </div>
-                    
-                    <DatePicker
-                      placeholderText="mm/dd/yy"
-                      value={startDate}
-                      onChange={(e: any) => {
-                        setStartDate(
-                          `${new Date(e).getMonth() + 1}/${new Date(
-                            e
-                          ).getDate()}/${new Date(e).getFullYear()}`
-                        );
-                        if (endDate.length > 1) {
-                          if (
-                            new Date(
-                              `${new Date(e).getMonth() + 1}/${new Date(
-                                e
-                              ).getDate()}/${new Date(e).getFullYear()}`
-                            ).getTime() <= new Date(endDate).getTime()
-                          ) {
-                            setShowErrorMessage({
-                              ...showErrorMessage,
-                              four: false,
-                            });
-                          } else {
-                            setShowErrorMessage({
-                              ...showErrorMessage,
-                              four: true,
-                            });
-                          }
-                        }
-                      }}
-                      minDate={new Date()}
-                      className="border w-full h-10 pl-4 rounded"
-                    />
-
-                    {!regex.test(startDate) &&
-                      showErrorMessage.three === true && (
-                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                          {errorMessageOne.isRequired}
-                        </div>
-                      )}
-                  </div>
-                  <div className="w-full ml-2">
-                    <div className="w-full mb-2 text-sm font-semibold">
-                      End Date
-                    </div>
-                    <DatePicker
-                      value={endDate}
-                      minDate={new Date()}
-                      placeholderText="mm/dd/yy"
-                      className="border w-full h-10 pl-4 border-gray-300 rounded"
-                      onChange={(e: any) => {
-                        setEndDate(
-                          `${new Date(e).getMonth() + 1}/${new Date(
-                            e
-                          ).getDate()}/${new Date(e).getFullYear()}`
-                        );
-                        if (
-                          new Date(startDate).getTime() <=
-                          new Date(
-                            `${new Date(e).getMonth() + 1}/${new Date(
-                              e
-                            ).getDate()}/${new Date(e).getFullYear()}`
-                          ).getTime()
-                        ) {
-                          setShowErrorMessage({
-                            ...showErrorMessage,
-                            four: false,
-                          });
-                        } else {
-                          setShowErrorMessage({
-                            ...showErrorMessage,
-                            four: true,
-                          });
-                        }
-                      }}
-                    />
-                    {!regex.test(endDate) &&
-                      showErrorMessage.three === true && (
-                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                          {errorMessageOne.isRequired}
-                        </div>
-                      )}
-                    {showErrorMessage.four === true && regex.test(endDate) && (
-                      <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                        {errorMessageOne.isEndDate}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Number of Signups
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={numberOfSignups}
-                    size="small"
-                    className="w-full bg-white"
-                    type="number"
-                    onChange={(e: any) => {
-                      setNumberOfSignups(e.target.value);
-                    }}
-                  />
-                </div>
-                {numberOfSignups === "" && showErrorMessage.three === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
+      <div className="w-full">
+        <div className="w-full pl-4">
+          <div className="mt-2 w-full flex">
+            <div className="w-full mr-3">
+              <div className="w-full mb-2 text-sm font-semibold">
+                Start Date
               </div>
 
-              <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Biling Country
-                  </div>
+              <DatePicker
+                placeholderText="mm/dd/yy"
+                value={startDate}
+                onChange={(e: any) => {
+                  setStartDate(
+                    `${new Date(e).getMonth() + 1}/${new Date(
+                      e
+                    ).getDate()}/${new Date(e).getFullYear()}`
+                  );
+                  if (endDate.length > 1) {
+                    if (
+                      new Date(
+                        `${new Date(e).getMonth() + 1}/${new Date(
+                          e
+                        ).getDate()}/${new Date(e).getFullYear()}`
+                      ).getTime() <= new Date(endDate).getTime()
+                    ) {
+                      setShowErrorMessage({
+                        ...showErrorMessage,
+                        four: false,
+                      });
+                    } else {
+                      setShowErrorMessage({
+                        ...showErrorMessage,
+                        four: true,
+                      });
+                    }
+                  }
+                }}
+                minDate={new Date()}
+                className="border w-full h-10 pl-4 rounded"
+              />
+
+              {!regex.test(startDate) && showErrorMessage.three === true && (
+                <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                  {errorMessageOne.isRequired}
                 </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    value={country}
-                    onChange={SelectCountry}
-                    className="w-full bg-white"
-                    size="small"
-                    MenuProps={MenuProps}
-                  >
-                    {country_list.map((data: any, index: number) => {
-                      return (
-                        <MenuItem value={data} key={index}>
-                          {data}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>{" "}
-                </div>
-                {country.length === 0 && showErrorMessage.three === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
-              </div>    
+              )}
             </div>
+            <div className="w-full ml-2">
+              <div className="w-full mb-2 text-sm font-semibold">End Date</div>
+              <DatePicker
+                value={endDate}
+                minDate={new Date()}
+                placeholderText="mm/dd/yy"
+                className="border w-full h-10 pl-4 border-gray-300 rounded"
+                onChange={(e: any) => {
+                  setEndDate(
+                    `${new Date(e).getMonth() + 1}/${new Date(
+                      e
+                    ).getDate()}/${new Date(e).getFullYear()}`
+                  );
+                  if (
+                    new Date(startDate).getTime() <=
+                    new Date(
+                      `${new Date(e).getMonth() + 1}/${new Date(
+                        e
+                      ).getDate()}/${new Date(e).getFullYear()}`
+                    ).getTime()
+                  ) {
+                    setShowErrorMessage({
+                      ...showErrorMessage,
+                      four: false,
+                    });
+                  } else {
+                    setShowErrorMessage({
+                      ...showErrorMessage,
+                      four: true,
+                    });
+                  }
+                }}
+              />
+              {!regex.test(endDate) && showErrorMessage.three === true && (
+                <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                  {errorMessageOne.isRequired}
+                </div>
+              )}
+              {showErrorMessage.four === true && regex.test(endDate) && (
+                <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                  {errorMessageOne.isEndDate}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="w-full pl-4">
+          <div className="w-full mt-4 flex">
+            <div className="w-full text-sm font-semibold">
+              Number of Signups
+            </div>
+          </div>
+          <div className="mt-2 w-full">
+            <TextField
+              value={numberOfSignups}
+              size="small"
+              className="w-full bg-white"
+              type="number"
+              onChange={(e: any) => {
+                setNumberOfSignups(e.target.value);
+              }}
+            />
+          </div>
+          {numberOfSignups === "" && showErrorMessage.three === true && (
+            <div className="w-full text-xs font-semibold text-red-500 mt-1">
+              {errorMessageOne.isRequired}
+            </div>
+          )}
+        </div>
+
+        <div className="w-full pl-4">
+          <div className="w-full mt-4 flex">
+            <div className="w-full text-sm font-semibold">Biling Country</div>
+          </div>
+          <div className="mt-2 w-full">
+            <Select
+              value={country}
+              onChange={SelectCountry}
+              className="w-full bg-white"
+              size="small"
+              MenuProps={MenuProps}
+            >
+              {country_list.map((data: any, index: number) => {
+                return (
+                  <MenuItem value={data} key={index}>
+                    {data}
+                  </MenuItem>
+                );
+              })}
+            </Select>{" "}
+          </div>
+          {country.length === 0 && showErrorMessage.three === true && (
+            <div className="w-full text-xs font-semibold text-red-500 mt-1">
+              {errorMessageOne.isRequired}
+            </div>
+          )}
+        </div>
+      </div>
       <div className="w-4/5 flex justify-center">
         <img src={iPhone} />
       </div>
@@ -906,6 +1030,7 @@ function ActiveCampaign() {
   const [openClose, setOpenClose] = useState(false);
   const handleOpenClose = () => setOpenClose(true);
   const handleClose = () => setOpenClose(false);
+  const [savingLoader,setSavingLoader] = useState(false);
 
   const [openSave, setOpenSave] = useState(false);
   const handleOpenSave = () => setOpenSave(true);
@@ -923,6 +1048,67 @@ function ActiveCampaign() {
       enabled: !!id || !!user,
     }
   );
+
+  //--------------------------------------------Ads-----------------------------------------------------------
+
+  const [adTitle, setAdTitle] = useState("");
+  const [adValue, setAdValue] = useState("");
+  const [headline, setHeadline] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageArray, setImageArray] = useState<string[]>([]);
+
+  //---------------------------------------------------Targeting ---------------------------------------------
+
+  const [gender, setGender] = useState([]);
+  const [billingcountry, setBillingCountry] = useState("");
+  const [sliderValue, setSliderValue] = useState([13, 65]);
+  const [keywords, setKeywords] = useState("");
+  const [donotTarget, setDonotTarget] = useState("");
+  const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
+  const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
+  const [category, setCategory] = useState([]);
+  const [subcategory, setSubCategory] = useState([]);
+  const [subCategoryArray, setSuCategoryArray] = useState([]);
+
+  ///--------------------------------Settings------------------------------------------------------------------
+
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [country, setCountry] = useState("");
+  const [numberOfSignups, setNumberOfSignups] = useState("");
+
+  useEffect(() => {
+    setGender(campaign?.data[0].targetGender);
+    setBillingCountry(campaign?.data[0].billingCountry);
+    setSliderValue([
+      campaign?.data[0].targetAgeRange?.min as number,
+      campaign?.data[0].targetAgeRange?.max as number,
+    ]);
+    setKeywordsArray(campaign?.data[0].targetKeywords);
+    setDonotTargetArray(campaign?.data[0].targetDonotKeywords);
+    setCategory(campaign?.data[0].targetCategory);
+    setSubCategory([campaign?.data[0].targetSubCategory] as any);
+
+    CategoryOptions.map((data: any, index: any) => {
+      if (data.label === campaign?.data[0].targetCategory) {
+        setSuCategoryArray(data.values);
+      }
+    });
+
+    setStartDate(campaign?.data[0].adStartDate);
+    setEndDate(campaign?.data[0].adEndDate);
+    setCountry(campaign?.data[0].billingCountry);
+    setNumberOfSignups(campaign?.data[0].transactionCount);
+
+    setAdTitle(campaign?.data[0].adTitle);
+    setAdValue(campaign?.data[0].campaignType);
+    setHeadline(campaign?.data[0].adTitle);
+    setDescription(campaign?.data[0].adDesc);
+    setImageArray(campaign?.data[0].adImage);
+  }, [campaign]);
+
+  //----------------------------------------------------------------------------------------------------------
+  const navigate = useNavigate();
 
   return (
     <div className="flex h-1/2 w-full " style={{ backgroundColor: "#F6F8FA" }}>
@@ -980,8 +1166,58 @@ function ActiveCampaign() {
                   <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
                     <div> Do you want to save the changes ?</div>
                     <div className="w-full flex justify-center mt-3">
-                      <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
-                        Yes
+                      <button className="px-4 bg-green-500 h-8 text-white flex items-center justify-center rounded-sm hover:bg-green-400 ml-3"
+                      onClick={async()=>{
+                        setSavingLoader(true);
+                      const payload = {
+                        campaignId: id,
+                        advertiserId: user?.id,
+                        campaignName: adTitle,
+                        campaignType: adValue,
+                        adTitle: adTitle,
+                        adImage: imageArray,
+                        adDesc: description,
+                        transactionCount: 90,
+                        adStartDate: startDate,
+                        adEndDate: endDate,
+                        targetGeoCordinates: 123,
+                        targetGeoName: "targetGeoName",
+                        targetCategory: category[0],
+                        targetSubCategory: subcategory[0],
+                        targetGender: gender,
+                        targetAgeRange: {
+                          min: sliderValue[0],
+                          max: sliderValue[1],
+                        },
+                        targetKeywords: keywordsArray,
+                        targetDonotKeywords: donotTargetArray,
+                        billingCountry: country,
+                        status: "Active",
+                      };
+                      const { data: campaign } = await axios({
+                        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update`,
+                        method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${user.token}`,
+                        },
+                        data: payload,
+                      });
+
+                      if (campaign && campaign.status == "success") {
+                        toast.success("Successfully Created !", {
+                          position: toast.POSITION.TOP_RIGHT,
+                        });
+                        navigate('/draft_campaign')
+                        
+                      }else{
+                        toast.error("Something went wrong !", {
+                          position: toast.POSITION.TOP_RIGHT,
+                        });
+                        setSavingLoader(false)
+                      }
+                      }}
+                      >
+                        {savingLoader === true ? <CircularProgress size={20} color="success" /> : "Yes"}
                       </button>
                       <button
                         className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
@@ -1036,9 +1272,59 @@ function ActiveCampaign() {
               Settings
             </div>
           </div>
-          {switchTab === 2 && <Ad campaign={campaign?.data[0]} />}
-          {switchTab === 3 && <Targetting campaign={campaign?.data[0]} />}
-          {switchTab === 4 && <Settings campaign={campaign?.data[0]} />}
+          {switchTab === 2 && (
+            <Ad
+              campaign={campaign?.data[0]}
+              adTitle={adTitle}
+              setAdTitle={setAdTitle}
+              adValue={adValue}
+              setAdValue={setAdValue}
+              headline={headline}
+              setHeadline={setHeadline}
+              description={description}
+              setDescription={setDescription}
+              imageArray={imageArray}
+              setImageArray={setImageArray}
+            />
+          )}
+          {switchTab === 3 && campaign && (
+            <Targetting
+              campaign={campaign?.data[0]}
+              billingcountry={billingcountry}
+              setBillingCountry={setBillingCountry}
+              gender={gender}
+              setGender={setGender}
+              sliderValue={sliderValue}
+              setSliderValue={setSliderValue}
+              keywords={keywords}
+              setKeywords={setKeywords}
+              donotTarget={donotTarget}
+              setDonotTarget={setDonotTarget}
+              donotTargetArray={donotTargetArray}
+              setDonotTargetArray={setDonotTargetArray}
+              keywordsArray={keywordsArray}
+              setKeywordsArray={setKeywordsArray}
+              category={category}
+              setCategory={setCategory}
+              subcategory={subcategory}
+              setSubCategory={setSubCategory}
+              subCategoryArray={subCategoryArray}
+              setSuCategoryArray={setSuCategoryArray}
+            />
+          )}
+          {switchTab === 4 && (
+            <Settings
+              campaign={campaign?.data[0]}
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              country={country}
+              setCountry={setCountry}
+              numberOfSignups={numberOfSignups}
+              setNumberOfSignups={setNumberOfSignups}
+            />
+          )}
         </div>
       )}
     </div>
