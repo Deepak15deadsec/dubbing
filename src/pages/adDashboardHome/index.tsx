@@ -10,16 +10,12 @@ import {
 } from "../../react-query";
 import { useMutation, useQuery } from "react-query";
 import { AppContext } from "../../context/appContext";
-import { useNavigate } from 'react-router-dom';
-import mainLogo from'../../images/logo.png';
-import Group65 from '../../images/Group65.png';
-import Group67 from '../../images/Group67.png';
-import Group66 from '../../images/Group66.png';
-import Logo2 from'../../images/logo2.png';
-
-
-
-
+import { useNavigate } from "react-router-dom";
+import mainLogo from "../../images/logo.png";
+import Group65 from "../../images/Group65.png";
+import Group67 from "../../images/Group67.png";
+import Group66 from "../../images/Group66.png";
+import Logo2 from "../../images/logo2.png";
 
 interface Setting {
   gender: string;
@@ -39,7 +35,7 @@ const AdDashboardHome = () => {
     name: "",
     phone: "",
     age: null,
-    locationAccess: false
+    locationAccess: false,
   });
 
   const [errorState, setErrorState] = useState<any>({
@@ -47,7 +43,7 @@ const AdDashboardHome = () => {
     gender: false,
     phone: false,
     age: false,
-    location: false
+    location: false,
   });
 
   //update
@@ -78,27 +74,25 @@ const AdDashboardHome = () => {
       age: input?.age?.toLocaleDateString(),
       locationAccess: input?.locationAccess,
       phone: input?.phone,
-      gender: input?.gender
-    }
+      gender: input?.gender,
+    };
 
     updateSetting({
       endPoint: `/users/${appContext?.user?.id}`,
-      payload: payload
-    })
-  }
+      payload: payload,
+    });
+  };
 
   useEffect(() => {
     let user = appContext?.user;
     if (user) {
-      setInput(
-        {
-          gender: user?.gender,
-          name: user?.name,
-          phone: user?.phone,
-          age: user?.age === null ? null : new Date(user?.age),
-          locationAccess: user?.locationAccess
-        }
-      )
+      setInput({
+        gender: user?.gender,
+        name: user?.name,
+        phone: user?.phone,
+        age: user?.age === null ? null : new Date(user?.age),
+        locationAccess: user?.locationAccess,
+      });
     }
     return () => {
       setInput({
@@ -106,230 +100,191 @@ const AdDashboardHome = () => {
         name: "",
         age: null,
         phone: "",
-        locationAccess: false
-      })
-    }
-  }, [appContext])
-
-
+        locationAccess: false,
+      });
+    };
+  }, [appContext]);
 
   return (
-    <div className="w-full px-[4rem] py-[3rem] flex flex-col items-center justify-center" style={{paddingTop: '0px'}}>
+    <div
+      className="w-full px-[4rem] py-[3rem] flex flex-col items-center justify-center"
+      style={{ paddingTop: "0px" }}
+    >
       <div className="rounded-[10px] w-full h-full  bg-[#FFFFFF] text-[#7FBA00]">
-      <div className="grid gap-x-10 gap-y-10 grid-cols-2 px-[4rem] mt-[2rem]" >
+        <div className="grid gap-x-10 gap-y-10 grid-cols-2 px-[4rem] mt-[2rem]">
+          <div className="space-y-2">
+            <img src={mainLogo} alt="fireSpot" />
+          </div>
 
-      <div className="space-y-2">
-         <img  src={mainLogo}  alt="fireSpot"/>
-      </div>
-
-      <div className="space-y-2">
-      <div className="grid gap-4 grid-cols-2">
-        <div>
-        <button
-          type="submit"
-          className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
-          onClick={()=>{
-                
-            navigate('/signup');
-            // const history = useHistory();
-            //   let path = `forgetPassword`; 
-            //   history.push(path);
-
-          }}
-        >
-          Sign In
-        </button>
+          <div className="space-y-2">
+            <div className="grid gap-4 grid-cols-2">
+              <div>
+                <button
+                  type="submit"
+                  className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
+                  onClick={() => {
+                    navigate("/signup");
+                    // const history = useHistory();
+                    //   let path = `forgetPassword`;
+                    //   history.push(path);
+                  }}
+                >
+                  Sign In
+                </button>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
+                >
+                  Get Started
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-        <button
-            type="submit"
-            className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
-          >
-          Get Started
-        </button>
-        </div>
-    </div>
-      </div>
-      </div>
-        <div style={{ maxHeight: "900px",
-    overflowY: "scroll",}}>
-
-            <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
-
+        <div style={{ maxHeight: "900px", overflowY: "scroll" }}>
+          <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
             {/* <div > */}
             Acquire customers and grow your businss with Avni
             {/* </div>
             <div > */}
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s
             <div>
-            <img  src={Group65}  alt="fireSpot" style={{height: '200px', width:'200px'}} />
+              <img
+                src={Group65}
+                alt="fireSpot"
+                style={{ height: "200px", width: "200px" }}
+              />
             </div>
             {/* </div> */}
-
             {/* <div className="space-y-2"> */}
             {/* <div className="space-y-2">
               <img  src={Group65}  alt="fireSpot"/>
             </div> */}
             {/* </div> */}
-            </div>
+          </div>
 
-            <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
-
+          <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
             <div>
-            <img  src={Group66}  alt="fireSpot" style={{height: '200px', width:'200px'}}  />
+              <img
+                src={Group66}
+                alt="fireSpot"
+                style={{ height: "200px", width: "200px" }}
+              />
             </div>
             {/* <div > */}
             Company Details
             {/* </div>
             <div > */}
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s            
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s
             {/* </div> */}
-
             {/* <div className="space-y-2"> */}
             {/* <div className="space-y-2">
               <img  src={Group65}  alt="fireSpot"/>
             </div> */}
             {/* </div> */}
-            </div>
-
-            <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
-
-          
-          {/* <div > */}
-          Login Details
-          {/* </div>
-          <div > */}
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s            
-          {/* </div> */}
-          <div>
-          <img  src={Group67}  alt="fireSpot" style={{height: '200px', width:'200px'}}  />
           </div>
-          {/* <div className="space-y-2"> */}
-          {/* <div className="space-y-2">
+
+          <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
+            {/* <div > */}
+            Login Details
+            {/* </div>
+          <div > */}
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s
+            {/* </div> */}
+            <div>
+              <img
+                src={Group67}
+                alt="fireSpot"
+                style={{ height: "200px", width: "200px" }}
+              />
+            </div>
+            {/* <div className="space-y-2"> */}
+            {/* <div className="space-y-2">
             <img  src={Group65}  alt="fireSpot"/>
           </div> */}
-          {/* </div> */}
+            {/* </div> */}
           </div>
           <div className="w-full px-[4rem] py-[3rem] flex flex-col items-center justify-center">
             <div>
-            <img  src={Logo2}  alt="fireSpot" style={{height: '50px', width:'50px'}}  />
-            
+              <img
+                src={Logo2}
+                alt="fireSpot"
+                style={{ height: "50px", width: "50px" }}
+              />
+            </div>
+            <div>Create your first ad</div>
+            <div>
+              Get started with free personalised support. Create your custom ad
+              plan with a Google Ads Expert.
             </div>
             <div>
-            Create your first ad
-            
-            </div>
-            <div>
-            Get started with free personalised support. Create your custom ad plan with a Google Ads Expert.
-            
-            </div>
-            <div>
-            <button
-          type="submit"
-          className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
-          onClick={()=>{
-                
-            navigate('/signup');
-            // const history = useHistory();
-            //   let path = `forgetPassword`; 
-            //   history.push(path);
-
-          }}
-        >
-          Sign In
-        </button>
-            
+              <button
+                type="submit"
+                className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
+                onClick={() => {
+                  navigate("/signup");
+                  // const history = useHistory();
+                  //   let path = `forgetPassword`;
+                  //   history.push(path);
+                }}
+              >
+                Sign In
+              </button>
             </div>
           </div>
 
+          <div className="grid gap-x-10 gap-y-10 grid-cols-5 px-[4rem] mt-[2rem]">
+            <div className="space-y-2">
+              <img src={mainLogo} alt="fireSpot" />
+              <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s, when an unknown printer took a galley
+                of type and scrambled it to make a type specimen book.
+              </div>
+            </div>
 
+            <div className="space-y-2">
+              <div>
+                <div>Company</div>
+                <div>About</div>
+                <div>Newsroom</div>
+                <div>Careers</div>
+              </div>
+            </div>
 
+            <div className="space-y-2">
+              <div>
+                <div>Learn</div>
+                <div>Blog</div>
+                <div>Guides</div>
+              </div>
+            </div>
 
-          <div className="grid gap-x-10 gap-y-10 grid-cols-5 px-[4rem] mt-[2rem]" >
-
-<div className="space-y-2">
-   <img  src={mainLogo}  alt="fireSpot"/>
-   <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-
+            <div className="space-y-2">
+              <div>
+                <div>Legal</div>
+                <div>Privacy Policy</div>
+                <div>Legal Disclosures</div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div>
+                <div>Contact Us</div>
+                <div>Help Center</div>
+                <div>Talk to us</div>
+                <div>hello@avni.finance</div>
+              </div>
+            </div>
           </div>
-</div>
-
-<div className="space-y-2">
-<div>
-<div>
-            Company
-            </div> 
-            <div>
-            About
-            </div>
-            <div>
-            Newsroom
-            </div>
-            <div>
-            Careers
-            </div>
-</div>
-
-</div>
-
-<div className="space-y-2">
-<div>
-<div>
-Learn
-            </div> 
-            <div>
-            Blog
-            </div>
-            <div>
-            Guides
-            </div>
-           
-</div>
-
-</div>
-
-<div className="space-y-2">
-<div>
-<div>
-Legal
-            </div> 
-            <div>
-            Privacy Policy
-            </div>
-            <div>
-            Legal Disclosures
-            </div>
-           
-</div>
-
-</div>
-<div className="space-y-2">
-<div>
-<div>
-Contact Us
-            </div> 
-            <div>
-            Help Center
-            </div>
-            <div>
-            Talk to us
-            </div>
-            <div>
-            hello@avni.finance
-            </div>
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-
 
           {/* <div className="w-full px-[4rem] py-[3rem] flex flex-col" style={{paddingTop: '0px'}}> */}
           {/* <div className="grid gap-x-10 gap-y-10 grid-cols-2 "> */}
@@ -348,32 +303,32 @@ Contact Us
           {/* <div > */}
           {/* <div className="grid gap-x-10 gap-y-10 grid-cols-2 "> */}
 
-            {/* <div>
+          {/* <div>
             Company
             </div> 
             <div>
             About
             </div> */}
-            {/* <div>
+          {/* <div>
             Newsroom
             </div>
             <div>
             Careers
             </div> */}
 
-            {/* <div className="space-y-2"> */}
-            {/* <div className="space-y-2">
+          {/* <div className="space-y-2"> */}
+          {/* <div className="space-y-2">
               <img  src={Group65}  alt="fireSpot"/>
             </div> */}
-            {/* </div> */}
-            {/* </div> */}
+          {/* </div> */}
+          {/* </div> */}
 
           {/* <div className="space-y-2"> */}
           {/* <div className="space-y-2">
             <img  src={Group65}  alt="fireSpot"/>
           </div> */}
           {/* </div> */}
-         
+
           {/* </div> */}
           {/* <div className="grid gap-x-10 gap-y-10 grid-cols-2 px-[4rem] mt-[2rem]" >
 
@@ -383,9 +338,6 @@ Contact Us
       </div>
           </div>
           </div> */}
-
-
-
         </div>
 
         {/* <p className="font-[600] text-[2.25rem] text-left text-black mt-[1.875rem] ml-[4rem]">

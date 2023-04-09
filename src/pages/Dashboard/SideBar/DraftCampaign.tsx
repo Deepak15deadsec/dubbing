@@ -11,7 +11,7 @@ function DraftCampaign() {
   const user = useStoreState((state) => state.user);
   const [pageCount, setPageCount] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
-  const [showDeleteIcon, setShowDeleteIcon] =  useState("")
+  const [showDeleteIcon, setShowDeleteIcon] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +28,7 @@ function DraftCampaign() {
     fetchData();
   }, []);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="flex w-full bg-neutral-100">
@@ -44,6 +44,22 @@ function DraftCampaign() {
           {campaignsFlag === true && (
             <div className="w-full flex flex-col justify-center items-center px-4">
               <table className="w-full">
+                <thead>
+                  <tr className="bg-white h-14 border border-sm">
+                    <th></th>
+                    <th className="text-left font-semibold">Campaign Title</th>
+                    <th className="text-left font-semibold">
+                      Campaign Category
+                    </th>
+                    <th className="text-left font-semibold">
+                      Campaign Start Date
+                    </th>
+                    <th className="text-left font-semibold">
+                      Campaign End Date
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
                 <tbody className="w-full border">
                   {campaigns
                     .slice(
@@ -55,30 +71,71 @@ function DraftCampaign() {
                         <tr
                           key={index}
                           className="bg-white text-center px-5 h-14 border-b w-full cursor-pointer hover:bg-gray-100"
-                          onClick={()=>{
-                          navigate(`/active-campaigns/${campaign.id}`)
+                          onMouseEnter={() => {
+                            setShowDeleteIcon(campaign?.id);
                           }}
-                          onMouseEnter={()=>{
-                            setShowDeleteIcon(campaign?.id)
-                          }}
-                          onMouseLeave={()=>{
-                            setShowDeleteIcon("")
+                          onMouseLeave={() => {
+                            setShowDeleteIcon("");
                           }}
                         >
-                          <td className="pl-6 text-left">
+                          <td
+                            className="pl-4"
+                            onClick={() => {
+                              navigate(`/active-campaigns/${campaign.id}`);
+                            }}
+                          >
+                            <img
+                              className="w-7 h-7"
+                              src={
+                                "https://www.w3schools.com/html/img_girl.jpg"
+                              }
+                            />
+                          </td>
+                          <td
+                            className="pl-1 text-left"
+                            onClick={() => {
+                              navigate(`/active-campaigns/${campaign.id}`);
+                            }}
+                          >
                             {campaign?.campaignName}
                           </td>
-                          <td className="pl-6 text-left">
-                            {"This is Drafted Campaign"}
+                          <td
+                            className="pl-1 text-left"
+                            onClick={() => {
+                              navigate(`/active-campaigns/${campaign.id}`);
+                            }}
+                          >
+                            {campaign?.targetCategory}
                           </td>
-                          <td className="pl-6 text-left">{`${new Date()}`}</td>
+                          <td
+                            className="pl-1 text-left"
+                            onClick={() => {
+                              navigate(`/active-campaigns/${campaign.id}`);
+                            }}
+                          >{`${
+                            new Date(campaign?.adStartDate)
+                              .toString()
+                              .split("GMT")[0]
+                          }`}</td>
+                          <td
+                            className="pl-1 text-left"
+                            onClick={() => {
+                              navigate(`/active-campaigns/${campaign.id}`);
+                            }}
+                          >{`${
+                            new Date(campaign?.adEndDate)
+                              .toString()
+                              .split("GMT")[0]
+                          }`}</td>
                           <td className="flex h-7 items-center pr-10">
-                            {showDeleteIcon === campaign?.id &&(
+                            {showDeleteIcon === campaign?.id && (
                               <div>
-                                <img src={dustbin} className="w-5 h-5 absolute" />
+                                <img
+                                  src={dustbin}
+                                  className="w-5 h-5 absolute"
+                                />
                               </div>
                             )}
-                           
                           </td>
                         </tr>
                       );

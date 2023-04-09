@@ -17,6 +17,7 @@ function EditProfile(props: any) {
     setErrorMessageOne,
     showErrorMessage,
     setShowErrorMessage,
+    url
   } = props;
   const [country, setCountry] = useState({
     name: "India",
@@ -185,8 +186,8 @@ function EditProfile(props: any) {
           </label>
           <input
             style={{ width: "70%", height: "56px" }}
-            type="text"
-            id="first_name"
+            type="password"
+            id="password"
             value={companyDetails.password}
             onChange={(e: any) => {
               setCompanyDetails({
@@ -203,6 +204,39 @@ function EditProfile(props: any) {
               </div>
             )}
         </div>
+        <div>
+          <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
+            Confirm Password
+          </label>
+          <input
+            style={{ width: "70%", height: "56px" }}
+            type="password"
+            id="confirmpassword"
+            value={companyDetails.confirmpassword}
+            onChange={(e: any) => {
+              setCompanyDetails({
+                ...companyDetails,
+                confirmpassword: e.target.value,
+              });
+              
+                setShowErrorMessage({ ...showErrorMessage, two: false });
+              
+            }}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+          />
+          {!regex.test(companyDetails.confirmpassword) &&
+            showErrorMessage.one === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isRequired}
+              </div>
+            )}
+          {
+            showErrorMessage.two === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isMatchPassword}
+              </div>
+            )}
+        </div>
       </div>
     </div>
   );
@@ -216,6 +250,7 @@ function ProfileAndSettings() {
     contactnumber: "9999999999",
     email: "www.avni@gmail.com",
     password: "avniPassword",
+    confirmpassword: "",
   });
 
   const [errorMessageOne, setErrorMessageOne] = useState({
@@ -223,6 +258,7 @@ function ProfileAndSettings() {
     isEmail: "Invalid Email",
     isWebsite: "Invalid Website URL",
     isPhoneNumber: "Contact number should be of 10 digits",
+    isMatchPassword: "Password and Confirm password are not matched",
   });
   const [showErrorMessage, setShowErrorMessage] = useState({
     one: false,
@@ -240,6 +276,8 @@ function ProfileAndSettings() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
+
+  const queryUrl = window.location.pathname;
 
   return (
     <div className="w-full flex bg-neutral-100">
@@ -331,6 +369,7 @@ function ProfileAndSettings() {
                     className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                     onClick={() => {
                       handleOpenClose();
+             
                     }}
                   >
                     Cancel
@@ -349,7 +388,7 @@ function ProfileAndSettings() {
                           className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3"
                           onClick={() => {
                             setEditFlag(false);
-                            window.location.reload();
+                            window.location.reload()
                           }}
                         >
                           Yes
@@ -369,6 +408,7 @@ function ProfileAndSettings() {
                     className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
                     onClick={() => {
                       //  setEditFlag()
+
                       if (
                         regex.test(companyDetails.companyname) &&
                         regex.test(companyDetails.contactnumber) &&
@@ -377,11 +417,22 @@ function ProfileAndSettings() {
                         isWbsite.test(companyDetails.website) &&
                         companyDetails.contactnumber.length === 10 &&
                         regex.test(companyDetails.email) &&
-                        regex.test(companyDetails.password)
+                        regex.test(companyDetails.password) &&
+                        regex.test(companyDetails.confirmpassword) &&
+                        companyDetails.password ===
+                          companyDetails.confirmpassword
                       ) {
                         //do nothing
-                        handleOpenSave()
+                        handleOpenSave();
+                      } else if (
+                        regex.test(companyDetails.password) &&
+                        regex.test(companyDetails.confirmpassword) &&
+                        companyDetails.password !==
+                          companyDetails.confirmpassword
+                      ) {
+                        setShowErrorMessage({ ...showErrorMessage, two: true });
                       } else {
+                        setShowErrorMessage({ ...showErrorMessage, two: false });
                         setShowErrorMessage({ ...showErrorMessage, one: true });
                       }
                     }}
@@ -389,76 +440,80 @@ function ProfileAndSettings() {
                     Save
                   </button>
                   <Modal
-                  className="w-full h-full flex justify-center items-center"
-                  open={openSave}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
-                    <div> Do you want to save the changes ?</div>
-                    <div className="w-full flex justify-center mt-3">
-                      <button className="px-4 bg-green-500 h-8 text-white flex items-center justify-center rounded-sm hover:bg-green-400 ml-3"
-                      onClick={()=>{
-                    //     setSavingLoader(true);
-                    //   const payload = {
-                    //     campaignId: id,
-                    //     advertiserId: user?.id,
-                    //     campaignName: adTitle,
-                    //     campaignType: adValue,
-                    //     adTitle: adTitle,
-                    //     adImage: imageArray,
-                    //     adDesc: description,
-                    //     transactionCount: 90,
-                    //     adStartDate: startDate,
-                    //     adEndDate: endDate,
-                    //     targetGeoCordinates: 123,
-                    //     targetGeoName: "targetGeoName",
-                    //     targetCategory: category[0],
-                    //     targetSubCategory: subcategory[0],
-                    //     targetGender: gender,
-                    //     targetAgeRange: {
-                    //       min: sliderValue[0],
-                    //       max: sliderValue[1],
-                    //     },
-                    //     targetKeywords: keywordsArray,
-                    //     targetDonotKeywords: donotTargetArray,
-                    //     billingCountry: country,
-                    //     status: "Active",
-                    //   };
-                    //   const { data: campaign } = await axios({
-                    //     url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update`,
-                    //     method: "POST",
-                    //     headers: {
-                    //       Authorization: `Bearer ${user.token}`,
-                    //     },
-                    //     data: payload,
-                    // });
-
-                    //   if (campaign && campaign.status == "success") {
-                    //     toast.success("Successfully Created !", {
-                    //       position: toast.POSITION.TOP_RIGHT,
-                    //     });
-                    //     navigate('/draft_campaign')
-                        
-                    //   }else{
-                    //     toast.error("Something went wrong !", {
-                    //       position: toast.POSITION.TOP_RIGHT,
-                    //     });
-                    //     setSavingLoader(false)
-                    //   }
-                      }}
-                      >
-                        {savingLoader === true ? <CircularProgress size={20} color="success" /> : "Yes"}
-                      </button>
-                      <button
-                        className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
-                        onClick={handleSave}
-                      >
-                        No
-                      </button>
+                    className="w-full h-full flex justify-center items-center"
+                    open={openSave}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
+                      <div> Do you want to save the changes ?</div>
+                      <div className="w-full flex justify-center mt-3">
+                        <button
+                          className="px-4 bg-green-500 h-8 text-white flex items-center justify-center rounded-sm hover:bg-green-400 ml-3"
+                          onClick={() => {
+                            //     setSavingLoader(true);
+                            //   const payload = {
+                            //     campaignId: id,
+                            //     advertiserId: user?.id,
+                            //     campaignName: adTitle,
+                            //     campaignType: adValue,
+                            //     adTitle: adTitle,
+                            //     adImage: imageArray,
+                            //     adDesc: description,
+                            //     transactionCount: 90,
+                            //     adStartDate: startDate,
+                            //     adEndDate: endDate,
+                            //     targetGeoCordinates: 123,
+                            //     targetGeoName: "targetGeoName",
+                            //     targetCategory: category[0],
+                            //     targetSubCategory: subcategory[0],
+                            //     targetGender: gender,
+                            //     targetAgeRange: {
+                            //       min: sliderValue[0],
+                            //       max: sliderValue[1],
+                            //     },
+                            //     targetKeywords: keywordsArray,
+                            //     targetDonotKeywords: donotTargetArray,
+                            //     billingCountry: country,
+                            //     status: "Active",
+                            //   };
+                            //   const { data: campaign } = await axios({
+                            //     url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update`,
+                            //     method: "POST",
+                            //     headers: {
+                            //       Authorization: `Bearer ${user.token}`,
+                            //     },
+                            //     data: payload,
+                            // });
+                            //   if (campaign && campaign.status == "success") {
+                            //     toast.success("Successfully Created !", {
+                            //       position: toast.POSITION.TOP_RIGHT,
+                            //     });
+                            //     navigate('/draft_campaign')
+                            //   }else{
+                            //     toast.error("Something went wrong !", {
+                            //       position: toast.POSITION.TOP_RIGHT,
+                            //     });
+                            //     setSavingLoader(false)
+                            //   }
+                            window.location.href=queryUrl
+                          }}
+                        >
+                          {savingLoader === true ? (
+                            <CircularProgress size={20} color="success" />
+                          ) : (
+                            "Yes"
+                          )}
+                        </button>
+                        <button
+                          className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                          onClick={handleSave}
+                        >
+                          No
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </Modal>
+                  </Modal>
                 </div>
               </div>
             </div>

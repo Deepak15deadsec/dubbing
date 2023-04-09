@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import {  Error } from "../pages";
-import Login from "../pages/login";
 import ForgetPassword from "../pages/forgetPassword";
 import AdDashboardHome from "../pages/adDashboardHome";
 import Signup from "../pages/signup";
