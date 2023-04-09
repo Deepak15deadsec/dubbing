@@ -7,8 +7,9 @@ import {
 } from "react-pro-sidebar";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { useEffect, useState, useContext } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 const loudSpeaker = require("../../../images/loudspeaker.png");
 const plusSign = require("../../../images/plusSign.png");
 const profileSetting = require("../../../images/profileSetting.png");
@@ -140,6 +141,8 @@ const Sidebar = () => {
     );
   };
 
+  const navigate= useNavigate()
+
   return (
     <SideBar
       backgroundColor="#fff"
@@ -159,6 +162,31 @@ const Sidebar = () => {
         </div>
 
         <div className="mt-[2rem] w-full">{sideMenu()}</div>
+      </div>
+      <div className="w-full flex justify-center mt-20 items-end">
+        <button className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400" onClick={async()=>{
+
+          const { data: campaign } = await axios({
+            url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-logout/${user.id}`,
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+ 
+        });
+
+          if (campaign && campaign.status == "logout successfull") {
+            toast.success("Successfully Logout !", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+            navigate('/login')
+            
+          }else{
+            toast.error("Something went wrong !", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          }
+        }}>Logout</button>
       </div>
     </SideBar>
   );
