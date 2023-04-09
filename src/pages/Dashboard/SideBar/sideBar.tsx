@@ -126,11 +126,16 @@ const Sidebar = () => {
           Add Campaign
         </MenuItem>
 
-        <SubMenu
-          className={`${active === "red" ? "text-[#01A4EF]" : "text-black"} `}
-          label="Profile & Settings"
+        <MenuItem
+          component={
+            <NavLink
+              to={`/profile_and_settings_/${user.id}`}
+              onClick={() => tabSelected("profile&settings")}
+            />
+          }
+          className={`${active === "profile&settings" ? "text-[#01A4EF]" : "text-black"} `}
           icon={<img src={profileSetting} />}
-        ></SubMenu>
+        >  Profile & Settings </MenuItem>
       </Menu>
     );
   };

@@ -18,9 +18,12 @@ import CreateCampaign from "../pages/Dashboard/CreateCampaign/createCampaign";
 import ActiveCampaign from "../pages/Dashboard/CreateCampaign/ActiveCampaign";
 import DraftCampaign from "../pages/Dashboard/SideBar/DraftCampaign";
 import Sidebar from "../pages/Dashboard/SideBar/sideBar";
+import ProfileAndSettings from "../pages/Dashboard/Profile&settings/Profile&Settings";
+import { useStoreState } from "../store/easy-peasy/hooks";
 
 
 const Routing = () => {
+
   return (
     <Routes>
       
@@ -36,6 +39,7 @@ const Routing = () => {
          {/* <Route path="/signup" element={<SignupTest />} /> */}
          <Route path="/login" element={<LoginTest />} />
          <Route path="/dashboard" element={<MainDashBoard />} />
+         <Route path="/profile_and_settings_/:id" element={<ProfileAndSettings />} />
         {/* <Route index element={<Login />} /> */}
         {/* <Route path="/forgetPassword" element={<ForgetPassword />} /> */}
         <Route path="/forgetPassword" element={<ForgetPassWord />} />
