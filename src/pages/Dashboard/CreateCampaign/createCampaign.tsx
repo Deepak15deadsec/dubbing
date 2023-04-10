@@ -149,9 +149,127 @@ export const country_list = [
   "Iraq",
   "Ireland",
   "Isle of Man",
+  "Israel",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Jersey",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kiribati",
+  "Kuwait",
+  "Kyrgyzstan",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Macau",
+  "Macedonia",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Mauritania",
+  "Mauritius",
+  "Mexico",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Montserrat",
+  "Morocco",
+  "Mozambique",
+  "Myanmar",
+  "Namibia",
+  "Nepal",
+  "Netherlands",
+  "Netherlands Antilles",
+  "New Caledonia",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palestine",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Puerto Rico",
+  "Qatar",
+  "Reunion",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Saint Pierre & Miquelon",
+  "Samoa",
+  "San Marino",
+  "Satellite",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Slovakia",
+  "Slovenia",
+  "South Africa",
+  "South Korea",
+  "Spain",
+  "Sri Lanka",
+  "St Kitts & Nevis",
+  "St Lucia",
+  "St Vincent",
+  "St. Lucia",
+  "Sudan",
+  "Suriname",
+  "Swaziland",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Taiwan",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Timor L'Este",
+  "Togo",
+  "Tonga",
+  "Trinidad & Tobago",
+  "Tunisia",
+  "Turkey",
+  "Turkmenistan",
+  "Turks & Caicos",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "United States Minor Outlying Islands",
+  "Uruguay",
+  "Uzbekistan",
+  "Venezuela",
+  "Vietnam",
+  "Virgin Islands (US)",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe"
+
 ];
 
- export const ImageUploadingButton = (props: any) => {
+export const ImageUploadingButton = (props: any) => {
   return (
     <div className="mt-2 bg-white w-20 h-24 rounded-lg cursor-pointer flex items-center border justify-center border-dashed border-orange-400">
       <img src={redPlus} className="w-5 h-5" />
@@ -298,15 +416,13 @@ function CreateCampaign(props: any) {
                     value={adValue}
                     onChange={handleChange}
                   >
-                    <MenuItem value="Ten" style={{ fontSize: "14px" }}>
-                      Ten
+                    <MenuItem value="SignUp" style={{ fontSize: "14px" }}>
+                      Sign Up
                     </MenuItem>
-                    <MenuItem value="Twenty" style={{ fontSize: "14px" }}>
-                      Twenty
+                    <MenuItem value="Purchase" style={{ fontSize: "14px" }}>
+                      Purchase
                     </MenuItem>
-                    <MenuItem value="Thirty" style={{ fontSize: "14px" }}>
-                      Thirty
-                    </MenuItem>
+
                   </Select>
                 </div>
                 {!regex.test(adValue) && showErrorMessage.one === true && (
@@ -443,7 +559,8 @@ function CreateCampaign(props: any) {
                               .then((response) => response.text())
                               .then((result) => {
                                 setImageArray([`https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`])
-                                console.log(result)})
+                                console.log(result)
+                              })
                               .catch((error) => console.log("error", error));
                           })
                           .catch((error) => console.log("error", error));
@@ -680,14 +797,14 @@ function CreateCampaign(props: any) {
               <div className="w-full pl-4">
                 <div className="w-full p-1 border border-blue-400 rounded mt-4">
                   <div className="w-full border border-gray-500 rounded p-1">
-                   
+
                     <div className=" w-full">
                       <TextField
                         variant="standard"
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        label="Keywords"
+                        label="Currently Using"
                         value={keywords}
                         size="small"
                         className="w-full"
@@ -747,7 +864,7 @@ function CreateCampaign(props: any) {
                 <div className="w-full p-1 border border-blue-400 rounded mt-4">
                   <div className="w-full border border-gray-500 rounded p-1">
                     <div className="w-full flex">
-                     
+
                     </div>
                     <div className="mt-2 w-full">
                       <TextField
@@ -755,7 +872,7 @@ function CreateCampaign(props: any) {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        label="Do not target"
+                        label="Not Using"
                         size="small"
                         value={donotTarget}
                         className="w-full"
@@ -863,15 +980,15 @@ function CreateCampaign(props: any) {
           >
             Settings
           </div>
-          <div className="w-full flex">
-            <div className="w-full">
-              <div className="w-full pl-4">
+          <div className="w-full space-x-[5rem] pr-[3rem] flex">
+            <div className="w-full ">
+              <div className="w-full  pl-4">
                 <div className="mt-2 w-full flex">
                   <div className="w-full mr-3">
                     <div className="w-full mb-2 text-sm font-semibold">
                       Start Date
                     </div>
-                    
+
                     <DatePicker
                       placeholderText="mm/dd/yy"
                       value={startDate}
@@ -988,7 +1105,7 @@ function CreateCampaign(props: any) {
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="w-full text-sm font-semibold">
-                    Biling Country
+                    Billing Country
                   </div>
                 </div>
                 <div className="mt-2 w-full">
@@ -1033,7 +1150,7 @@ function CreateCampaign(props: any) {
                       regex.test(startDate) &&
                       regex.test(endDate) &&
                       new Date(startDate).getTime() <=
-                        new Date(endDate).getTime() &&
+                      new Date(endDate).getTime() &&
                       country.length > 0 &&
                       numberOfSignups !== ""
                     ) {
@@ -1047,8 +1164,8 @@ function CreateCampaign(props: any) {
                 </button>
               </div>
             </div>
-            <div className="w-full flex items-center justify-center">
-              <img src={group80} className="w-4/5" />
+            <div className="w-full flex items-center justify-center  bg-[#F5F5F5]">
+              {/* <img src={group80} className="w-4/5" /> */}
             </div>
           </div>
         </div>
