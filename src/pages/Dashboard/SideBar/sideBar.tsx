@@ -5,7 +5,10 @@ import {
   useProSidebar,
   SubMenu,
 } from "react-pro-sidebar";
-import { useStoreState } from "../../../store/easy-peasy/hooks";
+import {
+  useStoreActions,
+  useStoreState,
+} from "../../../store/easy-peasy/hooks";
 import { useEffect, useState, useContext } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -23,6 +26,8 @@ const Sidebar = () => {
     // localStorage.setItem("sidetab", tabName)
     setActive(tabName);
   };
+  const addUser = useStoreActions((state) => state.addUser);
+  const addToken = useStoreActions((state) => state.addToken);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -70,7 +75,7 @@ const Sidebar = () => {
           <MenuItem
             className={`${
               active === "active" ? "text-[#01A4EF]" : "text-black"
-            } ` }
+            } `}
             component={
               <NavLink
                 to={`/active_campaign`}
@@ -134,14 +139,19 @@ const Sidebar = () => {
               onClick={() => tabSelected("profile&settings")}
             />
           }
-          className={`${active === "profile&settings" ? "text-[#01A4EF]" : "text-black"} `}
+          className={`${
+            active === "profile&settings" ? "text-[#01A4EF]" : "text-black"
+          } `}
           icon={<img src={profileSetting} />}
-        >  Profile & Settings </MenuItem>
+        >
+          {" "}
+          Profile & Settings{" "}
+        </MenuItem>
       </Menu>
     );
   };
 
-  const navigate= useNavigate()
+  const navigate = useNavigate();
 
   return (
     <SideBar
@@ -164,29 +174,38 @@ const Sidebar = () => {
         <div className="mt-[2rem] w-full">{sideMenu()}</div>
       </div>
       <div className="w-full flex justify-center mt-20 items-end">
-        <button className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400" onClick={async()=>{
-
-          const { data: campaign } = await axios({
-            url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-logout/${user.id}`,
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
- 
-        });
-
-          if (campaign && campaign.status == "logout successfull") {
-            toast.success("Successfully Logout !", {
-              position: toast.POSITION.TOP_RIGHT,
+        <button
+          className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+          onClick={async () => {
+            const { data: campaign } = await axios({
+              url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-logout/${user.id}`,
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
             });
-            navigate('/login')
-            
-          }else{
-            toast.error("Something went wrong !", {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-          }
-        }}>Logout</button>
+
+            if (campaign && campaign.status == "logout successfull") {
+              toast.success("Successfully Logout !", {
+                position: toast.POSITION.TOP_RIGHT,
+              });
+              addToken("0");
+              addUser({
+                token: "0",
+                name: "0",
+                email: "0",
+                id: "0",
+              });
+              navigate("/login");
+            } else {
+              toast.error("Something went wrong !", {
+                position: toast.POSITION.TOP_RIGHT,
+              });
+            }
+          }}
+        >
+          Logout
+        </button>
       </div>
     </SideBar>
   );
