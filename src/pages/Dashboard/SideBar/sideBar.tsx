@@ -73,7 +73,7 @@ const Sidebar = () => {
             } ` }
             component={
               <NavLink
-                to={`/dashboard`}
+                to={`/active_campaign`}
                 onClick={() => tabSelected("active")}
                 className="ml-10"
               />

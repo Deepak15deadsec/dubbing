@@ -1003,7 +1003,7 @@ function Preview(props: any) {
           <div className=" ml-3 flex items-center mt-2 ">
             <div className="w-full flex justify-start pr-10">
               <button className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400">
-                <Link to={`/draft_campaign`}>Back</Link>
+                <Link to={`/active_campaign`}>Back</Link>
               </button>
             </div>
             <div className="w-full flex justify-end pr-10">
@@ -1140,7 +1140,7 @@ function ActiveCampaign() {
                     <div> Do you want to cancel the changes ?</div>
                     <div className="w-full flex justify-center mt-3">
                       <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
-                        <Link to="/draft_campaign">Yes</Link>
+                        <Link to="/active_campaign">Yes</Link>
                       </button>
                       <button
                         className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
@@ -1207,7 +1207,7 @@ function ActiveCampaign() {
                         toast.success("Successfully Created !", {
                           position: toast.POSITION.TOP_RIGHT,
                         });
-                        navigate('/draft_campaign')
+                        navigate('/active_campaign')
                         
                       }else{
                         toast.error("Something went wrong !", {

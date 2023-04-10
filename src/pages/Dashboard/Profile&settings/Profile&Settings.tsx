@@ -420,7 +420,7 @@ function ProfileAndSettings() {
                             //     toast.success("Successfully Created !", {
                             //       position: toast.POSITION.TOP_RIGHT,
                             //     });
-                            //     navigate('/draft_campaign')
+                            //     navigate('/active_campaign')
                             //   }else{
                             //     toast.error("Something went wrong !", {
                             //       position: toast.POSITION.TOP_RIGHT,

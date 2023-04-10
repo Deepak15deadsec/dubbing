@@ -15,7 +15,7 @@ import SideBar from "../pages/Dashboard/SideBar/maindashboard";
 import MainDashBoard from "../pages/Dashboard/SideBar/maindashboard";
 import CreateCampaign from "../pages/Dashboard/CreateCampaign/createCampaign";
 import ActiveCampaign from "../pages/Dashboard/CreateCampaign/ActiveCampaign";
-import DraftCampaign from "../pages/Dashboard/SideBar/DraftCampaign";
+import DraftCampaign, { ActivevatedCampaign } from "../pages/Dashboard/SideBar/DraftCampaign";
 import Sidebar from "../pages/Dashboard/SideBar/sideBar";
 import ProfileAndSettings from "../pages/Dashboard/Profile&settings/Profile&Settings";
 import { useStoreState } from "../store/easy-peasy/hooks";
@@ -46,6 +46,7 @@ const Routing = () => {
         <Route path="/registered" element={<SuccessfullyRegistered />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/draft_campaign" element={<DraftCampaign />}/>
+        <Route path="/active_campaign" element={<ActivevatedCampaign />}/>
         <Route path="/active-campaigns/:id" element={<ActiveCampaign />} />
         {/* <Route index element={<Overview />} /> */}
         
