@@ -123,10 +123,12 @@ const AdDashboardHome = () => {
                   type="submit"
                   className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
                   onClick={() => {
-                    navigate("/signup");
+
+                    navigate('/signup');
                     // const history = useHistory();
-                    //   let path = `forgetPassword`;
+                    //   let path = `forgetPassword`; 
                     //   history.push(path);
+
                   }}
                 >
                   Sign In
@@ -143,8 +145,13 @@ const AdDashboardHome = () => {
             </div>
           </div>
         </div>
-        <div style={{ maxHeight: "900px", overflowY: "scroll" }}>
+        <div style={{
+          maxHeight: "900px",
+          overflowY: "scroll",
+        }}>
+
           <div className="grid gap-x-10 gap-y-10 grid-cols-2 ">
+
             {/* <div > */}
             Acquire customers and grow your businss with Avni
             {/* </div>
@@ -230,10 +237,12 @@ const AdDashboardHome = () => {
                 type="submit"
                 className="rounded-[0.75rem] bg-[#01A4EF] text-[1.5rem] px-5 py-2 font-sans font-[700] text-center tracking-normal leading-[2rem] text-[#FFFFFF]"
                 onClick={() => {
-                  navigate("/signup");
+
+                  navigate('/signup');
                   // const history = useHistory();
-                  //   let path = `forgetPassword`;
+                  //   let path = `forgetPassword`; 
                   //   history.push(path);
+
                 }}
               >
                 Sign In

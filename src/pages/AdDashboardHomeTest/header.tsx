@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import mainLogo from'../../images/logo.png';
 
 export function Header(){
@@ -7,7 +7,10 @@ export function Header(){
     return(
         <div className="flex justify-between px-20 mt-[1rem]" >
             <div>
+                <Link to="https://test.avniads.com">
                 <img  src='https://res.cloudinary.com/dgjxmcrkg/image/upload/v1678778021/avni-logo2_p0fzel.webp'  alt="fireSpot" style={{width:'57px', height:'68px' }}/>
+                </Link>
+                
             </div>
             <div className="flex space-x-2">
                 <div style={{
