@@ -90,7 +90,7 @@ function DraftCampaign() {
                             <img
                               className="w-7 h-7"
                               src={
-                                "https://www.w3schools.com/html/img_girl.jpg"
+                                campaign?.adImage[0]
                               }
                             />
                           </td>
