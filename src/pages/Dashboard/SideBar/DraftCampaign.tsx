@@ -16,7 +16,7 @@ function DraftCampaign() {
   useEffect(() => {
     const fetchData = async () => {
       const { data: campaigns } = await axios({
-        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/list?advertiserId=${user.id}`,
+        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/list?advertiserId=${user.id}&status=Active`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -41,7 +41,10 @@ function DraftCampaign() {
           {campaignsFlag === false && (
             <div className="w-full flex justify-center">Loading</div>
           )}
-          {campaignsFlag === true && (
+          {!campaigns && campaignsFlag === true &&(
+            <div className="mt-2 w-full flex justify-center"> No Data Found</div>
+          )}
+          {campaigns && campaignsFlag === true && (
             <div className="w-full flex flex-col justify-center items-center px-4">
               <table className="w-full">
                 <thead>
@@ -62,7 +65,7 @@ function DraftCampaign() {
                 </thead>
                 <tbody className="w-full border">
                   {campaigns
-                    .slice(
+                    ?.slice(
                       pageCount * pageIndex,
                       pageCount * pageIndex + pageCount
                     )

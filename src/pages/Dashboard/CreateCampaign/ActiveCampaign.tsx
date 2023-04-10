@@ -186,8 +186,8 @@ function Ad(props: any) {
                           className="w-3 h-3 bg-gray-100 rounded-full flex items-center text-xs justify-center"
                           onClick={() => {
                             setImageArray([
-                              ...imageArray.slice(0, index),
-                              ...imageArray.slice(index + 1, imageArray.length),
+                              ...imageArray?.slice(0, index),
+                              ...imageArray?.slice(index + 1, imageArray.length),
                             ]);
                           }}
                         >
@@ -486,8 +486,8 @@ function Targetting(props: any) {
                         className="ml-3 text-blue-500 cursor-pointer"
                         onClick={() => {
                           setKeywordsArray([
-                            ...keywordsArray.slice(0, index),
-                            ...keywordsArray.slice(
+                            ...keywordsArray?.slice(0, index),
+                            ...keywordsArray?.slice(
                               index + 1,
                               keywordsArray.length
                             ),
@@ -544,8 +544,8 @@ function Targetting(props: any) {
                         className="ml-3 text-blue-500 cursor-pointer"
                         onClick={() => {
                           setDonotTargetArray([
-                            ...donotTargetArray.slice(0, index),
-                            ...donotTargetArray.slice(
+                            ...donotTargetArray?.slice(0, index),
+                            ...donotTargetArray?.slice(
                               index + 1,
                               donotTargetArray.length
                             ),
