@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Sidebar from "../SideBar/sideBar";
 import { Link } from "react-router-dom";
 import { isWbsite, regex } from "../../signupTest";
 import CountryCode from "../../loginTest/Countrycodedropdown";
 import countries from "../../signupTest/countries.json";
 import { CircularProgress, Modal } from "@mui/material";
+import axios from "axios";
+import { useStoreState } from "../../../store/easy-peasy/hooks";
 
 const showicon = require("../../../images/open.png");
 const hideicon = require("../../../images/hide.png");
@@ -33,7 +35,7 @@ function EditProfile(props: any) {
             Company Name
           </label>
           <input
-            value={companyDetails.companyname}
+            value={companyDetails.companyName}
             required={true}
             style={{ width: "70%" }}
             type="text"
@@ -42,11 +44,11 @@ function EditProfile(props: any) {
             onChange={(e: any) => {
               setCompanyDetails({
                 ...companyDetails,
-                companyname: e.target.value,
+                companyName: e.target.value,
               });
             }}
           />
-          {!regex.test(companyDetails.companyname) &&
+          {!regex.test(companyDetails.companyName) &&
             showErrorMessage.one === true && (
               <div className="w-full text-xs font-semibold text-red-500 mt-1">
                 {errorMessageOne.isRequired}
@@ -90,7 +92,7 @@ function EditProfile(props: any) {
             Contact Person
           </label>
           <input
-            value={companyDetails.contactperson}
+            value={companyDetails.contactPerson}
             required={true}
             style={{ width: "70%" }}
             type="text"
@@ -99,12 +101,12 @@ function EditProfile(props: any) {
             onChange={(e: any) => {
               setCompanyDetails({
                 ...companyDetails,
-                contactperson: e.target.value,
+                contactPerson: e.target.value,
               });
             }}
           />
 
-          {!regex.test(companyDetails.contactperson) &&
+          {!regex.test(companyDetails.contactPerson) &&
             showErrorMessage.one === true && (
               <div className="w-full text-xs font-semibold text-red-500 mt-1">
                 {errorMessageOne.isRequired}
@@ -122,7 +124,7 @@ function EditProfile(props: any) {
               countries={countries}
             />
             <input
-              value={companyDetails.contactnumber}
+              value={companyDetails.companyNumber}
               required={true}
               type="text"
               id="first_name"
@@ -132,24 +134,24 @@ function EditProfile(props: any) {
               onChange={(e: any) => {
                 if (
                   /^[0-9]*$/.test(e.target.value) &&
-                  companyDetails.contactnumber.length <= 10
+                  companyDetails.companyNumber.length <= 10
                 ) {
                   setCompanyDetails({
                     ...companyDetails,
-                    contactnumber: e.target.value,
+                    companyNumber: e.target.value,
                   });
                 }
               }}
             />
           </div>
-          {!regex.test(companyDetails.contactnumber) &&
+          {!regex.test(companyDetails.companyNumber) &&
             showErrorMessage.one === true && (
               <div className="w-full text-xs font-semibold text-red-500 mt-1">
                 {errorMessageOne.isRequired}
               </div>
             )}
-          {regex.test(companyDetails.contactnumber) &&
-            companyDetails.contactnumber.length !== 10 &&
+          {regex.test(companyDetails.companyNumber) &&
+            companyDetails.companyNumber.length !== 10 &&
             showErrorMessage.one === true && (
               <div className="w-full text-xs font-semibold text-red-500 mt-1">
                 {errorMessageOne.isPhoneNumber}
@@ -180,63 +182,7 @@ function EditProfile(props: any) {
               </div>
             )}
         </div>
-        <div>
-          <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
-            Password
-          </label>
-          <input
-            style={{ width: "70%", height: "56px" }}
-            type="password"
-            id="password"
-            value={companyDetails.password}
-            onChange={(e: any) => {
-              setCompanyDetails({
-                ...companyDetails,
-                password: e.target.value,
-              });
-            }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-          />
-          {!regex.test(companyDetails.password) &&
-            showErrorMessage.one === true && (
-              <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                {errorMessageOne.isRequired}
-              </div>
-            )}
-        </div>
-        <div>
-          <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
-            Confirm Password
-          </label>
-          <input
-            style={{ width: "70%", height: "56px" }}
-            type="password"
-            id="confirmpassword"
-            value={companyDetails.confirmpassword}
-            onChange={(e: any) => {
-              setCompanyDetails({
-                ...companyDetails,
-                confirmpassword: e.target.value,
-              });
-              
-                setShowErrorMessage({ ...showErrorMessage, two: false });
-              
-            }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-          />
-          {!regex.test(companyDetails.confirmpassword) &&
-            showErrorMessage.one === true && (
-              <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                {errorMessageOne.isRequired}
-              </div>
-            )}
-          {
-            showErrorMessage.two === true && (
-              <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                {errorMessageOne.isMatchPassword}
-              </div>
-            )}
-        </div>
+        
       </div>
     </div>
   );
@@ -244,13 +190,12 @@ function EditProfile(props: any) {
 
 function ProfileAndSettings() {
   const [companyDetails, setCompanyDetails] = useState({
-    companyname: "Avni Company",
-    website: "www.avni-ads.com",
-    contactperson: "Avni Person",
-    contactnumber: "9999999999",
-    email: "www.avni@gmail.com",
-    password: "avniPassword",
-    confirmpassword: "",
+    companyName: "",
+    website: "",
+    contactPerson: "",
+    companyNumber: "",
+    email: "",
+   name:""
   });
 
   const [errorMessageOne, setErrorMessageOne] = useState({
@@ -276,21 +221,37 @@ function ProfileAndSettings() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
-
+  const user = useStoreState((state) => state.user);
   const queryUrl = window.location.pathname;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: campaigns } = await axios({
+        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/profile/view?id=${user.id}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      setCompanyDetails(campaigns?.data[0])
+      
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="w-full flex bg-neutral-100">
       <Sidebar />
       <div className="w-full flex items-center">
         <div className="w-full flex items-center justify-center">
-          {editFlag === false && (
+          {editFlag === false && companyDetails?.companyName !=="" && (
             <div className="bg-white w-1/2 p-2 rounded border border-sm">
               <div className="w-full rounded border border-sm p-4">
                 <span className="text-lg font-semibold">Company Details</span>
                 <div className="mt-3 flex text-sm">
                   <div>Company Name : </div>
-                  <div className="pl-1">{companyDetails.companyname}</div>
+                  <div className="pl-1">{companyDetails.companyName}</div>
                 </div>
                 <div className="mt-3 flex text-sm">
                   <div>Website : </div>
@@ -299,12 +260,12 @@ function ProfileAndSettings() {
 
                 <div className="mt-3 flex text-sm">
                   <div>Contact Person : </div>
-                  <div className="pl-1">{companyDetails.contactperson}</div>
+                  <div className="pl-1">{companyDetails.contactPerson}</div>
                 </div>
 
                 <div className="mt-3 flex text-sm">
                   <div>Contact Number : </div>
-                  <div className="pl-1">{companyDetails.contactnumber}</div>
+                  <div className="pl-1">{companyDetails.companyNumber}</div>
                 </div>
               </div>
               <div className="w-full rounded border border-sm p-4 my-1">
@@ -313,26 +274,7 @@ function ProfileAndSettings() {
                   <div>Email : </div>
                   <div className="pl-1">{companyDetails.email}</div>
                 </div>
-                <div className="mt-3 flex text-sm">
-                  <div>Password : </div>
-                  <div className="pl-1 flex">
-                    {showPassword === false && <div>************</div>}
-                    {showPassword === true && (
-                      <div className="flex">
-                        <div>{companyDetails.password}</div>
-                      </div>
-                    )}
-
-                    <img
-                      src={showPassword ? showicon : hideicon}
-                      className="w-5 h-5 cursor-pointer ml-5"
-                      alt="passwordicon"
-                      onClick={() => {
-                        setShowPassword(!showPassword);
-                      }}
-                    />
-                  </div>
-                </div>
+                
               </div>
               <div className="w-full flex">
                 <div className="mt-4 w-full flex justify-start mb-5">
@@ -410,28 +352,17 @@ function ProfileAndSettings() {
                       //  setEditFlag()
 
                       if (
-                        regex.test(companyDetails.companyname) &&
-                        regex.test(companyDetails.contactnumber) &&
-                        regex.test(companyDetails.contactperson) &&
+                        regex.test(companyDetails.companyName) &&
+                        regex.test(companyDetails.companyNumber) &&
+                        regex.test(companyDetails.contactPerson) &&
                         regex.test(companyDetails.website) &&
                         isWbsite.test(companyDetails.website) &&
-                        companyDetails.contactnumber.length === 10 &&
-                        regex.test(companyDetails.email) &&
-                        regex.test(companyDetails.password) &&
-                        regex.test(companyDetails.confirmpassword) &&
-                        companyDetails.password ===
-                          companyDetails.confirmpassword
+                        companyDetails.companyNumber.length === 10 &&
+                        regex.test(companyDetails.email)
                       ) {
                         //do nothing
                         handleOpenSave();
-                      } else if (
-                        regex.test(companyDetails.password) &&
-                        regex.test(companyDetails.confirmpassword) &&
-                        companyDetails.password !==
-                          companyDetails.confirmpassword
-                      ) {
-                        setShowErrorMessage({ ...showErrorMessage, two: true });
-                      } else {
+                      }  else {
                         setShowErrorMessage({ ...showErrorMessage, two: false });
                         setShowErrorMessage({ ...showErrorMessage, one: true });
                       }
