@@ -3,7 +3,70 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import Sidebar from "./sideBar";
-const dustbin = require("../../../images/dustbin.png");
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+const dustbin = require("../../../images/trash.png");
+const pauseIcon = require("../../../images/pauseIcon.png");
+const stopIcon = require("../../../images/stopIcon.png");
+const loader = require("../../../images/loader.gif");
+
+async function activeupdateStatus(
+  values: any,
+  user: any,
+  statusType: string,
+  setSavingLoader: any,
+  setCampaigns:any,
+  campaigns:any,
+  index:number
+) {
+  const { data: campaign } = await axios({
+    url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update-status`,
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+    data: {
+      advertiserId: values?.advertiserId,
+      campaignId: values?.id,
+      status: statusType,
+    },
+  });
+
+  if (campaign && campaign.status == "success") {
+    toast.success("Status Updated !", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    setSavingLoader(false);
+    let filteredCampaign= campaigns.filter((val:any,idx:number)=>{
+      return idx !== index
+    })
+    if(filteredCampaign){
+    setCampaigns(filteredCampaign)
+  }
+
+  } else {
+    setSavingLoader(false);
+    toast.error("Something went wrong !", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    // setSavingLoader(false)
+  }
+}
+
+async function fetchDraft_ActiveData (user:any,setCampaigns:any,setCampaignsFlag:any,campaignStatus:string){
+  const fetchData = async () => {
+    const { data: campaigns } = await axios({
+      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/list?advertiserId=${user.id}&status=${campaignStatus}`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    setCampaigns(campaigns?.data);
+    setCampaignsFlag(true);
+  };
+  fetchData();
+}
 
 function DraftCampaign() {
   const [campaigns, setCampaigns] = useState([]);
@@ -12,20 +75,10 @@ function DraftCampaign() {
   const [pageCount, setPageCount] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const [showDeleteIcon, setShowDeleteIcon] = useState("");
+  const [savingLoader, setSavingLoader] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data: campaigns } = await axios({
-        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/list?advertiserId=${user.id}&status=Draft`,
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      setCampaigns(campaigns?.data);
-      setCampaignsFlag(true);
-    };
-    fetchData();
+    fetchDraft_ActiveData(user,setCampaigns, setCampaignsFlag,"Draft")
   }, []);
 
   const navigate = useNavigate();
@@ -41,8 +94,11 @@ function DraftCampaign() {
           {campaignsFlag === false && (
             <div className="w-full flex justify-center">Loading</div>
           )}
-          {!campaigns && campaignsFlag === true &&(
-            <div className="mt-2 w-full flex justify-center"> No Data Found</div>
+          {!campaigns && campaignsFlag === true && (
+            <div className="mt-2 w-full flex justify-center">
+              {" "}
+              No Data Found
+            </div>
           )}
           {campaigns && campaignsFlag === true && (
             <div className="w-full flex flex-col justify-center items-center px-4">
@@ -89,9 +145,7 @@ function DraftCampaign() {
                           >
                             <img
                               className="w-7 h-7"
-                              src={
-                                campaign?.adImage[0]
-                              }
+                              src={campaign?.adImage[0]}
                             />
                           </td>
                           <td
@@ -132,11 +186,27 @@ function DraftCampaign() {
                           }`}</td>
                           <td className="flex h-7 items-center pr-10">
                             {showDeleteIcon === campaign?.id && (
-                              <div>
+                              <div className="flex justify-center items-center absolute pt-7 pr-10">
                                 <img
-                                  src={dustbin}
-                                  className="w-5 h-5 absolute"
+                                  src={
+                                    savingLoader === false ? pauseIcon : loader
+                                  }
+                                  className="w-5 h-5 mx-2 "
+                                  onClick={() => {
+                                    setSavingLoader(true);
+                                    activeupdateStatus(
+                                      campaign,
+                                      user,
+                                      "Active",
+                                      setSavingLoader,
+                                      setCampaigns,
+                                      campaigns,
+                                      index
+                                    );
+                                  }}
                                 />
+
+                                <img src={dustbin} className="w-6 h-6 mx-2 " />
                               </div>
                             )}
                           </td>
@@ -189,7 +259,6 @@ function DraftCampaign() {
 
 export default DraftCampaign;
 
-
 export function ActivevatedCampaign() {
   const [campaigns, setCampaigns] = useState([]);
   const [campaignsFlag, setCampaignsFlag] = useState(false);
@@ -197,20 +266,10 @@ export function ActivevatedCampaign() {
   const [pageCount, setPageCount] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const [showDeleteIcon, setShowDeleteIcon] = useState("");
+  const [savingLoader, setSavingLoader] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data: campaigns } = await axios({
-        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/list?advertiserId=${user.id}&status=Active`,
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      setCampaigns(campaigns?.data);
-      setCampaignsFlag(true);
-    };
-    fetchData();
+    fetchDraft_ActiveData(user,setCampaigns, setCampaignsFlag,"Active")
   }, []);
 
   const navigate = useNavigate();
@@ -220,14 +279,17 @@ export function ActivevatedCampaign() {
       <Sidebar />
       <div className="w-full flex flex-col">
         <div className="m-4 py-5 pl-3 font-semibold text-lg bg-white rounded">
-          Draft
+          Active
         </div>
         <div className="w-full flex justify-center items-center">
           {campaignsFlag === false && (
             <div className="w-full flex justify-center">Loading</div>
           )}
-          {!campaigns && campaignsFlag === true &&(
-            <div className="mt-2 w-full flex justify-center"> No Data Found</div>
+          {!campaigns && campaignsFlag === true && (
+            <div className="mt-2 w-full flex justify-center">
+              {" "}
+              No Data Found
+            </div>
           )}
           {campaigns && campaignsFlag === true && (
             <div className="w-full flex flex-col justify-center items-center px-4">
@@ -274,9 +336,7 @@ export function ActivevatedCampaign() {
                           >
                             <img
                               className="w-7 h-7"
-                              src={
-                                campaign?.adImage[0]
-                              }
+                              src={campaign?.adImage[0]}
                             />
                           </td>
                           <td
@@ -317,11 +377,27 @@ export function ActivevatedCampaign() {
                           }`}</td>
                           <td className="flex h-7 items-center pr-10">
                             {showDeleteIcon === campaign?.id && (
-                              <div>
+                              <div className="flex justify-center items-center absolute pt-7 pr-10">
                                 <img
-                                  src={dustbin}
-                                  className="w-5 h-5 absolute"
+                                  src={
+                                    savingLoader === false ? stopIcon : loader
+                                  }
+                                  className="w-5 h-5 mx-2 "
+                                  onClick={() => {
+                                    setSavingLoader(true);
+                                    activeupdateStatus(
+                                      campaign,
+                                      user,
+                                      "Draft",
+                                      setSavingLoader,
+                                      setCampaigns,
+                                      campaigns,
+                                      index
+                                    );
+                                  }}
                                 />
+
+                                <img src={dustbin} className="w-6 h-6 mx-2 " />
                               </div>
                             )}
                           </td>
