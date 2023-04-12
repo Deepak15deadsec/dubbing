@@ -132,6 +132,15 @@ const Sidebar = () => {
           Add Campaign
         </MenuItem>
 
+        <SubMenu
+          className={`${
+            active === "campaigns" ? "text-[#01A4EF]" : "text-black"
+          } `}
+          defaultOpen
+          label="Campaigns "
+          icon={<img src={loudSpeaker} />}
+        ></SubMenu>
+
         <MenuItem
           component={
             <NavLink
@@ -147,6 +156,50 @@ const Sidebar = () => {
           {" "}
           Profile & Settings{" "}
         </MenuItem>
+
+        <SubMenu
+          className={`${
+            active === "campaigns" ? "text-[#01A4EF]" : "text-black"
+          } `}
+         
+          label="Logout "
+         
+        >
+          <div className="w-full flex justify-center mt-5 items-end">
+            <button
+              className="px-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
+              onClick={async () => {
+                const { data: campaign } = await axios({
+                  url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-logout/${user.id}`,
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${user.token}`,
+                  },
+                });
+
+                if (campaign && campaign.status == "logout successfull") {
+                  toast.success("Successfully Logout !", {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
+                  addToken("0");
+                  addUser({
+                    token: "0",
+                    name: "0",
+                    email: "0",
+                    id: "0",
+                  });
+                  navigate("/login");
+                } else {
+                  toast.error("Something went wrong !", {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
+                }
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        </SubMenu>
       </Menu>
     );
   };
@@ -172,40 +225,6 @@ const Sidebar = () => {
         </div>
 
         <div className="mt-[2rem] w-full">{sideMenu()}</div>
-      </div>
-      <div className="w-full flex justify-center mt-20 items-end">
-        <button
-          className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
-          onClick={async () => {
-            const { data: campaign } = await axios({
-              url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-logout/${user.id}`,
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${user.token}`,
-              },
-            });
-
-            if (campaign && campaign.status == "logout successfull") {
-              toast.success("Successfully Logout !", {
-                position: toast.POSITION.TOP_RIGHT,
-              });
-              addToken("0");
-              addUser({
-                token: "0",
-                name: "0",
-                email: "0",
-                id: "0",
-              });
-              navigate("/login");
-            } else {
-              toast.error("Something went wrong !", {
-                position: toast.POSITION.TOP_RIGHT,
-              });
-            }
-          }}
-        >
-          Logout
-        </button>
       </div>
     </SideBar>
   );

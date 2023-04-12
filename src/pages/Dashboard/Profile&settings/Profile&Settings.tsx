@@ -278,13 +278,13 @@ function ProfileAndSettings() {
               </div>
               <div className="w-full flex">
                 <div className="mt-4 w-full flex justify-start mb-5">
-                  <button className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400">
+                  <button className="w-24 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
                     <Link to={"/dashboard"}>Back</Link>
                   </button>
                 </div>
                 <div className="mt-4 w-full flex justify-end mb-5">
                   <button
-                    className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                    className="w-24 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                     onClick={() => {
                       setEditFlag(true);
                     }}
@@ -308,7 +308,7 @@ function ProfileAndSettings() {
               <div className="w-full flex">
                 <div className="mt-4 w-full flex justify-start mb-5">
                   <button
-                    className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                    className="w-24 bg-orange-500 h-8 text-white rounded-[20px] hover:bg-orange-400"
                     onClick={() => {
                       handleOpenClose();
              
@@ -327,7 +327,7 @@ function ProfileAndSettings() {
                       <div> Do you want to cancel the changes ?</div>
                       <div className="w-full flex justify-center mt-3">
                         <button
-                          className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3"
+                          className="px-4 w-24 bg-green-500 h-8 text-white rounded-[20px] hover:bg-green-400 ml-3"
                           onClick={() => {
                             setEditFlag(false);
                             window.location.reload()
@@ -336,7 +336,7 @@ function ProfileAndSettings() {
                           Yes
                         </button>
                         <button
-                          className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                          className="px-4 w-24 bg-orange-500 h-8 text-white rounded-[20px] hover:bg-orange-400 ml-3"
                           onClick={handleClose}
                         >
                           No
@@ -347,7 +347,7 @@ function ProfileAndSettings() {
                 </div>
                 <div className="mt-4 w-full flex justify-end mb-5">
                   <button
-                    className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                    className="w-24 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                     onClick={() => {
                       //  setEditFlag()
 
@@ -380,7 +380,7 @@ function ProfileAndSettings() {
                       <div> Do you want to save the changes ?</div>
                       <div className="w-full flex justify-center mt-3">
                         <button
-                          className="px-4 bg-green-500 h-8 text-white flex items-center justify-center rounded-sm hover:bg-green-400 ml-3"
+                          className="px-4 w-24 bg-green-500 h-8 text-white flex items-center justify-center rounded-[20px] hover:bg-green-400 ml-3"
                           onClick={() => {
                             //     setSavingLoader(true);
                             //   const payload = {
@@ -427,7 +427,7 @@ function ProfileAndSettings() {
                             //     });
                             //     setSavingLoader(false)
                             //   }
-                            window.location.href=queryUrl
+                            // window.location.href=queryUrl
                           }}
                         >
                           {savingLoader === true ? (
@@ -437,7 +437,7 @@ function ProfileAndSettings() {
                           )}
                         </button>
                         <button
-                          className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                          className="px-4 w-24 bg-orange-500 h-8 text-white rounded-[20px] hover:bg-orange-400 ml-3"
                           onClick={handleSave}
                         >
                           No

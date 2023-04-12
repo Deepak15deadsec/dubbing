@@ -6,8 +6,8 @@ import Sidebar from "./sideBar";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 const dustbin = require("../../../images/trash.png");
-const pauseIcon = require("../../../images/pauseIcon.png");
-const stopIcon = require("../../../images/stopIcon.png");
+const pauseIcon = require("../../../images/videoPause.png");
+const stopIcon = require("../../../images/playIcon.png");
 const loader = require("../../../images/loader.gif");
 
 async function activeupdateStatus(
@@ -105,17 +105,15 @@ function DraftCampaign() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
-                    <th></th>
-                    <th className="text-left font-semibold">Campaign Title</th>
+                   
+                    <th className="text-left font-semibold pl-6">Title</th>
                     <th className="text-left font-semibold">
-                      Campaign Category
+                      Category
                     </th>
                     <th className="text-left font-semibold">
-                      Campaign Start Date
+                      Start Date - End Date
                     </th>
-                    <th className="text-left font-semibold">
-                      Campaign End Date
-                    </th>
+                  
                     <th></th>
                   </tr>
                 </thead>
@@ -143,19 +141,16 @@ function DraftCampaign() {
                               navigate(`/active-campaigns/${campaign.id}`);
                             }}
                           >
+                             <div className="p-3">
                             <img
-                              className="w-7 h-7"
+                              className="w-[200px] h-[140px]"
                               src={campaign?.adImage[0]}
                             />
+                            <div className="mt-2 text-start font-semibold">{campaign?.campaignName}</div>
+                            
+                            </div>  
                           </td>
-                          <td
-                            className="pl-1 text-left"
-                            onClick={() => {
-                              navigate(`/active-campaigns/${campaign.id}`);
-                            }}
-                          >
-                            {campaign?.campaignName}
-                          </td>
+                         
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
@@ -171,19 +166,14 @@ function DraftCampaign() {
                             }}
                           >{`${
                             new Date(campaign?.adStartDate)
-                              .toString()
-                              .split("GMT")[0]
-                          }`}</td>
-                          <td
-                            className="pl-1 text-left"
-                            onClick={() => {
-                              navigate(`/active-campaigns/${campaign.id}`);
-                            }}
-                          >{`${
+                              .toDateString()
+                             
+                          } - `} {`${
                             new Date(campaign?.adEndDate)
-                              .toString()
-                              .split("GMT")[0]
-                          }`}</td>
+                              .toDateString()
+                          }`}
+                          </td>
+                         
                           <td className="flex h-7 items-center pr-10">
                             {showDeleteIcon === campaign?.id && (
                               <div className="flex justify-center items-center absolute pt-7 pr-10">
@@ -245,7 +235,7 @@ function DraftCampaign() {
                 </div>
               </div>
               <div className="mt-4 w-full justify-start mb-10">
-                <button className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400">
+                <button className="w-24 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
                   <Link to={"/dashboard"}>Back</Link>
                 </button>
               </div>
@@ -296,17 +286,15 @@ export function ActivevatedCampaign() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
-                    <th></th>
-                    <th className="text-left font-semibold">Campaign Title</th>
+                  
+                    <th className="text-left font-semibold pl-6"> Title</th>
                     <th className="text-left font-semibold">
-                      Campaign Category
+                       Category
                     </th>
                     <th className="text-left font-semibold">
-                      Campaign Start Date
+                      Start Date - End Date
                     </th>
-                    <th className="text-left font-semibold">
-                      Campaign End Date
-                    </th>
+                  
                     <th></th>
                   </tr>
                 </thead>
@@ -334,19 +322,16 @@ export function ActivevatedCampaign() {
                               navigate(`/active-campaigns/${campaign.id}`);
                             }}
                           >
+                            <div className="p-3">
                             <img
-                              className="w-7 h-7"
+                              className="w-[200px] h-[140px]"
                               src={campaign?.adImage[0]}
                             />
+                            <div className="mt-2 text-start font-semibold">{campaign?.campaignName}</div>
+                            
+                            </div>                           
                           </td>
-                          <td
-                            className="pl-1 text-left"
-                            onClick={() => {
-                              navigate(`/active-campaigns/${campaign.id}`);
-                            }}
-                          >
-                            {campaign?.campaignName}
-                          </td>
+                          
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
@@ -362,27 +347,22 @@ export function ActivevatedCampaign() {
                             }}
                           >{`${
                             new Date(campaign?.adStartDate)
-                              .toString()
-                              .split("GMT")[0]
-                          }`}</td>
-                          <td
-                            className="pl-1 text-left"
-                            onClick={() => {
-                              navigate(`/active-campaigns/${campaign.id}`);
-                            }}
-                          >{`${
+                              .toDateString()
+                             
+                          } - `} {`${
                             new Date(campaign?.adEndDate)
-                              .toString()
-                              .split("GMT")[0]
-                          }`}</td>
+                              .toDateString()
+                          }`}
+                          </td>
+                         
                           <td className="flex h-7 items-center pr-10">
                             {showDeleteIcon === campaign?.id && (
-                              <div className="flex justify-center items-center absolute pt-7 pr-10">
+                              <div className="flex justify-center items-center absolute pt-[160px] pr-10">
                                 <img
                                   src={
                                     savingLoader === false ? stopIcon : loader
                                   }
-                                  className="w-5 h-5 mx-2 "
+                                  className="w-5 h-5 mx-2"
                                   onClick={() => {
                                     setSavingLoader(true);
                                     activeupdateStatus(
@@ -436,7 +416,7 @@ export function ActivevatedCampaign() {
                 </div>
               </div>
               <div className="mt-4 w-full justify-start mb-10">
-                <button className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400">
+                <button className="w-24 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
                   <Link to={"/dashboard"}>Back</Link>
                 </button>
               </div>

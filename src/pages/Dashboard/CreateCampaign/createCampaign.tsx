@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { regex } from "../../signupTest";
 import { toast } from "react-toastify";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { CategoryOptions } from "./options";
@@ -265,8 +265,7 @@ export const country_list = [
   "Virgin Islands (US)",
   "Yemen",
   "Zambia",
-  "Zimbabwe"
-
+  "Zimbabwe",
 ];
 
 export const ImageUploadingButton = (props: any) => {
@@ -422,7 +421,6 @@ function CreateCampaign(props: any) {
                     <MenuItem value="Purchase" style={{ fontSize: "14px" }}>
                       Purchase
                     </MenuItem>
-
                   </Select>
                 </div>
                 {!regex.test(adValue) && showErrorMessage.one === true && (
@@ -558,8 +556,10 @@ function CreateCampaign(props: any) {
                             fetch(`${res?.data}`, requestOptions as any)
                               .then((response) => response.text())
                               .then((result) => {
-                                setImageArray([`https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`])
-                                console.log(result)
+                                setImageArray([
+                                  `https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`,
+                                ]);
+                                console.log(result);
                               })
                               .catch((error) => console.log("error", error));
                           })
@@ -615,7 +615,7 @@ function CreateCampaign(props: any) {
 
               <div className="w-full flex items-center mt-8 ">
                 <button
-                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  className="w-24 ml-4 bg-blue-500 h-8 text-white rounded-[20px] hover:bg-blue-400"
                   onClick={() => {
                     if (
                       regex.test(adValue) &&
@@ -797,7 +797,6 @@ function CreateCampaign(props: any) {
               <div className="w-full pl-4">
                 <div className="w-full p-1 border border-blue-400 rounded mt-4">
                   <div className="w-full border border-gray-500 rounded p-1">
-
                     <div className=" w-full">
                       <TextField
                         variant="standard"
@@ -852,20 +851,18 @@ function CreateCampaign(props: any) {
                     </div>
                   </div>
                 </div>
-                {keywordsArray.length === 0 &&
+                {/* {keywordsArray.length === 0 &&
                   showErrorMessage.two === true && (
                     <div className="w-full text-xs font-semibold text-red-500 mt-1">
                       {errorMessageOne.isRequired}
                     </div>
-                  )}
+                  )} */}
               </div>
 
               <div className="w-full pl-4">
                 <div className="w-full p-1 border border-blue-400 rounded mt-4">
                   <div className="w-full border border-gray-500 rounded p-1">
-                    <div className="w-full flex">
-
-                    </div>
+                    <div className="w-full flex"></div>
                     <div className="mt-2 w-full">
                       <TextField
                         variant="standard"
@@ -923,17 +920,17 @@ function CreateCampaign(props: any) {
                     </div>
                   </div>
                 </div>
-                {donotTargetArray.length === 0 &&
+                {/* {donotTargetArray.length === 0 &&
                   showErrorMessage.two === true && (
                     <div className="w-full text-xs font-semibold text-red-500 mt-1">
                       {errorMessageOne.isRequired}
                     </div>
-                  )}
+                  )} */}
               </div>
 
               <div className="w-full flex items-center mt-8 ">
                 <button
-                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400"
                   onClick={() => {
                     setSwitchTab(1);
                     setShowErrorMessage({ ...showErrorMessage, one: false });
@@ -943,14 +940,12 @@ function CreateCampaign(props: any) {
                 </button>
                 <hr style={{ border: "1px dashed #CCCCCC", width: "140px" }} />
                 <button
-                  className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  className="w-24 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                   onClick={() => {
                     if (
                       gender.length > 0 &&
-                      keywordsArray.length > 0 &&
                       regex.test(category.label) &&
-                      regex.test(subcategory.label) &&
-                      donotTargetArray.length > 0
+                      regex.test(subcategory.label)
                     ) {
                       setSwitchTab(3);
                     } else {
@@ -1081,7 +1076,7 @@ function CreateCampaign(props: any) {
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="w-full text-sm font-semibold">
-                    Number of Signups
+                    Number of {adValue}
                   </div>
                 </div>
                 <div className="mt-2 w-full">
@@ -1134,7 +1129,7 @@ function CreateCampaign(props: any) {
 
               <div className="w-full flex items-center mt-8 ">
                 <button
-                  className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400"
                   onClick={() => {
                     setSwitchTab(2);
                     setShowErrorMessage({ ...showErrorMessage, two: false });
@@ -1144,13 +1139,13 @@ function CreateCampaign(props: any) {
                 </button>
                 <hr style={{ border: "1px dashed #CCCCCC", width: "140px" }} />
                 <button
-                  className="w-16 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  className="w-24 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                   onClick={() => {
                     if (
                       regex.test(startDate) &&
                       regex.test(endDate) &&
                       new Date(startDate).getTime() <=
-                      new Date(endDate).getTime() &&
+                        new Date(endDate).getTime() &&
                       country.length > 0 &&
                       numberOfSignups !== ""
                     ) {
@@ -1341,7 +1336,7 @@ function CreateCampaign(props: any) {
               <div className="w-full ml-3 flex items-center mt-8 ">
                 <div className="w-full flex ">
                   <button
-                    className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                    className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400"
                     onClick={() => {
                       setSwitchTab(3);
                       setShowErrorMessage({
@@ -1355,7 +1350,7 @@ function CreateCampaign(props: any) {
                 </div>
                 <div className="w-full flex justify-end">
                   <button
-                    className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                    className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                     onClick={async () => {
                       //   setSwitchTab(4);
 
@@ -1392,12 +1387,12 @@ function CreateCampaign(props: any) {
                         data: payload,
                       });
 
-                      if (campaign && campaign.status == "created") {
+                      if (campaign && campaign.status === "created") {
                         toast.success("Successfully Created !", {
                           position: toast.POSITION.TOP_RIGHT,
                         });
                         // addToken(login.accessToken)
-                        navigate("/dashboard");
+                        navigate("/active_campaign");
                       }
                     }}
                   >

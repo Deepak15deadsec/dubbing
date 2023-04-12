@@ -1,4 +1,11 @@
-import { CircularProgress, MenuItem, Modal, Select, Slider, TextField } from "@mui/material";
+import {
+  CircularProgress,
+  MenuItem,
+  Modal,
+  Select,
+  Slider,
+  TextField,
+} from "@mui/material";
 import {
   PieChart,
   Pie,
@@ -187,7 +194,10 @@ function Ad(props: any) {
                           onClick={() => {
                             setImageArray([
                               ...imageArray?.slice(0, index),
-                              ...imageArray?.slice(index + 1, imageArray.length),
+                              ...imageArray?.slice(
+                                index + 1,
+                                imageArray.length
+                              ),
                             ]);
                           }}
                         >
@@ -297,29 +307,14 @@ function Ad(props: any) {
       </div>
       <div className="w-full p-2 rounded-sm">
         <div className="bg-white p-2 rounded-sm">
-          <img src={adPic} />
-          <div className="mt-3 text-sm">Order Above Rs.500 and get 50% off</div>
+          <img src={imageArray[0]} className="max-h-[160px] w-full" />
+          <div className="mt-3 text-sm">{adTitle}</div>
           <div className="mt-3 text-xs text-gray-300">
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point
-            of using Lorem Ipsum is that it has a more-or-less normal
-            distribution of letters, as opposed to using 'Content here, content
-            here', making it look like readable English. Many desktop publishing
-            packages and web page editors now use Lorem Ipsum as their default
-            model text, and a search for 'lorem ipsum' will uncover many web
-            sites still in their infancy. Various versions have evolved over the
-            years, sometimes by accident, sometimes on purpose (injected humour
-            and the like).
+            {description}
           </div>
           <div className="w-full flex mt-4">
             <div className="w-full flex items-center text-green-400 font-semibold text-xs">
               +20$ AVNI
-            </div>
-            <div className="w-full flex justify-end text-xs">
-              <button className="px-3 py-2 bg-yellow-400 rounded-md flex items-center">
-                <img src={editIcon} className="mr-2 w-3 h-3" />
-                Edit
-              </button>
             </div>
           </div>
         </div>
@@ -1002,13 +997,13 @@ function Preview(props: any) {
           </div>
           <div className=" ml-3 flex items-center mt-2 ">
             <div className="w-full flex justify-start pr-10">
-              <button className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400">
+              <button className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
                 <Link to={`/active_campaign`}>Back</Link>
               </button>
             </div>
             <div className="w-full flex justify-end pr-10">
               <button
-                className="w-16 ml-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                 onClick={() => {
                   setEditTab(true);
                 }}
@@ -1030,7 +1025,7 @@ function ActiveCampaign() {
   const [openClose, setOpenClose] = useState(false);
   const handleOpenClose = () => setOpenClose(true);
   const handleClose = () => setOpenClose(false);
-  const [savingLoader,setSavingLoader] = useState(false);
+  const [savingLoader, setSavingLoader] = useState(false);
 
   const [openSave, setOpenSave] = useState(false);
   const handleOpenSave = () => setOpenSave(true);
@@ -1125,7 +1120,7 @@ function ActiveCampaign() {
             <div className="w-full flex justify-end items-center pr-8">
               <div className="w-3/4 flex justify-end mr-4">
                 <button
-                  className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400"
+                  className="px-4 w-24 bg-red-400 h-8 text-white rounded-[20px] hover:bg-blue-400"
                   onClick={handleOpenClose}
                 >
                   Cancel
@@ -1139,11 +1134,11 @@ function ActiveCampaign() {
                   <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
                     <div> Do you want to cancel the changes ?</div>
                     <div className="w-full flex justify-center mt-3">
-                      <button className="px-4 bg-green-500 h-8 text-white rounded-sm hover:bg-green-400 ml-3">
+                      <button className="px-4 w-24 bg-green-500 h-8 text-white rounded-[20px] hover:bg-green-400 ml-3">
                         <Link to="/active_campaign">Yes</Link>
                       </button>
                       <button
-                        className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                        className="px-4 w-24 bg-orange-500 h-8 text-white rounded-[20px] hover:bg-orange-400 ml-3"
                         onClick={handleClose}
                       >
                         No
@@ -1152,7 +1147,7 @@ function ActiveCampaign() {
                   </div>
                 </Modal>
                 <button
-                  className="px-4 bg-blue-500 h-8 text-white rounded-sm hover:bg-blue-400 ml-3"
+                  className="px-4 w-24 bg-green-600 h-8 text-white rounded-[20px] hover:bg-blue-400 ml-3"
                   onClick={handleOpenSave}
                 >
                   Save
@@ -1166,61 +1161,65 @@ function ActiveCampaign() {
                   <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
                     <div> Do you want to save the changes ?</div>
                     <div className="w-full flex justify-center mt-3">
-                      <button className="px-4 bg-green-500 h-8 text-white flex items-center justify-center rounded-sm hover:bg-green-400 ml-3"
-                      onClick={async()=>{
-                        setSavingLoader(true);
-                      const payload = {
-                        campaignId: id,
-                        advertiserId: user?.id,
-                        campaignName: adTitle,
-                        campaignType: adValue,
-                        adTitle: adTitle,
-                        adImage: imageArray,
-                        adDesc: description,
-                        transactionCount: 90,
-                        adStartDate: startDate,
-                        adEndDate: endDate,
-                        targetGeoCordinates: 123,
-                        targetGeoName: "targetGeoName",
-                        targetCategory: category[0],
-                        targetSubCategory: subcategory[0],
-                        targetGender: gender,
-                        targetAgeRange: {
-                          min: sliderValue[0],
-                          max: sliderValue[1],
-                        },
-                        targetKeywords: keywordsArray,
-                        targetDonotKeywords: donotTargetArray,
-                        billingCountry: country,
-                        status: "Active",
-                      };
-                      const { data: campaign } = await axios({
-                        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update`,
-                        method: "POST",
-                        headers: {
-                          Authorization: `Bearer ${user.token}`,
-                        },
-                        data: payload,
-                      });
+                      <button
+                        className="px-4 w-24 bg-green-500 h-8 text-white flex items-center justify-center rounded-[20px] hover:bg-green-400 ml-3"
+                        onClick={async () => {
+                          setSavingLoader(true);
+                          const payload = {
+                            campaignId: id,
+                            advertiserId: user?.id,
+                            campaignName: adTitle,
+                            campaignType: adValue,
+                            adTitle: adTitle,
+                            adImage: imageArray,
+                            adDesc: description,
+                            transactionCount: 90,
+                            adStartDate: startDate,
+                            adEndDate: endDate,
+                            targetGeoCordinates: 123,
+                            targetGeoName: "targetGeoName",
+                            targetCategory: category[0],
+                            targetSubCategory: subcategory[0],
+                            targetGender: gender,
+                            targetAgeRange: {
+                              min: sliderValue[0],
+                              max: sliderValue[1],
+                            },
+                            targetKeywords: keywordsArray,
+                            targetDonotKeywords: donotTargetArray,
+                            billingCountry: country,
+                            status: "Active",
+                          };
+                          const { data: campaign } = await axios({
+                            url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update`,
+                            method: "POST",
+                            headers: {
+                              Authorization: `Bearer ${user.token}`,
+                            },
+                            data: payload,
+                          });
 
-                      if (campaign && campaign.status == "success") {
-                        toast.success("Successfully Created !", {
-                          position: toast.POSITION.TOP_RIGHT,
-                        });
-                        navigate('/active_campaign')
-                        
-                      }else{
-                        toast.error("Something went wrong !", {
-                          position: toast.POSITION.TOP_RIGHT,
-                        });
-                        setSavingLoader(false)
-                      }
-                      }}
+                          if (campaign && campaign.status == "success") {
+                            toast.success("Successfully Created !", {
+                              position: toast.POSITION.TOP_RIGHT,
+                            });
+                            navigate("/active_campaign");
+                          } else {
+                            toast.error("Something went wrong !", {
+                              position: toast.POSITION.TOP_RIGHT,
+                            });
+                            setSavingLoader(false);
+                          }
+                        }}
                       >
-                        {savingLoader === true ? <CircularProgress size={20} color="success" /> : "Yes"}
+                        {savingLoader === true ? (
+                          <CircularProgress size={20} color="success" />
+                        ) : (
+                          "Yes"
+                        )}
                       </button>
                       <button
-                        className="px-4 bg-orange-500 h-8 text-white rounded-sm hover:bg-orange-400 ml-3"
+                        className="px-4 w-24 bg-orange-500 h-8 text-white rounded-[20px] hover:bg-orange-400 ml-3"
                         onClick={handleSave}
                       >
                         No
