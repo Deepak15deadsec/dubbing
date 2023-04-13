@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../SideBar/sideBar";
 import { Link } from "react-router-dom";
 import { isWbsite, regex } from "../../signupTest";
@@ -7,6 +7,7 @@ import countries from "../../signupTest/countries.json";
 import { CircularProgress, Modal } from "@mui/material";
 import axios from "axios";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
+import { toast } from "react-toastify";
 
 const showicon = require("../../../images/open.png");
 const hideicon = require("../../../images/hide.png");
@@ -19,7 +20,7 @@ function EditProfile(props: any) {
     setErrorMessageOne,
     showErrorMessage,
     setShowErrorMessage,
-    url
+    url,
   } = props;
   const [country, setCountry] = useState({
     name: "India",
@@ -182,7 +183,6 @@ function EditProfile(props: any) {
               </div>
             )}
         </div>
-        
       </div>
     </div>
   );
@@ -195,7 +195,7 @@ function ProfileAndSettings() {
     contactPerson: "",
     companyNumber: "",
     email: "",
-   name:""
+    name: "",
   });
 
   const [errorMessageOne, setErrorMessageOne] = useState({
@@ -234,8 +234,7 @@ function ProfileAndSettings() {
         },
       });
 
-      setCompanyDetails(campaigns?.data[0])
-      
+      setCompanyDetails(campaigns?.data[0]);
     };
     fetchData();
   }, []);
@@ -245,7 +244,7 @@ function ProfileAndSettings() {
       <Sidebar />
       <div className="w-full flex items-center">
         <div className="w-full flex items-center justify-center">
-          {editFlag === false && companyDetails?.companyName !=="" && (
+          {editFlag === false && companyDetails?.companyName !== "" && (
             <div className="bg-white w-1/2 p-2 rounded border border-sm">
               <div className="w-full rounded border border-sm p-4">
                 <span className="text-lg font-semibold">Company Details</span>
@@ -274,7 +273,6 @@ function ProfileAndSettings() {
                   <div>Email : </div>
                   <div className="pl-1">{companyDetails.email}</div>
                 </div>
-                
               </div>
               <div className="w-full flex">
                 <div className="mt-4 w-full flex justify-start mb-5">
@@ -311,7 +309,6 @@ function ProfileAndSettings() {
                     className="w-24 bg-orange-500 h-8 text-white rounded-[20px] hover:bg-orange-400"
                     onClick={() => {
                       handleOpenClose();
-             
                     }}
                   >
                     Cancel
@@ -330,7 +327,7 @@ function ProfileAndSettings() {
                           className="px-4 w-24 bg-green-500 h-8 text-white rounded-[20px] hover:bg-green-400 ml-3"
                           onClick={() => {
                             setEditFlag(false);
-                            window.location.reload()
+                            window.location.reload();
                           }}
                         >
                           Yes
@@ -362,8 +359,11 @@ function ProfileAndSettings() {
                       ) {
                         //do nothing
                         handleOpenSave();
-                      }  else {
-                        setShowErrorMessage({ ...showErrorMessage, two: false });
+                      } else {
+                        setShowErrorMessage({
+                          ...showErrorMessage,
+                          two: false,
+                        });
                         setShowErrorMessage({ ...showErrorMessage, one: true });
                       }
                     }}
@@ -381,53 +381,32 @@ function ProfileAndSettings() {
                       <div className="w-full flex justify-center mt-3">
                         <button
                           className="px-4 w-24 bg-green-500 h-8 text-white flex items-center justify-center rounded-[20px] hover:bg-green-400 ml-3"
-                          onClick={() => {
-                            //     setSavingLoader(true);
-                            //   const payload = {
-                            //     campaignId: id,
-                            //     advertiserId: user?.id,
-                            //     campaignName: adTitle,
-                            //     campaignType: adValue,
-                            //     adTitle: adTitle,
-                            //     adImage: imageArray,
-                            //     adDesc: description,
-                            //     transactionCount: 90,
-                            //     adStartDate: startDate,
-                            //     adEndDate: endDate,
-                            //     targetGeoCordinates: 123,
-                            //     targetGeoName: "targetGeoName",
-                            //     targetCategory: category[0],
-                            //     targetSubCategory: subcategory[0],
-                            //     targetGender: gender,
-                            //     targetAgeRange: {
-                            //       min: sliderValue[0],
-                            //       max: sliderValue[1],
-                            //     },
-                            //     targetKeywords: keywordsArray,
-                            //     targetDonotKeywords: donotTargetArray,
-                            //     billingCountry: country,
-                            //     status: "Active",
-                            //   };
-                            //   const { data: campaign } = await axios({
-                            //     url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update`,
-                            //     method: "POST",
-                            //     headers: {
-                            //       Authorization: `Bearer ${user.token}`,
-                            //     },
-                            //     data: payload,
-                            // });
-                            //   if (campaign && campaign.status == "success") {
-                            //     toast.success("Successfully Created !", {
-                            //       position: toast.POSITION.TOP_RIGHT,
-                            //     });
-                            //     navigate('/active_campaign')
-                            //   }else{
-                            //     toast.error("Something went wrong !", {
-                            //       position: toast.POSITION.TOP_RIGHT,
-                            //     });
-                            //     setSavingLoader(false)
-                            //   }
-                            // window.location.href=queryUrl
+                          onClick={async () => {
+                            const payload= {
+                              id:user.id,
+                              name:companyDetails.name,
+                              email: companyDetails.email,
+                              companyName: companyDetails.companyName,
+                              website: companyDetails.website,
+                              contactPerson: companyDetails.contactPerson,
+                              companyNumber: companyDetails.companyNumber
+                            };
+
+                            const { data: campaign } = await axios({
+                              url: `${process.env.REACT_APP_SERVER_ENDPOINT}/profile/update`,
+                              method: "POST",
+                              headers: {
+                                Authorization: `Bearer ${user.token}`,
+                              },
+                              data: payload,
+                            });
+                            if (campaign && campaign.status === "success") {
+                              toast.success("Successfully Updated !", {
+                                position: toast.POSITION.TOP_RIGHT,
+                              });
+                              // addToken(login.accessToken)
+                              window.location.reload()
+                            }
                           }}
                         >
                           {savingLoader === true ? (
