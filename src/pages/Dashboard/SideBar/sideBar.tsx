@@ -13,6 +13,7 @@ import { useEffect, useState, useContext } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Modal } from "@mui/material";
 const loudSpeaker = require("../../../images/loudspeaker.png");
 const plusSign = require("../../../images/plusSign.png");
 const profileSetting = require("../../../images/profileSetting.png");
@@ -28,6 +29,9 @@ const Sidebar = () => {
   };
   const addUser = useStoreActions((state) => state.addUser);
   const addToken = useStoreActions((state) => state.addToken);
+
+  const [openClose, setOpenClose] = useState(false);
+  const handleClose = () => setOpenClose(false);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -57,21 +61,6 @@ const Sidebar = () => {
           label="Campaigns "
           icon={<img src={loudSpeaker} />}
         >
-          {/* {campaigns?.map((campaign: any, index) => {
-          
-            return (<MenuItem
-              key={index}
-              className={`${active === "active-campaigns" ? "text-[#01A4EF] pl-[2rem]" : "text-black pl-[2rem]"}`}
-              component={
-                <NavLink
-                  to={`/active-campaigns/${campaign.id}`}
-                  onClick={() => tabSelected("active-campaigns")} />
-              }
-
-            >
-              {campaign?.campaignName}
-            </MenuItem>)
-          })} */}
           <MenuItem
             className={`${
               active === "active" ? "text-[#01A4EF]" : "text-black"
@@ -157,49 +146,63 @@ const Sidebar = () => {
           Profile & Settings{" "}
         </MenuItem>
 
-        <SubMenu
-          className={`${
-            active === "campaigns" ? "text-[#01A4EF]" : "text-black"
-          } `}
-         
-          label="Logout "
-         
+        <MenuItem
+         onClick={()=>{
+          setOpenClose(true)
+        }}
         >
-          <div className="w-full flex justify-center mt-5 items-end">
-            <button
-              className="px-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
-              onClick={async () => {
-                const { data: campaign } = await axios({
-                  url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-logout/${user.id}`,
-                  method: "GET",
-                  headers: {
-                    Authorization: `Bearer ${user.token}`,
-                  },
-                });
+          <div className="w-full flex items-center">Logout</div>
+          <Modal
+            className="w-full h-full flex justify-center items-center"
+            open={openClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <div className="w-1/4 h-24 bg-white rounded flex flex-col justify-center items-center">
+              <div> Do you want to logout ?</div>
+              <div className="w-full flex justify-center mt-3">
+                <button
+                  className="px-4 w-24 bg-green-500 h-8 text-white rounded-[20px] hover:bg-green-400 ml-3"
+                  onClick={async () => {
+                    const { data: campaign } = await axios({
+                      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-logout/${user.id}`,
+                      method: "GET",
+                      headers: {
+                        Authorization: `Bearer ${user.token}`,
+                      },
+                    });
 
-                if (campaign && campaign.status == "logout successfull") {
-                  toast.success("Successfully Logout !", {
-                    position: toast.POSITION.TOP_RIGHT,
-                  });
-                  addToken("0");
-                  addUser({
-                    token: "0",
-                    name: "0",
-                    email: "0",
-                    id: "0",
-                  });
-                  navigate("/login");
-                } else {
-                  toast.error("Something went wrong !", {
-                    position: toast.POSITION.TOP_RIGHT,
-                  });
-                }
-              }}
-            >
-              Logout
-            </button>
-          </div>
-        </SubMenu>
+                    if (campaign && campaign.status == "logout successfull") {
+                      toast.success("Successfully Logout !", {
+                        position: toast.POSITION.TOP_RIGHT,
+                      });
+                      addToken("0");
+                      addUser({
+                        token: "0",
+                        name: "0",
+                        email: "0",
+                        id: "0",
+                      });
+                      navigate("/login");
+                    } else {
+                      toast.error("Something went wrong !", {
+                        position: toast.POSITION.TOP_RIGHT,
+                      });
+                    }
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  className="px-4 w-24 bg-orange-500 h-8 text-white rounded-[20px] hover:bg-orange-400 ml-3"
+                  onClick={handleClose}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </Modal>
+        </MenuItem>
       </Menu>
     );
   };
