@@ -53,7 +53,7 @@ const LoginTest = () => {
       addUser({
         token:login.accessToken, name:login.name, email:login.email, id:login?.id
       })
-      navigate('/dashboard');
+      navigate('/draft_campaign');
     }
     else {
       toast.error("Invalid credentials")

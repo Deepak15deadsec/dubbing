@@ -373,7 +373,7 @@ function CreateCampaign(props: any) {
             Whats your advertising goal?
           </div> */}
           <div className="w-full flex">
-            <div className="w-full">
+            <div className="w-1/2">
               <div className="w-full pl-4">
                 <div className="w-full">
                   <div className="w-full mt-4 flex">
@@ -423,7 +423,7 @@ function CreateCampaign(props: any) {
                     value={adValue}
                     onChange={handleChange}
                   >
-                    <MenuItem value="SignUp" style={{ fontSize: "14px" }}>
+                    <MenuItem value="Sign Up" style={{ fontSize: "14px" }}>
                       Sign Up
                     </MenuItem>
                     <MenuItem value="Purchase" style={{ fontSize: "14px" }}>
@@ -531,7 +531,7 @@ function CreateCampaign(props: any) {
                       type="file"
                       onChange={async (newImage: any) => {
                         const file = newImage.target.files?.[0]!;
-                        setImageArray([])
+                        setImageArray([]);
                         setIsImageUploading(true);
                         const filename = file.name;
                         const fileType = file.type;
@@ -572,7 +572,7 @@ function CreateCampaign(props: any) {
                                 setImageArray([
                                   `https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`,
                                 ]);
-                                setIsImageUploading(false)
+                                setIsImageUploading(false);
                               })
                               .catch((error) => console.log("error", error));
                           })
@@ -628,7 +628,7 @@ function CreateCampaign(props: any) {
 
               <div className="w-full flex items-center mt-8 ">
                 <button
-                  className="w-24 ml-4 bg-blue-500 h-8 text-white rounded-[20px] hover:bg-blue-400"
+                  className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                   onClick={() => {
                     if (
                       regex.test(adValue) &&
@@ -653,8 +653,20 @@ function CreateCampaign(props: any) {
                 </span>
               </div>
             </div>
-            <div className="w-full flex items-center justify-center">
+            {/* <div className="w-full flex items-center justify-center">
               <img src={iPhone} />
+            </div> */}
+            <div className="w-full flex items-center justify-center">
+              {imageArray.length > 0 && (
+                <div className="p-6 rounded bg-emerald-400">
+                  <div className="rounded bg-white">
+                    <img className="w-[300px] h-[190px]" src={imageArray[0]} />
+                    <div className="mt-2 text-start font-semibold pl-2 pb-2">
+                      {adTitle}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -662,7 +674,7 @@ function CreateCampaign(props: any) {
       {switchTab === 2 && (
         <div className="w-full rounded-lg bg-white mt-5 pb-4">
           <div className="w-full flex">
-            <div className="w-full">
+            <div className="w-1/2">
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="w-full text-sm font-semibold">Gender</div>
@@ -968,9 +980,9 @@ function CreateCampaign(props: any) {
                 </span>
               </div>
             </div>
-            <div className="w-full flex items-center justify-center">
+            {/* <div className="w-full flex items-center justify-center">
               <img src={mapPic} className="w-4/5" />
-            </div>
+            </div> */}
           </div>
         </div>
       )}
@@ -1398,7 +1410,14 @@ function CreateCampaign(props: any) {
             </div>
 
             <div className="w-full flex items-center justify-center">
-              <img src={iPhone} />
+              <div className="p-6 rounded bg-emerald-400">
+                <div className="rounded bg-white">
+                  <img className="w-[300px] h-[190px]" src={imageArray[0]} />
+                  <div className="mt-2 text-start font-semibold pl-2 pb-2">
+                    {adTitle}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

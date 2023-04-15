@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import Sidebar from "./sideBar";
 import { toast } from "react-toastify";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Modal, Popover } from "@mui/material";
 const dustbin = require("../../../images/trash.png");
 const pauseIcon = require("../../../images/videoPause.png");
 const stopIcon = require("../../../images/playIcon.png");
@@ -15,9 +15,9 @@ async function activeupdateStatus(
   user: any,
   statusType: string,
   setSavingLoader: any,
-  setCampaigns:any,
-  campaigns:any,
-  index:number
+  setCampaigns: any,
+  campaigns: any,
+  index: number
 ) {
   const { data: campaign } = await axios({
     url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update-status`,
@@ -37,13 +37,12 @@ async function activeupdateStatus(
       position: toast.POSITION.TOP_RIGHT,
     });
     setSavingLoader(false);
-    let filteredCampaign= campaigns.filter((val:any,idx:number)=>{
-      return idx !== index
-    })
-    if(filteredCampaign){
-    setCampaigns(filteredCampaign)
-  }
-
+    let filteredCampaign = campaigns.filter((val: any, idx: number) => {
+      return idx !== index;
+    });
+    if (filteredCampaign) {
+      setCampaigns(filteredCampaign);
+    }
   } else {
     setSavingLoader(false);
     toast.error("Something went wrong !", {
@@ -53,7 +52,12 @@ async function activeupdateStatus(
   }
 }
 
-async function fetchDraft_ActiveData (user:any,setCampaigns:any,setCampaignsFlag:any,campaignStatus:string){
+async function fetchDraft_ActiveData(
+  user: any,
+  setCampaigns: any,
+  setCampaignsFlag: any,
+  campaignStatus: string
+) {
   const fetchData = async () => {
     const { data: campaigns } = await axios({
       url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/list?advertiserId=${user.id}&status=${campaignStatus}`,
@@ -62,7 +66,7 @@ async function fetchDraft_ActiveData (user:any,setCampaigns:any,setCampaignsFlag
         Authorization: `Bearer ${user.token}`,
       },
     });
-    setCampaigns(campaigns?.data);
+    setCampaigns(campaigns?.data.reverse());
     setCampaignsFlag(true);
   };
   fetchData();
@@ -77,8 +81,23 @@ function DraftCampaign() {
   const [showDeleteIcon, setShowDeleteIcon] = useState("");
   const [savingLoader, setSavingLoader] = useState(false);
 
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   useEffect(() => {
-    fetchDraft_ActiveData(user,setCampaigns, setCampaignsFlag,"Draft")
+    fetchDraft_ActiveData(user, setCampaigns, setCampaignsFlag, "Draft");
   }, []);
 
   const navigate = useNavigate();
@@ -105,15 +124,12 @@ function DraftCampaign() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
-                   
                     <th className="text-left font-semibold pl-6">Title</th>
-                    <th className="text-left font-semibold">
-                      Category
-                    </th>
+                    <th className="text-left font-semibold">Category</th>
                     <th className="text-left font-semibold">
                       Start Date - End Date
                     </th>
-                  
+
                     <th></th>
                   </tr>
                 </thead>
@@ -122,7 +138,8 @@ function DraftCampaign() {
                     ?.slice(
                       pageCount * pageIndex,
                       pageCount * pageIndex + pageCount
-                    ).reverse()
+                    )
+                    
                     .map((campaign: any, index: number) => {
                       return (
                         <tr
@@ -141,16 +158,17 @@ function DraftCampaign() {
                               navigate(`/active-campaigns/${campaign.id}`);
                             }}
                           >
-                             <div className="p-3">
-                            <img
-                              className="w-[200px] h-[140px]"
-                              src={campaign?.adImage[0]}
-                            />
-                            <div className="mt-2 text-start font-semibold">{campaign?.campaignName}</div>
-                            
-                            </div>  
+                            <div className="p-3">
+                              <img
+                                className="w-[200px] h-[140px]"
+                                src={campaign?.adImage[0]}
+                              />
+                              <div className="mt-2 text-start font-semibold">
+                                {campaign?.campaignName}
+                              </div>
+                            </div>
                           </td>
-                         
+
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
@@ -164,37 +182,64 @@ function DraftCampaign() {
                             onClick={() => {
                               navigate(`/active-campaigns/${campaign.id}`);
                             }}
-                          >{`${
-                            new Date(campaign?.adStartDate)
-                              .toDateString()
-                             
-                          } - `} {`${
-                            new Date(campaign?.adEndDate)
-                              .toDateString()
-                          }`}
+                          >
+                            {`${new Date(
+                              campaign?.adStartDate
+                            ).toDateString()} - `}{" "}
+                            {`${new Date(campaign?.adEndDate).toDateString()}`}
                           </td>
-                         
+
                           <td className="flex h-7 items-center pr-10">
                             {showDeleteIcon === campaign?.id && (
-                              <div className="flex justify-center items-center absolute pt-7 pr-10">
+                              <div className="flex justify-center items-center absolute pt-[160px] pr-10">
                                 <img
-                                  src={
-                                    savingLoader === false ? pauseIcon : loader
-                                  }
+                                  src={savingLoader === false ? stopIcon : loader}
                                   className="w-5 h-5 mx-2 "
-                                  onClick={() => {
-                                    setSavingLoader(true);
-                                    activeupdateStatus(
-                                      campaign,
-                                      user,
-                                      "Active",
-                                      setSavingLoader,
-                                      setCampaigns,
-                                      campaigns,
-                                      index
-                                    );
+                                  onClick={(e: any) => {
+                                    handleClick(e);
                                   }}
                                 />
+                                <Modal
+                                  id={id}
+                                  open={open}
+                                  onClose={handleClose}
+                                  className="w-full flex justify-center items-center"
+                                >
+                                  <div className="px-5 h-[150px] flex flex-col items-center justify-center p-4 bg-white rounded">
+                                    <div className="text-sm">
+                                      Do you want to chage the campaign status ?
+                                    </div>
+                                    <div className="mt-1 flex justify-center">
+                                      <div className="w-full flex justify-center mt-3">
+                                        <button
+                                          className="px-4 w-24 bg-green-500 h-7 text-white rounded-[20px] hover:bg-green-400 ml-3"
+                                          onClick={(e:any) => {
+                                            setSavingLoader(true);
+                                            activeupdateStatus(
+                                              campaign,
+                                              user,
+                                              "Active",
+                                              setSavingLoader,
+                                              setCampaigns,
+                                              campaigns,
+                                              index,
+                                              
+                                            );
+                                            handleClose()
+                                          }}
+                                        >
+                                         {savingLoader===true?"Saving...":"Yes"}
+                                        </button>
+                                        <button
+                                          className="px-4 w-24 bg-orange-500 h-7 text-white rounded-[20px] hover:bg-orange-400 ml-3"
+                                          onClick={handleClose}
+                                        >
+                                          No
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Modal>
 
                                 <img src={dustbin} className="w-6 h-6 mx-2 " />
                               </div>
@@ -257,9 +302,22 @@ export function ActivevatedCampaign() {
   const [pageIndex, setPageIndex] = useState(0);
   const [showDeleteIcon, setShowDeleteIcon] = useState("");
   const [savingLoader, setSavingLoader] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   useEffect(() => {
-    fetchDraft_ActiveData(user,setCampaigns, setCampaignsFlag,"Active")
+    fetchDraft_ActiveData(user, setCampaigns, setCampaignsFlag, "Active");
   }, []);
 
   const navigate = useNavigate();
@@ -286,15 +344,12 @@ export function ActivevatedCampaign() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
-                  
                     <th className="text-left font-semibold pl-6"> Title</th>
-                    <th className="text-left font-semibold">
-                       Category
-                    </th>
+                    <th className="text-left font-semibold">Category</th>
                     <th className="text-left font-semibold">
                       Start Date - End Date
                     </th>
-                  
+
                     <th></th>
                   </tr>
                 </thead>
@@ -303,7 +358,7 @@ export function ActivevatedCampaign() {
                     ?.slice(
                       pageCount * pageIndex,
                       pageCount * pageIndex + pageCount
-                    ).reverse()
+                    )
                     .map((campaign: any, index: number) => {
                       return (
                         <tr
@@ -323,15 +378,16 @@ export function ActivevatedCampaign() {
                             }}
                           >
                             <div className="p-3">
-                            <img
-                              className="w-[200px] h-[140px]"
-                              src={campaign?.adImage[0]}
-                            />
-                            <div className="mt-2 text-start font-semibold">{campaign?.campaignName}</div>
-                            
-                            </div>                           
+                              <img
+                                className="w-[200px] h-[140px]"
+                                src={campaign?.adImage[0]}
+                              />
+                              <div className="mt-2 text-start font-semibold">
+                                {campaign?.campaignName}
+                              </div>
+                            </div>
                           </td>
-                          
+
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
@@ -345,16 +401,13 @@ export function ActivevatedCampaign() {
                             onClick={() => {
                               navigate(`/active-campaigns/${campaign.id}`);
                             }}
-                          >{`${
-                            new Date(campaign?.adStartDate)
-                              .toDateString()
-                             
-                          } - `} {`${
-                            new Date(campaign?.adEndDate)
-                              .toDateString()
-                          }`}
+                          >
+                            {`${new Date(
+                              campaign?.adStartDate
+                            ).toDateString()} - `}{" "}
+                            {`${new Date(campaign?.adEndDate).toDateString()}`}
                           </td>
-                         
+
                           <td className="flex h-7 items-center pr-10">
                             {showDeleteIcon === campaign?.id && (
                               <div className="flex justify-center items-center absolute pt-[160px] pr-10">
@@ -363,20 +416,51 @@ export function ActivevatedCampaign() {
                                     savingLoader === false ? stopIcon : loader
                                   }
                                   className="w-5 h-5 mx-2"
-                                  onClick={() => {
-                                    setSavingLoader(true);
-                                    activeupdateStatus(
-                                      campaign,
-                                      user,
-                                      "Draft",
-                                      setSavingLoader,
-                                      setCampaigns,
-                                      campaigns,
-                                      index
-                                    );
+                                  onClick={(e: any) => {
+                                    handleClick(e);
                                   }}
                                 />
-
+ <Modal
+                                  id={id}
+                                  open={open}
+                                  onClose={handleClose}
+                                  className="w-full flex justify-center items-center"
+                                >
+                                  <div className="px-5 h-[150px] flex flex-col items-center justify-center p-4 bg-white rounded">
+                                    <div className="text-sm">
+                                      Do you want to chage the campaign status ?
+                                    </div>
+                                    <div className="mt-1 flex justify-center">
+                                      <div className="w-full flex justify-center mt-3">
+                                        <button
+                                          className="px-4 w-24 bg-green-500 h-7 text-white rounded-[20px] hover:bg-green-400 ml-3"
+                                          onClick={(e:any) => {
+                                            setSavingLoader(true);
+                                            activeupdateStatus(
+                                              campaign,
+                                              user,
+                                              "Draft",
+                                              setSavingLoader,
+                                              setCampaigns,
+                                              campaigns,
+                                              index,
+                                              
+                                            );
+                                            handleClose()
+                                          }}
+                                        >
+                                         {savingLoader===true?"Saving...":"Yes"}
+                                        </button>
+                                        <button
+                                          className="px-4 w-24 bg-orange-500 h-7 text-white rounded-[20px] hover:bg-orange-400 ml-3"
+                                          onClick={handleClose}
+                                        >
+                                          No
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Modal>
                                 <img src={dustbin} className="w-6 h-6 mx-2 " />
                               </div>
                             )}
