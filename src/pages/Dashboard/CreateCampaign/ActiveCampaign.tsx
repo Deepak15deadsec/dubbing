@@ -35,6 +35,7 @@ const mobileAd = require("../../../images/mobileAd.png");
 const dustbinIcon = require("../../../images/dustbin.png");
 const pauseIcon = require("../../../images/pauseIcon.png");
 const stopIcon = require("../../../images/stopIcon.png");
+const loader = require("../../../images/loader.gif");
 
 const avniData = JSON.parse(localStorage.getItem("avniInfo") as string);
 
@@ -90,6 +91,7 @@ function Ad(props: any) {
     four: false,
     five: false,
   });
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const handleChange = (event: any) => {
     setAdValue(event.target.value);
@@ -209,6 +211,11 @@ function Ad(props: any) {
                   );
                 })}
             </div>
+            {isImageUploading === true && (
+              <div className="w-20 h-20 border flex justify-center items-center rounded border-gray-200 mr-4">
+                <img src={loader} className="w-5 h-5" />
+              </div>
+            )}
 
             <div>
               <label
@@ -223,7 +230,8 @@ function Ad(props: any) {
                 type="file"
                 onChange={async (newImage: any) => {
                   const file = newImage.target.files?.[0]!;
-
+                  setImageArray([]);
+                  setIsImageUploading(true);
                   const filename = file.name;
                   const fileType = file.type;
                   var myHeaders = new Headers();
@@ -260,7 +268,7 @@ function Ad(props: any) {
                           setImageArray([
                             `https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`,
                           ]);
-                          console.log(result);
+                          setIsImageUploading(false)
                         })
                         .catch((error) => console.log("error", error));
                     })
@@ -309,9 +317,7 @@ function Ad(props: any) {
         <div className="bg-white p-2 rounded-sm">
           <img src={imageArray[0]} className="max-h-[160px] w-full" />
           <div className="mt-3 text-sm">{adTitle}</div>
-          <div className="mt-3 text-xs text-gray-300">
-            {description}
-          </div>
+          <div className="mt-3 text-xs text-gray-300">{description}</div>
           <div className="w-full flex mt-4">
             <div className="w-full flex items-center text-green-400 font-semibold text-xs">
               +20$ AVNI

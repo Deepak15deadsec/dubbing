@@ -86,8 +86,8 @@ function DraftCampaign() {
   return (
     <div className="flex w-full bg-neutral-100">
       <Sidebar />
-      <div className="w-full flex flex-col">
-        <div className="m-4 py-5 pl-3 font-semibold text-lg bg-white rounded">
+      <div className="w-full flex flex-col mb-8">
+        <div className="m-4 py-5 pl-3 font-semibold text-5xl bg-white rounded">
           Draft
         </div>
         <div className="w-full flex justify-center items-center">
@@ -122,7 +122,7 @@ function DraftCampaign() {
                     ?.slice(
                       pageCount * pageIndex,
                       pageCount * pageIndex + pageCount
-                    )
+                    ).reverse()
                     .map((campaign: any, index: number) => {
                       return (
                         <tr
@@ -234,11 +234,11 @@ function DraftCampaign() {
                   {">"}
                 </div>
               </div>
-              <div className="mt-4 w-full justify-start mb-10">
+              {/* <div className="mt-4 w-full justify-start mb-10">
                 <button className="w-24 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
                   <Link to={"/dashboard"}>Back</Link>
                 </button>
-              </div>
+              </div> */}
             </div>
           )}
         </div>
@@ -267,8 +267,8 @@ export function ActivevatedCampaign() {
   return (
     <div className="flex w-full bg-neutral-100">
       <Sidebar />
-      <div className="w-full flex flex-col">
-        <div className="m-4 py-5 pl-3 font-semibold text-lg bg-white rounded">
+      <div className="w-full flex flex-col mb-8">
+        <div className="m-4 py-5 pl-3 font-semibold text-5xl bg-white rounded">
           Active
         </div>
         <div className="w-full flex justify-center items-center">
@@ -303,7 +303,7 @@ export function ActivevatedCampaign() {
                     ?.slice(
                       pageCount * pageIndex,
                       pageCount * pageIndex + pageCount
-                    )
+                    ).reverse()
                     .map((campaign: any, index: number) => {
                       return (
                         <tr
@@ -415,11 +415,11 @@ export function ActivevatedCampaign() {
                   {">"}
                 </div>
               </div>
-              <div className="mt-4 w-full justify-start mb-10">
+              {/* <div className="mt-4 w-full justify-start mb-10">
                 <button className="w-24 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
                   <Link to={"/dashboard"}>Back</Link>
                 </button>
-              </div>
+              </div> */}
             </div>
           )}
         </div>

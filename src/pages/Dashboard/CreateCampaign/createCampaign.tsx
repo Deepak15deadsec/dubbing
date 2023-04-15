@@ -23,6 +23,7 @@ const iPhone = require("../../../images/iPhone.png");
 const mapPic = require("../../../images/mapPic.png");
 const group80 = require("../../../images/Group80.png");
 const cross = require("../../../images/cross.png");
+const loader = require("../../../images/loader.gif");
 
 const marks = [
   {
@@ -303,6 +304,7 @@ function CreateCampaign(props: any) {
   const [imageArray, setImageArray] = useState<string[]>([]);
   const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
   const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -353,17 +355,23 @@ function CreateCampaign(props: any) {
 
   return (
     <div className="w-full min-h-screen py-6 px-4">
-      <div className="w-full h-12 flex items-center rounded-lg bg-white pl-4 font-bold text-xl">
-        Lets get started with new campaign
+      <div className="w-full py-2 flex items-center rounded-lg bg-white pl-4 font-bold text-2xl">
+        {switchTab === 1
+          ? "Whats your advertising goal? "
+          : switchTab === 2
+          ? "Targetings"
+          : switchTab === 3
+          ? "Settings"
+          : "Preview"}
       </div>
       {switchTab === 1 && (
         <div className="w-full rounded-lg bg-white mt-5 pb-4">
-          <div
+          {/* <div
             className="w-full h-12 flex items-center pl-4 text-xs"
             style={{ borderBottom: "1px solid #F6F8FA" }}
           >
             Whats your advertising goal?
-          </div>
+          </div> */}
           <div className="w-full flex">
             <div className="w-full">
               <div className="w-full pl-4">
@@ -508,7 +516,11 @@ function CreateCampaign(props: any) {
                         );
                       })}
                   </div>
-
+                  {isImageUploading === true && (
+                    <div className="w-20 h-20 border flex justify-center items-center rounded border-gray-200 mr-4">
+                      <img src={loader} className="w-5 h-5" />
+                    </div>
+                  )}
                   <div>
                     <label htmlFor="file-upload" className="custom-file-upload">
                       <ImageUploadingButton />
@@ -519,7 +531,8 @@ function CreateCampaign(props: any) {
                       type="file"
                       onChange={async (newImage: any) => {
                         const file = newImage.target.files?.[0]!;
-
+                        setImageArray([])
+                        setIsImageUploading(true);
                         const filename = file.name;
                         const fileType = file.type;
                         var myHeaders = new Headers();
@@ -559,7 +572,7 @@ function CreateCampaign(props: any) {
                                 setImageArray([
                                   `https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`,
                                 ]);
-                                console.log(result);
+                                setIsImageUploading(false)
                               })
                               .catch((error) => console.log("error", error));
                           })
@@ -648,12 +661,6 @@ function CreateCampaign(props: any) {
       )}
       {switchTab === 2 && (
         <div className="w-full rounded-lg bg-white mt-5 pb-4">
-          <div
-            className="w-full h-12 flex items-center pl-4 text-xs"
-            style={{ borderBottom: "1px solid #F6F8FA" }}
-          >
-            Targetings
-          </div>
           <div className="w-full flex">
             <div className="w-full">
               <div className="w-full pl-4">
@@ -969,12 +976,6 @@ function CreateCampaign(props: any) {
       )}
       {switchTab === 3 && (
         <div className="w-full rounded-lg bg-white mt-5 pb-4">
-          <div
-            className="w-full h-12 flex items-center pl-4 text-xs"
-            style={{ borderBottom: "1px solid #F6F8FA" }}
-          >
-            Settings
-          </div>
           <div className="w-full space-x-[5rem] pr-[3rem] flex">
             <div className="w-full ">
               <div className="w-full  pl-4">
@@ -1167,12 +1168,6 @@ function CreateCampaign(props: any) {
       )}
       {switchTab === 4 && (
         <div className="w-full rounded-lg bg-white mt-5 pb-4">
-          <div
-            className="w-full h-12 flex items-center pl-4 text-xs"
-            style={{ borderBottom: "1px solid #F6F8FA" }}
-          >
-            Preview
-          </div>
           <div className="w-full flex">
             <div className="w-full">
               <div className="w-full m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4">

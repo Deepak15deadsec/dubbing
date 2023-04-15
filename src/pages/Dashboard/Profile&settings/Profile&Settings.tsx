@@ -21,11 +21,22 @@ function EditProfile(props: any) {
     showErrorMessage,
     setShowErrorMessage,
     url,
+    user,
   } = props;
   const [country, setCountry] = useState({
     name: "India",
     dial_code: "+91",
     code: "IN",
+  });
+  const [openClose, setOpenClose] = useState(false);
+  const handleClose = () => setOpenClose(false);
+
+  const [isPassword, setIsPassword] = useState(false);
+
+  const [passwordDetails, setPasswordDetails] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   return (
@@ -183,6 +194,180 @@ function EditProfile(props: any) {
               </div>
             )}
         </div>
+
+        <div>
+          <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
+            Password
+          </label>
+          <div className="w-full flex items-center">
+            <input
+              style={{ width: "70%", height: "56px" }}
+              type="password"
+              id="first_name"
+              value={"**********"}
+              disabled
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+            />
+            <button
+              className="mx-3 h-8 hover:bg-green-300 font-semibold  bg-[#30D792] text-xs text-white px-2 rounded-[20px]"
+              onClick={() => {
+                setOpenClose(true);
+              }}
+            >
+              Change Password
+            </button>
+          </div>
+        </div>
+        <Modal
+          className="w-full h-full flex justify-center items-center"
+          open={openClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div className="w-1/3 p-4  bg-white rounded flex flex-col justify-center items-start">
+            <div className="w-full text-center text-lg font-semibold">
+              {" "}
+              Update the password
+            </div>
+            <div className="w-full">
+              <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
+                Old Password
+              </label>
+              <div className="w-full flex items-center">
+                <input
+                  style={{ width: "100%", height: "56px" }}
+                  type="password"
+                  id="first_name"
+                  value={passwordDetails.oldPassword}
+                  onChange={(e: any) => {
+                    setPasswordDetails({
+                      ...passwordDetails,
+                      oldPassword: e.target.value,
+                    });
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                />
+              </div>
+              {!regex.test(passwordDetails.oldPassword) &&
+                isPassword === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+            </div>
+            <div className="w-full">
+              <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
+                New Password
+              </label>
+              <div className="w-full flex items-center">
+                <input
+                  style={{ width: "100%", height: "56px" }}
+                  type="password"
+                  id="first_name"
+                  value={passwordDetails.newPassword}
+                  onChange={(e: any) => {
+                    setPasswordDetails({
+                      ...passwordDetails,
+                      newPassword: e.target.value,
+                    });
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                />
+              </div>
+              {!regex.test(passwordDetails.newPassword) &&
+                isPassword === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+            </div>
+            <div className="w-full">
+              <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
+                Confirm Password
+              </label>
+              <div className="w-full flex items-center">
+                <input
+                  style={{ width: "100%", height: "56px" }}
+                  type="password"
+                  id="first_name"
+                  value={passwordDetails.confirmPassword}
+                  onChange={(e: any) => {
+                    setIsPassword(false)
+                    setPasswordDetails({
+                      ...passwordDetails,
+                      confirmPassword: e.target.value,
+                    });
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                />
+              </div>
+              {!regex.test(passwordDetails.confirmPassword) &&
+                isPassword === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+                {regex.test(passwordDetails.confirmPassword) &&
+                isPassword === true && passwordDetails.newPassword !== passwordDetails.confirmPassword &&(
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                   New password and confirm password are not matched
+                  </div>
+                )}
+            </div>
+            <div className="w-full flex justify-center mt-3">
+              <button
+                className="px-4 w-24 bg-green-500 h-8 text-white rounded-[20px] hover:bg-green-400 ml-3"
+                onClick={async() => {
+                  if (
+                    regex.test(passwordDetails.newPassword) &&
+                    regex.test(passwordDetails.oldPassword) &&
+                    regex.test(passwordDetails.confirmPassword) &&
+                    passwordDetails.newPassword ===
+                      passwordDetails.confirmPassword
+                  ) {
+                    const payload = {
+                      email:companyDetails.email,
+                      old_password:passwordDetails.oldPassword,
+                      new_password:passwordDetails.newPassword,
+                    };
+
+                    const { data: campaign } = await axios({
+                      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/password/update`,
+                      method: "POST",
+                      headers: {
+                        Authorization: `Bearer ${user.token}`,
+                      },
+                      data: payload,
+                    });
+                    if (campaign && campaign.status === "success") {
+                      toast.success("Successfully Updated !", {
+                        position: toast.POSITION.TOP_RIGHT,
+                      });
+                      // addToken(login.accessToken)
+                      window.location.reload();
+                    }
+                  } else setIsPassword(true);
+                }}
+              >
+                Update
+              </button>
+              <button
+                className="px-4 w-24 bg-orange-500 h-8 text-white rounded-[20px] hover:bg-orange-400 ml-3"
+                onClick={() => {
+                  handleClose();
+                  setIsPassword(false);
+                 setPasswordDetails({
+                    oldPassword: "",
+                    newPassword: "",
+                    confirmPassword: "",
+                  })
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </Modal>
       </div>
     </div>
   );
@@ -273,6 +458,10 @@ function ProfileAndSettings() {
                   <div>Email : </div>
                   <div className="pl-1">{companyDetails.email}</div>
                 </div>
+                <div className="mt-3 flex text-sm">
+                  <div>Password : </div>
+                  <div className="pl-1">**********</div>
+                </div>
               </div>
               <div className="w-full flex">
                 <div className="mt-4 w-full flex justify-start mb-5">
@@ -302,6 +491,7 @@ function ProfileAndSettings() {
                 setErrorMessageOne={setErrorMessageOne}
                 showErrorMessage={showErrorMessage}
                 setShowErrorMessage={setShowErrorMessage}
+                user={user}
               />
               <div className="w-full flex">
                 <div className="mt-4 w-full flex justify-start mb-5">
@@ -382,14 +572,14 @@ function ProfileAndSettings() {
                         <button
                           className="px-4 w-24 bg-green-500 h-8 text-white flex items-center justify-center rounded-[20px] hover:bg-green-400 ml-3"
                           onClick={async () => {
-                            const payload= {
-                              id:user.id,
-                              name:companyDetails.name,
+                            const payload = {
+                              id: user.id,
+                              name: companyDetails.name,
                               email: companyDetails.email,
                               companyName: companyDetails.companyName,
                               website: companyDetails.website,
                               contactPerson: companyDetails.contactPerson,
-                              companyNumber: companyDetails.companyNumber
+                              companyNumber: companyDetails.companyNumber,
                             };
 
                             const { data: campaign } = await axios({
@@ -405,7 +595,7 @@ function ProfileAndSettings() {
                                 position: toast.POSITION.TOP_RIGHT,
                               });
                               // addToken(login.accessToken)
-                              window.location.reload()
+                              window.location.reload();
                             }
                           }}
                         >
