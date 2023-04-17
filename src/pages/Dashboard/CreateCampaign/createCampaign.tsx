@@ -17,6 +17,7 @@ import axios from "axios";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { CategoryOptions } from "./options";
 import DatePicker from "react-datepicker";
+import { isWbsite } from "../../signupTest";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
@@ -305,6 +306,9 @@ function CreateCampaign(props: any) {
   const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
   const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [IOSappUrl, setIOSappUrl] = useState("");
+  const [androidappUrl, setAndroidappeUrl] = useState("");
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -357,7 +361,7 @@ function CreateCampaign(props: any) {
     <div className="w-full min-h-screen py-6 px-4">
       <div className="w-full py-2 flex items-center rounded-lg bg-white pl-4 font-bold text-2xl">
         {switchTab === 1
-          ? "Whats your advertising goal? "
+          ? "Whats your Campaign goal? "
           : switchTab === 2
           ? "Targetings"
           : switchTab === 3
@@ -375,6 +379,40 @@ function CreateCampaign(props: any) {
           <div className="w-full flex">
             <div className="w-1/2">
               <div className="w-full pl-4">
+                <div className="w-full">
+                  <div className="w-full mt-4 flex">
+                    <div className="text-sm font-semibold">Campaign Type</div>
+                    <div className="ml-2 items-center flex justify-end">
+                      <Tooltip
+                        title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                        placement="top"
+                        arrow
+                      >
+                        <img src={infoLogo} className="w-4 h-4" />
+                      </Tooltip>
+                    </div>
+                  </div>
+                  <div className="mt-2 w-full">
+                    <Select
+                      className="w-full h-10"
+                      style={{ fontSize: "14px" }}
+                      value={adValue}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Sign Up" style={{ fontSize: "14px" }}>
+                        Sign Up
+                      </MenuItem>
+                      <MenuItem value="Purchase" style={{ fontSize: "14px" }}>
+                        Purchase
+                      </MenuItem>
+                    </Select>
+                  </div>
+                  {!regex.test(adValue) && showErrorMessage.one === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
+                </div>
                 <div className="w-full">
                   <div className="w-full mt-4 flex">
                     <div className="text-sm font-semibold">Campaign Name</div>
@@ -404,38 +442,6 @@ function CreateCampaign(props: any) {
                     </div>
                   )}
                 </div>
-                <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Campaign Type</div>
-                  <div className="ml-2 items-center flex justify-end">
-                    <Tooltip
-                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                      placement="top"
-                      arrow
-                    >
-                      <img src={infoLogo} className="w-4 h-4" />
-                    </Tooltip>
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    className="w-full h-10"
-                    style={{ fontSize: "14px" }}
-                    value={adValue}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="Sign Up" style={{ fontSize: "14px" }}>
-                      Sign Up
-                    </MenuItem>
-                    <MenuItem value="Purchase" style={{ fontSize: "14px" }}>
-                      Purchase
-                    </MenuItem>
-                  </Select>
-                </div>
-                {!regex.test(adValue) && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
               </div>
 
               <div className="w-full pl-4">
@@ -457,7 +463,9 @@ function CreateCampaign(props: any) {
                     size="small"
                     className="w-full"
                     onChange={(e: any) => {
-                      setHeadline(e.target.value);
+                      if (headline.length <= 75 || e.keyCode === 8) {
+                        setHeadline(e.target.value);
+                      }
                     }}
                   />
                 </div>
@@ -470,7 +478,7 @@ function CreateCampaign(props: any) {
 
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Upload Image</div>
+                  <div className="text-sm font-semibold">Upload Creative</div>
                   <div className="ml-2 items-center flex justify-end">
                     <Tooltip
                       title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
@@ -595,7 +603,9 @@ function CreateCampaign(props: any) {
 
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Description</div>
+                  <div className="text-sm font-semibold">
+                    Terms & Conditions
+                  </div>
                   <div className="ml-2 items-center flex justify-end">
                     <Tooltip
                       title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
@@ -658,11 +668,17 @@ function CreateCampaign(props: any) {
             </div> */}
             <div className="w-full flex items-center justify-center">
               {imageArray.length > 0 && (
-                <div className="p-6 rounded bg-emerald-400">
+                <div>
+                  <div className="text-2xl font-medium mb-2 text-gray-500">
+                    Campaign Name
+                  </div>
                   <div className="rounded bg-white">
-                    <img className="w-[300px] h-[190px]" src={imageArray[0]} />
-                    <div className="mt-2 text-start font-semibold pl-2 pb-2">
-                      {adTitle}
+                    <img
+                      className="w-[300px] rounded-t h-[190px]"
+                      src={imageArray[0]}
+                    />
+                    <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
+                      {headline}
                     </div>
                   </div>
                 </div>
@@ -674,7 +690,7 @@ function CreateCampaign(props: any) {
       {switchTab === 2 && (
         <div className="w-full rounded-lg bg-white mt-5 pb-4">
           <div className="w-full flex">
-            <div className="w-1/2">
+            <div className="w-full">
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="w-full text-sm font-semibold">Gender</div>
@@ -822,7 +838,7 @@ function CreateCampaign(props: any) {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        label="Currently Using"
+                        label="Currently shopping from"
                         value={keywords}
                         size="small"
                         className="w-full"
@@ -834,6 +850,15 @@ function CreateCampaign(props: any) {
                             if (keywords !== "") {
                               setKeywordsArray([...keywordsArray, keywords]);
                             }
+                            setKeywords("");
+                          }
+                        }}
+                        onBlur={() => {
+                          if (
+                            keywords.length > 0 &&
+                            !keywordsArray.includes(keywords)
+                          ) {
+                            setKeywordsArray([...keywordsArray, keywords]);
                             setKeywords("");
                           }
                         }}
@@ -888,7 +913,7 @@ function CreateCampaign(props: any) {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        label="Not Using"
+                        label="Not shopping from"
                         size="small"
                         value={donotTarget}
                         className="w-full"
@@ -903,6 +928,18 @@ function CreateCampaign(props: any) {
                                 donotTarget,
                               ]);
                             }
+                            setDonotTarget("");
+                          }
+                        }}
+                        onBlur={() => {
+                          if (
+                            donotTarget.length > 0 &&
+                            !donotTargetArray.includes(donotTarget)
+                          ) {
+                            setDonotTargetArray([
+                              ...donotTargetArray,
+                              donotTarget,
+                            ]);
                             setDonotTarget("");
                           }
                         }}
@@ -983,6 +1020,24 @@ function CreateCampaign(props: any) {
             {/* <div className="w-full flex items-center justify-center">
               <img src={mapPic} className="w-4/5" />
             </div> */}
+            <div className="w-full flex items-center justify-center">
+              {imageArray.length > 0 && (
+                <div>
+                  <div className="text-2xl font-medium mb-2 text-gray-500">
+                    Campaign Name
+                  </div>
+                  <div className="rounded bg-white">
+                    <img
+                      className="w-[300px] rounded-t h-[190px]"
+                      src={imageArray[0]}
+                    />
+                    <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
+                      {headline}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -1113,6 +1168,82 @@ function CreateCampaign(props: any) {
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="w-full text-sm font-semibold">
+                    Website url
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <TextField
+                    value={websiteUrl}
+                    size="small"
+                    className="w-full"
+                    type="text"
+                    onChange={(e: any) => {
+                      setWebsiteUrl(e.target.value);
+                    }}
+                  />
+                </div>
+                {!isWbsite.test(websiteUrl) &&
+                  showErrorMessage.three === true &&
+                  websiteUrl.length > 0 && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      Invalid url
+                    </div>
+                  )}
+              </div>
+
+              <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                    IOS app url
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <TextField
+                    value={IOSappUrl}
+                    size="small"
+                    className="w-full"
+                    type="text"
+                    onChange={(e: any) => {
+                      setIOSappUrl(e.target.value);
+                    }}
+                  />
+                </div>
+                {!isWbsite.test(IOSappUrl) &&
+                  showErrorMessage.three === true &&
+                  IOSappUrl.length > 0 && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      Invalid url
+                    </div>
+                  )}
+              </div>
+              <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                    Android app url
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <TextField
+                    value={androidappUrl}
+                    size="small"
+                    className="w-full"
+                    type="text"
+                    onChange={(e: any) => {
+                      setAndroidappeUrl(e.target.value);
+                    }}
+                  />
+                </div>
+                {!isWbsite.test(androidappUrl) &&
+                  showErrorMessage.three === true &&
+                  androidappUrl.length > 0 && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      Invalid url
+                    </div>
+                  )}
+              </div>
+              {/* <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
                     Billing Country
                   </div>
                 </div>
@@ -1138,7 +1269,7 @@ function CreateCampaign(props: any) {
                     {errorMessageOne.isRequired}
                   </div>
                 )}
-              </div>
+              </div> */}
 
               <div className="w-full flex items-center mt-8 ">
                 <button
@@ -1155,11 +1286,17 @@ function CreateCampaign(props: any) {
                   className="w-24 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                   onClick={() => {
                     if (
+                      (websiteUrl.length > 0 && !isWbsite.test(websiteUrl)) ||
+                      (IOSappUrl.length > 0 && !isWbsite.test(IOSappUrl)) ||
+                      (androidappUrl.length > 0 &&
+                        !isWbsite.test(androidappUrl))
+                    ) {
+                      setShowErrorMessage({ ...showErrorMessage, three: true });
+                    } else if (
                       regex.test(startDate) &&
                       regex.test(endDate) &&
                       new Date(startDate).getTime() <=
                         new Date(endDate).getTime() &&
-                      country.length > 0 &&
                       numberOfSignups !== ""
                     ) {
                       setSwitchTab(4);
@@ -1172,8 +1309,25 @@ function CreateCampaign(props: any) {
                 </button>
               </div>
             </div>
-            <div className="w-full flex items-center justify-center  bg-[#F5F5F5]">
-              {/* <img src={group80} className="w-4/5" /> */}
+            <div className="w-full flex items-center justify-center  bg-white">
+            <div className="w-full flex items-center justify-center">
+              {imageArray.length > 0 && (
+                <div>
+                  <div className="text-2xl font-medium mb-2 text-gray-500">
+                    Campaign Name
+                  </div>
+                  <div className="rounded bg-white">
+                    <img
+                      className="w-[300px] rounded-t h-[190px]"
+                      src={imageArray[0]}
+                    />
+                    <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
+                      {headline}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             </div>
           </div>
         </div>
@@ -1187,42 +1341,43 @@ function CreateCampaign(props: any) {
                   className="w-full h-10 flex items-center pl-4 text-sm"
                   style={{ borderBottom: "1px solid #EEEEEE" }}
                 >
-                  Add Goal
+                  Campaign
                 </div>
                 <div className="w-full mt-4 pl-4">
-                  <div className="w-full flex">
-                    <div className="w-1/3 text-xs">Campaign Name:</div>
-                    <div className="w-full text-xs text-gray-400">
-                      {adTitle}
-                    </div>
-                  </div>
-                  <div className="w-full flex">
-                    <div className="w-1/3 text-xs">Campaign Type:</div>
+                <div className="w-full flex">
+                    <div className="w-1/3 text-xs">Campaign Type</div>
                     <div className="w-full text-xs text-gray-400">
                       {adValue}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Category:</div>
+                    <div className="w-1/3 text-xs">Campaign Name</div>
+                    <div className="w-full text-xs text-gray-400">
+                      {adTitle}
+                    </div>
+                  </div>
+                  
+                  <div className="w-full flex mt-1">
+                    <div className="w-1/3 text-xs">Category</div>
                     <div className="w-full text-xs text-gray-400">
                       {category.label}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Sub Category:</div>
+                    <div className="w-1/3 text-xs">Sub Category</div>
                     <div className="w-full text-xs text-gray-400">
                       {subcategory.label}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Headline:</div>
+                    <div className="w-1/3 text-xs">Headline</div>
                     <div className="w-full text-xs text-gray-400">
                       {headline}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 flex items-center text-xs">
-                      Image:
+                      Creative
                     </div>
                     <div className="w-full items-center flex text-xs text-gray-400">
                       {imageArray.map((val: any, index: number) => {
@@ -1235,7 +1390,7 @@ function CreateCampaign(props: any) {
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Description:</div>
+                    <div className="w-1/3 text-xs">Description</div>
                     <div className="w-full text-xs text-gray-400">
                       {description}
                     </div>
@@ -1251,7 +1406,7 @@ function CreateCampaign(props: any) {
                 </div>
                 <div className="w-full mt-4 pl-4">
                   <div className="w-full flex">
-                    <div className="w-1/3 text-xs">Gender:</div>
+                    <div className="w-1/3 text-xs">Gender</div>
                     <div className="w-full text-xs flex text-gray-400">
                       {gender.map((val: any, index: any) => {
                         return (
@@ -1264,7 +1419,7 @@ function CreateCampaign(props: any) {
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Age Range:</div>
+                    <div className="w-1/3 text-xs">Age Range</div>
                     <div className="w-full text-xs text-gray-400">
                       {sliderValue[0]}
                       {" - "}
@@ -1272,7 +1427,7 @@ function CreateCampaign(props: any) {
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Keywords:</div>
+                    <div className="w-1/3 text-xs">Currently shopping from</div>
                     <div className="w-full text-xs text-gray-400 flex">
                       {keywordsArray.map((data: any, index: number) => {
                         return (
@@ -1285,7 +1440,7 @@ function CreateCampaign(props: any) {
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Do Not Target:</div>
+                    <div className="w-1/3 text-xs">Not shopping from</div>
 
                     <div className="w-full text-xs text-gray-400 flex">
                       {donotTargetArray.map((data: any, index: number) => {
@@ -1309,31 +1464,43 @@ function CreateCampaign(props: any) {
                 </div>
                 <div className="w-full mt-4 pl-4">
                   <div className="w-full flex">
-                    <div className="w-1/3 text-xs">Start Date:</div>
+                    <div className="w-1/3 text-xs">Start Date</div>
                     <div className="w-full text-xs text-gray-400">
                       {startDate}
                     </div>
                   </div>
                   <div className="w-full flex">
-                    <div className="w-1/3 text-xs">End Date:</div>
+                    <div className="w-1/3 text-xs">End Date</div>
                     <div className="w-full text-xs text-gray-400">
                       {endDate}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Number of Signups:</div>
+                    <div className="w-1/3 text-xs">Number of Signups</div>
                     <div className="w-full text-xs text-gray-400">
                       {numberOfSignups}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Country:</div>
+                    <div className="w-1/3 text-xs">Website url</div>
                     <div className="w-full text-xs text-gray-400 flex">
-                      {country}
+                      {websiteUrl}
+                    </div>
+                  </div>
+                  <div className="w-full flex mt-1">
+                    <div className="w-1/3 text-xs">IOS app url</div>
+                    <div className="w-full text-xs text-gray-400 flex">
+                      {IOSappUrl}
+                    </div>
+                  </div>
+                  <div className="w-full flex mt-1">
+                    <div className="w-1/3 text-xs">Android app url</div>
+                    <div className="w-full text-xs text-gray-400 flex">
+                      {androidappUrl}
                     </div>
                   </div>
                   {/* <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Card Number:</div>
+                    <div className="w-1/3 text-xs">Card Number</div>
                     <div className="w-full text-xs text-gray-400">
                       {cardNumber}
                     </div>
@@ -1408,16 +1575,23 @@ function CreateCampaign(props: any) {
                 </div>
               </div>
             </div>
-
             <div className="w-full flex items-center justify-center">
-              <div className="p-6 rounded bg-emerald-400">
-                <div className="rounded bg-white">
-                  <img className="w-[300px] h-[190px]" src={imageArray[0]} />
-                  <div className="mt-2 text-start font-semibold pl-2 pb-2">
-                    {adTitle}
+              {imageArray.length > 0 && (
+                <div>
+                  <div className="text-2xl font-medium mb-2 text-gray-500">
+                    Campaign Name
+                  </div>
+                  <div className="rounded bg-white">
+                    <img
+                      className="w-[300px] rounded-t h-[190px]"
+                      src={imageArray[0]}
+                    />
+                    <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
+                      {headline}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
