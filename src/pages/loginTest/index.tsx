@@ -67,10 +67,11 @@ const LoginTest = () => {
 
   const navigate = useNavigate();
   return (
-    <div className="flex h-screen">
-      <FramLeft />
+    <div className="flex h-screen justify-center items-center bg-[#30D792]">
+      {/* <FramLeft /> */}
+      <div className="h-[400px]">
       <div
-        className="flex flex-col justify-center items-center"
+        className="flex flex-col p-6 justify-center items-center bg-white rounded-xl"
         style={{
           width: "100%",
         }}
@@ -205,8 +206,8 @@ const LoginTest = () => {
                     height: "56px",
                     left: "1157px",
                     top: "816px",
-                    background: "#01A4EF",
-                    borderRadius: "12px",
+                    background: "#30D792",
+                    borderRadius: "35px",
                     marginTop: "10px",
                   }}
                 >
@@ -252,6 +253,7 @@ const LoginTest = () => {
             </div>
           </div>
         </form>
+      </div>
       </div>
     </div>
   )
