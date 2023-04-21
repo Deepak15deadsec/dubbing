@@ -104,31 +104,97 @@ const Sidebar = () => {
           >
             Completed
           </MenuItem>
+          <MenuItem
+            className={`${
+              active === "overview" ? "text-[#01A4EF]" : "text-black"
+            } `}
+            component={
+              <NavLink
+                to={`/dashboard`}
+                onClick={() => tabSelected("overview")}
+                className="ml-10"
+              />
+            }
+          >
+            Add Campaign
+          </MenuItem>
         </SubMenu>
 
-        <MenuItem
-          className={`${
-            active === "overview" ? "text-[#01A4EF]" : "text-black"
-          } `}
-          icon={<img src={plusSign} />}
-          component={
-            <NavLink
-              to={`/dashboard`}
-              onClick={() => tabSelected("overview")}
-            />
-          }
-        >
-          Add Campaign
-        </MenuItem>
-
         <SubMenu
+          className={`${
+            active === "Loyalty" ? "text-[#01A4EF]" : "text-black"
+          } `}
+          defaultOpen 
+          label="Loyalty "
+          icon={<img src={plusSign} />}
+        >
+          <MenuItem
+            className={`${
+              active === "activeLoyalty" ? "text-[#01A4EF]" : "text-black"
+            } `}
+            component={
+              <NavLink
+                to={`/active_campaign`}
+                onClick={() => tabSelected("activeLoyalty")}
+                className="ml-10"
+              />
+            }
+          >
+            Active Loyalty
+          </MenuItem>
+          <MenuItem
+            className={`${
+              active === "draftLoyalty" ? "text-[#01A4EF]" : "text-black"
+            } `}
+            component={
+              <NavLink
+                to={`/draft_campaign`}
+                onClick={() => tabSelected("draftLoyalty")}
+                className="ml-10"
+              />
+            }
+          >
+            Draft Loyalty
+          </MenuItem>
+
+          <MenuItem
+            className={`${
+              active === "completedLoyalty" ? "text-[#01A4EF]" : "text-black"
+            } `}
+            component={
+              <NavLink
+                to={`/dashboard`}
+                onClick={() => tabSelected("completedLoyalty")}
+                className="ml-10"
+              />
+            }
+          >
+            Completed Loyalty
+          </MenuItem>
+          <MenuItem
+            className={`${
+              active === "overviewLoyalty" ? "text-[#01A4EF]" : "text-black"
+            } `}
+            component={
+              <NavLink
+                to={`/dashboard`}
+                onClick={() => tabSelected("overviewLoyalty")}
+                className="ml-10"
+              />
+            }
+          >
+            Add Loyalty
+          </MenuItem>
+        </SubMenu>
+
+        {/* <SubMenu
           className={`${
             active === "campaigns" ? "text-[#01A4EF]" : "text-black"
           } `}
           defaultOpen
           label="Campaigns "
           icon={<img src={loudSpeaker} />}
-        ></SubMenu>
+        ></SubMenu> */}
 
         <MenuItem
           component={
@@ -147,9 +213,9 @@ const Sidebar = () => {
         </MenuItem>
 
         <MenuItem
-         onClick={()=>{
-          setOpenClose(true)
-        }}
+          onClick={() => {
+            setOpenClose(true);
+          }}
         >
           <div className="w-full flex items-center">Logout</div>
           <Modal
