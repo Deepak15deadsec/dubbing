@@ -10,15 +10,16 @@ import LoginTest from "../pages/loginTest";
 import ForgetPassWord from "../pages/forgetPass";
 import OtpVerification from "../pages/otpVerification";
 import SuccessfullyRegistered from "../pages/successfulregistered";
-import FirstCampaign from "../pages/Dashboard/CreateCampaign/FirstCampaign";
+import FirstCampaign from "../pages/Dashboard/Campaigns/FirstCampaign";
 import SideBar from "../pages/Dashboard/SideBar/maindashboard";
 import MainDashBoard from "../pages/Dashboard/SideBar/maindashboard";
-import CreateCampaign from "../pages/Dashboard/CreateCampaign/createCampaign";
-import ActiveCampaign from "../pages/Dashboard/CreateCampaign/ActiveCampaign";
-import DraftCampaign, { ActivevatedCampaign } from "../pages/Dashboard/SideBar/DraftCampaign";
+import CreateCampaign from "../pages/Dashboard/Campaigns/createCampaign";
+import ActiveCampaign from "../pages/Dashboard/Campaigns/ActiveCampaign";
+import DraftCampaign, { ActivevatedCampaign } from "../pages/Dashboard/Campaigns/DraftCampaign";
 import Sidebar from "../pages/Dashboard/SideBar/sideBar";
 import ProfileAndSettings from "../pages/Dashboard/Profile&settings/Profile&Settings";
 import { useStoreState } from "../store/easy-peasy/hooks";
+import CreateLoyalty from "../pages/Dashboard/Loyalty/CreateLoyalty";
 
 
 const Routing = () => {
@@ -35,22 +36,19 @@ const Routing = () => {
          <Route index element={<AdDashboardHomeTest />} />
          {/* <Route path="/AdDashboardHomeTest" element={<AdDashboardHomeTest />} /> */}
          <Route path="/signup" element={<SignupTest />} />
-         {/* <Route path="/signup" element={<SignupTest />} /> */}
          <Route path="/login" element={<LoginTest />} />
          <Route path="/dashboard" element={<MainDashBoard />} />
          <Route path="/profile_and_settings_/:id" element={<ProfileAndSettings />} />
-        {/* <Route index element={<Login />} /> */}
         {/* <Route path="/forgetPassword" element={<ForgetPassword />} /> */}
         <Route path="/forgetPassword" element={<ForgetPassWord />} />
         <Route path="/otpverification" element={<OtpVerification />} />
         <Route path="/registered" element={<SuccessfullyRegistered />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
-        <Route path="/draft_campaign" element={<DraftCampaign />}/>
-        <Route path="/active_campaign" element={<ActivevatedCampaign />}/>
+        <Route path="/:id/draft_campaign" element={<DraftCampaign />}/>
+        <Route path="/:id/active_campaign" element={<ActivevatedCampaign />}/>
         <Route path="/active-campaigns/:id" element={<ActiveCampaign />} />
+        <Route path="/:id/createLoyalty" element={<CreateLoyalty />} />
         {/* <Route index element={<Overview />} /> */}
-        
-   
         <Route path="*" element={<Error />} />
       </Route>
     </Routes>

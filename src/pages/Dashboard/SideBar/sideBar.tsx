@@ -24,7 +24,6 @@ const Sidebar = () => {
   const [campaigns, setCampaigns] = useState([]);
   const user = useStoreState((state) => state.user);
   const tabSelected = (tabName: string) => {
-    // localStorage.setItem("sidetab", tabName)
     setActive(tabName);
   };
   const addUser = useStoreActions((state) => state.addUser);
@@ -32,20 +31,6 @@ const Sidebar = () => {
 
   const [openClose, setOpenClose] = useState(false);
   const handleClose = () => setOpenClose(false);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const { data: campaigns } = await axios({
-  //       url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/list?advertiserId=${user.id}`,
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //     });
-  //     setCampaigns(campaigns?.data);
-  //   };
-  //   fetchData();
-  // }, []);
 
   const sideMenu = () => {
     return (
@@ -67,7 +52,7 @@ const Sidebar = () => {
             } `}
             component={
               <NavLink
-                to={`/active_campaign`}
+                to={`/${user.id}/active_campaign`}
                 onClick={() => tabSelected("active")}
                 className="ml-10"
               />
@@ -81,7 +66,7 @@ const Sidebar = () => {
             } `}
             component={
               <NavLink
-                to={`/draft_campaign`}
+                to={`/${user.id}/draft_campaign`}
                 onClick={() => tabSelected("draft")}
                 className="ml-10"
               />
@@ -134,7 +119,7 @@ const Sidebar = () => {
             } `}
             component={
               <NavLink
-                to={`/active_campaign`}
+                to={`/${user.id}/active_campaign`}
                 onClick={() => tabSelected("activeLoyalty")}
                 className="ml-10"
               />
@@ -148,7 +133,7 @@ const Sidebar = () => {
             } `}
             component={
               <NavLink
-                to={`/draft_campaign`}
+                to={`/${user.id}/draft_campaign`}
                 onClick={() => tabSelected("draftLoyalty")}
                 className="ml-10"
               />
@@ -163,7 +148,7 @@ const Sidebar = () => {
             } `}
             component={
               <NavLink
-                to={`/dashboard`}
+                to={`/${user.id}/createLoyalty`}
                 onClick={() => tabSelected("completedLoyalty")}
                 className="ml-10"
               />
@@ -177,7 +162,7 @@ const Sidebar = () => {
             } `}
             component={
               <NavLink
-                to={`/dashboard`}
+                to={`/${user.id}/createLoyalty`}
                 onClick={() => tabSelected("overviewLoyalty")}
                 className="ml-10"
               />
@@ -186,15 +171,6 @@ const Sidebar = () => {
             Add Loyalty
           </MenuItem>
         </SubMenu>
-
-        {/* <SubMenu
-          className={`${
-            active === "campaigns" ? "text-[#01A4EF]" : "text-black"
-          } `}
-          defaultOpen
-          label="Campaigns "
-          icon={<img src={loudSpeaker} />}
-        ></SubMenu> */}
 
         <MenuItem
           component={

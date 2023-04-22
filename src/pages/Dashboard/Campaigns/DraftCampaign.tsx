@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
-import Sidebar from "./sideBar";
+import Sidebar from "../SideBar/sideBar";
 import { toast } from "react-toastify";
 import { CircularProgress, Modal, Popover } from "@mui/material";
 const dustbin = require("../../../images/trash.png");
@@ -139,7 +139,7 @@ function DraftCampaign() {
                       pageCount * pageIndex,
                       pageCount * pageIndex + pageCount
                     )
-                    
+
                     .map((campaign: any, index: number) => {
                       return (
                         <tr
@@ -193,7 +193,9 @@ function DraftCampaign() {
                             {showDeleteIcon === campaign?.id && (
                               <div className="flex justify-center items-center absolute pt-[160px] pr-10">
                                 <img
-                                  src={savingLoader === false ? stopIcon : loader}
+                                  src={
+                                    savingLoader === false ? stopIcon : loader
+                                  }
                                   className="w-5 h-5 mx-2 "
                                   onClick={(e: any) => {
                                     handleClick(e);
@@ -213,7 +215,7 @@ function DraftCampaign() {
                                       <div className="w-full flex justify-center mt-3">
                                         <button
                                           className="px-4 w-24 bg-green-500 h-7 text-white rounded-[20px] hover:bg-green-400 ml-3"
-                                          onClick={(e:any) => {
+                                          onClick={(e: any) => {
                                             setSavingLoader(true);
                                             activeupdateStatus(
                                               campaign,
@@ -222,13 +224,14 @@ function DraftCampaign() {
                                               setSavingLoader,
                                               setCampaigns,
                                               campaigns,
-                                              index,
-                                              
+                                              index
                                             );
-                                            handleClose()
+                                            handleClose();
                                           }}
                                         >
-                                         {savingLoader===true?"Saving...":"Yes"}
+                                          {savingLoader === true
+                                            ? "Saving..."
+                                            : "Yes"}
                                         </button>
                                         <button
                                           className="px-4 w-24 bg-orange-500 h-7 text-white rounded-[20px] hover:bg-orange-400 ml-3"
@@ -420,7 +423,7 @@ export function ActivevatedCampaign() {
                                     handleClick(e);
                                   }}
                                 />
- <Modal
+                                <Modal
                                   id={id}
                                   open={open}
                                   onClose={handleClose}
@@ -434,7 +437,7 @@ export function ActivevatedCampaign() {
                                       <div className="w-full flex justify-center mt-3">
                                         <button
                                           className="px-4 w-24 bg-green-500 h-7 text-white rounded-[20px] hover:bg-green-400 ml-3"
-                                          onClick={(e:any) => {
+                                          onClick={(e: any) => {
                                             setSavingLoader(true);
                                             activeupdateStatus(
                                               campaign,
@@ -443,13 +446,14 @@ export function ActivevatedCampaign() {
                                               setSavingLoader,
                                               setCampaigns,
                                               campaigns,
-                                              index,
-                                              
+                                              index
                                             );
-                                            handleClose()
+                                            handleClose();
                                           }}
                                         >
-                                         {savingLoader===true?"Saving...":"Yes"}
+                                          {savingLoader === true
+                                            ? "Saving..."
+                                            : "Yes"}
                                         </button>
                                         <button
                                           className="px-4 w-24 bg-orange-500 h-7 text-white rounded-[20px] hover:bg-orange-400 ml-3"

@@ -370,12 +370,6 @@ function CreateCampaign(props: any) {
       </div>
       {switchTab === 1 && (
         <div className="w-full rounded-lg bg-white mt-5 pb-4">
-          {/* <div
-            className="w-full h-12 flex items-center pl-4 text-xs"
-            style={{ borderBottom: "1px solid #F6F8FA" }}
-          >
-            Whats your advertising goal?
-          </div> */}
           <div className="w-full flex">
             <div className="w-1/2">
               <div className="w-full pl-4">

@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useStoreActions } from "../../store/easy-peasy/hooks";
+import { useStoreActions, useStoreState } from "../../store/easy-peasy/hooks";
 import { useNavigate } from "react-router-dom";
 // import SignInlogo from'../../images/SignInlogo.png';
 import { FramLeft } from "../util/framLeft";
@@ -27,6 +27,7 @@ const LoginTest = () => {
   });
 
 
+  const user = useStoreState((store) => store.user);
   const [input, setInput] = useState({ email: "", password: "" })
   const addUser = useStoreActions((state) => state.addUser)
   const addToken = useStoreActions((state) => state.addToken)
@@ -53,7 +54,7 @@ const LoginTest = () => {
       addUser({
         token:login.accessToken, name:login.name, email:login.email, id:login?.id
       })
-      navigate('/draft_campaign');
+      navigate(`/${user.id}/draft_campaign`);
     }
     else {
       toast.error("Invalid credentials")

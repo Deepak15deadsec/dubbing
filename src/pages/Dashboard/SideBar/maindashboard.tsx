@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import FirstCampaign from "../CreateCampaign/FirstCampaign";
+import FirstCampaign from "../Campaigns/FirstCampaign";
 import SideBar from "./sideBar";
 
 // const SideBarLogo = require("../../../images/sidebarlogo.png");
