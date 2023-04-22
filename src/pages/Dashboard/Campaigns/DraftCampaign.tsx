@@ -255,14 +255,14 @@ function DraftCampaign() {
               </table>
               <div className="w-full flex justify-end mt-4 pr-5">
                 <div
-                  className="h-5 mx-3 w-5 rounded-full bg-blue-500 cursor-pointer text-center font-bold flex items-center justify-center"
+                  className="h-5 mx-3 w-5 rounded-full text-white bg-[#30D792] cursor-pointer text-center font-bold flex items-center justify-center"
                   onClick={() => {
                     if (pageIndex > 0) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex - 1));
                     }
                   }}
                 >
-                  {"<"}
+                  &#8249;
                 </div>
                 <div className="flex mx-1 items-center text-xs">{`${
                   pageCount * pageIndex + 1
@@ -272,14 +272,14 @@ function DraftCampaign() {
                     : campaigns?.length
                 } of ${campaigns?.length}`}</div>
                 <div
-                  className="h-5 mx-3 w-5 rounded-full bg-blue-500 cursor-pointer text-center font-bold flex items-center justify-center"
+                  className="h-5 mx-3 w-5 rounded-full text-white bg-[#30D792] cursor-pointer text-center font-bold flex items-center justify-center"
                   onClick={() => {
                     if (pageIndex < campaigns?.length / pageCount - 1) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex + 1));
                     }
                   }}
                 >
-                  {">"}
+                 &#8250;
                 </div>
               </div>
               {/* <div className="mt-4 w-full justify-start mb-10">
@@ -476,14 +476,14 @@ export function ActivevatedCampaign() {
               </table>
               <div className="w-full flex justify-end mt-4 pr-5">
                 <div
-                  className="h-5 mx-3 w-5 rounded-full bg-blue-500 cursor-pointer text-center font-bold flex items-center justify-center"
+                  className="h-5 mx-3 w-5 rounded-full text-white bg-[#30D792] cursor-pointer text-center font-bold flex items-center justify-center"
                   onClick={() => {
                     if (pageIndex > 0) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex - 1));
                     }
                   }}
                 >
-                  {"<"}
+                 &#8249;
                 </div>
                 <div className="flex mx-1 items-center text-xs">{`${
                   pageCount * pageIndex + 1
@@ -493,14 +493,14 @@ export function ActivevatedCampaign() {
                     : campaigns?.length
                 } of ${campaigns?.length}`}</div>
                 <div
-                  className="h-5 mx-3 w-5 rounded-full bg-blue-500 cursor-pointer text-center font-bold flex items-center justify-center"
+                  className="h-5 mx-3 w-5 rounded-full text-white bg-[#30D792] cursor-pointer text-center font-bold flex items-center justify-center"
                   onClick={() => {
                     if (pageIndex < campaigns?.length / pageCount - 1) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex + 1));
                     }
                   }}
                 >
-                  {">"}
+                 &#8250;
                 </div>
               </div>
               {/* <div className="mt-4 w-full justify-start mb-10">

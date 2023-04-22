@@ -487,7 +487,7 @@ function CreateLoyalty() {
             </div>
           </div>
 
-          <div className="w-full flex items-center mt-8 ">
+          <div className="w-full flex items-start justify-end mt-8 ">
             <button
               className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
               onClick={() => {
@@ -496,7 +496,11 @@ function CreateLoyalty() {
                   regex.test(ordersToComplete) &&
                   regex.test(termsAndConditions) &&
                   imageArray.length > 0 &&
-                  regex.test(offerTitle)
+                  regex.test(offerTitle) &&
+                  regex.test(startDate) &&
+                  regex.test(endDate) &&
+                  startDate !== endDate &&
+                  regex.test(internalOfferCode)
                 ) {
                   // setSwitchTab(2);
                 } else {
