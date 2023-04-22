@@ -66,8 +66,10 @@ async function fetchDraft_ActiveData(
         Authorization: `Bearer ${user.token}`,
       },
     });
-    setCampaigns(campaigns?.data.reverse());
+    setCampaigns(campaigns?.data?.reverse());
+    if(campaigns?.data!==undefined){
     setCampaignsFlag(true);
+    }
   };
   fetchData();
 }
@@ -110,15 +112,16 @@ function DraftCampaign() {
           Draft
         </div>
         <div className="w-full flex justify-center items-center">
-          {campaignsFlag === false && (
+          {campaigns && campaignsFlag === false && (
             <div className="w-full flex justify-center">Loading</div>
           )}
-          {!campaigns && campaignsFlag === true && (
+          {!campaigns && campaignsFlag === false && (
             <div className="mt-2 w-full flex justify-center">
               {" "}
               No Data Found
             </div>
           )}
+          
           {campaigns && campaignsFlag === true && (
             <div className="w-full flex flex-col justify-center items-center px-4">
               <table className="w-full">
@@ -333,10 +336,10 @@ export function ActivevatedCampaign() {
           Active
         </div>
         <div className="w-full flex justify-center items-center">
-          {campaignsFlag === false && (
+           {campaigns && campaignsFlag === false && (
             <div className="w-full flex justify-center">Loading</div>
           )}
-          {!campaigns && campaignsFlag === true && (
+          {!campaigns && campaignsFlag === false && (
             <div className="mt-2 w-full flex justify-center">
               {" "}
               No Data Found
