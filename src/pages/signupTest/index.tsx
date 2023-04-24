@@ -11,7 +11,7 @@ import {
 import { useMutation, useQuery } from "react-query";
 import { AppContext } from "../../context/appContext";
 import { useNavigate } from "react-router-dom";
-// import SignInlogo from'../../images/SignInlogo.png';
+import avniWhiteLogo2 from "../../images/avniWhiteLogo2.png";
 import { FramLeft } from "../util/framLeft";
 import { toast } from "react-toastify";
 import { emailRegex } from "../loginTest";
@@ -59,12 +59,17 @@ const SignupTest = () => {
   const [selectCheck, setSelectCheck] = useState(false);
 
   return (
-    <div className="grid gap-4 grid-cols-2 h-screen">
-      <FramLeft />
+    <div className="h-full w-full flex justify-center bg-[#30D792] py-8">
+      <div className="z-10 absolute top-4 left-4 flex items-center cursor-pointer" onClick={()=>{
+        navigate('/')
+      }}>
+        <img src={avniWhiteLogo2} className=" h-16 w-16" />{" "}
+        <span className="text-white text-3xl ">avni</span>
+      </div>
       <div
-        className="grid gap-4 px-[2rem] grid-cols-1"
+        className="grid gap-4 px-[2rem] grid-cols-1 bg-white rounded-lg"
         style={{
-          width: "100%",
+          width: "40%",
         }}
       >
         <div
@@ -74,7 +79,7 @@ const SignupTest = () => {
             fontStyle: "normal",
             fontWeight: 300,
             fontSize: "21px",
-            lineHeight: "27px",
+            lineHeight: "10px",
             color: "#333333",
           }}
         >
@@ -87,7 +92,7 @@ const SignupTest = () => {
             fontStyle: "normal",
             fontWeight: 200,
             fontSize: "20px",
-            lineHeight: "26px",
+            lineHeight: "10px",
             color: "#AAAAAA",
           }}
         >
@@ -95,13 +100,13 @@ const SignupTest = () => {
         </div>
         <div>
           <ul
-            className="w-100 relative m-0 list-none overflow-hidden p-0 transition-[height] duration-200 ease-in-out"
+            className="w-full relative m-0 list-none overflow-hidden p-0 transition-[height] duration-200 ease-in-out"
             data-te-stepper-init
             data-te-stepper-type="vertical"
           >
             <li
               data-te-stepper-step-ref
-              className="relative h-fit after:absolute after:left-[2.45rem] after:top-[3.6rem] after:mt-px after:h-[calc(100%-2.45rem)] after:w-px after:bg-[#e0e0e0] after:content-[''] dark:after:bg-neutral-600"
+              className="relative h-fit after:absolute after:left-[2.45rem] after:top-[3.6rem] after:mt-px after:h-[calc(100%-3rem)] after:w-px after:bg-[#e0e0e0] after:content-[''] dark:after:bg-neutral-600"
             >
               <div
                 data-te-stepper-head-ref
@@ -110,7 +115,7 @@ const SignupTest = () => {
                 <span
                   data-te-stepper-head-icon-ref
                   style={{
-                    backgroundColor: nextStep === true ? "#01A4EF" : "#ebedef",
+                    backgroundColor: nextStep === true ? "#30D792" : "#ebedef",
                   }}
                   className="mr-3 flex h-[1.938rem] w-[1.938rem] items-center justify-center rounded-full bg-[#ebedef] text-sm font-medium text-[#40464f]"
                   onClick={() => {
@@ -289,7 +294,7 @@ const SignupTest = () => {
                         height: "56px",
                         left: "1157px",
                         top: "816px",
-                        background: "#01A4EF",
+                        background: "#30D792",
                         borderRadius: "12px",
                         marginTop: "10px",
                       }}
@@ -363,7 +368,7 @@ const SignupTest = () => {
             </li>
             <li
               data-te-stepper-step-ref
-              className="relative h-fit after:absolute after:left-[2.45rem] after:top-[3.6rem] after:mt-px after:h-[calc(100%-2.45rem)] after:w-px after:bg-[#e0e0e0] after:content-[''] dark:after:bg-neutral-600"
+              className="relative h-fit after:absolute after:left-[2.45rem] after:top-[3.6rem] after:mt-px after:h-[calc(100%-100%)] after:w-px after:bg-[#e0e0e0] after:content-[''] dark:after:bg-neutral-600"
             >
               <div
                 data-te-stepper-head-ref
@@ -384,7 +389,7 @@ const SignupTest = () => {
               </div>
               <div
                 data-te-stepper-content-ref
-                className="ps-1 transition-[height, margin-bottom, padding-top, padding-bottom] left-0 overflow-hidden pr-6 pb-6 pl-[3.75rem] duration-300 ease-in-out"
+                className="ps-1 transition-[height, margin-bottom, padding-top, padding-bottom] left-0 overflow-hidden pr-6 pb-1 pl-[3.75rem] duration-300 ease-in-out"
               >
                 <span
                   style={{
@@ -404,7 +409,7 @@ const SignupTest = () => {
                   className="ps-1 transition-[height, margin-bottom, padding-top, padding-bottom] left-0 overflow-hidden pr-6 pb-6 pl-[3.75rem] duration-300 ease-in-out"
                 >
                   <div>
-                    <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
+                    <label className="block mb-1 mt-1 text-sm font-medium text-gray-900 ">
                       Email
                     </label>
                     <input
@@ -530,7 +535,7 @@ const SignupTest = () => {
                         alignItems: "center",
                         width: "70%",
                         height: "56px",
-                        background: "#01A4EF",
+                        background: "#30D792",
                         borderRadius: "12px",
                         marginTop: "10px",
                       }}
