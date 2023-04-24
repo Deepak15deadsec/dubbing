@@ -158,7 +158,7 @@ const SignupTest = () => {
                     <input
                       value={companyDetails.companyname}
                       required={true}
-                      style={{ width: "70%" }}
+                      style={{ width: "100%" }}
                       type="text"
                       id="first_name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
@@ -183,7 +183,7 @@ const SignupTest = () => {
                     <input
                       value={companyDetails.website}
                       required={true}
-                      style={{ width: "70%" }}
+                      style={{ width: "100%" }}
                       type="text"
                       id="first_name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
@@ -215,7 +215,7 @@ const SignupTest = () => {
                     <input
                       value={companyDetails.contactperson}
                       required={true}
-                      style={{ width: "70%" }}
+                      style={{ width: "100%" }}
                       type="text"
                       id="first_name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
@@ -234,7 +234,7 @@ const SignupTest = () => {
                         </div>
                       )}
                   </div>
-                  <div style={{ width: "70%" }}>
+                  <div style={{ width: "100%" }}>
                     <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
                       Contact Number
                     </label>
@@ -290,7 +290,7 @@ const SignupTest = () => {
                         padding: "16px 214px",
                         gap: "10px",
                         // position: 'absolute',
-                        width: "40%",
+                        width: "100%",
                         height: "56px",
                         left: "1157px",
                         top: "816px",
@@ -413,7 +413,7 @@ const SignupTest = () => {
                       Email
                     </label>
                     <input
-                      style={{ width: "70%", height: "56px" }}
+                      style={{ width: "100%", height: "56px" }}
                       type="text"
                       id="first_name"
                       value={userDetails.email}
@@ -437,7 +437,7 @@ const SignupTest = () => {
                       Password
                     </label>
                     <input
-                      style={{ width: "70%", height: "56px" }}
+                      style={{ width: "100%", height: "56px" }}
                       type="text"
                       id="first_name"
                       value={userDetails.password}
@@ -461,7 +461,7 @@ const SignupTest = () => {
                       Confirm Password
                     </label>
                     <input
-                      style={{ width: "70%", height: "56px" }}
+                      style={{ width: "100%", height: "56px" }}
                       type="text"
                       id="first_name"
                       value={userDetails.confirmpassword}
@@ -533,7 +533,7 @@ const SignupTest = () => {
                         flexDirection: "row",
                         justifyContent: "center",
                         alignItems: "center",
-                        width: "70%",
+                        width: "100%",
                         height: "56px",
                         background: "#30D792",
                         borderRadius: "12px",
