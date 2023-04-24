@@ -491,7 +491,7 @@ const SignupTest = () => {
                     <div className="flex items-center h-8">
                       <div className="flex items-center">
                         <input
-                          className="h-4 w-4 rounded-sm mr-2 cursor-pointer"
+                          className="h-4 w-4 rounded-sm mr-2 cursor-pointer accent-[#30D792]"
                           type="checkbox"
                           checked={selectCheck}
                           id="checkboxDefault"
