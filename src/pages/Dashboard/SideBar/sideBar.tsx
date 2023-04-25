@@ -41,7 +41,7 @@ const Sidebar = () => {
         <SubMenu
           className={`${
             active === "campaigns" ? "text-[#01A4EF]" : "text-black"
-          } `}
+          } font-bold `}
           defaultOpen
           label="Campaigns "
           icon={<img src={loudSpeaker} />}
@@ -49,7 +49,7 @@ const Sidebar = () => {
           <MenuItem
             className={`${
               active === "active" ? "text-[#01A4EF]" : "text-black"
-            } `}
+            } font-normal  `}
             component={
               <NavLink
                 to={`/${user.id}/active_campaign`}
@@ -63,7 +63,7 @@ const Sidebar = () => {
           <MenuItem
             className={`${
               active === "draft" ? "text-[#01A4EF]" : "text-black"
-            } `}
+            } font-normal  `}
             component={
               <NavLink
                 to={`/${user.id}/draft_campaign`}
@@ -78,7 +78,7 @@ const Sidebar = () => {
           <MenuItem
             className={`${
               active === "completed" ? "text-[#01A4EF]" : "text-black"
-            } `}
+            } font-normal `}
             component={
               <NavLink
                 to={`/dashboard`}
@@ -92,7 +92,7 @@ const Sidebar = () => {
           <MenuItem
             className={`${
               active === "overview" ? "text-[#01A4EF]" : "text-black"
-            } `}
+            } font-normal  `}
             component={
               <NavLink
                 to={`/dashboard`}
@@ -108,7 +108,7 @@ const Sidebar = () => {
         <SubMenu
           className={`${
             active === "Loyalty" ? "text-[#01A4EF]" : "text-black"
-          } `}
+          } font-bold`}
           defaultOpen 
           label="Loyalty "
           icon={<img src={plusSign} />}
@@ -116,7 +116,7 @@ const Sidebar = () => {
           <MenuItem
             className={`${
               active === "activeLoyalty" ? "text-[#01A4EF]" : "text-black"
-            } `}
+            } font-normal `}
             component={
               <NavLink
                 to={`/${user.id}/active_campaign`}
@@ -125,12 +125,12 @@ const Sidebar = () => {
               />
             }
           >
-            Active Loyalty
+            Active
           </MenuItem>
           <MenuItem
             className={`${
               active === "draftLoyalty" ? "text-[#01A4EF]" : "text-black"
-            } `}
+            } font-normal`}
             component={
               <NavLink
                 to={`/${user.id}/draft_campaign`}
@@ -139,13 +139,13 @@ const Sidebar = () => {
               />
             }
           >
-            Draft Loyalty
+            Draft
           </MenuItem>
 
           <MenuItem
             className={`${
               active === "completedLoyalty" ? "text-[#01A4EF]" : "text-black"
-            } `}
+            } font-normal `}
             component={
               <NavLink
                 to={`/${user.id}/createLoyalty`}
@@ -154,12 +154,12 @@ const Sidebar = () => {
               />
             }
           >
-            Completed Loyalty
+            Completed
           </MenuItem>
           <MenuItem
             className={`${
               active === "overviewLoyalty" ? "text-[#01A4EF]" : "text-black"
-            } `}
+            } font-normal `}
             component={
               <NavLink
                 to={`/${user.id}/createLoyalty`}
@@ -168,7 +168,7 @@ const Sidebar = () => {
               />
             }
           >
-            Add Loyalty
+            New Loyalty
           </MenuItem>
         </SubMenu>
 
@@ -181,7 +181,7 @@ const Sidebar = () => {
           }
           className={`${
             active === "profile&settings" ? "text-[#01A4EF]" : "text-black"
-          } `}
+          } font-bold `}
           icon={<img src={profileSetting} />}
         >
           {" "}
@@ -193,7 +193,7 @@ const Sidebar = () => {
             setOpenClose(true);
           }}
         >
-          <div className="w-full flex items-center">Logout</div>
+          <div className="w-full flex items-center font-bold">Logout</div>
           <Modal
             className="w-full h-full flex justify-center items-center"
             open={openClose}
