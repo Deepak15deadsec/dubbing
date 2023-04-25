@@ -247,7 +247,7 @@ function DraftCampaign() {
                                   </div>
                                 </Modal>
 
-                                <img src={dustbin} className="w-6 h-6 mx-2 " />
+                                {/* <img src={dustbin} className="w-6 h-6 mx-2 " /> */}
                               </div>
                             )}
                           </td>
@@ -468,7 +468,7 @@ export function ActivevatedCampaign() {
                                     </div>
                                   </div>
                                 </Modal>
-                                <img src={dustbin} className="w-6 h-6 mx-2 " />
+                                {/* <img src={dustbin} className="w-6 h-6 mx-2 " /> */}
                               </div>
                             )}
                           </td>
