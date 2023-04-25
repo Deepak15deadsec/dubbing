@@ -40,7 +40,7 @@ const Sidebar = () => {
       >
         <SubMenu
           className={`${
-            active === "campaigns" ? "text-[#01A4EF]" : "text-black"
+            active === "campaigns" ? "text-[#30D792]" : "text-black"
           } font-bold `}
           defaultOpen
           label="Campaigns "
@@ -48,7 +48,7 @@ const Sidebar = () => {
         >
           <MenuItem
             className={`${
-              active === "active" ? "text-[#01A4EF]" : "text-black"
+              active === "active" ? "text-[#30D792]" : "text-black"
             } font-normal  `}
             component={
               <NavLink
@@ -62,7 +62,7 @@ const Sidebar = () => {
           </MenuItem>
           <MenuItem
             className={`${
-              active === "draft" ? "text-[#01A4EF]" : "text-black"
+              active === "draft" ? "text-[#30D792]" : "text-black"
             } font-normal  `}
             component={
               <NavLink
@@ -77,7 +77,7 @@ const Sidebar = () => {
 
           <MenuItem
             className={`${
-              active === "completed" ? "text-[#01A4EF]" : "text-black"
+              active === "completed" ? "text-[#30D792]" : "text-black"
             } font-normal `}
             component={
               <NavLink
@@ -91,7 +91,7 @@ const Sidebar = () => {
           </MenuItem>
           <MenuItem
             className={`${
-              active === "overview" ? "text-[#01A4EF]" : "text-black"
+              active === "overview" ? "text-[#30D792]" : "text-black"
             } font-normal  `}
             component={
               <NavLink
@@ -107,7 +107,7 @@ const Sidebar = () => {
 
         <SubMenu
           className={`${
-            active === "Loyalty" ? "text-[#01A4EF]" : "text-black"
+            active === "Loyalty" ? "text-[#30D792]" : "text-black"
           } font-bold`}
           defaultOpen 
           label="Loyalty "
@@ -115,7 +115,7 @@ const Sidebar = () => {
         >
           <MenuItem
             className={`${
-              active === "activeLoyalty" ? "text-[#01A4EF]" : "text-black"
+              active === "activeLoyalty" ? "text-[#30D792]" : "text-black"
             } font-normal `}
             component={
               <NavLink
@@ -129,7 +129,7 @@ const Sidebar = () => {
           </MenuItem>
           <MenuItem
             className={`${
-              active === "draftLoyalty" ? "text-[#01A4EF]" : "text-black"
+              active === "draftLoyalty" ? "text-[#30D792]" : "text-black"
             } font-normal`}
             component={
               <NavLink
@@ -144,7 +144,7 @@ const Sidebar = () => {
 
           <MenuItem
             className={`${
-              active === "completedLoyalty" ? "text-[#01A4EF]" : "text-black"
+              active === "completedLoyalty" ? "text-[#30D792]" : "text-black"
             } font-normal `}
             component={
               <NavLink
@@ -158,7 +158,7 @@ const Sidebar = () => {
           </MenuItem>
           <MenuItem
             className={`${
-              active === "overviewLoyalty" ? "text-[#01A4EF]" : "text-black"
+              active === "overviewLoyalty" ? "text-[#30D792]" : "text-black"
             } font-normal `}
             component={
               <NavLink
@@ -180,7 +180,7 @@ const Sidebar = () => {
             />
           }
           className={`${
-            active === "profile&settings" ? "text-[#01A4EF]" : "text-black"
+            active === "profile&settings" ? "text-[#30D792]" : "text-black"
           } font-bold `}
           icon={<img src={profileSetting} />}
         >
