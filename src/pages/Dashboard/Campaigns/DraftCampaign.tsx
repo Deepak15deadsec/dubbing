@@ -419,7 +419,7 @@ export function ActivevatedCampaign() {
                               <div className="flex justify-center items-center absolute pt-[160px] pr-10">
                                 <img
                                   src={
-                                    savingLoader === false ? stopIcon : loader
+                                    savingLoader === false ? pauseIcon : loader
                                   }
                                   className="w-5 h-5 mx-2"
                                   onClick={(e: any) => {
