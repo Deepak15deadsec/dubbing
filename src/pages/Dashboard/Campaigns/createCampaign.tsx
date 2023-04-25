@@ -1332,7 +1332,7 @@ function CreateCampaign(props: any) {
             <div className="w-full">
               <div className="w-full m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4">
                 <div
-                  className="w-full h-10 flex items-center pl-4 text-sm"
+                  className="w-full h-10 flex items-center pl-4 text-sm font-bold"
                   style={{ borderBottom: "1px solid #EEEEEE" }}
                 >
                   Campaign
@@ -1393,7 +1393,7 @@ function CreateCampaign(props: any) {
               </div>
               <div className="w-full m-5 border border-gray-200 rounded-md mt-4 mb-4 b-4 pb-4">
                 <div
-                  className="w-full h-10 flex items-center pl-4 text-sm"
+                  className="w-full h-10 flex items-center pl-4 text-sm font-bold"
                   style={{ borderBottom: "1px solid #EEEEEE" }}
                 >
                   Targeting
@@ -1451,7 +1451,7 @@ function CreateCampaign(props: any) {
               </div>
               <div className="w-full m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4">
                 <div
-                  className="w-full h-10 flex items-center pl-4 text-sm"
+                  className="w-full h-10 flex items-center pl-4 text-sm font-bold"
                   style={{ borderBottom: "1px solid #EEEEEE" }}
                 >
                   Settings
@@ -1460,13 +1460,13 @@ function CreateCampaign(props: any) {
                   <div className="w-full flex">
                     <div className="w-1/3 text-xs">Start Date</div>
                     <div className="w-full text-xs text-gray-400">
-                      {startDate}
+                      {new Date(startDate).toDateString()}
                     </div>
                   </div>
                   <div className="w-full flex">
                     <div className="w-1/3 text-xs">End Date</div>
                     <div className="w-full text-xs text-gray-400">
-                      {endDate}
+                      {new Date(endDate).toDateString()}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
