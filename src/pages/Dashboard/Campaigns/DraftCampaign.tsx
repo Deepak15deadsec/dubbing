@@ -434,7 +434,7 @@ export function ActivevatedCampaign() {
                                 >
                                   <div className="px-5 h-[150px] flex flex-col items-center justify-center p-4 bg-white rounded">
                                     <div className="text-sm">
-                                      Do you want to chage the campaign status ?
+                                      Do you want to change the campaign status ?
                                     </div>
                                     <div className="mt-1 flex justify-center">
                                       <div className="w-full flex justify-center mt-3">

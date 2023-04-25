@@ -133,15 +133,15 @@ function Ad(props: any) {
               value={adValue}
               onChange={handleChange}
             >
-              <MenuItem value="Ten" style={{ fontSize: "14px" }}>
-                Ten
+              <MenuItem value="Purchase" style={{ fontSize: "14px" }}>
+                Purchase
               </MenuItem>
-              <MenuItem value="Twenty" style={{ fontSize: "14px" }}>
-                Twenty
+              <MenuItem value="Sign up" style={{ fontSize: "14px" }}>
+                Sign up
               </MenuItem>
-              <MenuItem value="Thirty" style={{ fontSize: "14px" }}>
+              {/* <MenuItem value="Thirty" style={{ fontSize: "14px" }}>
                 Thirty
-              </MenuItem>
+              </MenuItem> */}
             </Select>
           </div>
           {!regex.test(adValue) && showErrorMessage.one === true && (
@@ -314,8 +314,10 @@ function Ad(props: any) {
         </div>
       </div>
       <div className="w-full p-2 rounded-sm">
+       
         <div className="bg-white p-2 rounded-sm">
-          <img src={imageArray[0]} className="max-h-[160px] w-full" />
+        <div className="font-bold text-lg">Campaign</div>
+          <img src={imageArray[0]} className="max-h-[160px] max-w-[640px]" />
           <div className="mt-3 text-sm">{adTitle}</div>
           <div className="mt-3 text-xs text-gray-300">{description}</div>
           <div className="w-full flex mt-4">
@@ -334,8 +336,6 @@ const marks = [
     value: 13,
     label: "13",
   },
-
-  { value: 15, label: "15" },
 
   {
     value: 65,
@@ -397,7 +397,7 @@ function Targetting(props: any) {
       >
         <div className="w-full mb-3 mt-2">
           <div className="w-full flex items-center ">
-            <div className="w-full mx-2 text-sm">Gender Type</div>
+            <div className="w-full mx-2 text-sm">Gender</div>
           </div>
 
           <div className="mt-2 w-full">
@@ -681,7 +681,7 @@ function Settings(props: any) {
 
               <DatePicker
                 placeholderText="mm/dd/yy"
-                value={startDate}
+                value={new Date(startDate).toDateString()}
                 onChange={(e: any) => {
                   setStartDate(
                     `${new Date(e).getMonth() + 1}/${new Date(
@@ -721,7 +721,7 @@ function Settings(props: any) {
             <div className="w-full ml-2">
               <div className="w-full mb-2 text-sm font-semibold">End Date</div>
               <DatePicker
-                value={endDate}
+                value={new Date(endDate).toDateString()}
                 minDate={new Date()}
                 placeholderText="mm/dd/yy"
                 className="border w-full h-10 pl-4 border-gray-300 rounded"
@@ -829,7 +829,7 @@ function Preview(props: any) {
   return (
     <div className="w-1/2 ml-4 rounded-lg bg-white mt-5 pb-4">
       <div
-        className=" h-12 flex items-center pl-4 pr-4 text-xs"
+        className=" h-12 flex items-center pl-4 pr-4 text-xl font-bold"
         style={{ borderBottom: "1px solid #F6F8FA" }}
       >
         Preview
@@ -838,7 +838,7 @@ function Preview(props: any) {
         <div className="w-full">
           <div className=" m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4">
             <div
-              className="h-10 flex items-center pl-4 text-sm"
+              className="h-10 flex items-center pl-4 text-sm font-bold"
               style={{ borderBottom: "1px solid #EEEEEE" }}
             >
               Add Goal
@@ -898,7 +898,7 @@ function Preview(props: any) {
           </div>
           <div className=" m-5 border border-gray-200 rounded-md mt-4 mb-4 b-4 pb-4">
             <div
-              className="w-full h-10 flex items-center pl-4 text-sm"
+              className="w-full h-10 flex items-center pl-4 text-sm font-bold"
               style={{ borderBottom: "1px solid #EEEEEE" }}
             >
               Targeting
@@ -967,9 +967,9 @@ function Preview(props: any) {
               </div>
             </div>
           </div>
-          <div className="m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4">
+          <div className="m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4 ">
             <div
-              className="w-full h-10 flex items-center pl-4 text-sm"
+              className="w-full h-10 flex items-center pl-4 text-sm font-bold"
               style={{ borderBottom: "1px solid #EEEEEE" }}
             >
               Settings
@@ -978,13 +978,13 @@ function Preview(props: any) {
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">Start Date:</div>
                 <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.adStartDate}
+                  {new Date(campaign?.data[0]?.adStartDate).toDateString()}
                 </div>
               </div>
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">End Date:</div>
                 <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.adEndDate}
+                  {new Date(campaign?.data[0]?.adEndDate).toDateString()}
                 </div>
               </div>
               <div className="w-full flex mt-1">
@@ -994,9 +994,9 @@ function Preview(props: any) {
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Country:</div>
+                <div className="w-1/3 text-xs">Website Url:</div>
                 <div className="w-full text-xs text-gray-400 flex">
-                  {campaign?.data[0]?.billingCountry}
+                  {""}
                 </div>
               </div>
             </div>
@@ -1234,13 +1234,13 @@ function ActiveCampaign() {
                   </div>
                 </Modal>
               </div>
-              <img src={pauseIcon} className="w-3 h-4 mx-2 cursor-pointer" />
+              {/* <img src={pauseIcon} className="w-3 h-4 mx-2 cursor-pointer" />
               <img src={stopIcon} className="w-4 h-4 mx-2 cursor-pointer" />
-              <img src={dustbinIcon} className="w-4 h-4 mx-2 cursor-pointer" />
+              <img src={dustbinIcon} className="w-4 h-4 mx-2 cursor-pointer" /> */}
             </div>
           </div>
           <div className="w-full mt-2 mb-2 flex items-center rounded-lg bg-white cursor-pointer text-xs">
-            <div
+            {/* <div
               className=" flex items-center justify-center text-xs h-8 rounded-md mr-4 px-3"
               style={{ backgroundColor: switchTab === 1 ? "#01A4EF" : "#fff" }}
               onClick={() => {
@@ -1248,7 +1248,7 @@ function ActiveCampaign() {
               }}
             >
               Performance
-            </div>
+            </div> */}
             <div
               className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
               style={{ backgroundColor: switchTab === 2 ? "#01A4EF" : "#fff" }}
@@ -1256,7 +1256,7 @@ function ActiveCampaign() {
                 setSwitchTab(2);
               }}
             >
-              Ad
+              Campaign
             </div>
             <div
               className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
@@ -1265,7 +1265,7 @@ function ActiveCampaign() {
                 setSwitchTab(3);
               }}
             >
-              Targetting
+              Targeting
             </div>
             <div
               className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
