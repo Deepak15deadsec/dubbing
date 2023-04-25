@@ -787,7 +787,29 @@ function Settings(props: any) {
             </div>
           )}
         </div>
-
+        <div className="w-full pl-4">
+          <div className="w-full mt-4 flex">
+            <div className="w-full text-sm font-semibold">
+              Website Url
+            </div>
+          </div>
+          <div className="mt-2 w-full">
+            <TextField
+              value={""}
+              size="small"
+              className="w-full bg-white"
+              type="number"
+              onChange={(e: any) => {
+              //  setNumberOfSignups(e.target.value);
+              }}
+            />
+          </div>
+          {/* {numberOfSignups === "" && showErrorMessage.three === true && (
+            <div className="w-full text-xs font-semibold text-red-500 mt-1">
+              {errorMessageOne.isRequired}
+            </div>
+          )} */}
+        </div>
         {/* <div className="w-full pl-4">
           <div className="w-full mt-4 flex">
             <div className="w-full text-sm font-semibold">Biling Country</div>
