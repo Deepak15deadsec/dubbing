@@ -788,7 +788,7 @@ function Settings(props: any) {
           )}
         </div>
 
-        <div className="w-full pl-4">
+        {/* <div className="w-full pl-4">
           <div className="w-full mt-4 flex">
             <div className="w-full text-sm font-semibold">Biling Country</div>
           </div>
@@ -814,7 +814,7 @@ function Settings(props: any) {
               {errorMessageOne.isRequired}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
       <div className="w-4/5 flex justify-center">
         <img src={iPhone} />
