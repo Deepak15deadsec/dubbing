@@ -76,7 +76,7 @@ async function fetchDraft_ActiveData(
   fetchData();
 }
 
-function DraftCampaign() {
+function DraftCampaignList() {
   const [campaigns, setCampaigns] = useState([]);
   const [campaignsFlag, setCampaignsFlag] = useState(false);
   const user = useStoreState((state) => state.user);
@@ -160,7 +160,7 @@ function DraftCampaign() {
                           <td
                             className="pl-4"
                             onClick={() => {
-                              navigate(`/active-campaigns/${campaign.id}`);
+                              navigate(`/draft-campaigns/${campaign.id}`);
                             }}
                           >
                             <div className="p-3">
@@ -177,7 +177,7 @@ function DraftCampaign() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/active-campaigns/${campaign.id}`);
+                              navigate(`/draft-campaigns/${campaign.id}`);
                             }}
                           >
                             {campaign?.targetCategory}
@@ -185,7 +185,7 @@ function DraftCampaign() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/active-campaigns/${campaign.id}`);
+                              navigate(`/draft-campaigns/${campaign.id}`);
                             }}
                           >
                             {`${new Date(
@@ -299,9 +299,9 @@ function DraftCampaign() {
   );
 }
 
-export default DraftCampaign;
+export default DraftCampaignList;
 
-export function ActivevatedCampaign() {
+export function ActivevatedCampaignList() {
   const [campaigns, setCampaigns] = useState([]);
   const [campaignsFlag, setCampaignsFlag] = useState(false);
   const user = useStoreState((state) => state.user);

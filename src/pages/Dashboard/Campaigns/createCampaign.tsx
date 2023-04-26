@@ -292,7 +292,7 @@ function CreateCampaign(props: any) {
     arrayOpions: [],
   });
 
-  const [headline, setHeadline] = useState("");
+  const [CampaignTitle, setCampaignTitle] = useState("");
   const [description, setDescription] = useState("");
   const [gender, setGender] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = React.useState([20, 45]);
@@ -440,7 +440,7 @@ function CreateCampaign(props: any) {
 
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Headline</div>
+                  <div className="text-sm font-semibold">Campaign Title</div>
                   <div className="ml-2 items-center flex justify-end">
                     <Tooltip
                       title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
@@ -453,17 +453,17 @@ function CreateCampaign(props: any) {
                 </div>
                 <div className="mt-2 w-full">
                   <TextField
-                    value={headline}
+                    value={CampaignTitle}
                     size="small"
                     className="w-full"
                     onChange={(e: any) => {
-                      if (headline.length <= 75 || e.keyCode === 8) {
-                        setHeadline(e.target.value);
+                      if (CampaignTitle.length <= 75 || e.keyCode === 8) {
+                        setCampaignTitle(e.target.value);
                       }
                     }}
                   />
                 </div>
-                {!regex.test(headline) && showErrorMessage.one === true && (
+                {!regex.test(CampaignTitle) && showErrorMessage.one === true && (
                   <div className="w-full text-xs font-semibold text-red-500 mt-1">
                     {errorMessageOne.isRequired}
                   </div>
@@ -636,7 +636,7 @@ function CreateCampaign(props: any) {
                   onClick={() => {
                     if (
                       regex.test(adValue) &&
-                      regex.test(headline) &&
+                      regex.test(CampaignTitle) &&
                       regex.test(description)
                     ) {
                       setSwitchTab(2);
@@ -672,7 +672,7 @@ function CreateCampaign(props: any) {
                       src={imageArray[0]}
                     />
                     <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
-                      {headline}
+                      {CampaignTitle}
                     </div>
                   </div>
                 </div>
@@ -1026,7 +1026,7 @@ function CreateCampaign(props: any) {
                       src={imageArray[0]}
                     />
                     <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
-                      {headline}
+                      {CampaignTitle}
                     </div>
                   </div>
                 </div>
@@ -1316,7 +1316,7 @@ function CreateCampaign(props: any) {
                       src={imageArray[0]}
                     />
                     <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
-                      {headline}
+                      {CampaignTitle}
                     </div>
                   </div>
                 </div>
@@ -1364,9 +1364,9 @@ function CreateCampaign(props: any) {
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Headline</div>
+                    <div className="w-1/3 text-xs">Campaign Title</div>
                     <div className="w-full text-xs text-gray-400">
-                      {headline}
+                      {CampaignTitle}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
@@ -1581,7 +1581,7 @@ function CreateCampaign(props: any) {
                       src={imageArray[0]}
                     />
                     <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
-                      {headline}
+                      {CampaignTitle}
                     </div>
                   </div>
                 </div>

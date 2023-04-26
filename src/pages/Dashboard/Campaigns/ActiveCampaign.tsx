@@ -71,8 +71,8 @@ function Ad(props: any) {
     setAdTitle,
     adValue,
     setAdValue,
-    headline,
-    setHeadline,
+    CampaignTitle,
+    setCampaignTitle,
     description,
     setDescription,
     imageArray,
@@ -153,19 +153,19 @@ function Ad(props: any) {
 
         <div className="w-full pl-4">
           <div className="w-full mt-4 flex">
-            <div className="text-sm font-semibold">Headline</div>
+            <div className="text-sm font-semibold">Campaign Title</div>
           </div>
           <div className="mt-2 w-full">
             <TextField
-              value={headline}
+              value={CampaignTitle}
               size="small"
               className="w-full bg-white"
               onChange={(e: any) => {
-                setHeadline(e.target.value);
+                setCampaignTitle(e.target.value);
               }}
             />
           </div>
-          {!regex.test(headline) && showErrorMessage.one === true && (
+          {!regex.test(CampaignTitle) && showErrorMessage.one === true && (
             <div className="w-full text-xs font-semibold text-red-500 mt-1">
               {errorMessageOne.isRequired}
             </div>
@@ -847,6 +847,8 @@ function Settings(props: any) {
 
 function Preview(props: any) {
   const { campaign, setEditTab } = props;
+  const user = useStoreState((state) => state.user);
+
 
   return (
     <div className="w-1/2 ml-4 rounded-lg bg-white mt-5 pb-4">
@@ -867,37 +869,37 @@ function Preview(props: any) {
             </div>
             <div className=" mt-4 pl-4">
               <div className="w-full flex">
-                <div className="w-1/3 text-xs">Ad Title:</div>
+                <div className="w-1/3 text-xs">Ad Title</div>
                 <div className="w-full text-xs text-gray-400">
                   {campaign?.data[0]?.adTitle}
                 </div>
               </div>
               <div className="w-full flex">
-                <div className="w-1/3 text-xs">Ad Type:</div>
+                <div className="w-1/3 text-xs">Ad Type</div>
                 <div className="w-full text-xs text-gray-400">
                   {campaign?.data[0]?.campaignType}
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Category:</div>
+                <div className="w-1/3 text-xs">Category</div>
                 <div className="w-full text-xs text-gray-400">
                   {campaign?.data[0]?.targetCategory}
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Sub Category:</div>
+                <div className="w-1/3 text-xs">Sub Category</div>
                 <div className="w-full text-xs text-gray-400">
                   {campaign?.data[0]?.targetSubCategory}
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Headline:</div>
+                <div className="w-1/3 text-xs">Campaign Title</div>
                 <div className="w-full text-xs text-gray-400">
                   {campaign?.data[0]?.adTitle}
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 flex items-center text-xs">Image:</div>
+                <div className="w-1/3 flex items-center text-xs">Image</div>
                 <div className="w-full items-center flex text-xs text-gray-400">
                   {campaign?.data[0]?.adImage?.map(
                     (val: any, index: number) => {
@@ -911,7 +913,7 @@ function Preview(props: any) {
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Description:</div>
+                <div className="w-1/3 text-xs">Description</div>
                 <div className="w-full text-xs text-gray-400">
                   {campaign?.data[0]?.adDesc}
                 </div>
@@ -927,7 +929,7 @@ function Preview(props: any) {
             </div>
             <div className="w-full mt-4 pl-4">
               <div className="w-full flex">
-                <div className="w-1/3 text-xs">Gender:</div>
+                <div className="w-1/3 text-xs">Gender</div>
                 <div className="w-full text-xs flex text-gray-400">
                   {campaign?.data[0]?.targetGender?.map(
                     (val: any, index: any) => {
@@ -944,7 +946,7 @@ function Preview(props: any) {
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Age Range:</div>
+                <div className="w-1/3 text-xs">Age Range</div>
                 <div className="w-full text-xs text-gray-400">
                   {campaign?.data[0]?.targetAgeRange.min}
                   {" - "}
@@ -952,7 +954,7 @@ function Preview(props: any) {
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Keywords:</div>
+                <div className="w-1/3 text-xs">Keywords</div>
                 <div className="w-full text-xs text-gray-400 flex">
                   {campaign?.data[0]?.targetKeywords.map(
                     (data: any, index: number) => {
@@ -969,7 +971,7 @@ function Preview(props: any) {
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Do Not Target:</div>
+                <div className="w-1/3 text-xs">Do Not Target</div>
 
                 <div className="w-full text-xs text-gray-400 flex">
                   {campaign?.data[0]?.targetDonotKeywords.map(
@@ -998,25 +1000,25 @@ function Preview(props: any) {
             </div>
             <div className="w-full mt-4 pl-4">
               <div className="w-full flex">
-                <div className="w-1/3 text-xs">Start Date:</div>
+                <div className="w-1/3 text-xs">Start Date</div>
                 <div className="w-full text-xs text-gray-400">
                   {new Date(campaign?.data[0]?.adStartDate).toDateString()}
                 </div>
               </div>
               <div className="w-full flex">
-                <div className="w-1/3 text-xs">End Date:</div>
+                <div className="w-1/3 text-xs">End Date</div>
                 <div className="w-full text-xs text-gray-400">
                   {new Date(campaign?.data[0]?.adEndDate).toDateString()}
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Number of Signups:</div>
+                <div className="w-1/3 text-xs">Number of Signups</div>
                 <div className="w-full text-xs text-gray-400">
                   {campaign?.data[0]?.transactionCount}
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Website Url:</div>
+                <div className="w-1/3 text-xs">Website Url</div>
                 <div className="w-full text-xs text-gray-400 flex">
                   {""}
                 </div>
@@ -1026,10 +1028,10 @@ function Preview(props: any) {
           <div className=" ml-3 flex items-center mt-2 ">
             <div className="w-full flex justify-start pr-10">
               <button className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
-                <Link to={`/active_campaign`}>Back</Link>
+                <Link to={`/${user.id}/active_campaign`}>Back</Link>
               </button>
             </div>
-            <div className="w-full flex justify-end pr-10">
+            {/* <div className="w-full flex justify-end pr-10">
               <button
                 className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                 onClick={() => {
@@ -1038,7 +1040,7 @@ function Preview(props: any) {
               >
                 Edit
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -1076,7 +1078,7 @@ function ActiveCampaign() {
 
   const [adTitle, setAdTitle] = useState("");
   const [adValue, setAdValue] = useState("");
-  const [headline, setHeadline] = useState("");
+  const [CampaignTitle, setCampaignTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageArray, setImageArray] = useState<string[]>([]);
 
@@ -1125,7 +1127,7 @@ function ActiveCampaign() {
 
     setAdTitle(campaign?.data[0].adTitle);
     setAdValue(campaign?.data[0].campaignType);
-    setHeadline(campaign?.data[0].adTitle);
+    setCampaignTitle(campaign?.data[0].adTitle);
     setDescription(campaign?.data[0].adDesc);
     setImageArray(campaign?.data[0].adImage);
   }, [campaign]);
@@ -1139,7 +1141,7 @@ function ActiveCampaign() {
       {editTab === false && (
         <Preview campaign={campaign} setEditTab={setEditTab} />
       )}
-      {editTab === true && (
+         {editTab === true  && (
         <div className="w-full pt-4 px-4">
           <div className="w-full flex rounded-lg bg-white">
             <div className="w-full h-12 flex items-center  pl-4 font-bold text-xl">
@@ -1306,8 +1308,8 @@ function ActiveCampaign() {
               setAdTitle={setAdTitle}
               adValue={adValue}
               setAdValue={setAdValue}
-              headline={headline}
-              setHeadline={setHeadline}
+              CampaignTitle={CampaignTitle}
+              setCampaignTitle={setCampaignTitle}
               description={description}
               setDescription={setDescription}
               imageArray={imageArray}

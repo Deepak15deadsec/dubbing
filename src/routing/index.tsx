@@ -15,11 +15,12 @@ import SideBar from "../pages/Dashboard/SideBar/maindashboard";
 import MainDashBoard from "../pages/Dashboard/SideBar/maindashboard";
 import CreateCampaign from "../pages/Dashboard/Campaigns/createCampaign";
 import ActiveCampaign from "../pages/Dashboard/Campaigns/ActiveCampaign";
-import DraftCampaign, { ActivevatedCampaign } from "../pages/Dashboard/Campaigns/DraftCampaign";
 import Sidebar from "../pages/Dashboard/SideBar/sideBar";
 import ProfileAndSettings from "../pages/Dashboard/Profile&settings/Profile&Settings";
 import { useStoreState } from "../store/easy-peasy/hooks";
 import CreateLoyalty from "../pages/Dashboard/Loyalty/CreateLoyalty";
+import DrafteCampaigns from "../pages/Dashboard/Campaigns/DraftCampaigns";
+import DraftCampaignList, { ActivevatedCampaignList } from "../pages/Dashboard/Campaigns/ListedCampaigns";
 
 
 const Routing = () => {
@@ -44,9 +45,10 @@ const Routing = () => {
         <Route path="/otpverification" element={<OtpVerification />} />
         <Route path="/registered" element={<SuccessfullyRegistered />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
-        <Route path="/:id/draft_campaign" element={<DraftCampaign />}/>
-        <Route path="/:id/active_campaign" element={<ActivevatedCampaign />}/>
+        <Route path="/:id/draft_campaign" element={<DraftCampaignList />}/>
+        <Route path="/:id/active_campaign" element={<ActivevatedCampaignList />}/>
         <Route path="/active-campaigns/:id" element={<ActiveCampaign />} />
+        <Route path="/draft-campaigns/:id" element={<DrafteCampaigns />} />
         <Route path="/:id/createLoyalty" element={<CreateLoyalty />} />
         {/* <Route index element={<Overview />} /> */}
         <Route path="*" element={<Error />} />
