@@ -17,6 +17,7 @@ import { Modal } from "@mui/material";
 const loudSpeaker = require("../../../images/loudspeaker.png");
 const plusSign = require("../../../images/plusSign.png");
 const profileSetting = require("../../../images/profileSetting.png");
+const logoutIcon = require("../../../images/logout.png");
 
 const Sidebar = () => {
   const { collapseSidebar, collapsed } = useProSidebar();
@@ -101,26 +102,26 @@ const Sidebar = () => {
               />
             }
           >
-            Add Campaign
+            New Campaign
           </MenuItem>
         </SubMenu>
 
         <SubMenu
           className={`${
-            active === "Loyalty" ? "text-[#30D792]" : "text-black"
+            active === "MilestoneReward" ? "text-[#30D792]" : "text-black"
           } font-bold`}
           defaultOpen 
-          label="Loyalty "
+          label="Rewards "
           icon={<img src={plusSign} />}
         >
           <MenuItem
             className={`${
-              active === "activeLoyalty" ? "text-[#30D792]" : "text-black"
+              active === "activeMilestoneReward" ? "text-[#30D792]" : "text-black"
             } font-normal `}
             component={
               <NavLink
                 to={`/${user.id}/active_campaign`}
-                onClick={() => tabSelected("activeLoyalty")}
+                onClick={() => tabSelected("activeMilestoneReward")}
                 className="ml-10"
               />
             }
@@ -129,12 +130,12 @@ const Sidebar = () => {
           </MenuItem>
           <MenuItem
             className={`${
-              active === "draftLoyalty" ? "text-[#30D792]" : "text-black"
+              active === "draftMilestoneReward" ? "text-[#30D792]" : "text-black"
             } font-normal`}
             component={
               <NavLink
                 to={`/${user.id}/draft_campaign`}
-                onClick={() => tabSelected("draftLoyalty")}
+                onClick={() => tabSelected("draftMilestoneReward")}
                 className="ml-10"
               />
             }
@@ -144,12 +145,12 @@ const Sidebar = () => {
 
           <MenuItem
             className={`${
-              active === "completedLoyalty" ? "text-[#30D792]" : "text-black"
+              active === "completedMilestoneReward" ? "text-[#30D792]" : "text-black"
             } font-normal `}
             component={
               <NavLink
-                to={`/${user.id}/createLoyalty`}
-                onClick={() => tabSelected("completedLoyalty")}
+                to={`/${user.id}/createMilestoneReward`}
+                onClick={() => tabSelected("completedMilestoneReward")}
                 className="ml-10"
               />
             }
@@ -158,17 +159,17 @@ const Sidebar = () => {
           </MenuItem>
           <MenuItem
             className={`${
-              active === "overviewLoyalty" ? "text-[#30D792]" : "text-black"
+              active === "overviewMilestoneReward" ? "text-[#30D792]" : "text-black"
             } font-normal `}
             component={
               <NavLink
-                to={`/${user.id}/createLoyalty`}
-                onClick={() => tabSelected("overviewLoyalty")}
+                to={`/${user.id}/createMilestoneReward`}
+                onClick={() => tabSelected("overviewMilestoneReward")}
                 className="ml-10"
               />
             }
           >
-            New Loyalty
+            New Rewards
           </MenuItem>
         </SubMenu>
 
@@ -193,7 +194,7 @@ const Sidebar = () => {
             setOpenClose(true);
           }}
         >
-          <div className="w-full flex items-center font-bold">Logout</div>
+          <div className="w-full flex items-center font-bold">Logout<img src={logoutIcon} className="h-5 w-5 ml-3"/> </div>
           <Modal
             className="w-full h-full flex justify-center items-center"
             open={openClose}

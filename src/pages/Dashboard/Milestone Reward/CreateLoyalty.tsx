@@ -34,8 +34,8 @@ const ImageUploadingButton = (props: any) => {
   );
 };
 
-function CreateLoyalty() {
-  const [loyaltyMilestone, setLoyaltyMilestone] = useState("");
+function CreateMilestoneReward() {
+  const [MilestoneRewardMilestone, setMilestoneRewardMilestone] = useState("");
   const [offerTitle, setOfferTitle] = useState("");
   const [uploadCreative, setUploadCreative] = useState([]);
   const [ordersToComplete, setOrdersToComplete] = useState("");
@@ -70,7 +70,7 @@ function CreateLoyalty() {
       <Sidebar />
       <div className="w-full min-h-screen py-6 px-4 bg-gray-100">
         <div className="w-full py-2 flex items-center rounded-lg bg-white pl-4 font-bold text-2xl">
-          Create an offer
+          Create Rewards
         </div>
         {switchTab === 1 && (
           <div className="w-1/2 bg-white mt-6 p-4 rounded-lg">
@@ -78,7 +78,7 @@ function CreateLoyalty() {
               <div className="w-full">
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">
-                    Loyalty Milestones
+                  Milestone Rewards
                   </div>
                   <div className="ml-2 items-center flex justify-end">
                     <Tooltip
@@ -94,9 +94,9 @@ function CreateLoyalty() {
                   <Select
                     className="w-full h-10"
                     style={{ fontSize: "14px" }}
-                    value={loyaltyMilestone}
+                    value={MilestoneRewardMilestone}
                     onChange={(e: any) => {
-                      setLoyaltyMilestone(e.target.value);
+                      setMilestoneRewardMilestone(e.target.value);
                     }}
                   >
                     <MenuItem value="value 1" style={{ fontSize: "14px" }}>
@@ -107,7 +107,7 @@ function CreateLoyalty() {
                     </MenuItem>
                   </Select>
                 </div>
-                {!regex.test(loyaltyMilestone) &&
+                {!regex.test(MilestoneRewardMilestone) &&
                   showErrorMessage.one === true && (
                     <div className="w-full text-xs font-semibold text-red-500 mt-1">
                       {errorMessageOne.isRequired}
@@ -502,7 +502,7 @@ function CreateLoyalty() {
                 className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                 onClick={() => {
                   if (
-                    regex.test(loyaltyMilestone) &&
+                    regex.test(MilestoneRewardMilestone) &&
                     regex.test(ordersToComplete) &&
                     regex.test(termsAndConditions) &&
                     imageArray.length > 0 &&
@@ -528,13 +528,13 @@ function CreateLoyalty() {
               className="w-full h-10 flex items-center pl-4 text-sm"
               style={{ borderBottom: "1px solid #EEEEEE" }}
             >
-              Loyalty
+              Rewards
             </div>
             <div className="w-full mt-4 pl-4">
               <div className="w-full flex">
-                <div className="w-1/3 text-xs">Loyalty Milestones</div>
+                <div className="w-1/3 text-xs">Milestone Rewards</div>
                 <div className="w-full text-xs text-gray-400">
-                  {loyaltyMilestone}
+                  {MilestoneRewardMilestone}
                 </div>
               </div>
               <div className="w-full flex mt-1">
@@ -619,7 +619,7 @@ function CreateLoyalty() {
                   className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                   onClick={() => {
                     if (
-                      regex.test(loyaltyMilestone) &&
+                      regex.test(MilestoneRewardMilestone) &&
                       regex.test(ordersToComplete) &&
                       regex.test(termsAndConditions) &&
                       imageArray.length > 0 &&
@@ -646,4 +646,4 @@ function CreateLoyalty() {
   );
 }
 
-export default CreateLoyalty;
+export default CreateMilestoneReward;

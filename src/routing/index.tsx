@@ -18,9 +18,9 @@ import ActiveCampaign from "../pages/Dashboard/Campaigns/ActiveCampaign";
 import Sidebar from "../pages/Dashboard/SideBar/sideBar";
 import ProfileAndSettings from "../pages/Dashboard/Profile&settings/Profile&Settings";
 import { useStoreState } from "../store/easy-peasy/hooks";
-import CreateLoyalty from "../pages/Dashboard/Loyalty/CreateLoyalty";
 import DrafteCampaigns from "../pages/Dashboard/Campaigns/DraftCampaigns";
 import DraftCampaignList, { ActivevatedCampaignList } from "../pages/Dashboard/Campaigns/ListedCampaigns";
+import CreateMilestoneReward from "../pages/Dashboard/Milestone Reward/CreateLoyalty";
 
 
 const Routing = () => {
@@ -49,7 +49,7 @@ const Routing = () => {
         <Route path="/:id/active_campaign" element={<ActivevatedCampaignList />}/>
         <Route path="/active-campaigns/:id" element={<ActiveCampaign />} />
         <Route path="/draft-campaigns/:id" element={<DrafteCampaigns />} />
-        <Route path="/:id/createLoyalty" element={<CreateLoyalty />} />
+        <Route path="/:id/createMilestoneReward" element={<CreateMilestoneReward />} />
         {/* <Route index element={<Overview />} /> */}
         <Route path="*" element={<Error />} />
       </Route>
