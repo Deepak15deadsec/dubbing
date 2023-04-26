@@ -9,6 +9,8 @@ const dustbin = require("../../../images/trash.png");
 const pauseIcon = require("../../../images/videoPause.png");
 const stopIcon = require("../../../images/playIcon.png");
 const loader = require("../../../images/loader.gif");
+const rightPage = require("../../../images/rightPage.png");
+const leftPage = require("../../../images/leftPage.png");
 
 async function activeupdateStatus(
   values: any,
@@ -67,8 +69,8 @@ async function fetchDraft_ActiveData(
       },
     });
     setCampaigns(campaigns?.data?.reverse());
-    if(campaigns?.data!==undefined){
-    setCampaignsFlag(true);
+    if (campaigns?.data !== undefined) {
+      setCampaignsFlag(true);
     }
   };
   fetchData();
@@ -121,7 +123,7 @@ function DraftCampaign() {
               No Data Found
             </div>
           )}
-          
+
           {campaigns && campaignsFlag === true && (
             <div className="w-full flex flex-col justify-center items-center px-4">
               <table className="w-full">
@@ -257,16 +259,16 @@ function DraftCampaign() {
                 </tbody>
               </table>
               <div className="w-full flex justify-end mt-4 pr-5">
-                <div
-                  className="h-5 mx-3 w-5 rounded-full text-white bg-[#30D792] cursor-pointer text-center font-bold flex items-center justify-center"
+              <img
+                  src={leftPage}
+                  className="w-5 h-5"
                   onClick={() => {
                     if (pageIndex > 0) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex - 1));
                     }
                   }}
-                >
-                  &#8249;
-                </div>
+                />
+
                 <div className="flex mx-1 items-center text-xs">{`${
                   pageCount * pageIndex + 1
                 } - ${
@@ -274,16 +276,15 @@ function DraftCampaign() {
                     ? pageIndex * pageCount + pageCount
                     : campaigns?.length
                 } of ${campaigns?.length}`}</div>
-                <div
-                  className="h-5 mx-3 w-5 rounded-full text-white bg-[#30D792] cursor-pointer text-center font-bold flex items-center justify-center"
+                <img
+                  src={rightPage}
+                  className="w-[19px] h-[19px]"
                   onClick={() => {
                     if (pageIndex < campaigns?.length / pageCount - 1) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex + 1));
                     }
                   }}
-                >
-                 &#8250;
-                </div>
+                />
               </div>
               {/* <div className="mt-4 w-full justify-start mb-10">
                 <button className="w-24 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
@@ -336,7 +337,7 @@ export function ActivevatedCampaign() {
           Active
         </div>
         <div className="w-full flex justify-center items-center">
-           {campaigns && campaignsFlag === false && (
+          {campaigns && campaignsFlag === false && (
             <div className="w-full flex justify-center">Loading</div>
           )}
           {!campaigns && campaignsFlag === false && (
@@ -434,7 +435,8 @@ export function ActivevatedCampaign() {
                                 >
                                   <div className="px-5 h-[150px] flex flex-col items-center justify-center p-4 bg-white rounded">
                                     <div className="text-sm">
-                                      Do you want to change the campaign status ?
+                                      Do you want to change the campaign status
+                                      ?
                                     </div>
                                     <div className="mt-1 flex justify-center">
                                       <div className="w-full flex justify-center mt-3">
@@ -478,16 +480,16 @@ export function ActivevatedCampaign() {
                 </tbody>
               </table>
               <div className="w-full flex justify-end mt-4 pr-5">
-                <div
-                  className="h-5 mx-3 w-5 rounded-full text-white bg-[#30D792] cursor-pointer text-center font-bold flex items-center justify-center"
+                <img
+                  src={leftPage}
+                  className="w-5 h-5"
                   onClick={() => {
                     if (pageIndex > 0) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex - 1));
                     }
                   }}
-                >
-                 &#8249;
-                </div>
+                />
+
                 <div className="flex mx-1 items-center text-xs">{`${
                   pageCount * pageIndex + 1
                 } - ${
@@ -495,16 +497,15 @@ export function ActivevatedCampaign() {
                     ? pageIndex * pageCount + pageCount
                     : campaigns?.length
                 } of ${campaigns?.length}`}</div>
-                <div
-                  className="h-5 mx-3 w-5 rounded-full text-white bg-[#30D792] cursor-pointer text-center font-bold flex items-center justify-center"
+                <img
+                  src={rightPage}
+                  className="w-[19px] h-[19px]"
                   onClick={() => {
                     if (pageIndex < campaigns?.length / pageCount - 1) {
                       setPageIndex((pageIndex) => (pageIndex = pageIndex + 1));
                     }
                   }}
-                >
-                 &#8250;
-                </div>
+                />
               </div>
               {/* <div className="mt-4 w-full justify-start mb-10">
                 <button className="w-24 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
