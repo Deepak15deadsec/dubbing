@@ -10,17 +10,14 @@ import LoginTest from "../pages/loginTest";
 import ForgetPassWord from "../pages/forgetPass";
 import OtpVerification from "../pages/otpVerification";
 import SuccessfullyRegistered from "../pages/successfulregistered";
-import FirstCampaign from "../pages/Dashboard/Campaigns/FirstCampaign";
-import SideBar from "../pages/Dashboard/SideBar/maindashboard";
 import MainDashBoard from "../pages/Dashboard/SideBar/maindashboard";
 import CreateCampaign from "../pages/Dashboard/Campaigns/createCampaign";
 import ActiveCampaign from "../pages/Dashboard/Campaigns/ActiveCampaign";
-import Sidebar from "../pages/Dashboard/SideBar/sideBar";
 import ProfileAndSettings from "../pages/Dashboard/Profile&settings/Profile&Settings";
-import { useStoreState } from "../store/easy-peasy/hooks";
 import DrafteCampaigns from "../pages/Dashboard/Campaigns/DraftCampaigns";
 import DraftCampaignList, { ActivevatedCampaignList } from "../pages/Dashboard/Campaigns/ListedCampaigns";
-import CreateMilestoneReward from "../pages/Dashboard/Milestone Reward/CreateLoyalty";
+import CreateMilestoneReward from "../pages/Dashboard/Milestone Reward/CreateReward";
+import DraftRewardList, { ActivevatedRewardList } from "../pages/Dashboard/Milestone Reward/ListedRewards";
 
 
 const Routing = () => {
@@ -49,6 +46,8 @@ const Routing = () => {
         <Route path="/:id/active_campaign" element={<ActivevatedCampaignList />}/>
         <Route path="/active-campaigns/:id" element={<ActiveCampaign />} />
         <Route path="/draft-campaigns/:id" element={<DrafteCampaigns />} />
+        <Route path="/:id/active_reward" element={<ActivevatedRewardList />} />
+        <Route path="/:id/draft_reward" element={<DraftRewardList />} />
         <Route path="/:id/createMilestoneReward" element={<CreateMilestoneReward />} />
         {/* <Route index element={<Overview />} /> */}
         <Route path="*" element={<Error />} />

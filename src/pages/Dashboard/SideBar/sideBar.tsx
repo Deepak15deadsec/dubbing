@@ -120,7 +120,7 @@ const Sidebar = () => {
             } font-normal `}
             component={
               <NavLink
-                to={`/${user.id}/active_campaign`}
+                to={`/${user.id}/active_reward`}
                 onClick={() => tabSelected("activeMilestoneReward")}
                 className="ml-10"
               />
@@ -134,7 +134,7 @@ const Sidebar = () => {
             } font-normal`}
             component={
               <NavLink
-                to={`/${user.id}/draft_campaign`}
+                to={`/${user.id}/draft_reward`}
                 onClick={() => tabSelected("draftMilestoneReward")}
                 className="ml-10"
               />

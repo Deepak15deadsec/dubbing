@@ -65,6 +65,8 @@ function CreateMilestoneReward() {
     five: false,
   });
 
+  const navigate = useNavigate();
+
   return (
     <div className="flex w-full">
       <Sidebar />
@@ -77,9 +79,7 @@ function CreateMilestoneReward() {
             <div className="w-full ">
               <div className="w-full">
                 <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">
-                  Milestone Rewards
-                  </div>
+                  <div className="text-sm font-semibold">Milestone Rewards</div>
                   <div className="ml-2 items-center flex justify-end">
                     <Tooltip
                       title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
@@ -617,7 +617,7 @@ function CreateMilestoneReward() {
               <div className="w-full flex items-start justify-end pr-4 ">
                 <button
                   className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
-                  onClick={() => {
+                  onClick={async () => {
                     if (
                       regex.test(MilestoneRewardMilestone) &&
                       regex.test(ordersToComplete) &&
@@ -629,7 +629,34 @@ function CreateMilestoneReward() {
                       startDate !== endDate &&
                       regex.test(internalOfferCode)
                     ) {
-                     // setSwitchTab(1);
+                      const payload = {
+                        advertiserId: user.id,
+                        milestone: MilestoneRewardMilestone,
+                        offerTitle: offerTitle,
+                        creative: imageArray[0],
+                        numberOfOrdersToComplete: 8,
+                        maximumOrdersAllowedPerDay: 9,
+                        status: "Active",
+                        termsAndConditions: termsAndConditions,
+                        startDate: startDate,
+                        endDate: endDate,
+                      };
+                      const { data: campaign } = await axios({
+                        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward`,
+                        method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${user.token}`,
+                        },
+                        data: payload,
+                      });
+
+                      if (campaign && campaign.status === "created") {
+                        toast.success("Successfully Created !", {
+                          position: toast.POSITION.TOP_RIGHT,
+                        });
+                        // addToken(login.accessToken)
+                        navigate(`/${user.id}/active_campaign`);
+                      }
                     } else {
                       setShowErrorMessage({ ...showErrorMessage, one: true });
                     }

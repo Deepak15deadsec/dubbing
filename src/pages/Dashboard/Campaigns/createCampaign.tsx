@@ -1560,7 +1560,7 @@ function CreateCampaign(props: any) {
                           position: toast.POSITION.TOP_RIGHT,
                         });
                         // addToken(login.accessToken)
-                        navigate("/active_campaign");
+                        navigate(`/${user.id}/active_campaign`);
                       }
                     }}
                   >
