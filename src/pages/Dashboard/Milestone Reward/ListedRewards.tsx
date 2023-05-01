@@ -22,14 +22,14 @@ async function activeupdateStatus(
   index: number
 ) {
   const { data: Reward } = await axios({
-    url: `${process.env.REACT_APP_SERVER_ENDPOINT}/Reward/update-status`,
+    url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward/update-status`,
     method: "POST",
     headers: {
       Authorization: `Bearer ${user.token}`,
     },
     data: {
       advertiserId: values?.advertiserId,
-      RewardId: values?.id,
+      rewardId: values?.rewardId,
       status: statusType,
     },
   });
@@ -157,10 +157,10 @@ function DraftRewardList() {
                             setShowDeleteIcon("");
                           }}
                         >
-                          <td
+                         <td
                             className="pl-4"
                             onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.id}`);
+                              navigate(`/draft-Rewards/${Reward.rewardId}`);
                             }}
                           >
                             <div className="p-3">
@@ -169,7 +169,7 @@ function DraftRewardList() {
                                 src={Reward?.creative}
                               />
                               <div className="mt-2 text-start font-semibold">
-                                {Reward?.RewardName}
+                                {Reward?.offerTitle}
                               </div>
                             </div>
                           </td>
@@ -177,21 +177,21 @@ function DraftRewardList() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.id}`);
+                              navigate(`/draft-Rewards/${Reward.rewardId}`);
                             }}
                           >
-                            {Reward?.targetCategory}
+                            {Reward?.milestone}
                           </td>
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.id}`);
+                              navigate(`/draft-Rewards/${Reward.rewardId}`);
                             }}
                           >
                             {`${new Date(
-                              Reward?.adStartDate
+                              Reward?.startDate
                             ).toDateString()} - `}{" "}
-                            {`${new Date(Reward?.adEndDate).toDateString()}`}
+                            {`${new Date(Reward?.endDate).toDateString()}`}
                           </td>
 
                           <td className="flex h-7 items-center pr-10">
@@ -381,7 +381,7 @@ export function ActivevatedRewardList() {
                           <td
                             className="pl-4"
                             onClick={() => {
-                              navigate(`/active-Rewards/${Reward.id}`);
+                              navigate(`/active-Rewards/${Reward.rewardId}`);
                             }}
                           >
                             <div className="p-3">
@@ -398,7 +398,7 @@ export function ActivevatedRewardList() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/active-Rewards/${Reward.id}`);
+                              navigate(`/active-Rewards/${Reward.rewardId}`);
                             }}
                           >
                             {Reward?.milestone}
@@ -406,7 +406,7 @@ export function ActivevatedRewardList() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/active-Rewards/${Reward.id}`);
+                              navigate(`/active-Rewards/${Reward.rewardId}`);
                             }}
                           >
                             {`${new Date(
