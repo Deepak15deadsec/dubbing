@@ -18,6 +18,8 @@ import DrafteCampaigns from "../pages/Dashboard/Campaigns/DraftCampaigns";
 import DraftCampaignList, { ActivevatedCampaignList } from "../pages/Dashboard/Campaigns/ListedCampaigns";
 import CreateMilestoneReward from "../pages/Dashboard/Milestone Reward/CreateReward";
 import DraftRewardList, { ActivevatedRewardList } from "../pages/Dashboard/Milestone Reward/ListedRewards";
+import DraftedRewards from "../pages/Dashboard/Milestone Reward/DraftReward";
+import ActivatedRewards from "../pages/Dashboard/Milestone Reward/ActiveRewards";
 
 
 const Routing = () => {
@@ -46,6 +48,9 @@ const Routing = () => {
         <Route path="/:id/active_campaign" element={<ActivevatedCampaignList />}/>
         <Route path="/active-campaigns/:id" element={<ActiveCampaign />} />
         <Route path="/draft-campaigns/:id" element={<DrafteCampaigns />} />
+        
+        <Route path="/draft-Rewards/:id" element={<DraftedRewards />} />
+        <Route path="/active-Rewards/:id" element={<ActivatedRewards />} />
         <Route path="/:id/active_reward" element={<ActivevatedRewardList />} />
         <Route path="/:id/draft_reward" element={<DraftRewardList />} />
         <Route path="/:id/createMilestoneReward" element={<CreateMilestoneReward />} />

@@ -160,7 +160,7 @@ function DraftRewardList() {
                          <td
                             className="pl-4"
                             onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.rewardId}`);
+                              navigate(`/draft-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
                             }}
                           >
                             <div className="p-3">
@@ -177,7 +177,7 @@ function DraftRewardList() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.rewardId}`);
+                              navigate(`/draft-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
                             }}
                           >
                             {Reward?.milestone}
@@ -185,7 +185,7 @@ function DraftRewardList() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.rewardId}`);
+                              navigate(`/draft-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
                             }}
                           >
                             {`${new Date(
@@ -381,7 +381,7 @@ export function ActivevatedRewardList() {
                           <td
                             className="pl-4"
                             onClick={() => {
-                              navigate(`/active-Rewards/${Reward.rewardId}`);
+                              navigate(`/active-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
                             }}
                           >
                             <div className="p-3">
@@ -398,7 +398,7 @@ export function ActivevatedRewardList() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/active-Rewards/${Reward.rewardId}`);
+                              navigate(`/active-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
                             }}
                           >
                             {Reward?.milestone}
@@ -406,7 +406,7 @@ export function ActivevatedRewardList() {
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/active-Rewards/${Reward.rewardId}`);
+                              navigate(`/active-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
                             }}
                           >
                             {`${new Date(
