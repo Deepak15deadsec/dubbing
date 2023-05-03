@@ -26,7 +26,7 @@ const group80 = require("../../../images/Group80.png");
 const cross = require("../../../images/cross.png");
 const loader = require("../../../images/loader.gif");
 
-const marks = [
+export const marks = [
   {
     value: 13,
     label: "13",
@@ -40,7 +40,7 @@ const marks = [
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const MenuProps = {
+export const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,

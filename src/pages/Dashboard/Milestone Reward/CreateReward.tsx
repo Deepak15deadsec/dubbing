@@ -18,6 +18,7 @@ import { useStoreState } from "../../../store/easy-peasy/hooks";
 import DatePicker from "react-datepicker";
 import { isWbsite } from "../../signupTest";
 import Sidebar from "../SideBar/sideBar";
+import { MenuProps, marks } from "../Campaigns/createCampaign";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
@@ -35,6 +36,7 @@ const ImageUploadingButton = (props: any) => {
 };
 
 function CreateMilestoneReward() {
+  const [brand, setBrand] = useState("");
   const [MilestoneRewardMilestone, setMilestoneRewardMilestone] = useState("");
   const [offerTitle, setOfferTitle] = useState("");
   const [uploadCreative, setUploadCreative] = useState([]);
@@ -50,6 +52,13 @@ function CreateMilestoneReward() {
   const [isImageUploading, setIsImageUploading] = useState(false);
   const user = useStoreState((state) => state.user);
   const [switchTab, setSwitchTab] = useState(1);
+  const [showAll,setShowAll] = useState(false)
+  const [gender, setGender] = useState<string[]>([]);
+  const [sliderValue, setSliderValue] = React.useState([20, 45]);
+
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [IOSappUrl, setIOSappUrl] = useState("");
+  const [androidappUrl, setAndroidappeUrl] = useState("");
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -65,6 +74,20 @@ function CreateMilestoneReward() {
     five: false,
   });
 
+  const ChangeSlider = (event: any, newValue: any) => {
+    setSliderValue(newValue);
+  };
+
+  const changeGender = (event: any) => {
+    const {
+      target: { value },
+    } = event;
+    setGender(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
   const navigate = useNavigate();
 
   return (
@@ -77,6 +100,42 @@ function CreateMilestoneReward() {
         {switchTab === 1 && (
           <div className="w-1/2 bg-white mt-6 p-4 rounded-lg">
             <div className="w-full ">
+              <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="text-sm font-semibold">Brand</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    className="w-full h-10"
+                    style={{ fontSize: "14px" }}
+                    value={brand}
+                    onChange={(e: any) => {
+                      setBrand(e.target.value);
+                    }}
+                  >
+                    <MenuItem value="brand 1" style={{ fontSize: "14px" }}>
+                      Brand 1
+                    </MenuItem>
+                    <MenuItem value="brand 2" style={{ fontSize: "14px" }}>
+                      Brand 2
+                    </MenuItem>
+                  </Select>
+                </div>
+                {!regex.test(brand) && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+              </div>
               <div className="w-full">
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">Milestone Rewards</div>
@@ -412,7 +471,11 @@ function CreateMilestoneReward() {
 
                 <DatePicker
                   placeholderText="mm/dd/yy"
-                  value={startDate}
+                  value={
+                    startDate.length > 0
+                      ? new Date(startDate).toDateString().slice(4)
+                      : startDate
+                  }
                   onChange={(e: any) => {
                     setStartDate(
                       `${new Date(e).getMonth() + 1}/${new Date(
@@ -454,7 +517,11 @@ function CreateMilestoneReward() {
                   End Date
                 </div>
                 <DatePicker
-                  value={endDate}
+                  value={
+                    endDate.length > 0
+                      ? new Date(endDate).toDateString().slice(4)
+                      : endDate
+                  }
                   minDate={new Date()}
                   placeholderText="mm/dd/yy"
                   className="border w-full h-10  border-gray-300 rounded"
@@ -496,6 +563,151 @@ function CreateMilestoneReward() {
                 )}
               </div>
             </div>
+            <div className="mt-4 w-full ml-2 flex items-center">
+              <div className="flex items-center">
+                <label>All</label>
+                <input type="radio" name="all" className="w-5 h-5 ml-2" checked={showAll} onChange={()=>{
+                  setShowAll(true)
+                }} />
+              </div>
+              <div className="flex items-center ml-20">
+                <label>Target</label>
+                <input type="radio" name="target" className="w-5 h-5 ml-2" checked={!showAll} onChange={()=>{
+                  setShowAll(false)
+                }} />
+              </div>
+            </div>
+
+            {showAll===true &&(
+              <div className=" w-full">
+                 <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">Gender</div>
+                </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    className="w-full h-10"
+                    style={{ fontSize: "14px" }}
+                    value={gender}
+                    onChange={changeGender}
+                    MenuProps={MenuProps}
+                    multiple
+                  >
+                    <MenuItem value="Male" style={{ fontSize: "14px" }}>
+                      Male
+                    </MenuItem>
+                    <MenuItem value="Female" style={{ fontSize: "14px" }}>
+                      Female
+                    </MenuItem>
+                    <MenuItem value="Other" style={{ fontSize: "14px" }}>
+                      Other
+                    </MenuItem>
+                  </Select>
+                </div>
+                {gender.length === 0 && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+              </div>
+
+              <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">Age Range</div>
+                </div>
+                <div className="w-1/2 mt-12 ml-2">
+                  <Slider
+                    size="small"
+                    getAriaLabel={() => "Temperature range"}
+                    value={sliderValue}
+                    onChange={ChangeSlider}
+                    valueLabelDisplay="on"
+                    marks={marks}
+                    step={10}
+                    max={65}
+                    min={13}
+                  />
+                </div>
+              </div>
+
+              <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                    Website url
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <TextField
+                    value={websiteUrl}
+                    size="small"
+                    className="w-full"
+                    type="text"
+                    onChange={(e: any) => {
+                      setWebsiteUrl(e.target.value);
+                    }}
+                  />
+                </div>
+                {!isWbsite.test(websiteUrl) &&
+                  showErrorMessage.three === true &&
+                  websiteUrl.length > 0 && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      Invalid url
+                    </div>
+                  )}
+              </div>
+
+              <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                    IOS app url
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <TextField
+                    value={IOSappUrl}
+                    size="small"
+                    className="w-full"
+                    type="text"
+                    onChange={(e: any) => {
+                      setIOSappUrl(e.target.value);
+                    }}
+                  />
+                </div>
+                {!isWbsite.test(IOSappUrl) &&
+                  showErrorMessage.three === true &&
+                  IOSappUrl.length > 0 && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      Invalid url
+                    </div>
+                  )}
+              </div>
+              <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                    Android app url
+                  </div>
+                </div>
+                <div className="mt-2 w-full">
+                  <TextField
+                    value={androidappUrl}
+                    size="small"
+                    className="w-full"
+                    type="text"
+                    onChange={(e: any) => {
+                      setAndroidappeUrl(e.target.value);
+                    }}
+                  />
+                </div>
+                {!isWbsite.test(androidappUrl) &&
+                  showErrorMessage.three === true &&
+                  androidappUrl.length > 0 && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      Invalid url
+                    </div>
+                  )}
+              </div>
+              </div>
+            )}
 
             <div className="w-full flex items-start justify-end mt-8 ">
               <button
