@@ -463,11 +463,55 @@ function CreateCampaign(props: any) {
                     }}
                   />
                 </div>
-                {!regex.test(CampaignTitle) && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
+                {!regex.test(CampaignTitle) &&
+                  showErrorMessage.one === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
+              </div>
+
+              <div className="w-full pl-4">
+                <div className="w-full mt-4 flex">
+                  <div className="text-sm font-semibold">Category</div>
+                  <div className="ml-2 items-center flex justify-end">
+                    <Tooltip
+                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      placement="top"
+                      arrow
+                    >
+                      <img src={infoLogo} className="w-4 h-4" />
+                    </Tooltip>
                   </div>
-                )}
+                </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    className="w-full h-10"
+                    style={{ fontSize: "14px" }}
+                    value={category.label}
+                    onChange={(e: any) => {
+                      setCategory({ ...category, label: e.target.value });
+                    
+                    }}
+                  >
+                    {CategoryOptions.map((data: any, index: number) => {
+                      return (
+                        <MenuItem
+                          value={data.label}
+                          style={{ fontSize: "14px" }}
+                        >
+                          {data.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                {!regex.test(category.label) &&
+                  showErrorMessage.one === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full pl-4">
@@ -637,7 +681,7 @@ function CreateCampaign(props: any) {
                     if (
                       regex.test(adValue) &&
                       regex.test(CampaignTitle) &&
-                      regex.test(description)
+                      regex.test(description) &&regex.test(category.label)
                     ) {
                       setSwitchTab(2);
                     } else {
@@ -733,56 +777,8 @@ function CreateCampaign(props: any) {
                   />
                 </div>
               </div>
-              <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Category</div>
-                  <div className="ml-2 items-center flex justify-end">
-                    <Tooltip
-                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                      placement="top"
-                      arrow
-                    >
-                      <img src={infoLogo} className="w-4 h-4" />
-                    </Tooltip>
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    className="w-full h-10"
-                    style={{ fontSize: "14px" }}
-                    value={category.label}
-                    onChange={(e: any) => {
-                      setCategory({ ...category, label: e.target.value });
-                      CategoryOptions.map((data: any, index: any) => {
-                        if (data.label === e.target.value) {
-                          setSubCategory({
-                            ...subcategory,
-                            arrayOpions: data.values,
-                          });
-                        }
-                      });
-                    }}
-                  >
-                    {CategoryOptions.map((data: any, index: number) => {
-                      return (
-                        <MenuItem
-                          value={data.label}
-                          style={{ fontSize: "14px" }}
-                        >
-                          {data.label}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </div>
-                {!regex.test(category.label) &&
-                  showErrorMessage.two === true && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      {errorMessageOne.isRequired}
-                    </div>
-                  )}
-              </div>
-              <div className="w-full pl-4">
+              
+              {/* <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">Sub Category</div>
                   <div className="ml-2 items-center flex justify-end">
@@ -822,7 +818,7 @@ function CreateCampaign(props: any) {
                       {errorMessageOne.isRequired}
                     </div>
                   )}
-              </div>
+              </div> */}
               <div className="w-full pl-4">
                 <div className="w-full p-1 border border-blue-400 rounded mt-4">
                   <div className="w-full border border-gray-500 rounded p-1">
@@ -993,9 +989,7 @@ function CreateCampaign(props: any) {
                   className="w-24 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                   onClick={() => {
                     if (
-                      gender.length > 0 &&
-                      regex.test(category.label) &&
-                      regex.test(subcategory.label)
+                      gender.length > 0   
                     ) {
                       setSwitchTab(3);
                     } else {
@@ -1048,7 +1042,7 @@ function CreateCampaign(props: any) {
 
                     <DatePicker
                       placeholderText="mm/dd/yy"
-                      value={startDate}
+                      value={startDate.length>0 ? new Date(startDate).toDateString().slice(4):startDate}
                       onChange={(e: any) => {
                         setStartDate(
                           `${new Date(e).getMonth() + 1}/${new Date(
@@ -1091,7 +1085,7 @@ function CreateCampaign(props: any) {
                       End Date
                     </div>
                     <DatePicker
-                      value={endDate}
+                      value={endDate.length>0? new Date(endDate).toDateString().slice(4):endDate}
                       minDate={new Date()}
                       placeholderText="mm/dd/yy"
                       className="border w-full h-10 pl-4 border-gray-300 rounded"
@@ -1304,24 +1298,24 @@ function CreateCampaign(props: any) {
               </div>
             </div>
             <div className="w-full flex items-center justify-center  bg-white">
-            <div className="w-full flex items-center justify-center">
-              {imageArray.length > 0 && (
-                <div>
-                  <div className="text-2xl font-medium mb-2 text-gray-500">
-                    Campaign Name
-                  </div>
-                  <div className="rounded bg-white">
-                    <img
-                      className="w-[300px] rounded-t h-[190px]"
-                      src={imageArray[0]}
-                    />
-                    <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
-                      {CampaignTitle}
+              <div className="w-full flex items-center justify-center">
+                {imageArray.length > 0 && (
+                  <div>
+                    <div className="text-2xl font-medium mb-2 text-gray-500">
+                      Campaign Name
+                    </div>
+                    <div className="rounded bg-white">
+                      <img
+                        className="w-[300px] rounded-t h-[190px]"
+                        src={imageArray[0]}
+                      />
+                      <div className="mt-2 text-start font-semibold pb-2 w-[300px] pl-2 pr-4">
+                        {CampaignTitle}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -1338,7 +1332,7 @@ function CreateCampaign(props: any) {
                   Campaign
                 </div>
                 <div className="w-full mt-4 pl-4">
-                <div className="w-full flex">
+                  <div className="w-full flex">
                     <div className="w-1/3 text-xs">Campaign Type</div>
                     <div className="w-full text-xs text-gray-400">
                       {adValue}
@@ -1350,19 +1344,19 @@ function CreateCampaign(props: any) {
                       {adTitle}
                     </div>
                   </div>
-                  
+
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Category</div>
                     <div className="w-full text-xs text-gray-400">
                       {category.label}
                     </div>
                   </div>
-                  <div className="w-full flex mt-1">
+                  {/* <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Sub Category</div>
                     <div className="w-full text-xs text-gray-400">
                       {subcategory.label}
                     </div>
-                  </div>
+                  </div> */}
                   <div className="w-full flex mt-1">
                     <div className="w-1/3 text-xs">Campaign Title</div>
                     <div className="w-full text-xs text-gray-400">
@@ -1460,13 +1454,13 @@ function CreateCampaign(props: any) {
                   <div className="w-full flex">
                     <div className="w-1/3 text-xs">Start Date</div>
                     <div className="w-full text-xs text-gray-400">
-                      {new Date(startDate).toDateString()}
+                      {new Date(startDate).toDateString().slice(4)}
                     </div>
                   </div>
                   <div className="w-full flex">
                     <div className="w-1/3 text-xs">End Date</div>
                     <div className="w-full text-xs text-gray-400">
-                      {new Date(endDate).toDateString()}
+                      {new Date(endDate).toDateString().slice(4)}
                     </div>
                   </div>
                   <div className="w-full flex mt-1">
@@ -1532,7 +1526,7 @@ function CreateCampaign(props: any) {
                         transactionCount: 90,
                         adStartDate: startDate,
                         adEndDate: endDate,
-                        targetGeoCordinates: 123,
+                        targetGeoCordinates: ["123", "1"],
                         targetGeoName: "targetGeoName",
                         targetCategory: category.label,
                         targetSubCategory: subcategory.label,
@@ -1544,7 +1538,11 @@ function CreateCampaign(props: any) {
                         targetKeywords: keywordsArray,
                         targetDonotKeywords: donotTargetArray,
                         billingCountry: country,
+                        numberOfSignUps: numberOfSignups ,
                         status: "Active",
+                        websiteUrl: websiteUrl,
+                        IOSAppUrl: IOSappUrl,
+                        androidAppUrl: androidappUrl,
                       };
                       const { data: campaign } = await axios({
                         url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign`,

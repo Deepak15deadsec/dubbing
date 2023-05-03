@@ -21,6 +21,7 @@ import CountryCode from "../loginTest/Countrycodedropdown";
 import countries from "./countries.json";
 
 export const regex = /^(?!\s*$).+/;
+export const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
 export const isWbsite =
   /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
@@ -50,10 +51,12 @@ const SignupTest = () => {
     isEmail: "Invalid Email",
     isWebsite: "Invalid Website URL",
     isPhoneNumber: "Contact number should be of 10 digits",
+    isMinimumPassword: 'Password should have minimum 8 and maximum 20 characters at least 1 special symbol and an integer',
   });
   const [showErrorMessage, setShowErrorMessage] = useState({
     one: false,
     two: false,
+    three:false,
   });
 
   const [selectCheck, setSelectCheck] = useState(false);
@@ -455,6 +458,12 @@ const SignupTest = () => {
                           {errorMessageOne.isRequired}
                         </div>
                       )}
+                      {!passwordRegex.test(userDetails.password) &&
+                      showErrorMessage.three === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          {errorMessageOne.isMinimumPassword}
+                        </div>
+                      )}
                   </div>
                   <div>
                     <label className="block mb-1 mt-3 text-sm font-medium text-gray-900 ">
@@ -545,7 +554,7 @@ const SignupTest = () => {
                           regex.test(userDetails.password) &&
                           regex.test(userDetails.confirmpassword) &&
                           userDetails.password ===
-                            userDetails.confirmpassword &&
+                            userDetails.confirmpassword && passwordRegex.test(userDetails.password) &&
                           selectCheck
                         ) {
                           const payload = {
@@ -575,7 +584,7 @@ const SignupTest = () => {
                         } else if (
                           regex.test(userDetails.email) &&
                           regex.test(userDetails.password) &&
-                          regex.test(userDetails.confirmpassword) &&
+                          regex.test(userDetails.confirmpassword) && passwordRegex.test(userDetails.password) &&
                           userDetails.password !== userDetails.confirmpassword
                         ) {
                           toast.warn(
@@ -592,6 +601,7 @@ const SignupTest = () => {
                           setShowErrorMessage({
                             ...showErrorMessage,
                             two: true,
+                            three:true
                           });
                         }
                       }}
