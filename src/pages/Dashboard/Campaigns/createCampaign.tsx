@@ -18,6 +18,8 @@ import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { CategoryOptions } from "./options";
 import DatePicker from "react-datepicker";
 import { isWbsite } from "../../signupTest";
+import Map from "./Map";
+import OpenMap from "./Map";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
@@ -491,7 +493,6 @@ function CreateCampaign(props: any) {
                     value={category.label}
                     onChange={(e: any) => {
                       setCategory({ ...category, label: e.target.value });
-                    
                     }}
                   >
                     {CategoryOptions.map((data: any, index: number) => {
@@ -681,7 +682,8 @@ function CreateCampaign(props: any) {
                     if (
                       regex.test(adValue) &&
                       regex.test(CampaignTitle) &&
-                      regex.test(description) &&regex.test(category.label)
+                      regex.test(description) &&
+                      regex.test(category.label)
                     ) {
                       setSwitchTab(2);
                     } else {
@@ -704,7 +706,7 @@ function CreateCampaign(props: any) {
             {/* <div className="w-full flex items-center justify-center">
               <img src={iPhone} />
             </div> */}
-            <div className="w-full flex items-center justify-center">
+            <div className="w-full flex flex-col items-center justify-center">
               {imageArray.length > 0 && (
                 <div>
                   <div className="text-2xl font-medium mb-2 text-gray-500">
@@ -721,6 +723,7 @@ function CreateCampaign(props: any) {
                   </div>
                 </div>
               )}
+              {/* <OpenMap /> */}
             </div>
           </div>
         </div>
@@ -777,7 +780,7 @@ function CreateCampaign(props: any) {
                   />
                 </div>
               </div>
-              
+
               {/* <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">Sub Category</div>
@@ -988,9 +991,7 @@ function CreateCampaign(props: any) {
                 <button
                   className="w-24 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                   onClick={() => {
-                    if (
-                      gender.length > 0   
-                    ) {
+                    if (gender.length > 0) {
                       setSwitchTab(3);
                     } else {
                       setShowErrorMessage({ ...showErrorMessage, two: true });
@@ -1023,6 +1024,7 @@ function CreateCampaign(props: any) {
                       {CampaignTitle}
                     </div>
                   </div>
+                  
                 </div>
               )}
             </div>
@@ -1042,7 +1044,11 @@ function CreateCampaign(props: any) {
 
                     <DatePicker
                       placeholderText="mm/dd/yy"
-                      value={startDate.length>0 ? new Date(startDate).toDateString().slice(4):startDate}
+                      value={
+                        startDate.length > 0
+                          ? new Date(startDate).toDateString().slice(4)
+                          : startDate
+                      }
                       onChange={(e: any) => {
                         setStartDate(
                           `${new Date(e).getMonth() + 1}/${new Date(
@@ -1085,7 +1091,11 @@ function CreateCampaign(props: any) {
                       End Date
                     </div>
                     <DatePicker
-                      value={endDate.length>0? new Date(endDate).toDateString().slice(4):endDate}
+                      value={
+                        endDate.length > 0
+                          ? new Date(endDate).toDateString().slice(4)
+                          : endDate
+                      }
                       minDate={new Date()}
                       placeholderText="mm/dd/yy"
                       className="border w-full h-10 pl-4 border-gray-300 rounded"
@@ -1538,7 +1548,7 @@ function CreateCampaign(props: any) {
                         targetKeywords: keywordsArray,
                         targetDonotKeywords: donotTargetArray,
                         billingCountry: country,
-                        numberOfSignUps: numberOfSignups ,
+                        numberOfSignUps: numberOfSignups,
                         status: "Active",
                         websiteUrl: websiteUrl,
                         IOSAppUrl: IOSappUrl,
@@ -1582,6 +1592,7 @@ function CreateCampaign(props: any) {
                       {CampaignTitle}
                     </div>
                   </div>
+                  
                 </div>
               )}
             </div>

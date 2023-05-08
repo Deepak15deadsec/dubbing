@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { FramLeft } from '../util/framLeft';
-import OtpInput from 'react-otp-input'
 
 function OtpVerification() {
     const navigate = useNavigate();
@@ -16,14 +15,14 @@ function OtpVerification() {
                     <div style={{ "fontFamily": 'Open Sans', fontWeight: 600, fontSize: '40px' }}>OTP Verification</div>
                     <div style={{ "fontFamily": 'Open Sans', fontWeight: 400, fontSize: '16px', margin: '10px 0px', color: '#AAAAAA' }}>Please enter your verification code which is send to your mail.</div>
                     <div className='w-full'>
-                        <OtpInput
+                        {/* <OtpInput
                             value={OTP}
                             onChange={()=>{
                                 setOTP("")
                             }}
                             numInputs={6}
                             separator={<span>-</span>}
-                        />
+                        /> */}
                     </div>
                     <div className='w-full mt-16'>
                         <button className='h-12 w-full' style={{ "backgroundColor": '#01A4EF', borderRadius: '10px', color: '#fff', cursor: 'pointer' }}
