@@ -3,7 +3,9 @@ import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
 import Select from "@mui/material/Select";
 import {
+  Dialog,
   Input,
+  Modal,
   Slider,
   TextField,
   Theme,
@@ -311,6 +313,8 @@ function CreateCampaign(props: any) {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [IOSappUrl, setIOSappUrl] = useState("");
   const [androidappUrl, setAndroidappeUrl] = useState("");
+  const [locationArray, setLocationArray] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -345,6 +349,14 @@ function CreateCampaign(props: any) {
 
   const handleChange = (event: any) => {
     setAdValue(event.target.value);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const changeGender = (event: any) => {
@@ -969,13 +981,66 @@ function CreateCampaign(props: any) {
                     </div>
                   </div>
                 </div>
-                {/* {donotTargetArray.length === 0 &&
-                  showErrorMessage.two === true && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      {errorMessageOne.isRequired}
-                    </div>
-                  )} */}
               </div>
+
+              <div className="w-full pl-4">
+                <div className="w-full p-1 border border-blue-400 rounded mt-4">
+                  <div className="w-full border border-gray-500 rounded p-1">
+                    <div className="w-full flex cursor-pointer">
+                      <TextField
+                        variant="standard"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        label="Target Location"
+                        size="small"
+                        className="w-full cursor-pointer"
+                        disabled
+                        onClick={handleClickOpen}
+                      />
+                    </div>
+                    <div className="mt-2 mb-2 flex w-full flex-wrap">
+                      {locationArray.map((data: any, index: any) => {
+                        if (data !== "") {
+                          return (
+                            <div
+                              key={index}
+                              className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
+                            >
+                              {data}
+                              <div
+                                className="ml-3 text-blue-500 cursor-pointer"
+                                onClick={() => {
+                                  setLocationArray([
+                                    ...locationArray.slice(0, index),
+                                    ...locationArray.slice(
+                                      index + 1,
+                                      locationArray.length
+                                    ),
+                                  ]);
+                                }}
+                              >
+                                &#10006;
+                              </div>
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Modal
+                className="w-full h-full flex justify-center items-center"
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <div className="w-1/2 h-1/2 bg-white flex items-center justify-center">
+                  <OpenMap />
+                </div>
+              </Modal>
 
               <div className="w-full flex items-center mt-8 ">
                 <button
@@ -1024,7 +1089,6 @@ function CreateCampaign(props: any) {
                       {CampaignTitle}
                     </div>
                   </div>
-                  
                 </div>
               )}
             </div>
@@ -1592,7 +1656,6 @@ function CreateCampaign(props: any) {
                       {CampaignTitle}
                     </div>
                   </div>
-                  
                 </div>
               )}
             </div>
