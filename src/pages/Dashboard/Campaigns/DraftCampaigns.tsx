@@ -26,6 +26,7 @@ import { regex } from "../../signupTest";
 import { ImageUploadingButton, country_list } from "./createCampaign";
 import axios from "axios";
 import { toast } from "react-toastify";
+import OpenMap from "./Map";
 const iPhone = require("../../../images/iPhone.png");
 const adPic = require("../../../images/adPic.png");
 const editIcon = require("../../../images/editIcon.png");
@@ -393,6 +394,8 @@ function Targetting(props: any) {
     imageArray,
     description,
     adTitle,
+    locationArray,
+    setLocationArray,
   } = props;
 
   const changeGender = (event: any) => {
@@ -415,6 +418,16 @@ function Targetting(props: any) {
   const ChangeSlider = (event: any, newValue: any) => {
     setSliderValue(newValue);
   };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="w-full flex mb-4">
@@ -589,9 +602,71 @@ function Targetting(props: any) {
             </div>
           </div>
         </div>
+
+        <div className="w-full pl-4">
+          <div className="w-full p-1 border border-blue-400 rounded mt-4">
+            <div className="w-full border border-gray-500 rounded p-1">
+              <div className="w-full flex cursor-pointer">
+                <TextField
+                  variant="standard"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  label="Target Location"
+                  size="small"
+                  className="w-full cursor-pointer"
+                  disabled
+                  onClick={handleClickOpen}
+                />
+              </div>
+              <div className="mt-2 mb-2 flex w-full flex-wrap">
+                {locationArray.map((data: any, index: any) => {
+                  if (data !== "") {
+                    return (
+                      <div
+                        key={index}
+                        className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
+                      >
+                        {data?.venue}
+                        <div
+                          className="ml-3 text-blue-500 cursor-pointer"
+                          onClick={() => {
+                            setLocationArray([
+                              ...locationArray.slice(0, index),
+                              ...locationArray.slice(
+                                index + 1,
+                                locationArray.length
+                              ),
+                            ]);
+                          }}
+                        >
+                          &#10006;
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+        <Modal
+          className="w-full h-full flex justify-center items-center"
+          open={open}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div className="w-4/5 h-2/3 bg-white flex items-center justify-center">
+            <OpenMap
+              handleClose={handleClose}
+              setLocationArray={setLocationArray}
+              locationArray={locationArray}
+            />
+          </div>
+        </Modal>
       </div>
       <div className="w-full fle bg-white ">
-      <div className="bg-white p-2 rounded-sm">
+        <div className="bg-white p-2 rounded-sm">
           <div className="font-bold text-lg">Campaign</div>
           <img src={imageArray[0]} className="max-h-[160px] max-w-[640px]" />
           <div className="mt-3 text-sm">{adTitle}</div>
@@ -628,8 +703,7 @@ function Settings(props: any) {
     setAndroidappeUrl,
     imageArray,
     description,
-    adTitle
-    
+    adTitle,
   } = props;
   // const [startDate, setStartDate] = useState(campaign?.adStartDate);
   // const [endDate, setEndDate] = useState(campaign?.adEndDate);
@@ -780,7 +854,6 @@ function Settings(props: any) {
               value={websiteUrl}
               size="small"
               className="w-full bg-white"
-             
               onChange={(e: any) => {
                 setWebsiteUrl(e.target.value);
               }}
@@ -846,7 +919,7 @@ function Settings(props: any) {
           </div> */}
       </div>
       <div className="w-full bg-white">
-      <div className="bg-white p-2 rounded-sm">
+        <div className="bg-white p-2 rounded-sm">
           <div className="font-bold text-lg">Campaign</div>
           <img src={imageArray[0]} className="max-h-[160px] max-w-[640px]" />
           <div className="mt-3 text-sm">{adTitle}</div>
@@ -1035,15 +1108,21 @@ function Preview(props: any) {
               </div>
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Website Url</div>
-                <div className="w-full text-xs text-gray-400 flex">{campaign?.data[0]?.websiteUrl}</div>
+                <div className="w-full text-xs text-gray-400 flex">
+                  {campaign?.data[0]?.websiteUrl}
+                </div>
               </div>
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">IOS App Url</div>
-                <div className="w-full text-xs text-gray-400 flex">{campaign?.data[0]?.IOSAppUrl}</div>
+                <div className="w-full text-xs text-gray-400 flex">
+                  {campaign?.data[0]?.IOSAppUrl}
+                </div>
               </div>
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Android App Url</div>
-                <div className="w-full text-xs text-gray-400 flex">{campaign?.data[0]?.androidAppUrl}</div>
+                <div className="w-full text-xs text-gray-400 flex">
+                  {campaign?.data[0]?.androidAppUrl}
+                </div>
               </div>
             </div>
           </div>
@@ -1126,6 +1205,7 @@ function DrafteCampaigns() {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [IOSappUrl, setIOSappUrl] = useState("");
   const [androidappUrl, setAndroidappeUrl] = useState("");
+  const [locationArray, setLocationArray] = useState([]);
 
   useEffect(() => {
     setGender(campaign?.data[0].targetGender);
@@ -1234,7 +1314,7 @@ function DrafteCampaigns() {
                             transactionCount: 90,
                             adStartDate: startDate,
                             adEndDate: endDate,
-                            targetGeoCordinates: 123,
+                            targetGeoCordinates: locationArray,
                             targetGeoName: "targetGeoName",
                             targetCategory: category[0],
                             targetSubCategory: subcategory[0],
@@ -1286,21 +1366,9 @@ function DrafteCampaigns() {
                   </div>
                 </Modal>
               </div>
-              {/* <img src={pauseIcon} className="w-3 h-4 mx-2 cursor-pointer" />
-                <img src={stopIcon} className="w-4 h-4 mx-2 cursor-pointer" />
-                <img src={dustbinIcon} className="w-4 h-4 mx-2 cursor-pointer" /> */}
             </div>
           </div>
           <div className="w-full mt-2 mb-2 flex items-center rounded-lg bg-white cursor-pointer text-xs">
-            {/* <div
-                className=" flex items-center justify-center text-xs h-8 rounded-md mr-4 px-3"
-                style={{ backgroundColor: switchTab === 1 ? "#01A4EF" : "#fff" }}
-                onClick={() => {
-                  setSwitchTab(1);
-                }}
-              >
-                Performance
-              </div> */}
             <div
               className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
               style={{ backgroundColor: switchTab === 2 ? "#01A4EF" : "#fff" }}
@@ -1366,6 +1434,8 @@ function DrafteCampaigns() {
               imageArray={imageArray}
               description={description}
               adTitle={adTitle}
+              locationArray={locationArray}
+              setLocationArray={setLocationArray}
             />
           )}
           {switchTab === 4 && (

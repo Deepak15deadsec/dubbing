@@ -736,7 +736,6 @@ function CreateCampaign(props: any) {
                   </div>
                 </div>
               )}
-              {/* <OpenMap /> */}
             </div>
           </div>
         </div>
