@@ -22,6 +22,7 @@ import DatePicker from "react-datepicker";
 import { isWbsite } from "../../signupTest";
 import Map from "./Map";
 import OpenMap from "./Map";
+import MyMap from "./SearchControls";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const iPhone = require("../../../images/iPhone.png");
@@ -338,7 +339,7 @@ function CreateCampaign(props: any) {
     }
   }, [showErrorMessage]);
 
-  const [switchTab, setSwitchTab] = useState(1);
+  const [switchTab, setSwitchTab] = useState(2);
   const ChangeSlider = (event: any, newValue: any) => {
     setSliderValue(newValue);
   };
@@ -1007,7 +1008,7 @@ function CreateCampaign(props: any) {
                               key={index}
                               className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
                             >
-                              {data}
+                              {data?.venue}
                               <div
                                 className="ml-3 text-blue-500 cursor-pointer"
                                 onClick={() => {
@@ -1033,12 +1034,12 @@ function CreateCampaign(props: any) {
               <Modal
                 className="w-full h-full flex justify-center items-center"
                 open={open}
-                onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                <div className="w-1/2 h-1/2 bg-white flex items-center justify-center">
-                  <OpenMap />
+                <div className="w-4/5 h-2/3 bg-white flex items-center justify-center">
+                  <OpenMap handleClose={handleClose} setLocationArray={setLocationArray} locationArray={locationArray}/>
+                  
                 </div>
               </Modal>
 
@@ -1600,7 +1601,7 @@ function CreateCampaign(props: any) {
                         transactionCount: 90,
                         adStartDate: startDate,
                         adEndDate: endDate,
-                        targetGeoCordinates: ["123", "1"],
+                        targetGeoCordinates:locationArray,
                         targetGeoName: "targetGeoName",
                         targetCategory: category.label,
                         targetSubCategory: subcategory.label,
