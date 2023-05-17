@@ -603,7 +603,7 @@ function Targetting(props: any) {
           </div>
         </div>
 
-        <div className="w-full pl-4">
+        <div className="w-full">
           <div className="w-full p-1 border border-blue-400 rounded mt-4">
             <div className="w-full border border-gray-500 rounded p-1">
               <div className="w-full flex cursor-pointer">
@@ -621,6 +621,7 @@ function Targetting(props: any) {
               </div>
               <div className="mt-2 mb-2 flex w-full flex-wrap">
                 {locationArray.map((data: any, index: any) => {
+                 // let val =JSON.parse(data))
                   if (data !== "") {
                     return (
                       <div
@@ -1238,6 +1239,7 @@ function DrafteCampaigns() {
     setWebsiteUrl(campaign?.data[0]?.websiteUrl);
     setIOSappUrl(campaign?.data[0].IOSAppUrl);
     setAndroidappeUrl(campaign?.data[0].androidAppUrl);
+    setLocationArray(campaign?.data[0]?.targetGeoCordinates);
   }, [campaign]);
 
   //----------------------------------------------------------------------------------------------------------
