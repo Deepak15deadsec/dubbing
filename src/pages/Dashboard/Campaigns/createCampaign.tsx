@@ -339,7 +339,7 @@ function CreateCampaign(props: any) {
     }
   }, [showErrorMessage]);
 
-  const [switchTab, setSwitchTab] = useState(2);
+  const [switchTab, setSwitchTab] = useState(1);
   const ChangeSlider = (event: any, newValue: any) => {
     setSliderValue(newValue);
   };
