@@ -8,6 +8,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 const showicon = require("../../images/open.png");
 const hideicon = require("../../images/hide.png");
+const avniWhiteLogo2 = require("../../images/avniWhiteLogo2.png");
+
 
 export const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
 
@@ -69,7 +71,12 @@ const LoginTest = () => {
   const navigate = useNavigate();
   return (
     <div className="flex h-screen justify-center items-center bg-[#30D792]">
-      {/* <FramLeft /> */}
+      <div className="z-10 absolute top-4 left-4 flex items-center cursor-pointer" onClick={()=>{
+        navigate('/')
+      }}>
+        <img src={avniWhiteLogo2} className=" h-16 w-16" />{" "}
+        <span className="text-white text-3xl ">avni</span>
+      </div>
       <div className="h-[400px]">
       <div
         className="flex flex-col p-6 justify-center items-center bg-white rounded-xl"
