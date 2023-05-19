@@ -82,7 +82,7 @@ const Sidebar = () => {
             } font-normal `}
             component={
               <NavLink
-                to={`/dashboard`}
+                to={`/${user.id}/completed_campaign`}
                 onClick={() => tabSelected("completed")}
                 className="ml-10"
               />
@@ -110,13 +110,15 @@ const Sidebar = () => {
           className={`${
             active === "MilestoneReward" ? "text-[#30D792]" : "text-black"
           } font-bold`}
-          defaultOpen 
+          defaultOpen
           label="Rewards "
           icon={<img src={plusSign} />}
         >
           <MenuItem
             className={`${
-              active === "activeMilestoneReward" ? "text-[#30D792]" : "text-black"
+              active === "activeMilestoneReward"
+                ? "text-[#30D792]"
+                : "text-black"
             } font-normal `}
             component={
               <NavLink
@@ -130,7 +132,9 @@ const Sidebar = () => {
           </MenuItem>
           <MenuItem
             className={`${
-              active === "draftMilestoneReward" ? "text-[#30D792]" : "text-black"
+              active === "draftMilestoneReward"
+                ? "text-[#30D792]"
+                : "text-black"
             } font-normal`}
             component={
               <NavLink
@@ -145,7 +149,9 @@ const Sidebar = () => {
 
           <MenuItem
             className={`${
-              active === "completedMilestoneReward" ? "text-[#30D792]" : "text-black"
+              active === "completedMilestoneReward"
+                ? "text-[#30D792]"
+                : "text-black"
             } font-normal `}
             component={
               <NavLink
@@ -159,7 +165,9 @@ const Sidebar = () => {
           </MenuItem>
           <MenuItem
             className={`${
-              active === "overviewMilestoneReward" ? "text-[#30D792]" : "text-black"
+              active === "overviewMilestoneReward"
+                ? "text-[#30D792]"
+                : "text-black"
             } font-normal `}
             component={
               <NavLink
@@ -171,6 +179,46 @@ const Sidebar = () => {
           >
             New Rewards
           </MenuItem>
+        </SubMenu>
+
+        <SubMenu
+          className={`${
+            active === "Brand" ? "text-[#30D792]" : "text-black"
+          } font-bold`}
+          defaultOpen
+          label="Brand"
+          icon={<img src={plusSign} />}
+        >
+          <MenuItem
+            className={`${
+              active === "Brand" ? "text-[#30D792]" : "text-black"
+            } font-normal `}
+            component={
+              <NavLink
+                to={`/${user.id}/active_reward`}
+                onClick={() => tabSelected("Brand")}
+                className="ml-10"
+              />
+            }
+          >
+            Brand
+          </MenuItem>
+
+          <MenuItem
+            className={`${
+              active === "AddBrand" ? "text-[#30D792]" : "text-black"
+            } font-normal `}
+            component={
+              <NavLink
+                to={`/${user.id}/addBrand`}
+                onClick={() => tabSelected("AddBrand")}
+                className="ml-10"
+              />
+            }
+          >
+          Add Brand
+          </MenuItem>
+
         </SubMenu>
 
         <MenuItem
@@ -194,7 +242,10 @@ const Sidebar = () => {
             setOpenClose(true);
           }}
         >
-          <div className="w-full flex items-center font-bold">Logout<img src={logoutIcon} className="h-5 w-5 ml-3"/> </div>
+          <div className="w-full flex items-center font-bold">
+            Logout
+            <img src={logoutIcon} className="h-5 w-5 ml-3" />{" "}
+          </div>
           <Modal
             className="w-full h-full flex justify-center items-center"
             open={openClose}

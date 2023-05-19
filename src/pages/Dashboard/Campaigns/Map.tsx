@@ -39,7 +39,7 @@ function MyComponent(props: any) {
 
 function OpenMap(props: any) {
   const { handleClose, setLocationArray, locationArray } = props;
-  const [radius, setRadius] = useState(50);
+  const [radius, setRadius] = useState(25);
   const [place, setPlace] = useState({
     lat: 20.5937,
     long: 78.9629,
@@ -92,10 +92,10 @@ function OpenMap(props: any) {
         </MapContainer>
         <div className="w-full bg-white rounded-b-lg min-h-12 flex items-center">
           <div className="w-full flex items-center">
-            <div className="h-10 bg-blue-500 rounded-md p-3 text-white font-semibold flex items-center ml-3">
-              Radius adjust
+            <div className="h-10 font-semibold flex items-center ml-3">
+               Adjust Radius
             </div>
-            <div className="w-1/2 ml-4">
+            <div className="w-1/3 ml-4">
               <Slider
                 className="mt-8"
                 size="medium"
@@ -106,6 +106,7 @@ function OpenMap(props: any) {
                 }}
                 valueLabelDisplay="auto"
                 marks={marks}
+                step={5}
               />
             </div>
           </div>

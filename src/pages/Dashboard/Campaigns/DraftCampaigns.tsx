@@ -628,7 +628,7 @@ function Targetting(props: any) {
                         key={index}
                         className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
                       >
-                        {data?.venue}
+                         {data?.venue.split(",")[0]}{" , "}{data.radius}{" km"}
                         <div
                           className="ml-3 text-blue-500 cursor-pointer"
                           onClick={() => {

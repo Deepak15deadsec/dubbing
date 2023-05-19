@@ -296,7 +296,7 @@ function CreateCampaign(props: any) {
     label: "",
     arrayOpions: [],
   });
-
+  const [brand, setBrand] = useState<string[]>([]);
   const [CampaignTitle, setCampaignTitle] = useState("");
   const [description, setDescription] = useState("");
   const [gender, setGender] = useState<string[]>([]);
@@ -388,6 +388,38 @@ function CreateCampaign(props: any) {
           <div className="w-full flex">
             <div className="w-1/2">
               <div className="w-full pl-4">
+              <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">Brand</div>
+                </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    className="w-full h-10"
+                    style={{ fontSize: "14px" }}
+                    value={brand}
+                    onChange={(e:any)=>{
+                      setBrand(e.target.value)
+                    }}
+                    MenuProps={MenuProps}
+                    multiple
+                  >
+                    <MenuItem value="Brand 1" style={{ fontSize: "14px" }}>
+                      Brand 1
+                    </MenuItem>
+                    <MenuItem value="Brand 2" style={{ fontSize: "14px" }}>
+                      Brand 2
+                    </MenuItem>
+                    <MenuItem value="Brand 3" style={{ fontSize: "14px" }}>
+                      Brand 3
+                    </MenuItem>
+                  </Select>
+                </div>
+                {brand.length === 0 && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+              </div>
                 <div className="w-full">
                   <div className="w-full mt-4 flex">
                     <div className="text-sm font-semibold">Campaign Type</div>
@@ -653,7 +685,7 @@ function CreateCampaign(props: any) {
                 )}
               </div>
 
-              <div className="w-full pl-4">
+              {/* <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="text-sm font-semibold">
                     Terms & Conditions
@@ -675,10 +707,9 @@ function CreateCampaign(props: any) {
                     rows={3}
                     className="w-full"
                     onChange={(e: any) => {
-                      if (description.length < 301) {
-                        setDescription(e.target.value);
-                      }
+                      setDescription(e.target.value);
                     }}
+                    inputProps={{ maxLength: 300 }}
                   />
                 </div>
                 {!regex.test(description) && showErrorMessage.one === true && (
@@ -686,7 +717,7 @@ function CreateCampaign(props: any) {
                     {errorMessageOne.isRequired}
                   </div>
                 )}
-              </div>
+              </div> */}
 
               <div className="w-full flex items-center mt-8 ">
                 <button
@@ -694,8 +725,9 @@ function CreateCampaign(props: any) {
                   onClick={() => {
                     if (
                       regex.test(adValue) &&
+                      brand.length>0 &&
                       regex.test(CampaignTitle) &&
-                      regex.test(description) &&
+                      imageArray.length>0 &&
                       regex.test(category.label)
                     ) {
                       setSwitchTab(2);
@@ -716,9 +748,7 @@ function CreateCampaign(props: any) {
                 </span>
               </div>
             </div>
-            {/* <div className="w-full flex items-center justify-center">
-              <img src={iPhone} />
-            </div> */}
+            
             <div className="w-full flex flex-col items-center justify-center">
               {imageArray.length > 0 && (
                 <div>
@@ -1007,7 +1037,7 @@ function CreateCampaign(props: any) {
                               key={index}
                               className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
                             >
-                              {data?.venue}
+                              {data?.venue.split(",")[0]}{" , "}{data.radius}{" km"}
                               <div
                                 className="ml-3 text-blue-500 cursor-pointer"
                                 onClick={() => {
@@ -1037,8 +1067,11 @@ function CreateCampaign(props: any) {
                 aria-describedby="modal-modal-description"
               >
                 <div className="w-4/5 h-2/3 bg-white flex items-center justify-center">
-                  <OpenMap handleClose={handleClose} setLocationArray={setLocationArray} locationArray={locationArray}/>
-                  
+                  <OpenMap
+                    handleClose={handleClose}
+                    setLocationArray={setLocationArray}
+                    locationArray={locationArray}
+                  />
                 </div>
               </Modal>
 
@@ -1227,7 +1260,7 @@ function CreateCampaign(props: any) {
                 )}
               </div>
 
-              <div className="w-full pl-4">
+              {/* <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="w-full text-sm font-semibold">
                     Website url
@@ -1302,7 +1335,7 @@ function CreateCampaign(props: any) {
                       Invalid url
                     </div>
                   )}
-              </div>
+              </div> */}
               {/* <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
                   <div className="w-full text-sm font-semibold">
@@ -1600,7 +1633,7 @@ function CreateCampaign(props: any) {
                         transactionCount: 90,
                         adStartDate: startDate,
                         adEndDate: endDate,
-                        targetGeoCordinates:locationArray,
+                        targetGeoCordinates: locationArray,
                         targetGeoName: "targetGeoName",
                         targetCategory: category.label,
                         targetSubCategory: subcategory.label,
@@ -1613,7 +1646,7 @@ function CreateCampaign(props: any) {
                         targetDonotKeywords: donotTargetArray,
                         billingCountry: country,
                         numberOfSignUps: numberOfSignups,
-                        status: "Active",
+                        status: "Draft",
                         websiteUrl: websiteUrl,
                         IOSAppUrl: IOSappUrl,
                         androidAppUrl: androidappUrl,

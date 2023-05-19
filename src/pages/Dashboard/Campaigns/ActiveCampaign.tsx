@@ -139,9 +139,7 @@ function Ad(props: any) {
               <MenuItem value="Sign up" style={{ fontSize: "14px" }}>
                 Sign up
               </MenuItem>
-              {/* <MenuItem value="Thirty" style={{ fontSize: "14px" }}>
-                Thirty
-              </MenuItem> */}
+              
             </Select>
           </div>
           {!regex.test(adValue) && showErrorMessage.one === true && (

@@ -12,6 +12,7 @@ const SearchControls = (props:any) => {
     //@ts-ignore
     const searchControl = new GeoSearchControl({
       provider: props?.provider,
+      style:'bar',
       ...props
     });
 

@@ -23,7 +23,6 @@ const ITEM_PADDING_TOP = 8;
 function Preview(props: any) {
   const { reward, setEditTab } = props;
   const user = useStoreState((state) => state.user);
-  console.log("reward ",reward)
 
   return (
     <div className="w-1/2 ml-4 rounded-lg bg-white mt-5 pb-4">

@@ -15,11 +15,13 @@ import CreateCampaign from "../pages/Dashboard/Campaigns/createCampaign";
 import ActiveCampaign from "../pages/Dashboard/Campaigns/ActiveCampaign";
 import ProfileAndSettings from "../pages/Dashboard/Profile&settings/Profile&Settings";
 import DrafteCampaigns from "../pages/Dashboard/Campaigns/DraftCampaigns";
-import DraftCampaignList, { ActivevatedCampaignList } from "../pages/Dashboard/Campaigns/ListedCampaigns";
+import DraftCampaignList, { ActivevatedCampaignList, CompletedCampaignList } from "../pages/Dashboard/Campaigns/ListedCampaigns";
 import CreateMilestoneReward from "../pages/Dashboard/Milestone Reward/CreateReward";
 import DraftRewardList, { ActivevatedRewardList } from "../pages/Dashboard/Milestone Reward/ListedRewards";
 import DraftedRewards from "../pages/Dashboard/Milestone Reward/DraftReward";
 import ActivatedRewards from "../pages/Dashboard/Milestone Reward/ActiveRewards";
+import AddBrands from "../pages/Dashboard/Brands/AddBrands";
+import CompletedCampaigns from "../pages/Dashboard/Campaigns/CompletedCampaigns";
 
 
 const Routing = () => {
@@ -46,8 +48,12 @@ const Routing = () => {
         <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/:id/draft_campaign" element={<DraftCampaignList />}/>
         <Route path="/:id/active_campaign" element={<ActivevatedCampaignList />}/>
+        <Route path="/:id/completed_campaign" element={<CompletedCampaignList />}/>
         <Route path="/active-campaigns/:id" element={<ActiveCampaign />} />
         <Route path="/draft-campaigns/:id" element={<DrafteCampaigns />} />
+        <Route path="/completed-campaigns/:id" element={<CompletedCampaigns />} />
+
+        <Route path="/:id/addBrand" element={<AddBrands />} />
         
         <Route path="/draft-Rewards/:id" element={<DraftedRewards />} />
         <Route path="/active-Rewards/:id" element={<ActivatedRewards />} />

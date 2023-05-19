@@ -16,16 +16,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import DatePicker from "react-datepicker";
-import { isWbsite } from "../../signupTest";
 import Sidebar from "../SideBar/sideBar";
 import { MenuProps, marks } from "../Campaigns/createCampaign";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
-const iPhone = require("../../../images/iPhone.png");
-const mapPic = require("../../../images/mapPic.png");
-const group80 = require("../../../images/Group80.png");
-const cross = require("../../../images/cross.png");
 const loader = require("../../../images/loader.gif");
+const countries = require("../../signupTest/countries.json");
 
 const ImageUploadingButton = (props: any) => {
   return (
@@ -39,7 +35,6 @@ function CreateMilestoneReward() {
   const [brand, setBrand] = useState("");
   const [MilestoneRewardMilestone, setMilestoneRewardMilestone] = useState("");
   const [offerTitle, setOfferTitle] = useState("");
-  const [uploadCreative, setUploadCreative] = useState([]);
   const [ordersToComplete, setOrdersToComplete] = useState("");
   const [orderAllowedperDay, setOrderAllowedperday] = useState("");
   const [minimuOrderValueforthisoffer, setMinimumOrderValueforthisoffer] =
@@ -52,13 +47,10 @@ function CreateMilestoneReward() {
   const [isImageUploading, setIsImageUploading] = useState(false);
   const user = useStoreState((state) => state.user);
   const [switchTab, setSwitchTab] = useState(1);
-  const [showAll,setShowAll] = useState(false)
-  const [gender, setGender] = useState<string[]>([]);
+  const [showAll,setShowAll] = useState(true)
+  const [gender, setGender] = useState<string[]>(["All"]);
   const [sliderValue, setSliderValue] = React.useState([20, 45]);
-
-  const [websiteUrl, setWebsiteUrl] = useState("");
-  const [IOSappUrl, setIOSappUrl] = useState("");
-  const [androidappUrl, setAndroidappeUrl] = useState("");
+  const [country, setCountry] = useState("");
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -431,39 +423,39 @@ function CreateMilestoneReward() {
                 )}
             </div>
 
-            <div className="w-full ">
-              <div className="w-full mt-4 flex">
-                <div className="text-sm font-semibold">Terms & Conditions</div>
-                <div className="ml-2 items-center flex justify-end">
-                  <Tooltip
-                    title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                    placement="top"
-                    arrow
-                  >
-                    <img src={infoLogo} className="w-4 h-4" />
-                  </Tooltip>
+             <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                    Billing Country
+                  </div>
                 </div>
-              </div>
-              <div className="mt-2 w-full">
-                <TextField
-                  multiline
-                  value={termsAndConditions}
-                  rows={3}
-                  className="w-full"
-                  onChange={(e: any) => {
-                    setTermsAndConditions(e.target.value);
-                  }}
-                />
-              </div>
-              {!regex.test(termsAndConditions) &&
-                showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-2">
+                <div className="mt-2 w-full">
+                  <Select
+                    value={country}
+                    onChange={(e:any)=>{
+                      setCountry(e.target.value)
+                    }}
+                    className="w-full"
+                    size="small"
+                    MenuProps={MenuProps}
+                  >
+                    {countries.map((data: any, index: number) => {
+                      return (
+                        <MenuItem value={data} key={index}>
+                          {data.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>{" "}
+                </div>
+                {country.length === 0 && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
                     {errorMessageOne.isRequired}
                   </div>
                 )}
-            </div>
+               </div>
 
-            <div className="mt-2 w-full flex">
+            <div className="mt-4 w-full flex">
               <div className="w-full mr-3">
                 <div className="w-full mb-2 text-sm font-semibold">
                   Start Date
@@ -578,7 +570,7 @@ function CreateMilestoneReward() {
               </div>
             </div>
 
-            {showAll===true &&(
+            {showAll===false &&(
               <div className=" w-full">
                  <div className="w-full">
                 <div className="w-full mt-4 flex">
@@ -601,6 +593,9 @@ function CreateMilestoneReward() {
                     </MenuItem>
                     <MenuItem value="Other" style={{ fontSize: "14px" }}>
                       Other
+                    </MenuItem>
+                    <MenuItem value="All" style={{ fontSize: "14px" }}>
+                      All
                     </MenuItem>
                   </Select>
                 </div>
@@ -628,84 +623,7 @@ function CreateMilestoneReward() {
                     min={13}
                   />
                 </div>
-              </div>
-
-              <div className="w-full">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Website url
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={websiteUrl}
-                    size="small"
-                    className="w-full"
-                    type="text"
-                    onChange={(e: any) => {
-                      setWebsiteUrl(e.target.value);
-                    }}
-                  />
-                </div>
-                {!isWbsite.test(websiteUrl) &&
-                  showErrorMessage.three === true &&
-                  websiteUrl.length > 0 && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      Invalid url
-                    </div>
-                  )}
-              </div>
-
-              <div className="w-full">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    IOS app url
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={IOSappUrl}
-                    size="small"
-                    className="w-full"
-                    type="text"
-                    onChange={(e: any) => {
-                      setIOSappUrl(e.target.value);
-                    }}
-                  />
-                </div>
-                {!isWbsite.test(IOSappUrl) &&
-                  showErrorMessage.three === true &&
-                  IOSappUrl.length > 0 && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      Invalid url
-                    </div>
-                  )}
-              </div>
-              <div className="w-full">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Android app url
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={androidappUrl}
-                    size="small"
-                    className="w-full"
-                    type="text"
-                    onChange={(e: any) => {
-                      setAndroidappeUrl(e.target.value);
-                    }}
-                  />
-                </div>
-                {!isWbsite.test(androidappUrl) &&
-                  showErrorMessage.three === true &&
-                  androidappUrl.length > 0 && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      Invalid url
-                    </div>
-                  )}
-              </div>
+              </div>              
               </div>
             )}
 
@@ -848,7 +766,7 @@ function CreateMilestoneReward() {
                         creative: imageArray[0],
                         numberOfOrdersToComplete: 8,
                         maximumOrdersAllowedPerDay: 9,
-                        status: "Active",
+                        status: "Draft",
                         termsAndConditions: termsAndConditions,
                         startDate: startDate,
                         endDate: endDate,
