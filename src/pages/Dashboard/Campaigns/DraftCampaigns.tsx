@@ -846,51 +846,7 @@ function Settings(props: any) {
             </div>
           )}
         </div>
-        <div className="w-full pl-4">
-          <div className="w-full mt-4 flex">
-            <div className="w-full text-sm font-semibold">Website Url</div>
-          </div>
-          <div className="mt-2 w-full">
-            <TextField
-              value={websiteUrl}
-              size="small"
-              className="w-full bg-white"
-              onChange={(e: any) => {
-                setWebsiteUrl(e.target.value);
-              }}
-            />
-          </div>
-        </div>
-        <div className="w-full pl-4">
-          <div className="w-full mt-4 flex">
-            <div className="w-full text-sm font-semibold">IOS App Url</div>
-          </div>
-          <div className="mt-2 w-full">
-            <TextField
-              value={IOSappUrl}
-              size="small"
-              className="w-full bg-white"
-              onChange={(e: any) => {
-                setIOSappUrl(e.target.value);
-              }}
-            />
-          </div>
-        </div>
-        <div className="w-full pl-4">
-          <div className="w-full mt-4 flex">
-            <div className="w-full text-sm font-semibold">Android App Url</div>
-          </div>
-          <div className="mt-2 w-full">
-            <TextField
-              value={androidappUrl}
-              size="small"
-              className="w-full bg-white"
-              onChange={(e: any) => {
-                setAndroidappeUrl(e.target.value);
-              }}
-            />
-          </div>
-        </div>
+        
         {/* <div className="w-full pl-4">
             <div className="w-full mt-4 flex">
               <div className="w-full text-sm font-semibold">Biling Country</div>

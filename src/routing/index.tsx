@@ -22,6 +22,7 @@ import DraftedRewards from "../pages/Dashboard/Milestone Reward/DraftReward";
 import ActivatedRewards from "../pages/Dashboard/Milestone Reward/ActiveRewards";
 import AddBrands from "../pages/Dashboard/Brands/AddBrands";
 import CompletedCampaigns from "../pages/Dashboard/Campaigns/CompletedCampaigns";
+import { BrandList } from "../pages/Dashboard/Brands/BrandList";
 
 
 const Routing = () => {
@@ -54,6 +55,7 @@ const Routing = () => {
         <Route path="/completed-campaigns/:id" element={<CompletedCampaigns />} />
 
         <Route path="/:id/addBrand" element={<AddBrands />} />
+        <Route path="/:id/BrandList" element={<BrandList />} />
         
         <Route path="/draft-Rewards/:id" element={<DraftedRewards />} />
         <Route path="/active-Rewards/:id" element={<ActivatedRewards />} />

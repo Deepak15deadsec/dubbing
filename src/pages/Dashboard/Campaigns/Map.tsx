@@ -13,8 +13,8 @@ import SearchControls from "./SearchControls";
 
 const marks = [
   {
-    value: 0,
-    label: "0 km",
+    value: 25,
+    label: "25 km",
   },
   {
     value: 100,
@@ -39,7 +39,7 @@ function MyComponent(props: any) {
 
 function OpenMap(props: any) {
   const { handleClose, setLocationArray, locationArray } = props;
-  const [radius, setRadius] = useState(25);
+  const [radius, setRadius] = useState(50);
   const [place, setPlace] = useState({
     lat: 20.5937,
     long: 78.9629,
@@ -107,6 +107,7 @@ function OpenMap(props: any) {
                 valueLabelDisplay="auto"
                 marks={marks}
                 step={5}
+                min={25}
               />
             </div>
           </div>

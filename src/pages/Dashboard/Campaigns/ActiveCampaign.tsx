@@ -37,8 +37,6 @@ const pauseIcon = require("../../../images/pauseIcon.png");
 const stopIcon = require("../../../images/stopIcon.png");
 const loader = require("../../../images/loader.gif");
 
-const avniData = JSON.parse(localStorage.getItem("avniInfo") as string);
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -73,8 +71,6 @@ function Ad(props: any) {
     setAdValue,
     CampaignTitle,
     setCampaignTitle,
-    description,
-    setDescription,
     imageArray,
     setImageArray,
   } = props;
@@ -287,29 +283,6 @@ function Ad(props: any) {
           )}
         </div>
 
-        <div className="w-full pl-4">
-          <div className="w-full mt-4 flex">
-            <div className="text-sm font-semibold">Description</div>
-          </div>
-          <div className="mt-2 w-full">
-            <TextField
-              multiline
-              value={description}
-              rows={3}
-              className="w-full bg-white"
-              onChange={(e: any) => {
-                if (description.length < 301) {
-                  setDescription(e.target.value);
-                }
-              }}
-            />
-          </div>
-          {!regex.test(description) && showErrorMessage.one === true && (
-            <div className="w-full text-xs font-semibold text-red-500 mt-2">
-              {errorMessageOne.isRequired}
-            </div>
-          )}
-        </div>
       </div>
       <div className="w-full p-2 rounded-sm">
        
@@ -317,7 +290,7 @@ function Ad(props: any) {
         <div className="font-bold text-lg">Campaign</div>
           <img src={imageArray[0]} className="max-h-[160px] max-w-[640px]" />
           <div className="mt-3 text-sm">{adTitle}</div>
-          <div className="mt-3 text-xs text-gray-300">{description}</div>
+          
           <div className="w-full flex mt-4">
             <div className="w-full flex items-center text-green-400 font-semibold text-xs">
               +20$ AVNI
@@ -343,11 +316,9 @@ const marks = [
 
 function Targetting(props: any) {
   const {
-    campaign,
     gender,
     setGender,
     billingcountry,
-    setBillingCountry,
     sliderValue,
     setSliderValue,
     keywords,
@@ -358,12 +329,6 @@ function Targetting(props: any) {
     setDonotTargetArray,
     keywordsArray,
     setKeywordsArray,
-    category,
-    setCategory,
-    subcategory,
-    setSubCategory,
-    subCategoryArray,
-    setSuCategoryArray,
   } = props;
 
   const changeGender = (event: any) => {
@@ -560,69 +525,6 @@ function Targetting(props: any) {
             </div>
           </div>
         </div>
-
-        <div className="w-full">
-          <div className="w-full mt-4 flex">
-            <div className="text-sm font-semibold">Category</div>
-          </div>
-          <div className="mt-2 w-full">
-            <Select
-              className="w-full h-10"
-              style={{ fontSize: "14px" }}
-              MenuProps={MenuProps}
-              value={category}
-              onChange={(e: any) => {
-                setCategory([e.target.value] as any);
-                CategoryOptions?.map((data: any, index: any) => {
-                  if (data.label === e.target.value) {
-                    setSuCategoryArray(data.values);
-                  }
-                });
-              }}
-            >
-              {CategoryOptions.map((data: any, index: number) => {
-                return (
-                  <MenuItem
-                    key={index}
-                    value={data.label}
-                    style={{ fontSize: "14px" }}
-                  >
-                    {data.label}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
-        </div>
-        <div className="w-full">
-          <div className="w-full mt-4 flex">
-            <div className="text-sm font-semibold">Sub Category</div>
-          </div>
-          <div className="mt-2 w-full">
-            <Select
-              className="w-full h-10"
-              style={{ fontSize: "14px" }}
-              value={subcategory}
-              MenuProps={MenuProps}
-              onChange={(e: any) => {
-                setSubCategory([e.target.value] as any);
-              }}
-            >
-              {subCategoryArray?.length > 0 &&
-                subCategoryArray?.map((data: any, index: number) => {
-                  return (
-                    <MenuItem
-                      key={index}
-                      value={data}
-                      style={{ fontSize: "14px" }}
-                    >
-                      {data}
-                    </MenuItem>
-                  );
-                })}
-            </Select>
-          </div>
-        </div>
       </div>
       <div className="w-4/5 flex justify-center">
         <img src={iPhone} />
@@ -635,15 +537,12 @@ const COLORS = ["#67DF87", "#EEEEEE"];
 
 function Settings(props: any) {
   const {
-    campaign,
     startDate,
     endDate,
-    country,
     numberOfSignups,
     setNumberOfSignups,
     setEndDate,
     setStartDate,
-    setCountry,
   } = props;
   // const [startDate, setStartDate] = useState(campaign?.adStartDate);
   // const [endDate, setEndDate] = useState(campaign?.adEndDate);
@@ -663,10 +562,6 @@ function Settings(props: any) {
     four: false,
     five: false,
   });
-  const SelectCountry = (event: any) => {
-    setCountry(event.target.value);
-  };
-
   return (
     <div className="w-full flex pb-4">
       <div className="w-full">
@@ -908,12 +803,6 @@ function Preview(props: any) {
                       );
                     }
                   )}
-                </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Description</div>
-                <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.adDesc}
                 </div>
               </div>
             </div>
@@ -1262,15 +1151,6 @@ function ActiveCampaign() {
             </div>
           </div>
           <div className="w-full mt-2 mb-2 flex items-center rounded-lg bg-white cursor-pointer text-xs">
-            {/* <div
-              className=" flex items-center justify-center text-xs h-8 rounded-md mr-4 px-3"
-              style={{ backgroundColor: switchTab === 1 ? "#01A4EF" : "#fff" }}
-              onClick={() => {
-                setSwitchTab(1);
-              }}
-            >
-              Performance
-            </div> */}
             <div
               className=" flex items-center justify-center text-xs h-8 rounded-md cursor-pointer mr-4 px-3"
               style={{ backgroundColor: switchTab === 2 ? "#01A4EF" : "#fff" }}
@@ -1308,8 +1188,6 @@ function ActiveCampaign() {
               setAdValue={setAdValue}
               CampaignTitle={CampaignTitle}
               setCampaignTitle={setCampaignTitle}
-              description={description}
-              setDescription={setDescription}
               imageArray={imageArray}
               setImageArray={setImageArray}
             />
@@ -1331,12 +1209,6 @@ function ActiveCampaign() {
               setDonotTargetArray={setDonotTargetArray}
               keywordsArray={keywordsArray}
               setKeywordsArray={setKeywordsArray}
-              category={category}
-              setCategory={setCategory}
-              subcategory={subcategory}
-              setSubCategory={setSubCategory}
-              subCategoryArray={subCategoryArray}
-              setSuCategoryArray={setSuCategoryArray}
             />
           )}
           {switchTab === 4 && (
@@ -1346,8 +1218,6 @@ function ActiveCampaign() {
               endDate={endDate}
               setStartDate={setStartDate}
               setEndDate={setEndDate}
-              country={country}
-              setCountry={setCountry}
               numberOfSignups={numberOfSignups}
               setNumberOfSignups={setNumberOfSignups}
             />

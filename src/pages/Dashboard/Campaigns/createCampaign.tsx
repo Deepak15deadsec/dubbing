@@ -311,9 +311,6 @@ function CreateCampaign(props: any) {
   const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
   const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
   const [isImageUploading, setIsImageUploading] = useState(false);
-  const [websiteUrl, setWebsiteUrl] = useState("");
-  const [IOSappUrl, setIOSappUrl] = useState("");
-  const [androidappUrl, setAndroidappeUrl] = useState("");
   const [locationArray, setLocationArray] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -373,7 +370,7 @@ function CreateCampaign(props: any) {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full min-h-screen py-6 px-4">
+    <div className="w-full py-6 px-4">
       <div className="w-full py-2 flex items-center rounded-lg bg-white pl-4 font-bold text-2xl">
         {switchTab === 1
           ? "Whats your Campaign goal? "
@@ -518,47 +515,6 @@ function CreateCampaign(props: any) {
                   )}
               </div>
 
-              <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="text-sm font-semibold">Category</div>
-                  <div className="ml-2 items-center flex justify-end">
-                    <Tooltip
-                      title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                      placement="top"
-                      arrow
-                    >
-                      <img src={infoLogo} className="w-4 h-4" />
-                    </Tooltip>
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    className="w-full h-10"
-                    style={{ fontSize: "14px" }}
-                    value={category.label}
-                    onChange={(e: any) => {
-                      setCategory({ ...category, label: e.target.value });
-                    }}
-                  >
-                    {CategoryOptions.map((data: any, index: number) => {
-                      return (
-                        <MenuItem
-                          value={data.label}
-                          style={{ fontSize: "14px" }}
-                        >
-                          {data.label}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </div>
-                {!regex.test(category.label) &&
-                  showErrorMessage.one === true && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      {errorMessageOne.isRequired}
-                    </div>
-                  )}
-              </div>
 
               <div className="w-full pl-4">
                 <div className="w-full mt-4 flex">
@@ -1260,112 +1216,6 @@ function CreateCampaign(props: any) {
                 )}
               </div>
 
-              {/* <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Website url
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={websiteUrl}
-                    size="small"
-                    className="w-full"
-                    type="text"
-                    onChange={(e: any) => {
-                      setWebsiteUrl(e.target.value);
-                    }}
-                  />
-                </div>
-                {!isWbsite.test(websiteUrl) &&
-                  showErrorMessage.three === true &&
-                  websiteUrl.length > 0 && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      Invalid url
-                    </div>
-                  )}
-              </div>
-
-              <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    IOS app url
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={IOSappUrl}
-                    size="small"
-                    className="w-full"
-                    type="text"
-                    onChange={(e: any) => {
-                      setIOSappUrl(e.target.value);
-                    }}
-                  />
-                </div>
-                {!isWbsite.test(IOSappUrl) &&
-                  showErrorMessage.three === true &&
-                  IOSappUrl.length > 0 && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      Invalid url
-                    </div>
-                  )}
-              </div>
-              <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Android app url
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <TextField
-                    value={androidappUrl}
-                    size="small"
-                    className="w-full"
-                    type="text"
-                    onChange={(e: any) => {
-                      setAndroidappeUrl(e.target.value);
-                    }}
-                  />
-                </div>
-                {!isWbsite.test(androidappUrl) &&
-                  showErrorMessage.three === true &&
-                  androidappUrl.length > 0 && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      Invalid url
-                    </div>
-                  )}
-              </div> */}
-              {/* <div className="w-full pl-4">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Billing Country
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    value={country}
-                    onChange={SelectCountry}
-                    className="w-full"
-                    size="small"
-                    MenuProps={MenuProps}
-                  >
-                    {country_list.map((data: any, index: number) => {
-                      return (
-                        <MenuItem value={data} key={index}>
-                          {data}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>{" "}
-                </div>
-                {country.length === 0 && showErrorMessage.three === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
-              </div> */}
-
               <div className="w-full flex items-center mt-8 ">
                 <button
                   className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400"
@@ -1381,13 +1231,6 @@ function CreateCampaign(props: any) {
                   className="w-24 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
                   onClick={() => {
                     if (
-                      (websiteUrl.length > 0 && !isWbsite.test(websiteUrl)) ||
-                      (IOSappUrl.length > 0 && !isWbsite.test(IOSappUrl)) ||
-                      (androidappUrl.length > 0 &&
-                        !isWbsite.test(androidappUrl))
-                    ) {
-                      setShowErrorMessage({ ...showErrorMessage, three: true });
-                    } else if (
                       regex.test(startDate) &&
                       regex.test(endDate) &&
                       new Date(startDate).getTime() <=
@@ -1576,30 +1419,6 @@ function CreateCampaign(props: any) {
                       {numberOfSignups}
                     </div>
                   </div>
-                  <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Website url</div>
-                    <div className="w-full text-xs text-gray-400 flex">
-                      {websiteUrl}
-                    </div>
-                  </div>
-                  <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">IOS app url</div>
-                    <div className="w-full text-xs text-gray-400 flex">
-                      {IOSappUrl}
-                    </div>
-                  </div>
-                  <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Android app url</div>
-                    <div className="w-full text-xs text-gray-400 flex">
-                      {androidappUrl}
-                    </div>
-                  </div>
-                  {/* <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Card Number</div>
-                    <div className="w-full text-xs text-gray-400">
-                      {cardNumber}
-                    </div>
-                  </div> */}
                 </div>
               </div>
               <div className="w-full ml-3 flex items-center mt-8 ">
@@ -1647,9 +1466,7 @@ function CreateCampaign(props: any) {
                         billingCountry: country,
                         numberOfSignUps: numberOfSignups,
                         status: "Draft",
-                        websiteUrl: websiteUrl,
-                        IOSAppUrl: IOSappUrl,
-                        androidAppUrl: androidappUrl,
+                        
                       };
                       const { data: campaign } = await axios({
                         url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign`,

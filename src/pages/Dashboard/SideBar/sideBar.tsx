@@ -195,7 +195,7 @@ const Sidebar = () => {
             } font-normal `}
             component={
               <NavLink
-                to={`/${user.id}/active_reward`}
+                to={`/${user.id}/BrandList`}
                 onClick={() => tabSelected("Brand")}
                 className="ml-10"
               />
