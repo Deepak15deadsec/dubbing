@@ -795,8 +795,10 @@ function CreateMilestoneReward() {
                         status: "Draft",
                         country: country,
                         startDate: startDate,
+                        internalOfferCode: internalOfferCode,
                         endDate: endDate,
-                        gender:gender,
+                        targetLocation: country.dial_code,
+                        targetGender:gender,
                         targetAge:sliderValue,
                       };
                       const { data: campaign } = await axios({
