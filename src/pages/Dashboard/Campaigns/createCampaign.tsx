@@ -4,32 +4,22 @@ import ImageUploading from "react-images-uploading";
 import Select from "@mui/material/Select";
 import {
   Chip,
-  Dialog,
-  Input,
   Modal,
   Slider,
   Stack,
   TextField,
   Theme,
   Tooltip,
-  useTheme,
 } from "@mui/material";
 import { regex } from "../../signupTest";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
-import { CategoryOptions } from "./options";
 import DatePicker from "react-datepicker";
-import { isWbsite } from "../../signupTest";
-import Map from "./Map";
 import OpenMap from "./Map";
-import MyMap from "./SearchControls";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
-const iPhone = require("../../../images/iPhone.png");
-const mapPic = require("../../../images/mapPic.png");
-const group80 = require("../../../images/Group80.png");
 const cross = require("../../../images/cross.png");
 const loader = require("../../../images/loader.gif");
 
@@ -343,10 +333,6 @@ function CreateCampaign(props: any) {
     setSliderValue(newValue);
   };
 
-  const SelectCountry = (event: any) => {
-    setCountry(event.target.value);
-  };
-
   const handleChange = (event: any) => {
     setAdValue(event.target.value);
   };
@@ -357,16 +343,6 @@ function CreateCampaign(props: any) {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const changeGender = (event: any) => {
-    const {
-      target: { value },
-    } = event;
-    setGender(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
   };
 
   const navigate = useNavigate();

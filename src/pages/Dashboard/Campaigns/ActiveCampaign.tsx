@@ -39,29 +39,6 @@ const loader = require("../../../images/loader.gif");
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 function Ad(props: any) {
   const {
@@ -533,8 +510,6 @@ function Targetting(props: any) {
   );
 }
 
-const COLORS = ["#67DF87", "#EEEEEE"];
-
 function Settings(props: any) {
   const {
     startDate,
@@ -544,12 +519,6 @@ function Settings(props: any) {
     setEndDate,
     setStartDate,
   } = props;
-  // const [startDate, setStartDate] = useState(campaign?.adStartDate);
-  // const [endDate, setEndDate] = useState(campaign?.adEndDate);
-  // const [country, setCountry] = useState(campaign?.billingCountry);
-  // const [numberOfSignups, setNumberOfSignups] = useState(
-  //   campaign?.transactionCount
-  // );
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
     isEndDate: "End date should be greated than start date",

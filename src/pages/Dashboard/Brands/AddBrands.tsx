@@ -3,7 +3,6 @@ import Sidebar from "../SideBar/sideBar";
 import {
   Chip,
   MenuItem,
-  OutlinedInput,
   Select,
   Stack,
   TextField,
@@ -50,16 +49,6 @@ function AddBrands() {
   });
 
   const navigate = useNavigate();
-
-  const changeCategory = (event: any) => {
-    const {
-      target: { value },
-    } = event;
-    setCategory(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
 
   return (
     <div className="flex w-full h-auto">

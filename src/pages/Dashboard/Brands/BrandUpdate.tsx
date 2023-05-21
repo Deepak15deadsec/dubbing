@@ -1,17 +1,13 @@
 import {
   Chip,
-  CircularProgress,
   MenuItem,
-  Modal,
   Select,
-  Slider,
   Stack,
   TextField,
   Tooltip,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SideBar from "../SideBar/sideBar";
-import DatePicker from "react-datepicker";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { isWbsite, regex } from "../../signupTest";
@@ -23,9 +19,6 @@ const loader = require("../../../images/loader.gif");
 const countries = require("../../signupTest/countries.json");
 const infoLogo = require("../../../images/infoLogo.png");
 const cross = require("../../../images/cross.png");
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 
 function Preview(props: any) {
   const { Brand, setEditTab } = props;
@@ -140,7 +133,6 @@ function Preview(props: any) {
 }
 
 function UpdateBrand() {
-  const [switchTab, setSwitchTab] = useState(2);
   const { id } = useParams();
   const [editTab, setEditTab] = useState(false);
   const user = useStoreState((store) => store.user);

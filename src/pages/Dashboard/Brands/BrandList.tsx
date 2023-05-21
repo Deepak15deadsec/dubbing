@@ -1,10 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import Sidebar from "../SideBar/sideBar";
-import { toast } from "react-toastify";
-import { CircularProgress, Modal, Popover } from "@mui/material";
 const rightPage = require("../../../images/rightPage.png");
 const leftPage = require("../../../images/leftPage.png");
 
@@ -34,14 +32,6 @@ export function BrandList() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
-
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;

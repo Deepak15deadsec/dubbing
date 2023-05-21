@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
-import ImageUploading from "react-images-uploading";
 import Select from "@mui/material/Select";
-import {
-  Chip,
-  Input,
-  Slider,
-  Stack,
-  TextField,
-  Theme,
-  Tooltip,
-  useTheme,
-} from "@mui/material";
+import { Chip, Slider, Stack, TextField, Tooltip } from "@mui/material";
 import { regex } from "../../signupTest";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +33,6 @@ function CreateMilestoneReward() {
   const [minimuOrderValueforthisoffer, setMinimumOrderValueforthisoffer] =
     useState("");
   const [internalOfferCode, setInternalOfferCode] = useState("");
-  const [termsAndConditions, setTermsAndConditions] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [imageArray, setImageArray] = useState<string[]>([]);
@@ -53,7 +42,11 @@ function CreateMilestoneReward() {
   const [showAll, setShowAll] = useState(true);
   const [gender, setGender] = useState<string[]>(["All"]);
   const [sliderValue, setSliderValue] = React.useState([20, 45]);
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState({
+    name: "",
+    dial_code: "",
+    code: "",
+  });
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -71,16 +64,6 @@ function CreateMilestoneReward() {
 
   const ChangeSlider = (event: any, newValue: any) => {
     setSliderValue(newValue);
-  };
-
-  const changeGender = (event: any) => {
-    const {
-      target: { value },
-    } = event;
-    setGender(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
   };
 
   const navigate = useNavigate();
@@ -442,14 +425,14 @@ function CreateMilestoneReward() {
                 >
                   {countries.map((data: any, index: number) => {
                     return (
-                      <MenuItem value={data?.name} key={index}>
+                      <MenuItem value={data} key={index}>
                         {data.name}
                       </MenuItem>
                     );
                   })}
                 </Select>{" "}
               </div>
-              {country.length === 0 && showErrorMessage.one === true && (
+              {country.name.length === 0 && showErrorMessage.one === true && (
                 <div className="w-full text-xs font-semibold text-red-500 mt-1">
                   {errorMessageOne.isRequired}
                 </div>
@@ -590,44 +573,44 @@ function CreateMilestoneReward() {
                     <div className="w-full text-sm font-semibold">Gender</div>
                   </div>
                   <div className="mt-2 w-full">
-                  <Select
-                  size="small"
-                  className="w-full h-auto"
-                  style={{ fontSize: "14px" }}
-                  multiple
-                  value={gender}
-                  onChange={(e:any) => setGender(e.target.value)}
-                  renderValue={(selected: any) => (
-                    <Stack
-                      gap={1}
-                      direction="row"
-                      flexWrap="wrap"
-                      className="overflow-auto"
-                    >
-                      {selected.map((value: any, index: any) => (
-                        <Chip
-                          key={value}
-                          label={value}
-                          className="h-[20px] text-[13px]"
-                          onDelete={() =>
-                            setGender(
-                              gender.filter((item: any) => item !== value)
-                            )
-                          }
-                          deleteIcon={
-                            <img
-                              src={cross}
-                              className="w-3 h-3"
-                              onMouseDown={(e: any) => {
-                                e.stopPropagation();
-                              }}
+                    <Select
+                      size="small"
+                      className="w-full h-auto"
+                      style={{ fontSize: "14px" }}
+                      multiple
+                      value={gender}
+                      onChange={(e: any) => setGender(e.target.value)}
+                      renderValue={(selected: any) => (
+                        <Stack
+                          gap={1}
+                          direction="row"
+                          flexWrap="wrap"
+                          className="overflow-auto"
+                        >
+                          {selected.map((value: any, index: any) => (
+                            <Chip
+                              key={value}
+                              label={value}
+                              className="h-[20px] text-[13px]"
+                              onDelete={() =>
+                                setGender(
+                                  gender.filter((item: any) => item !== value)
+                                )
+                              }
+                              deleteIcon={
+                                <img
+                                  src={cross}
+                                  className="w-3 h-3"
+                                  onMouseDown={(e: any) => {
+                                    e.stopPropagation();
+                                  }}
+                                />
+                              }
                             />
-                          }
-                        />
-                      ))}
-                    </Stack>
-                  )}
-                >
+                          ))}
+                        </Stack>
+                      )}
+                    >
                       <MenuItem value="Male" style={{ fontSize: "14px" }}>
                         Male
                       </MenuItem>
@@ -684,7 +667,7 @@ function CreateMilestoneReward() {
                     regex.test(startDate) &&
                     regex.test(endDate) &&
                     regex.test(internalOfferCode) &&
-                    regex.test(country)
+                    regex.test(country?.name)
                   ) {
                     setSwitchTab(2);
                   } else {
@@ -764,9 +747,7 @@ function CreateMilestoneReward() {
 
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Country</div>
-                <div className="w-full text-xs text-gray-400">
-                  {country}
-                </div>
+                <div className="w-full text-xs text-gray-400">{country?.name}</div>
               </div>
 
               <div className="w-full flex mt-1">
@@ -796,13 +777,13 @@ function CreateMilestoneReward() {
                     if (
                       regex.test(MilestoneRewardMilestone) &&
                       regex.test(ordersToComplete) &&
-                      regex.test(country) &&
+                      regex.test(country?.name) &&
                       imageArray.length > 0 &&
                       regex.test(offerTitle) &&
                       regex.test(startDate) &&
                       regex.test(endDate) &&
                       startDate !== endDate &&
-                      regex.test(internalOfferCode) 
+                      regex.test(internalOfferCode)
                     ) {
                       const payload = {
                         advertiserId: user.id,
@@ -812,7 +793,7 @@ function CreateMilestoneReward() {
                         numberOfOrdersToComplete: 8,
                         maximumOrdersAllowedPerDay: 9,
                         status: "Draft",
-                        termsAndConditions: country,
+                        country: country,
                         startDate: startDate,
                         endDate: endDate,
                       };
