@@ -1,9 +1,6 @@
 import {
-  CircularProgress,
   MenuItem,
-  Modal,
   Select,
-  Slider,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -17,9 +14,6 @@ import { toast } from "react-toastify";
 import { ImageUploadingButton, MenuProps } from "../Campaigns/createCampaign";
 const loader = require("../../../images/loader.gif");
 const countries = require("../../signupTest/countries.json");
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 
 function Preview(props: any) {
   const { reward, setEditTab } = props;
@@ -124,7 +118,6 @@ function Preview(props: any) {
 }
 
 function DraftedRewards() {
-  const [switchTab, setSwitchTab] = useState(2);
   const { id } = useParams();
   const [editTab, setEditTab] = useState(false);
   const user = useStoreState((store) => store.user);
@@ -135,7 +128,6 @@ function DraftedRewards() {
 
   const [MilestoneRewardMilestone, setMilestoneRewardMilestone] = useState("");
   const [offerTitle, setOfferTitle] = useState("");
-  const [uploadCreative, setUploadCreative] = useState([]);
   const [ordersToComplete, setOrdersToComplete] = useState("");
   const [orderAllowedperDay, setOrderAllowedperday] = useState("");
   const [minimuOrderValueforthisoffer, setMinimumOrderValueforthisoffer] =
@@ -151,7 +143,9 @@ function DraftedRewards() {
     isEndDate: "End date should be greated than start date",
     isMaxImage: "Maximum 5 images can be uploaded",
   });
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState({name: "",
+  dial_code: "",
+  code: "",});
 
   const [showErrorMessage, setShowErrorMessage] = useState({
     one: false,
@@ -431,7 +425,7 @@ function DraftedRewards() {
                   <Select
                     value={country}
                     onChange={(e:any)=>{
-                      setCountry(e.target.value as string)
+                      setCountry(e.target.valueg)
                     }}
                     className="w-full"
                     size="small"
@@ -439,14 +433,14 @@ function DraftedRewards() {
                   >
                     {countries.map((data: any, index: number) => {
                       return (
-                        <MenuItem value={data.name} key={index}>
+                        <MenuItem value={data} key={index}>
                           {data.name}
                         </MenuItem>
                       );
                     })}
                   </Select>{" "}
                 </div>
-                {country.length === 0 && showErrorMessage.one === true && (
+                {country?.name.length === 0 && showErrorMessage.one === true && (
                   <div className="w-full text-xs font-semibold text-red-500 mt-1">
                     {errorMessageOne.isRequired}
                   </div>
@@ -551,7 +545,7 @@ function DraftedRewards() {
                 if (
                   regex.test(MilestoneRewardMilestone) &&
                   regex.test(ordersToComplete) &&
-                  regex.test(country) &&
+                  regex.test(country?.name) &&
                   imageArray.length > 0 &&
                   regex.test(offerTitle) &&
                   regex.test(startDate) &&
