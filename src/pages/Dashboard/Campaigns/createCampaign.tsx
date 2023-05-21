@@ -3,10 +3,12 @@ import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
 import Select from "@mui/material/Select";
 import {
+  Chip,
   Dialog,
   Input,
   Modal,
   Slider,
+  Stack,
   TextField,
   Theme,
   Tooltip,
@@ -296,7 +298,7 @@ function CreateCampaign(props: any) {
     label: "",
     arrayOpions: [],
   });
-  const [brand, setBrand] = useState<string[]>([]);
+  const [brand, setBrand] = useState<string>("");
   const [CampaignTitle, setCampaignTitle] = useState("");
   const [description, setDescription] = useState("");
   const [gender, setGender] = useState<string[]>([]);
@@ -397,8 +399,6 @@ function CreateCampaign(props: any) {
                     onChange={(e:any)=>{
                       setBrand(e.target.value)
                     }}
-                    MenuProps={MenuProps}
-                    multiple
                   >
                     <MenuItem value="Brand 1" style={{ fontSize: "14px" }}>
                       Brand 1
@@ -684,7 +684,7 @@ function CreateCampaign(props: any) {
                       brand.length>0 &&
                       regex.test(CampaignTitle) &&
                       imageArray.length>0 &&
-                      regex.test(category.label)
+                      regex.test(brand)
                     ) {
                       setSwitchTab(2);
                     } else {
@@ -735,14 +735,44 @@ function CreateCampaign(props: any) {
                   <div className="w-full text-sm font-semibold">Gender</div>
                 </div>
                 <div className="mt-2 w-full">
-                  <Select
-                    className="w-full h-10"
-                    style={{ fontSize: "14px" }}
-                    value={gender}
-                    onChange={changeGender}
-                    MenuProps={MenuProps}
-                    multiple
-                  >
+                <Select
+                  size="small"
+                  className="w-full h-auto"
+                  style={{ fontSize: "14px" }}
+                  multiple
+                  value={gender}
+                  onChange={(e:any) => setGender(e.target.value)}
+                  renderValue={(selected: any) => (
+                    <Stack
+                      gap={1}
+                      direction="row"
+                      flexWrap="wrap"
+                      className="overflow-auto"
+                    >
+                      {selected.map((value: any, index: any) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          className="h-[20px] text-[13px]"
+                          onDelete={() =>
+                            setGender(
+                              gender.filter((item: any) => item !== value)
+                            )
+                          }
+                          deleteIcon={
+                            <img
+                              src={cross}
+                              className="w-3 h-3"
+                              onMouseDown={(e: any) => {
+                                e.stopPropagation();
+                              }}
+                            />
+                          }
+                        />
+                      ))}
+                    </Stack>
+                  )}
+                >
                     <MenuItem value="Male" style={{ fontSize: "14px" }}>
                       Male
                     </MenuItem>

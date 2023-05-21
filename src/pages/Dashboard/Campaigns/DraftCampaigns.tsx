@@ -80,6 +80,7 @@ function Ad(props: any) {
     setImageArray,
     category,
     setCategory,
+    brandName, setBrandName
   } = props;
   const user = useStoreState((state) => state.user);
   const [errorMessageOne, setErrorMessageOne] = useState({
@@ -104,6 +105,27 @@ function Ad(props: any) {
     <div className="w-full rounded-sm flex">
       <div className="w-full">
         <div className="w-full pl-4">
+        <div className="w-full">
+            <div className="w-full mt-4 flex">
+              <div className="text-sm font-semibold">Brand Name</div>
+              <div className="ml-2 items-center flex justify-end"></div>
+            </div>
+            <div className="mt-2 w-full">
+              <TextField
+                value={brandName}
+                size="small"
+                className="w-full bg-white"
+                onChange={(e: any) => {
+                  setBrandName(e.target.value);
+                }}
+              />
+            </div>
+            {!regex.test(brandName) && showErrorMessage.one === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isRequired}
+              </div>
+            )}
+          </div>
           <div className="w-full">
             <div className="w-full mt-4 flex">
               <div className="text-sm font-semibold">Campaign Name</div>
@@ -914,6 +936,12 @@ function Preview(props: any) {
               Add Goal
             </div>
             <div className=" mt-4 pl-4">
+            <div className="w-full flex">
+                <div className="w-1/3 text-xs">Brand Name</div>
+                <div className="w-full text-xs text-gray-400">
+                  {campaign?.data[0]?.brandName}
+                </div>
+              </div>
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">Ad Title</div>
                 <div className="w-full text-xs text-gray-400">
@@ -1135,6 +1163,7 @@ function DrafteCampaigns() {
   //--------------------------------------------Ads-----------------------------------------------------------
 
   const [adTitle, setAdTitle] = useState("");
+  const [brandName,setBrandName] = useState("")
   const [adValue, setAdValue] = useState("");
   const [CampaignTitle, setCampaignTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -1165,6 +1194,7 @@ function DrafteCampaigns() {
   const [locationArray, setLocationArray] = useState([]);
 
   useEffect(() => {
+    setBrandName(campaign?.data[0]?.brandName)
     setGender(campaign?.data[0].targetGender);
     setBillingCountry(campaign?.data[0].billingCountry);
     setSliderValue([
@@ -1262,6 +1292,7 @@ function DrafteCampaigns() {
                         onClick={async () => {
                           setSavingLoader(true);
                           const payload = {
+                            brandName:brandName,
                             campaignId: id,
                             advertiserId: user?.id,
                             campaignName: adTitle,
@@ -1274,8 +1305,6 @@ function DrafteCampaigns() {
                             adEndDate: endDate,
                             targetGeoCordinates: locationArray,
                             targetGeoName: "targetGeoName",
-                            targetCategory: category[0],
-                            targetSubCategory: subcategory[0],
                             targetGender: gender,
                             targetAgeRange: {
                               min: sliderValue[0],
@@ -1284,7 +1313,7 @@ function DrafteCampaigns() {
                             targetKeywords: keywordsArray,
                             targetDonotKeywords: donotTargetArray,
                             billingCountry: country,
-                            status: "Active",
+                            status: "Draft",
                           };
                           const { data: campaign } = await axios({
                             url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update`,
@@ -1299,7 +1328,7 @@ function DrafteCampaigns() {
                             toast.success("Successfully Created !", {
                               position: toast.POSITION.TOP_RIGHT,
                             });
-                            navigate("/active_campaign");
+                            navigate("/draft_campaign");
                           } else {
                             toast.error("Something went wrong !", {
                               position: toast.POSITION.TOP_RIGHT,
@@ -1370,6 +1399,8 @@ function DrafteCampaigns() {
               setImageArray={setImageArray}
               category={category}
               setCategory={setCategory}
+              brandName={brandName}
+              setBrandName={setBrandName}
             />
           )}
           {switchTab === 3 && campaign && (

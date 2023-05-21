@@ -14,8 +14,9 @@ import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { regex } from "../../signupTest";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { ImageUploadingButton } from "../Campaigns/createCampaign";
+import { ImageUploadingButton, MenuProps } from "../Campaigns/createCampaign";
 const loader = require("../../../images/loader.gif");
+const countries = require("../../signupTest/countries.json");
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -79,7 +80,7 @@ function Preview(props: any) {
                 </div>
               </div>
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Terms & Conditions</div>
+                <div className="w-1/3 text-xs">Country</div>
                 <div className="w-full text-xs text-gray-400">
                   {reward?.termsAndConditions}
                 </div>
@@ -150,6 +151,7 @@ function DraftedRewards() {
     isEndDate: "End date should be greated than start date",
     isMaxImage: "Maximum 5 images can be uploaded",
   });
+  const [country, setCountry] = useState("");
 
   const [showErrorMessage, setShowErrorMessage] = useState({
     one: false,
@@ -167,7 +169,7 @@ function DraftedRewards() {
     setOrdersToComplete(reward?.numberOfOrdersToComplete);
     setOrderAllowedperday(reward?.numberOfOrdersToComplete);
     setInternalOfferCode(reward?.internalOfferCode);
-    setTermsAndConditions(reward?.termsAndConditions);
+    setCountry(reward?.termsAndConditions);
     setStartDate(reward?.startDate);
     setEndDate(reward?.endDate);
   }, [reward]);
@@ -418,28 +420,38 @@ function DraftedRewards() {
               )}
           </div>
 
-          <div className="w-full ">
-            <div className="w-full mt-4 flex">
-              <div className="text-sm font-semibold">Terms & Conditions</div>
-            </div>
-            <div className="mt-2 w-full">
-              <TextField
-                multiline
-                value={termsAndConditions}
-                rows={3}
-                className="w-full"
-                onChange={(e: any) => {
-                  setTermsAndConditions(e.target.value);
-                }}
-              />
-            </div>
-            {!regex.test(termsAndConditions) &&
-              showErrorMessage.one === true && (
-                <div className="w-full text-xs font-semibold text-red-500 mt-2">
-                  {errorMessageOne.isRequired}
+
+          <div className="w-full">
+                <div className="w-full mt-4 flex">
+                  <div className="w-full text-sm font-semibold">
+                 Country
+                  </div>
                 </div>
-              )}
-          </div>
+                <div className="mt-2 w-full">
+                  <Select
+                    value={country}
+                    onChange={(e:any)=>{
+                      setCountry(e.target.value as string)
+                    }}
+                    className="w-full"
+                    size="small"
+                    MenuProps={MenuProps}
+                  >
+                    {countries.map((data: any, index: number) => {
+                      return (
+                        <MenuItem value={data.name} key={index}>
+                          {data.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>{" "}
+                </div>
+                {country.length === 0 && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+               </div>
 
           <div className="mt-2 w-full flex">
             <div className="w-full mr-3">
@@ -539,7 +551,7 @@ function DraftedRewards() {
                 if (
                   regex.test(MilestoneRewardMilestone) &&
                   regex.test(ordersToComplete) &&
-                  regex.test(termsAndConditions) &&
+                  regex.test(country) &&
                   imageArray.length > 0 &&
                   regex.test(offerTitle) &&
                   regex.test(startDate) &&
@@ -555,7 +567,7 @@ function DraftedRewards() {
                     numberOfOrdersToComplete: 8,
                     maximumOrdersAllowedPerDay: 9,
                     status: "Draft",
-                    termsAndConditions: termsAndConditions,
+                    termsAndConditions: country ,
                     startDate: startDate,
                     endDate: endDate,
                   };

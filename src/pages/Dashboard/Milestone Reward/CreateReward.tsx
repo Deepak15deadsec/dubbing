@@ -3,8 +3,10 @@ import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
 import Select from "@mui/material/Select";
 import {
+  Chip,
   Input,
   Slider,
+  Stack,
   TextField,
   Theme,
   Tooltip,
@@ -21,6 +23,7 @@ import { MenuProps, marks } from "../Campaigns/createCampaign";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const loader = require("../../../images/loader.gif");
+const cross = require("../../../images/cross.png");
 const countries = require("../../signupTest/countries.json");
 
 const ImageUploadingButton = (props: any) => {
@@ -47,7 +50,7 @@ function CreateMilestoneReward() {
   const [isImageUploading, setIsImageUploading] = useState(false);
   const user = useStoreState((state) => state.user);
   const [switchTab, setSwitchTab] = useState(1);
-  const [showAll,setShowAll] = useState(true)
+  const [showAll, setShowAll] = useState(true);
   const [gender, setGender] = useState<string[]>(["All"]);
   const [sliderValue, setSliderValue] = React.useState([20, 45]);
   const [country, setCountry] = useState("");
@@ -423,37 +426,35 @@ function CreateMilestoneReward() {
                 )}
             </div>
 
-             <div className="w-full">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                    Billing Country
-                  </div>
+            <div className="w-full">
+              <div className="w-full mt-4 flex">
+                <div className="w-full text-sm font-semibold">Country</div>
+              </div>
+              <div className="mt-2 w-full">
+                <Select
+                  value={country}
+                  onChange={(e: any) => {
+                    setCountry(e.target.value);
+                  }}
+                  className="w-full"
+                  size="small"
+                  MenuProps={MenuProps}
+                >
+                  {countries.map((data: any, index: number) => {
+                    return (
+                      <MenuItem value={data?.name} key={index}>
+                        {data.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>{" "}
+              </div>
+              {country.length === 0 && showErrorMessage.one === true && (
+                <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                  {errorMessageOne.isRequired}
                 </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    value={country}
-                    onChange={(e:any)=>{
-                      setCountry(e.target.value)
-                    }}
-                    className="w-full"
-                    size="small"
-                    MenuProps={MenuProps}
-                  >
-                    {countries.map((data: any, index: number) => {
-                      return (
-                        <MenuItem value={data} key={index}>
-                          {data.name}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>{" "}
-                </div>
-                {country.length === 0 && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
-               </div>
+              )}
+            </div>
 
             <div className="mt-4 w-full flex">
               <div className="w-full mr-3">
@@ -558,72 +559,116 @@ function CreateMilestoneReward() {
             <div className="mt-4 w-full ml-2 flex items-center">
               <div className="flex items-center">
                 <label>All</label>
-                <input type="radio" name="all" className="w-5 h-5 ml-2" checked={showAll} onChange={()=>{
-                  setShowAll(true)
-                }} />
+                <input
+                  type="radio"
+                  name="all"
+                  className="w-5 h-5 ml-2"
+                  checked={showAll}
+                  onChange={() => {
+                    setShowAll(true);
+                  }}
+                />
               </div>
               <div className="flex items-center ml-20">
                 <label>Target</label>
-                <input type="radio" name="target" className="w-5 h-5 ml-2" checked={!showAll} onChange={()=>{
-                  setShowAll(false)
-                }} />
+                <input
+                  type="radio"
+                  name="target"
+                  className="w-5 h-5 ml-2"
+                  checked={!showAll}
+                  onChange={() => {
+                    setShowAll(false);
+                  }}
+                />
               </div>
             </div>
 
-            {showAll===false &&(
+            {showAll === false && (
               <div className=" w-full">
-                 <div className="w-full">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">Gender</div>
-                </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    className="w-full h-10"
-                    style={{ fontSize: "14px" }}
-                    value={gender}
-                    onChange={changeGender}
-                    MenuProps={MenuProps}
-                    multiple
-                  >
-                    <MenuItem value="Male" style={{ fontSize: "14px" }}>
-                      Male
-                    </MenuItem>
-                    <MenuItem value="Female" style={{ fontSize: "14px" }}>
-                      Female
-                    </MenuItem>
-                    <MenuItem value="Other" style={{ fontSize: "14px" }}>
-                      Other
-                    </MenuItem>
-                    <MenuItem value="All" style={{ fontSize: "14px" }}>
-                      All
-                    </MenuItem>
-                  </Select>
-                </div>
-                {gender.length === 0 && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
+                <div className="w-full">
+                  <div className="w-full mt-4 flex">
+                    <div className="w-full text-sm font-semibold">Gender</div>
                   </div>
-                )}
-              </div>
+                  <div className="mt-2 w-full">
+                  <Select
+                  size="small"
+                  className="w-full h-auto"
+                  style={{ fontSize: "14px" }}
+                  multiple
+                  value={gender}
+                  onChange={(e:any) => setGender(e.target.value)}
+                  renderValue={(selected: any) => (
+                    <Stack
+                      gap={1}
+                      direction="row"
+                      flexWrap="wrap"
+                      className="overflow-auto"
+                    >
+                      {selected.map((value: any, index: any) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          className="h-[20px] text-[13px]"
+                          onDelete={() =>
+                            setGender(
+                              gender.filter((item: any) => item !== value)
+                            )
+                          }
+                          deleteIcon={
+                            <img
+                              src={cross}
+                              className="w-3 h-3"
+                              onMouseDown={(e: any) => {
+                                e.stopPropagation();
+                              }}
+                            />
+                          }
+                        />
+                      ))}
+                    </Stack>
+                  )}
+                >
+                      <MenuItem value="Male" style={{ fontSize: "14px" }}>
+                        Male
+                      </MenuItem>
+                      <MenuItem value="Female" style={{ fontSize: "14px" }}>
+                        Female
+                      </MenuItem>
+                      <MenuItem value="Other" style={{ fontSize: "14px" }}>
+                        Other
+                      </MenuItem>
+                      <MenuItem value="All" style={{ fontSize: "14px" }}>
+                        All
+                      </MenuItem>
+                    </Select>
+                  </div>
+                  {gender.length === 0 && showErrorMessage.one === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
+                </div>
 
-              <div className="w-full">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">Age Range</div>
+                <div className="w-full">
+                  <div className="w-full mt-4 flex">
+                    <div className="w-full text-sm font-semibold">
+                      Age Range
+                    </div>
+                  </div>
+                  <div className="w-1/2 mt-12 ml-2">
+                    <Slider
+                      size="small"
+                      getAriaLabel={() => "Temperature range"}
+                      value={sliderValue}
+                      onChange={ChangeSlider}
+                      valueLabelDisplay="on"
+                      marks={marks}
+                      step={10}
+                      max={65}
+                      min={13}
+                    />
+                  </div>
                 </div>
-                <div className="w-1/2 mt-12 ml-2">
-                  <Slider
-                    size="small"
-                    getAriaLabel={() => "Temperature range"}
-                    value={sliderValue}
-                    onChange={ChangeSlider}
-                    valueLabelDisplay="on"
-                    marks={marks}
-                    step={10}
-                    max={65}
-                    min={13}
-                  />
-                </div>
-              </div>              
               </div>
             )}
 
@@ -634,12 +679,12 @@ function CreateMilestoneReward() {
                   if (
                     regex.test(MilestoneRewardMilestone) &&
                     regex.test(ordersToComplete) &&
-                    regex.test(termsAndConditions) &&
                     imageArray.length > 0 &&
                     regex.test(offerTitle) &&
                     regex.test(startDate) &&
                     regex.test(endDate) &&
-                    regex.test(internalOfferCode)
+                    regex.test(internalOfferCode) &&
+                    regex.test(country)
                   ) {
                     setSwitchTab(2);
                   } else {
@@ -718,9 +763,9 @@ function CreateMilestoneReward() {
               </div>
 
               <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Terms and conditions</div>
+                <div className="w-1/3 text-xs">Country</div>
                 <div className="w-full text-xs text-gray-400">
-                  {termsAndConditions}
+                  {country}
                 </div>
               </div>
 
@@ -751,13 +796,13 @@ function CreateMilestoneReward() {
                     if (
                       regex.test(MilestoneRewardMilestone) &&
                       regex.test(ordersToComplete) &&
-                      regex.test(termsAndConditions) &&
+                      regex.test(country) &&
                       imageArray.length > 0 &&
                       regex.test(offerTitle) &&
                       regex.test(startDate) &&
                       regex.test(endDate) &&
                       startDate !== endDate &&
-                      regex.test(internalOfferCode)
+                      regex.test(internalOfferCode) 
                     ) {
                       const payload = {
                         advertiserId: user.id,
@@ -767,7 +812,7 @@ function CreateMilestoneReward() {
                         numberOfOrdersToComplete: 8,
                         maximumOrdersAllowedPerDay: 9,
                         status: "Draft",
-                        termsAndConditions: termsAndConditions,
+                        termsAndConditions: country,
                         startDate: startDate,
                         endDate: endDate,
                       };

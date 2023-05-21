@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import Sidebar from "../SideBar/sideBar";
-import { MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import {
+  Chip,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { isWbsite, regex } from "../../signupTest";
 import { ImageUploadingButton, MenuProps } from "../Campaigns/createCampaign";
 import { useStoreState } from "../../../store/easy-peasy/hooks";
 import { CategoryOptions } from "../Campaigns/options";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const infoLogo = require("../../../images/infoLogo.png");
 const loader = require("../../../images/loader.gif");
+const cross = require("../../../images/cross.png");
 
 function AddBrands() {
   const [brandName, setBrandName] = useState("");
@@ -37,6 +48,8 @@ function AddBrands() {
     four: false,
     five: false,
   });
+
+  const navigate = useNavigate();
 
   const changeCategory = (event: any) => {
     const {
@@ -332,12 +345,42 @@ function AddBrands() {
               </div>
               <div className="mt-2 w-full">
                 <Select
-                  className="w-full h-10"
+                  size="small"
+                  className="w-full h-auto"
                   style={{ fontSize: "14px" }}
-                  value={category}
-                  onChange={changeCategory}
-                  MenuProps={MenuProps}
                   multiple
+                  value={category}
+                  onChange={(e:any) => setCategory(e.target.value)}
+                  renderValue={(selected: any) => (
+                    <Stack
+                      gap={1}
+                      direction="row"
+                      flexWrap="wrap"
+                      className="overflow-auto"
+                    >
+                      {selected.map((value: any, index: any) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          className="h-[20px] text-[13px]"
+                          onDelete={() =>
+                            setCategory(
+                              category.filter((item: any) => item !== value)
+                            )
+                          }
+                          deleteIcon={
+                            <img
+                              src={cross}
+                              className="w-3 h-3"
+                              onMouseDown={(e: any) => {
+                                e.stopPropagation();
+                              }}
+                            />
+                          }
+                        />
+                      ))}
+                    </Stack>
+                  )}
                 >
                   {CategoryOptions.map((data: any, index: number) => {
                     return (
@@ -538,7 +581,40 @@ function AddBrands() {
                   </button>
                 </div>
                 <div className="w-full flex items-start justify-end pr-4 ">
-                  <button className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300">
+                  <button
+                    className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
+                    onClick={async () => {
+                      //   setSwitchTab(4);
+
+                      const payload = {
+                        advertiserId: `${user.id}`,
+                        brandName: brandName,
+                        brandImage: brandImage,
+                        about: about,
+                        termsAndConditions: termsAndConditionsArray,
+                        category: category,
+                        websiteUrl: websiteUrl,
+                        iosUrl: IOSappUrl,
+                        androidUrl: androidappUrl,
+                      };
+                      const { data: campaign } = await axios({
+                        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand`,
+                        method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${user.token}`,
+                        },
+                        data: payload,
+                      });
+
+                      if (campaign && campaign.status === "created") {
+                        toast.success("Successfully Created !", {
+                          position: toast.POSITION.TOP_RIGHT,
+                        });
+                        // addToken(login.accessToken)
+                        navigate(`/${user.id}/BrandList`);
+                      }
+                    }}
+                  >
                     Submit
                   </button>
                 </div>
