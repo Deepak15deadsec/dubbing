@@ -758,6 +758,7 @@ function CreateMilestoneReward() {
                 <div className="w-1/3 text-xs">End date</div>
                 <div className="w-full text-xs text-gray-400">{endDate}</div>
               </div>
+             
             </div>
             <div className="w-full flex mt-8">
               <div className="w-full flex items-start justify-start ">
@@ -800,6 +801,7 @@ function CreateMilestoneReward() {
                         targetLocation: country.dial_code,
                         targetGender:gender,
                         targetAge:sliderValue,
+                        internalOfferCode:internalOfferCode,
                       };
                       const { data: campaign } = await axios({
                         url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward`,
