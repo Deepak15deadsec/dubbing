@@ -796,6 +796,8 @@ function CreateMilestoneReward() {
                         country: country,
                         startDate: startDate,
                         endDate: endDate,
+                        gender:gender,
+                        targetAge:sliderValue,
                       };
                       const { data: campaign } = await axios({
                         url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward`,
