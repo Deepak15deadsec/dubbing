@@ -779,7 +779,7 @@ function CreateMilestoneReward() {
                       regex.test(MilestoneRewardMilestone) &&
                       regex.test(ordersToComplete) &&
                       regex.test(country?.name) &&
-                      imageArray.length > 0 &&
+                       imageArray.length > 0 &&
                       regex.test(offerTitle) &&
                       regex.test(startDate) &&
                       regex.test(endDate) &&
@@ -801,6 +801,7 @@ function CreateMilestoneReward() {
                         targetLocation: country.dial_code,
                         targetGender:gender,
                         targetAge:sliderValue,
+                        internalOfferCode:internalOfferCode,
                       };
                       const { data: campaign } = await axios({
                         url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward`,
