@@ -47,6 +47,7 @@ function CreateMilestoneReward() {
     dial_code: "",
     code: "",
   });
+  const [validupto,setValidupto]  = useState("")
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -539,6 +540,35 @@ function CreateMilestoneReward() {
                 )}
               </div>
             </div>
+
+            <div className="w-1/2 mt-4">
+                <div className="w-full mb-2 text-sm font-semibold">
+                  Valid Upto
+                </div>
+                <DatePicker
+                  value={
+                    validupto.length > 0
+                      ? new Date(validupto).toDateString().slice(4)
+                      : validupto
+                  }
+                  minDate={new Date()}
+                  placeholderText="mm/dd/yy"
+                  className="border w-full h-10  border-gray-300 rounded"
+                  onChange={(e: any) => {
+                    setValidupto(
+                      `${new Date(e).getMonth() + 1}/${new Date(
+                        e
+                      ).getDate()}/${new Date(e).getFullYear()}`
+                    );
+                  }}
+                />
+                {!regex.test(validupto) && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
+              </div>
+
             <div className="mt-4 w-full ml-2 flex items-center">
               <div className="flex items-center">
                 <label>All</label>
@@ -665,6 +695,7 @@ function CreateMilestoneReward() {
                     imageArray.length > 0 &&
                     regex.test(offerTitle) &&
                     regex.test(startDate) &&
+                    regex.test(validupto) &&
                     regex.test(endDate) &&
                     regex.test(internalOfferCode) &&
                     regex.test(country?.name)
@@ -747,18 +778,23 @@ function CreateMilestoneReward() {
 
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Country</div>
-                <div className="w-full text-xs text-gray-400">{country?.name}</div>
+                <div className="w-full text-xs text-gray-400">
+                  {country?.name}
+                </div>
               </div>
 
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Start Date</div>
-                <div className="w-full text-xs text-gray-400">{startDate}</div>
+                <div className="w-full text-xs text-gray-400">{ new Date(startDate).toDateString().slice(4)}</div>
               </div>
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">End date</div>
-                <div className="w-full text-xs text-gray-400">{endDate}</div>
+                <div className="w-full text-xs text-gray-400">{ new Date(endDate).toDateString().slice(4)}</div>
               </div>
-             
+              <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Valid Upto</div>
+                <div className="w-full text-xs text-gray-400">{ new Date(validupto).toDateString().slice(4)}</div>
+              </div>
             </div>
             <div className="w-full flex mt-8">
               <div className="w-full flex items-start justify-start ">
@@ -779,7 +815,7 @@ function CreateMilestoneReward() {
                       regex.test(MilestoneRewardMilestone) &&
                       regex.test(ordersToComplete) &&
                       regex.test(country?.name) &&
-                       imageArray.length > 0 &&
+                      imageArray.length > 0 &&
                       regex.test(offerTitle) &&
                       regex.test(startDate) &&
                       regex.test(endDate) &&
@@ -795,12 +831,26 @@ function CreateMilestoneReward() {
                         maximumOrdersAllowedPerDay: 9,
                         status: "Draft",
                         country: country,
-                        startDate: startDate,
+                        startDate: `${new Date(startDate).getFullYear()}-${
+                          new Date(startDate).getMonth() + 1 > 9 ? "" : "0"
+                        }${new Date(startDate).getMonth() + 1}-${
+                          new Date(startDate).getDate() > 9 ? "" : "0"
+                        }${new Date(startDate).getDate()}`,
                         internalOfferCode: internalOfferCode,
-                        endDate: endDate,
+                        endDate:`${new Date(endDate).getFullYear()}-${
+                          new Date(endDate).getMonth() + 1 > 9 ? "" : "0"
+                        }${new Date(endDate).getMonth() + 1}-${
+                          new Date(endDate).getDate() > 9 ? "" : "0"
+                        }${new Date(endDate).getDate()}`,
                         targetLocation: country.dial_code,
-                        targetGender:gender,
-                        targetAge:sliderValue,
+                        targetGender: gender,
+                        targetAge: sliderValue,
+                        brandId: "4c78dad2-fa68-4f7d-be38-0d611011b272",
+                        validUpto: `${new Date(validupto).getFullYear()}-${
+                          new Date(validupto).getMonth() + 1 > 9 ? "" : "0"
+                        }${new Date(validupto).getMonth() + 1}-${
+                          new Date(validupto).getDate() > 9 ? "" : "0"
+                        }${new Date(validupto).getDate()}`,
                       };
                       const { data: campaign } = await axios({
                         url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward`,
