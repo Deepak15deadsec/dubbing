@@ -74,12 +74,8 @@ function Ad(props: any) {
     setAdValue,
     CampaignTitle,
     setCampaignTitle,
-    description,
-    setDescription,
     imageArray,
     setImageArray,
-    category,
-    setCategory,
     brandName, setBrandName
   } = props;
   const user = useStoreState((state) => state.user);
@@ -105,7 +101,7 @@ function Ad(props: any) {
     <div className="w-full rounded-sm flex">
       <div className="w-full">
         <div className="w-full pl-4">
-        <div className="w-full">
+        {/* <div className="w-full">
             <div className="w-full mt-4 flex">
               <div className="text-sm font-semibold">Brand Name</div>
               <div className="ml-2 items-center flex justify-end"></div>
@@ -125,7 +121,7 @@ function Ad(props: any) {
                 {errorMessageOne.isRequired}
               </div>
             )}
-          </div>
+          </div> */}
           <div className="w-full">
             <div className="w-full mt-4 flex">
               <div className="text-sm font-semibold">Campaign Name</div>
@@ -195,35 +191,6 @@ function Ad(props: any) {
               {errorMessageOne.isRequired}
             </div>
           )}
-        </div>
-
-        <div className="w-full pl-4">
-          <div className="w-full mt-4 flex">
-            <div className="text-sm font-semibold">Category</div>
-          </div>
-          <div className="mt-2 w-full">
-            <Select
-              className="w-full h-10 bg-white"
-              style={{ fontSize: "14px" }}
-              MenuProps={MenuProps}
-              value={category}
-              onChange={(e: any) => {
-                setCategory([e.target.value] as any);
-              }}
-            >
-              {CategoryOptions.map((data: any, index: number) => {
-                return (
-                  <MenuItem
-                    key={index}
-                    value={data.label}
-                    style={{ fontSize: "14px" }}
-                  >
-                    {data.label}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
         </div>
 
         <div className="w-full pl-4">
@@ -342,37 +309,12 @@ function Ad(props: any) {
             </div>
           )}
         </div>
-
-        <div className="w-full pl-4">
-          <div className="w-full mt-4 flex">
-            <div className="text-sm font-semibold">Description</div>
-          </div>
-          <div className="mt-2 w-full">
-            <TextField
-              multiline
-              value={description}
-              rows={3}
-              className="w-full bg-white"
-              onChange={(e: any) => {
-                if (description.length < 301) {
-                  setDescription(e.target.value);
-                }
-              }}
-            />
-          </div>
-          {!regex.test(description) && showErrorMessage.one === true && (
-            <div className="w-full text-xs font-semibold text-red-500 mt-2">
-              {errorMessageOne.isRequired}
-            </div>
-          )}
-        </div>
       </div>
       <div className="w-full p-2 rounded-sm">
         <div className="bg-white p-2 rounded-sm">
           <div className="font-bold text-lg">Campaign</div>
           <img src={imageArray[0]} className="max-h-[160px] max-w-[640px]" />
           <div className="mt-3 text-sm">{adTitle}</div>
-          <div className="mt-3 text-xs text-gray-300">{description}</div>
           <div className="w-full flex mt-4">
             <div className="w-full flex items-center text-green-400 font-semibold text-xs">
               +20$ AVNI
@@ -718,12 +660,6 @@ function Settings(props: any) {
     setEndDate,
     setStartDate,
     setCountry,
-    websiteUrl,
-    setWebsiteUrl,
-    IOSappUrl,
-    setIOSappUrl,
-    androidappUrl,
-    setAndroidappeUrl,
     imageArray,
     description,
     adTitle,
@@ -936,12 +872,7 @@ function Preview(props: any) {
               Add Goal
             </div>
             <div className=" mt-4 pl-4">
-            <div className="w-full flex">
-                <div className="w-1/3 text-xs">Brand Name</div>
-                <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.brandName}
-                </div>
-              </div>
+           
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">Ad Title</div>
                 <div className="w-full text-xs text-gray-400">
@@ -954,18 +885,7 @@ function Preview(props: any) {
                   {campaign?.data[0]?.campaignType}
                 </div>
               </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Category</div>
-                <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.targetCategory}
-                </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Sub Category</div>
-                <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.targetSubCategory}
-                </div>
-              </div>
+              
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Campaign Title</div>
                 <div className="w-full text-xs text-gray-400">
@@ -984,12 +904,6 @@ function Preview(props: any) {
                       );
                     }
                   )}
-                </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Description</div>
-                <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.adDesc}
                 </div>
               </div>
             </div>
@@ -1091,30 +1005,12 @@ function Preview(props: any) {
                   {campaign?.data[0]?.transactionCount}
                 </div>
               </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Website Url</div>
-                <div className="w-full text-xs text-gray-400 flex">
-                  {campaign?.data[0]?.websiteUrl}
-                </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">IOS App Url</div>
-                <div className="w-full text-xs text-gray-400 flex">
-                  {campaign?.data[0]?.IOSAppUrl}
-                </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Android App Url</div>
-                <div className="w-full text-xs text-gray-400 flex">
-                  {campaign?.data[0]?.androidAppUrl}
-                </div>
-              </div>
             </div>
           </div>
           <div className=" ml-3 flex items-center mt-2 ">
             <div className="w-full flex justify-start pr-10">
               <button className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
-                <Link to={`/${user.id}/active_campaign`}>Back</Link>
+                <Link to={`/${user.id}/draft_campaign`}>Back</Link>
               </button>
             </div>
             <div className="w-full flex justify-end pr-10">
@@ -1166,7 +1062,6 @@ function DrafteCampaigns() {
   const [brandName,setBrandName] = useState("")
   const [adValue, setAdValue] = useState("");
   const [CampaignTitle, setCampaignTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [imageArray, setImageArray] = useState<string[]>([]);
 
   //---------------------------------------------------Targeting ---------------------------------------------
@@ -1178,9 +1073,6 @@ function DrafteCampaigns() {
   const [donotTarget, setDonotTarget] = useState("");
   const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
   const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
-  const [category, setCategory] = useState([]);
-  const [subcategory, setSubCategory] = useState([]);
-  const [subCategoryArray, setSuCategoryArray] = useState([]);
 
   ///--------------------------------Settings------------------------------------------------------------------
 
@@ -1188,9 +1080,6 @@ function DrafteCampaigns() {
   const [endDate, setEndDate] = useState("");
   const [country, setCountry] = useState("");
   const [numberOfSignups, setNumberOfSignups] = useState("");
-  const [websiteUrl, setWebsiteUrl] = useState("");
-  const [IOSappUrl, setIOSappUrl] = useState("");
-  const [androidappUrl, setAndroidappeUrl] = useState("");
   const [locationArray, setLocationArray] = useState([]);
 
   useEffect(() => {
@@ -1203,14 +1092,7 @@ function DrafteCampaigns() {
     ]);
     setKeywordsArray(campaign?.data[0].targetKeywords);
     setDonotTargetArray(campaign?.data[0].targetDonotKeywords);
-    setCategory(campaign?.data[0].targetCategory);
-    setSubCategory([campaign?.data[0].targetSubCategory] as any);
-
-    CategoryOptions.map((data: any, index: any) => {
-      if (data.label === campaign?.data[0].targetCategory) {
-        setSuCategoryArray(data.values);
-      }
-    });
+   
 
     setStartDate(campaign?.data[0].adStartDate);
     setEndDate(campaign?.data[0].adEndDate);
@@ -1220,11 +1102,7 @@ function DrafteCampaigns() {
     setAdTitle(campaign?.data[0].adTitle);
     setAdValue(campaign?.data[0].campaignType);
     setCampaignTitle(campaign?.data[0].adTitle);
-    setDescription(campaign?.data[0].adDesc);
     setImageArray(campaign?.data[0].adImage);
-    setWebsiteUrl(campaign?.data[0]?.websiteUrl);
-    setIOSappUrl(campaign?.data[0].IOSAppUrl);
-    setAndroidappeUrl(campaign?.data[0].androidAppUrl);
     setLocationArray(campaign?.data[0]?.targetGeoCordinates);
   }, [campaign]);
 
@@ -1299,7 +1177,6 @@ function DrafteCampaigns() {
                             campaignType: adValue,
                             adTitle: adTitle,
                             adImage: imageArray,
-                            adDesc: description,
                             transactionCount: 90,
                             adStartDate: startDate,
                             adEndDate: endDate,
@@ -1312,8 +1189,10 @@ function DrafteCampaigns() {
                             },
                             targetKeywords: keywordsArray,
                             targetDonotKeywords: donotTargetArray,
-                            billingCountry: country,
+                            billingCountry: "country",
                             status: "Draft",
+                            numberOfSignUps:numberOfSignups,
+                            
                           };
                           const { data: campaign } = await axios({
                             url: `${process.env.REACT_APP_SERVER_ENDPOINT}/campaign/update`,
@@ -1393,12 +1272,8 @@ function DrafteCampaigns() {
               setAdValue={setAdValue}
               CampaignTitle={CampaignTitle}
               setCampaignTitle={setCampaignTitle}
-              description={description}
-              setDescription={setDescription}
               imageArray={imageArray}
               setImageArray={setImageArray}
-              category={category}
-              setCategory={setCategory}
               brandName={brandName}
               setBrandName={setBrandName}
             />
@@ -1421,7 +1296,6 @@ function DrafteCampaigns() {
               keywordsArray={keywordsArray}
               setKeywordsArray={setKeywordsArray}
               imageArray={imageArray}
-              description={description}
               adTitle={adTitle}
               locationArray={locationArray}
               setLocationArray={setLocationArray}
@@ -1438,14 +1312,7 @@ function DrafteCampaigns() {
               setCountry={setCountry}
               numberOfSignups={numberOfSignups}
               setNumberOfSignups={setNumberOfSignups}
-              websiteUrl={websiteUrl}
-              setWebsiteUrl={setWebsiteUrl}
-              IOSappUrl={IOSappUrl}
-              setIOSappUrl={setIOSappUrl}
-              androidappUrl={androidappUrl}
-              setAndroidappeUrl={setAndroidappeUrl}
               imageArray={imageArray}
-              description={description}
               adTitle={adTitle}
             />
           )}

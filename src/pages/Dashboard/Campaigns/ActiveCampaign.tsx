@@ -742,18 +742,7 @@ function Preview(props: any) {
                   {campaign?.data[0]?.campaignType}
                 </div>
               </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Category</div>
-                <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.targetCategory}
-                </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Sub Category</div>
-                <div className="w-full text-xs text-gray-400">
-                  {campaign?.data[0]?.targetSubCategory}
-                </div>
-              </div>
+              
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Campaign Title</div>
                 <div className="w-full text-xs text-gray-400">
@@ -873,12 +862,7 @@ function Preview(props: any) {
                   {campaign?.data[0]?.transactionCount}
                 </div>
               </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Website Url</div>
-                <div className="w-full text-xs text-gray-400 flex">
-                  {""}
-                </div>
-              </div>
+             
             </div>
           </div>
           <div className=" ml-3 flex items-center mt-2 ">
@@ -935,7 +919,7 @@ function ActiveCampaign() {
   const [adTitle, setAdTitle] = useState("");
   const [adValue, setAdValue] = useState("");
   const [CampaignTitle, setCampaignTitle] = useState("");
-  const [description, setDescription] = useState("");
+
   const [imageArray, setImageArray] = useState<string[]>([]);
 
   //---------------------------------------------------Targeting ---------------------------------------------
@@ -947,10 +931,6 @@ function ActiveCampaign() {
   const [donotTarget, setDonotTarget] = useState("");
   const [donotTargetArray, setDonotTargetArray] = useState<string[]>([]);
   const [keywordsArray, setKeywordsArray] = useState<string[]>([]);
-  const [category, setCategory] = useState([]);
-  const [subcategory, setSubCategory] = useState([]);
-  const [subCategoryArray, setSuCategoryArray] = useState([]);
-
   ///--------------------------------Settings------------------------------------------------------------------
 
   const [startDate, setStartDate] = useState("");
@@ -967,24 +947,13 @@ function ActiveCampaign() {
     ]);
     setKeywordsArray(campaign?.data[0].targetKeywords);
     setDonotTargetArray(campaign?.data[0].targetDonotKeywords);
-    setCategory(campaign?.data[0].targetCategory);
-    setSubCategory([campaign?.data[0].targetSubCategory] as any);
-
-    CategoryOptions.map((data: any, index: any) => {
-      if (data.label === campaign?.data[0].targetCategory) {
-        setSuCategoryArray(data.values);
-      }
-    });
-
     setStartDate(campaign?.data[0].adStartDate);
     setEndDate(campaign?.data[0].adEndDate);
     setCountry(campaign?.data[0].billingCountry);
     setNumberOfSignups(campaign?.data[0].transactionCount);
-
     setAdTitle(campaign?.data[0].adTitle);
     setAdValue(campaign?.data[0].campaignType);
     setCampaignTitle(campaign?.data[0].adTitle);
-    setDescription(campaign?.data[0].adDesc);
     setImageArray(campaign?.data[0].adImage);
   }, [campaign]);
 
@@ -1058,14 +1027,11 @@ function ActiveCampaign() {
                             campaignType: adValue,
                             adTitle: adTitle,
                             adImage: imageArray,
-                            adDesc: description,
                             transactionCount: 90,
                             adStartDate: startDate,
                             adEndDate: endDate,
                             targetGeoCordinates: 123,
                             targetGeoName: "targetGeoName",
-                            targetCategory: category[0],
-                            targetSubCategory: subcategory[0],
                             targetGender: gender,
                             targetAgeRange: {
                               min: sliderValue[0],

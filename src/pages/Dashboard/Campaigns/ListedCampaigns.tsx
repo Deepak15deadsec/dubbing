@@ -130,7 +130,7 @@ function DraftCampaignList() {
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
                     <th className="text-left font-semibold pl-6">Title</th>
-                    <th className="text-left font-semibold">Category</th>
+                    
                     <th className="text-left font-semibold">
                       Start Date - End Date
                     </th>
@@ -172,15 +172,6 @@ function DraftCampaignList() {
                                 {campaign?.campaignName}
                               </div>
                             </div>
-                          </td>
-
-                          <td
-                            className="pl-1 text-left"
-                            onClick={() => {
-                              navigate(`/draft-campaigns/${campaign.id}`);
-                            }}
-                          >
-                            {campaign?.targetCategory}
                           </td>
                           <td
                             className="pl-1 text-left"
@@ -352,7 +343,7 @@ export function ActivevatedCampaignList() {
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
                     <th className="text-left font-semibold pl-6"> Title</th>
-                    <th className="text-left font-semibold">Category</th>
+                   
                     <th className="text-left font-semibold">
                       Start Date - End Date
                     </th>
@@ -395,14 +386,7 @@ export function ActivevatedCampaignList() {
                             </div>
                           </td>
 
-                          <td
-                            className="pl-1 text-left"
-                            onClick={() => {
-                              navigate(`/active-campaigns/${campaign.id}`);
-                            }}
-                          >
-                            {campaign?.targetCategory}
-                          </td>
+                          
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
