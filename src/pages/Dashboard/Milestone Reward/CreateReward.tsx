@@ -801,7 +801,6 @@ function CreateMilestoneReward() {
                         targetLocation: country.dial_code,
                         targetGender:gender,
                         targetAge:sliderValue,
-                        internalOfferCode:internalOfferCode,
                       };
                       const { data: campaign } = await axios({
                         url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward`,
