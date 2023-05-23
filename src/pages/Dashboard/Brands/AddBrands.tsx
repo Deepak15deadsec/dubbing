@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../SideBar/sideBar";
 import {
   Chip,
@@ -175,7 +175,6 @@ function AddBrands() {
                         )
                           .then((response) => response.json())
                           .then((res: any) => {
-                            console.log("response --> ", typeof res);
                             var myHeaders = new Headers();
                             myHeaders.append("Content-Type", fileType);
 

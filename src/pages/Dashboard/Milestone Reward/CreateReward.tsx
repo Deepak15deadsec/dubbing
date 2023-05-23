@@ -25,7 +25,10 @@ const ImageUploadingButton = (props: any) => {
 };
 
 function CreateMilestoneReward() {
-  const [brand, setBrand] = useState("");
+  const [brand, setBrand] = useState({
+    name:"",
+    brandid:"",
+  });
   const [MilestoneRewardMilestone, setMilestoneRewardMilestone] = useState("");
   const [offerTitle, setOfferTitle] = useState("");
   const [ordersToComplete, setOrdersToComplete] = useState("");
@@ -47,7 +50,8 @@ function CreateMilestoneReward() {
     dial_code: "",
     code: "",
   });
-  const [validupto,setValidupto]  = useState("")
+  const [validupto, setValidupto] = useState("");
+  const [brandArray, setBrandArray] = useState([]);
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -66,6 +70,34 @@ function CreateMilestoneReward() {
   const ChangeSlider = (event: any, newValue: any) => {
     setSliderValue(newValue);
   };
+
+  const fetchViolations = async (token: any) => {
+    let responseData;
+    try {
+      const { data } = await axios({
+        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand/list?advertiserId=${user.id}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        cancelToken: token,
+      });
+      responseData = data?.data;
+    } catch (error) {
+      console.log(error);
+    } finally {
+     setBrandArray(responseData);
+    }
+  };
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    fetchViolations(source.token);
+    return () => {
+      source.cancel("Request canceled");
+    };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -96,20 +128,27 @@ function CreateMilestoneReward() {
                   <Select
                     className="w-full h-10"
                     style={{ fontSize: "14px" }}
-                    value={brand}
+                    value={brand?.name}
                     onChange={(e: any) => {
-                      setBrand(e.target.value);
+                      setBrand({
+                        ...brand, name:e.target.value?.brandName, brandid:e.target.value?.brandId
+                      });
                     }}
                   >
-                    <MenuItem value="brand 1" style={{ fontSize: "14px" }}>
-                      Brand 1
-                    </MenuItem>
-                    <MenuItem value="brand 2" style={{ fontSize: "14px" }}>
-                      Brand 2
-                    </MenuItem>
+                    {brandArray.length > 0 &&
+                      brandArray?.map((data: any, index: number) => {
+                        return (
+                          <MenuItem
+                            value={data}
+                            style={{ fontSize: "14px" }}
+                          >
+                             {data?.brandName}
+                          </MenuItem>
+                        );
+                      })}
                   </Select>
                 </div>
-                {!regex.test(brand) && showErrorMessage.one === true && (
+                {!regex.test(brand.name) && showErrorMessage.one === true && (
                   <div className="w-full text-xs font-semibold text-red-500 mt-1">
                     {errorMessageOne.isRequired}
                   </div>
@@ -542,32 +581,32 @@ function CreateMilestoneReward() {
             </div>
 
             <div className="w-1/2 mt-4">
-                <div className="w-full mb-2 text-sm font-semibold">
-                  Valid Upto
-                </div>
-                <DatePicker
-                  value={
-                    validupto.length > 0
-                      ? new Date(validupto).toDateString().slice(4)
-                      : validupto
-                  }
-                  minDate={new Date()}
-                  placeholderText="mm/dd/yy"
-                  className="border w-full h-10  border-gray-300 rounded"
-                  onChange={(e: any) => {
-                    setValidupto(
-                      `${new Date(e).getMonth() + 1}/${new Date(
-                        e
-                      ).getDate()}/${new Date(e).getFullYear()}`
-                    );
-                  }}
-                />
-                {!regex.test(validupto) && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
+              <div className="w-full mb-2 text-sm font-semibold">
+                Valid Upto
               </div>
+              <DatePicker
+                value={
+                  validupto.length > 0
+                    ? new Date(validupto).toDateString().slice(4)
+                    : validupto
+                }
+                minDate={new Date()}
+                placeholderText="mm/dd/yy"
+                className="border w-full h-10  border-gray-300 rounded"
+                onChange={(e: any) => {
+                  setValidupto(
+                    `${new Date(e).getMonth() + 1}/${new Date(
+                      e
+                    ).getDate()}/${new Date(e).getFullYear()}`
+                  );
+                }}
+              />
+              {!regex.test(validupto) && showErrorMessage.one === true && (
+                <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                  {errorMessageOne.isRequired}
+                </div>
+              )}
+            </div>
 
             <div className="mt-4 w-full ml-2 flex items-center">
               <div className="flex items-center">
@@ -698,7 +737,8 @@ function CreateMilestoneReward() {
                     regex.test(validupto) &&
                     regex.test(endDate) &&
                     regex.test(internalOfferCode) &&
-                    regex.test(country?.name)
+                    regex.test(country?.name) &&
+                    regex.test(brand.name)
                   ) {
                     setSwitchTab(2);
                   } else {
@@ -720,6 +760,12 @@ function CreateMilestoneReward() {
               Rewards
             </div>
             <div className="w-full mt-4 pl-4">
+            <div className="w-full flex">
+                <div className="w-1/3 text-xs">Brand Name</div>
+                <div className="w-full text-xs text-gray-400">
+                  {brand.name}
+                </div>
+              </div>
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">Milestone Rewards</div>
                 <div className="w-full text-xs text-gray-400">
@@ -785,15 +831,21 @@ function CreateMilestoneReward() {
 
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Start Date</div>
-                <div className="w-full text-xs text-gray-400">{ new Date(startDate).toDateString().slice(4)}</div>
+                <div className="w-full text-xs text-gray-400">
+                  {new Date(startDate).toDateString().slice(4)}
+                </div>
               </div>
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">End date</div>
-                <div className="w-full text-xs text-gray-400">{ new Date(endDate).toDateString().slice(4)}</div>
+                <div className="w-full text-xs text-gray-400">
+                  {new Date(endDate).toDateString().slice(4)}
+                </div>
               </div>
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Valid Upto</div>
-                <div className="w-full text-xs text-gray-400">{ new Date(validupto).toDateString().slice(4)}</div>
+                <div className="w-full text-xs text-gray-400">
+                  {new Date(validupto).toDateString().slice(4)}
+                </div>
               </div>
             </div>
             <div className="w-full flex mt-8">
@@ -837,7 +889,7 @@ function CreateMilestoneReward() {
                           new Date(startDate).getDate() > 9 ? "" : "0"
                         }${new Date(startDate).getDate()}`,
                         internalOfferCode: internalOfferCode,
-                        endDate:`${new Date(endDate).getFullYear()}-${
+                        endDate: `${new Date(endDate).getFullYear()}-${
                           new Date(endDate).getMonth() + 1 > 9 ? "" : "0"
                         }${new Date(endDate).getMonth() + 1}-${
                           new Date(endDate).getDate() > 9 ? "" : "0"
@@ -845,7 +897,8 @@ function CreateMilestoneReward() {
                         targetLocation: country.dial_code,
                         targetGender: gender,
                         targetAge: sliderValue,
-                        brandId: "4c78dad2-fa68-4f7d-be38-0d611011b272",
+                        brandName:brand.name,
+                        brandId: brand.brandid,
                         validUpto: `${new Date(validupto).getFullYear()}-${
                           new Date(validupto).getMonth() + 1 > 9 ? "" : "0"
                         }${new Date(validupto).getMonth() + 1}-${

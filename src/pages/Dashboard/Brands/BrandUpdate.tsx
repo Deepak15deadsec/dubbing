@@ -15,6 +15,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { ImageUploadingButton, MenuProps } from "../Campaigns/createCampaign";
 import { CategoryOptions } from "../Campaigns/options";
+import { error } from "console";
 const loader = require("../../../images/loader.gif");
 const countries = require("../../signupTest/countries.json");
 const infoLogo = require("../../../images/infoLogo.png");
@@ -36,98 +37,104 @@ function Preview(props: any) {
         <div className="w-full">
           <div className=" m-5 border border-gray-200 rounded-md mt-4 mb-4 pb-4">
             <div className=" mt-4 pl-4">
-            <div className="w-full mt-4 pl-4">
-              <div className="w-full flex">
-                <div className="w-1/3 text-xs">Brand</div>
-                <div className="w-full text-xs text-gray-400">{Brand?.brandName}</div>
-              </div>
+              <div className="w-full mt-4 pl-4">
+                <div className="w-full flex">
+                  <div className="w-1/3 text-xs">Brand</div>
+                  <div className="w-full text-xs text-gray-400">
+                    {Brand?.brandName}
+                  </div>
+                </div>
 
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 flex items-center text-xs">
-                  Brand Image
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 flex items-center text-xs">
+                    Brand Image
+                  </div>
+                  <div className="w-full items-center flex text-xs text-gray-400">
+                    {Brand?.brandImage?.map((val: any, index: number) => {
+                      return (
+                        <div className="m-2" key={index}>
+                          <img src={val} className="h-12 w-12" />
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-                <div className="w-full items-center flex text-xs text-gray-400">
-                  {Brand?.brandImage?.map((val: any, index: number) => {
-                    return (
-                      <div className="m-2" key={index}>
-                        <img src={val} className="h-12 w-12" />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
 
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">About</div>
-                <div className="w-full text-xs text-gray-400">{Brand?.about}</div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Terms And Conditions</div>
-                <div className="w-full text-xs text-gray-400">
-                  {Brand?.termsAndConditions?.map((data: any, index: number) => {
-                    return (
-                      <div className="text-sm flex">
-                        <div className="mx-1">{index + 1}.</div>{" "}
-                        <div>{data}</div>
-                      </div>
-                    );
-                  })}
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 text-xs">About</div>
+                  <div className="w-full text-xs text-gray-400">
+                    {Brand?.about}
+                  </div>
                 </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Catogory</div>
-                <div className="w-full text-xs text-gray-400">
-                  {Brand?.category?.map((data: any, index: number) => {
-                    return (
-                      <div className="text-sm flex">
-                        <div className="mx-1">{index + 1}.</div>{" "}
-                        <div>{data}</div>
-                      </div>
-                    );
-                  })}
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 text-xs">Terms And Conditions</div>
+                  <div className="w-full text-xs text-gray-400">
+                    {Brand?.termsAndConditions?.map(
+                      (data: any, index: number) => {
+                        return (
+                          <div className="text-sm flex">
+                            <div className="mx-1">{index + 1}.</div>{" "}
+                            <div>{data}</div>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Website url</div>
-                <div className="w-full text-xs text-gray-400 flex">
-                  {Brand?.websiteUrl}
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 text-xs">Catogory</div>
+                  <div className="w-full text-xs text-gray-400">
+                    {Brand?.category?.map((data: any, index: number) => {
+                      return (
+                        <div className="text-sm flex">
+                          <div className="mx-1">{index + 1}.</div>{" "}
+                          <div>{data}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">IOS app url</div>
-                <div className="w-full text-xs text-gray-400 flex">
-                  {Brand?.iosUrl}
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 text-xs">Website url</div>
+                  <div className="w-full text-xs text-gray-400 flex">
+                    {Brand?.websiteUrl}
+                  </div>
                 </div>
-              </div>
-              <div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Android app url</div>
-                <div className="w-full text-xs text-gray-400 flex">
-                  {Brand?.androidUrl}
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 text-xs">IOS app url</div>
+                  <div className="w-full text-xs text-gray-400 flex">
+                    {Brand?.iosUrl}
+                  </div>
+                </div>
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 text-xs">Android app url</div>
+                  <div className="w-full text-xs text-gray-400 flex">
+                    {Brand?.androidUrl}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className=" ml-3 flex items-center mt-2 ">
-            <div className="w-full flex justify-start pr-10">
-              <button className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
-                <Link to={`/${user.id}/`}>Back</Link>
-              </button>
-            </div>
-            <div className="w-full flex justify-end pr-10">
-              <button
-                className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
-                onClick={() => {
-                  setEditTab(true);
-                }}
-              >
-                Edit
-              </button>
+            <div className=" ml-3 flex items-center mt-2 ">
+              <div className="w-full flex justify-start pr-10">
+                <button className="w-24 ml-4 bg-gray-500 h-8 text-white rounded-[20px] hover:bg-gray-400">
+                  <Link to={`/${user.id}/`}>Back</Link>
+                </button>
+              </div>
+              <div className="w-full flex justify-end pr-10">
+                <button
+                  className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
+                  onClick={() => {
+                    setEditTab(true);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
@@ -177,7 +184,7 @@ function UpdateBrand() {
   };
 
   useEffect(() => {
-    setBrandInfo(Brand)
+    setBrandInfo(Brand);
     setAbout(Brand?.about);
     setTermsAndConditionsArray(Brand?.termsAndConditions);
     setBrandImage(Brand?.brandImage);
@@ -469,52 +476,52 @@ function UpdateBrand() {
               <div className="w-full text-sm font-semibold">Category</div>
             </div>
             <div className="mt-2 w-full">
-            <Select
-                  size="small"
-                  className="w-full h-auto"
-                  style={{ fontSize: "14px" }}
-                  multiple
-                  value={category}
-                  onChange={(e:any) => setCategory(e.target.value)}
-                  renderValue={(selected: any) => (
-                    <Stack
-                      gap={1}
-                      direction="row"
-                      flexWrap="wrap"
-                      className="overflow-auto"
-                    >
-                      {selected.map((value: any, index: any) => (
-                        <Chip
-                          key={value}
-                          label={value}
-                          className="h-[20px] text-[13px]"
-                          onDelete={() =>
-                            setCategory(
-                              category.filter((item: any) => item !== value)
-                            )
-                          }
-                          deleteIcon={
-                            <img
-                              src={cross}
-                              className="w-3 h-3"
-                              onMouseDown={(e: any) => {
-                                e.stopPropagation();
-                              }}
-                            />
-                          }
-                        />
-                      ))}
-                    </Stack>
-                  )}
-                >
-                  {CategoryOptions.map((data: any, index: number) => {
-                    return (
-                      <MenuItem value={data.label} style={{ fontSize: "14px" }}>
-                        {data.label}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
+              <Select
+                size="small"
+                className="w-full h-auto"
+                style={{ fontSize: "14px" }}
+                multiple
+                value={category}
+                onChange={(e: any) => setCategory(e.target.value)}
+                renderValue={(selected: any) => (
+                  <Stack
+                    gap={1}
+                    direction="row"
+                    flexWrap="wrap"
+                    className="overflow-auto"
+                  >
+                    {selected.map((value: any, index: any) => (
+                      <Chip
+                        key={value}
+                        label={value}
+                        className="h-[20px] text-[13px]"
+                        onDelete={() =>
+                          setCategory(
+                            category.filter((item: any) => item !== value)
+                          )
+                        }
+                        deleteIcon={
+                          <img
+                            src={cross}
+                            className="w-3 h-3"
+                            onMouseDown={(e: any) => {
+                              e.stopPropagation();
+                            }}
+                          />
+                        }
+                      />
+                    ))}
+                  </Stack>
+                )}
+              >
+                {CategoryOptions.map((data: any, index: number) => {
+                  return (
+                    <MenuItem value={data.label} style={{ fontSize: "14px" }}>
+                      {data.label}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
             </div>
             {category.length === 0 && showErrorMessage.two === true && (
               <div className="w-full text-xs font-semibold text-red-500 mt-1">
@@ -598,26 +605,28 @@ function UpdateBrand() {
           <div className="w-full flex items-start justify-end mt-8 ">
             <button
               className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
-              onClick={ async() => {
+              onClick={async () => {
                 if (
                   regex.test(brandName) &&
                   brandImage.length > 0 &&
                   termsAndConditionsArray.length > 0 &&
                   regex.test(about) &&
-                  category.length > 0 
+                  category.length > 0
                 ) {
                   const payload = {
-                    "brandId" :`${Brand?.brandId}`,
-                    "advertiserId" : `${Brand?.advertiserId}`,
-                    "brandName" : brandName,
-                     "brandImage" : brandImage,
-                     "about" : about,
-                     "termsAndConditions" :termsAndConditionsArray,
-                     "category" : category,
-                     "websiteUrl" : websiteUrl,
-                     "iosUrl" : IOSappUrl,
-                     "androidUrl" : androidappUrl,  
+                    brandId: `${Brand?.brandId}`,
+                    advertiserId: `${Brand?.advertiserId}`,
+                    brandName: brandName,
+                    brandImage: brandImage,
+                    about: about,
+                    termsAndConditions: termsAndConditionsArray,
+                    category: category,
+                    websiteUrl: websiteUrl,
+                    iosUrl: IOSappUrl,
+                    androidUrl: androidappUrl,
                   };
+
+                  try{
                   const { data: campaign } = await axios({
                     url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand/update`,
                     method: "POST",
@@ -633,10 +642,13 @@ function UpdateBrand() {
                     });
                     // addToken(login.accessToken)
                     navigate(`/${user.id}/BrandList`);
-                  }
-                } else {
-                  setShowErrorMessage({ ...showErrorMessage, one: true });
+                  } 
+                } catch(err:any){
+                  toast.error(`${err?.message}`, {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
                 }
+              }
               }}
             >
               Save
