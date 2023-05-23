@@ -25,10 +25,7 @@ const ImageUploadingButton = (props: any) => {
 };
 
 function CreateMilestoneReward() {
-  const [brand, setBrand] = useState({
-    name:"",
-    brandid:"",
-  });
+  const [brand, setBrand] = useState<any>();
   const [MilestoneRewardMilestone, setMilestoneRewardMilestone] = useState("");
   const [offerTitle, setOfferTitle] = useState("");
   const [ordersToComplete, setOrdersToComplete] = useState("");
@@ -87,7 +84,7 @@ function CreateMilestoneReward() {
     } catch (error) {
       console.log(error);
     } finally {
-     setBrandArray(responseData);
+      setBrandArray(responseData);
     }
   };
 
@@ -128,27 +125,24 @@ function CreateMilestoneReward() {
                   <Select
                     className="w-full h-10"
                     style={{ fontSize: "14px" }}
-                    value={brand?.name}
+                    placeholder="Select"
+                    value={brand}
                     onChange={(e: any) => {
-                      setBrand({
-                        ...brand, name:e.target.value?.brandName, brandid:e.target.value?.brandId
-                      });
+                    //  console.log("000>", e.target.value);
+                      setBrand(e.target.value);
                     }}
                   >
                     {brandArray.length > 0 &&
                       brandArray?.map((data: any, index: number) => {
                         return (
-                          <MenuItem
-                            value={data}
-                            style={{ fontSize: "14px" }}
-                          >
-                             {data?.brandName}
+                          <MenuItem value={data} style={{ fontSize: "14px" }}>
+                            {data?.brandName}
                           </MenuItem>
                         );
                       })}
                   </Select>
                 </div>
-                {!regex.test(brand.name) && showErrorMessage.one === true && (
+                {!regex.test(brand?.brandName) && showErrorMessage.one === true && (
                   <div className="w-full text-xs font-semibold text-red-500 mt-1">
                     {errorMessageOne.isRequired}
                   </div>
@@ -737,8 +731,7 @@ function CreateMilestoneReward() {
                     regex.test(validupto) &&
                     regex.test(endDate) &&
                     regex.test(internalOfferCode) &&
-                    regex.test(country?.name) &&
-                    regex.test(brand.name)
+                    regex.test(country?.name) 
                   ) {
                     setSwitchTab(2);
                   } else {
@@ -760,11 +753,9 @@ function CreateMilestoneReward() {
               Rewards
             </div>
             <div className="w-full mt-4 pl-4">
-            <div className="w-full flex">
+              <div className="w-full flex">
                 <div className="w-1/3 text-xs">Brand Name</div>
-                <div className="w-full text-xs text-gray-400">
-                  {brand.name}
-                </div>
+                <div className="w-full text-xs text-gray-400">{brand?.brandName}</div>
               </div>
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">Milestone Rewards</div>
@@ -897,8 +888,8 @@ function CreateMilestoneReward() {
                         targetLocation: country.dial_code,
                         targetGender: gender,
                         targetAge: sliderValue,
-                        brandName:brand.name,
-                        brandId: brand.brandid,
+                        brandName: brand?.brandName,
+                        brandId: brand?.brandId,
                         validUpto: `${new Date(validupto).getFullYear()}-${
                           new Date(validupto).getMonth() + 1 > 9 ? "" : "0"
                         }${new Date(validupto).getMonth() + 1}-${
@@ -919,7 +910,7 @@ function CreateMilestoneReward() {
                           position: toast.POSITION.TOP_RIGHT,
                         });
                         // addToken(login.accessToken)
-                        navigate(`/${user.id}/active_campaign`);
+                        navigate(`/${user.id}/draft_campaign`);
                       }
                     } else {
                       setShowErrorMessage({ ...showErrorMessage, one: true });
