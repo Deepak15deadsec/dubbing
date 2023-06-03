@@ -22,19 +22,17 @@ async function activeupdateStatus(
   index: number
 ) {
   const { data: Reward } = await axios({
-    url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward/update-status`,
-    method: "POST",
+    url: `${process.env.REACT_APP_SERVER_ENDPOINT}/milestone/${Rewards[index].id}`,
+    method: "PUT",
     headers: {
       Authorization: `Bearer ${user.token}`,
     },
     data: {
-      advertiserId: values?.advertiserId,
-      rewardId: values?.rewardId,
       status: statusType,
     },
   });
 
-  if (Reward && Reward.status == "success") {
+  if (Reward && Reward.message == "Updated Successfully") {
     toast.success("Status Updated !", {
       position: toast.POSITION.TOP_RIGHT,
     });
@@ -62,7 +60,7 @@ async function fetchDraft_ActiveData(
 ) {
   const fetchData = async () => {
     const { data: Rewards } = await axios({
-      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward/list?advertiserId=${user.id}&status=${RewardStatus}`,
+      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/milestone?advertiserId=${user.id}&status=${RewardStatus}`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -130,7 +128,7 @@ function DraftRewardList() {
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
                     <th className="text-left font-semibold pl-6">Title</th>
-                    <th className="text-left font-semibold">Category</th>
+                  
                     <th className="text-left font-semibold">
                       Start Date - End Date
                     </th>
@@ -160,13 +158,13 @@ function DraftRewardList() {
                          <td
                             className="pl-4"
                             onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
+                              navigate(`/draft-Rewards/${Reward.id}`,{state:{reward:Reward}});
                             }}
                           >
                             <div className="p-3">
                               <img
                                 className="w-[200px] h-[140px]"
-                                src={Reward?.creative}
+                                src={Reward?.offerLogo}
                               />
                               <div className="mt-2 text-start font-semibold">
                                 {Reward?.offerTitle}
@@ -174,18 +172,11 @@ function DraftRewardList() {
                             </div>
                           </td>
 
+                          
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
-                            }}
-                          >
-                            {Reward?.milestone}
-                          </td>
-                          <td
-                            className="pl-1 text-left"
-                            onClick={() => {
-                              navigate(`/draft-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
+                              navigate(`/draft-Rewards/${Reward.id}`,{state:{reward:Reward}});
                             }}
                           >
                             {`${new Date(
@@ -387,7 +378,7 @@ export function ActivevatedRewardList() {
                             <div className="p-3">
                               <img
                                 className="w-[200px] h-[140px]"
-                                src={Reward?.creative}
+                                src={Reward?.offerLogo}
                               />
                               <div className="mt-2 text-start font-semibold">
                                 {Reward?.offerTitle}

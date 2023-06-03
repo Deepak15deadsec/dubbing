@@ -1,8 +1,4 @@
-import {
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { MenuItem, Select, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SideBar from "../SideBar/sideBar";
 import DatePicker from "react-datepicker";
@@ -34,7 +30,7 @@ function Preview(props: any) {
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">Milestone Reward</div>
                 <div className="w-full text-xs text-gray-400">
-                  {reward?.milestone}
+                  {reward?.type}
                 </div>
               </div>
               <div className="w-full flex">
@@ -47,7 +43,7 @@ function Preview(props: any) {
                 <div className="w-1/3 text-xs">Creative</div>
                 <div className="w-full text-xs text-gray-400">
                   <div className="m-2">
-                    <img src={reward?.creative} className="h-12 w-12" />
+                    <img src={reward?.offerLogo} className="h-12 w-12" />
                   </div>
                 </div>
               </div>
@@ -64,7 +60,7 @@ function Preview(props: any) {
                   Maximum orders allowed per day
                 </div>
                 <div className="w-full text-xs text-gray-400">
-                  {reward?.numberOfOrdersToComplete}
+                  {reward?.maximumOrdersAllowedPerDay}
                 </div>
               </div>
               <div className="w-full flex mt-1">
@@ -76,7 +72,7 @@ function Preview(props: any) {
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Country</div>
                 <div className="w-full text-xs text-gray-400">
-                  {reward?.termsAndConditions}
+                  {reward?.country}
                 </div>
               </div>
               <div className="w-full flex">
@@ -89,6 +85,12 @@ function Preview(props: any) {
                 <div className="w-1/3 text-xs">End Date</div>
                 <div className="w-full text-xs text-gray-400">
                   {new Date(reward?.endDate).toDateString().slice(4)}
+                </div>
+              </div>
+              <div className="w-full flex">
+                <div className="w-1/3 text-xs">Valid Upto</div>
+                <div className="w-full text-xs text-gray-400">
+                  {new Date(reward?.validUpto).toDateString().slice(4)}
                 </div>
               </div>
             </div>
@@ -124,7 +126,7 @@ function DraftedRewards() {
   const { state } = useLocation();
   const { reward } = state;
 
-  const[rewardInfo,setRewardInfo] = useState({})
+  const [rewardInfo, setRewardInfo] = useState({});
 
   const [MilestoneRewardMilestone, setMilestoneRewardMilestone] = useState("");
   const [offerTitle, setOfferTitle] = useState("");
@@ -133,8 +135,8 @@ function DraftedRewards() {
   const [minimuOrderValueforthisoffer, setMinimumOrderValueforthisoffer] =
     useState("");
   const [internalOfferCode, setInternalOfferCode] = useState("");
-  const [termsAndConditions, setTermsAndConditions] = useState("");
   const [startDate, setStartDate] = useState("");
+  const [validUpto, setValidUpto] = useState("");
   const [endDate, setEndDate] = useState("");
   const [imageArray, setImageArray] = useState<string[]>([]);
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -143,9 +145,8 @@ function DraftedRewards() {
     isEndDate: "End date should be greated than start date",
     isMaxImage: "Maximum 5 images can be uploaded",
   });
-  const [country, setCountry] = useState({name: "",
-  dial_code: "",
-  code: "",});
+  const [country, setCountry] = useState("");
+  const [ targetLocation,setTargetLocation]= useState("")
 
   const [showErrorMessage, setShowErrorMessage] = useState({
     one: false,
@@ -156,24 +157,30 @@ function DraftedRewards() {
   });
 
   useEffect(() => {
-    setRewardInfo(reward)
-    setMilestoneRewardMilestone(reward?.milestone);
+    setRewardInfo(reward);
+    setMilestoneRewardMilestone(reward?.type);
     setOfferTitle(reward?.offerTitle);
-    setImageArray([reward?.creative]);
+    setImageArray([reward?.offerLogo]);
     setOrdersToComplete(reward?.numberOfOrdersToComplete);
     setOrderAllowedperday(reward?.numberOfOrdersToComplete);
     setInternalOfferCode(reward?.internalOfferCode);
-    setCountry(reward?.termsAndConditions);
+    setCountry(reward?.country);
+    setTargetLocation(reward?.targetLocation)
     setStartDate(reward?.startDate);
     setEndDate(reward?.endDate);
+    setValidUpto(reward?.validUpto);
   }, [reward]);
+
+  console.log("rewardInfo", rewardInfo)
 
   const navigate = useNavigate();
 
   return (
     <div className="flex h-1/2 w-full " style={{ backgroundColor: "#F6F8FA" }}>
       <SideBar />
-      {editTab === false && <Preview reward={rewardInfo} setEditTab={setEditTab} />}
+      {editTab === false && (
+        <Preview reward={rewardInfo} setEditTab={setEditTab} />
+      )}
       {editTab === true && (
         <div className="w-1/2 bg-white mt-6 p-4 rounded-lg ml-3">
           <div className="w-full ">
@@ -190,11 +197,14 @@ function DraftedRewards() {
                     setMilestoneRewardMilestone(e.target.value);
                   }}
                 >
-                  <MenuItem value="value 1" style={{ fontSize: "14px" }}>
-                    value 1
+                  <MenuItem value="OrderReceipt" style={{ fontSize: "14px" }}>
+                    Order Receipt
                   </MenuItem>
-                  <MenuItem value="value2 2" style={{ fontSize: "14px" }}>
-                    value 2
+                  <MenuItem value="OrderValue" style={{ fontSize: "14px" }}>
+                    Order Value
+                  </MenuItem>
+                  <MenuItem value="Avni" style={{ fontSize: "14px" }}>
+                    Avni
                   </MenuItem>
                 </Select>
               </div>
@@ -414,38 +424,35 @@ function DraftedRewards() {
               )}
           </div>
 
-
           <div className="w-full">
-                <div className="w-full mt-4 flex">
-                  <div className="w-full text-sm font-semibold">
-                 Country
-                  </div>
-                </div>
-                <div className="mt-2 w-full">
-                  <Select
-                    value={country}
-                    onChange={(e:any)=>{
-                      setCountry(e.target.valueg)
-                    }}
-                    className="w-full"
-                    size="small"
-                    MenuProps={MenuProps}
-                  >
-                    {countries.map((data: any, index: number) => {
-                      return (
-                        <MenuItem value={data} key={index}>
-                          {data.name}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>{" "}
-                </div>
-                {country?.name.length === 0 && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
-               </div>
+            <div className="w-full mt-4 flex">
+              <div className="w-full text-sm font-semibold">Country</div>
+            </div>
+            <div className="mt-2 w-full">
+              <Select
+                value={country}
+                onChange={(e: any) => {
+                  setCountry(e.target.value);
+                }}
+                className="w-full"
+                size="small"
+                MenuProps={MenuProps}
+              >
+                {countries.map((data: any, index: number) => {
+                  return (
+                    <MenuItem value={data.name} key={index}>
+                      {data.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>{" "}
+            </div>
+            {country?.length === 0 && showErrorMessage.one === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isRequired}
+              </div>
+            )}
+          </div>
 
           <div className="mt-2 w-full flex">
             <div className="w-full mr-3">
@@ -483,7 +490,7 @@ function DraftedRewards() {
                   }
                 }}
                 minDate={new Date()}
-                className="border w-full h-10  rounded"
+                className="border w-full h-10  rounded pl-4"
               />
 
               {!regex.test(startDate) && showErrorMessage.one === true && (
@@ -492,13 +499,14 @@ function DraftedRewards() {
                 </div>
               )}
             </div>
+
             <div className="w-full ml-2">
               <div className="w-full mb-2 text-sm font-semibold">End Date</div>
               <DatePicker
                 value={new Date(endDate).toDateString().slice(4)}
                 minDate={new Date()}
                 placeholderText="mm/dd/yy"
-                className="border w-full h-10  border-gray-300 rounded"
+                className="border w-full h-10  border-gray-300 rounded pl-4"
                 onChange={(e: any) => {
                   setEndDate(
                     `${new Date(e).getMonth() + 1}/${new Date(
@@ -538,6 +546,31 @@ function DraftedRewards() {
             </div>
           </div>
 
+          <div className="w-1/2 mt-4">
+            <div className="w-full mb-2 text-sm font-semibold">Valid Upto</div>
+            <DatePicker
+              value={
+                validUpto?.length > 0
+                  ? new Date(validUpto).toDateString().slice(4)
+                  : validUpto
+              }
+              minDate={new Date()}
+              placeholderText="mm/dd/yy"
+              className="border w-full h-10  border-gray-300 rounded pl-4"
+              onChange={(e: any) => {
+                setValidUpto(
+                  `${new Date(e).getFullYear()}-${
+                    new Date(e).getMonth() + 1
+                  }-${new Date(e).getDate()}`
+                );
+              }}
+            />
+            {!regex.test(validUpto) && showErrorMessage.one === true && (
+              <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                {errorMessageOne.isRequired}
+              </div>
+            )}
+          </div>
           <div className="w-full flex items-start justify-end mt-8 ">
             <button
               className="w-24 ml-4 bg-[#30D792] h-8 text-white rounded-[20px] hover:bg-green-300"
@@ -545,7 +578,7 @@ function DraftedRewards() {
                 if (
                   regex.test(MilestoneRewardMilestone) &&
                   regex.test(ordersToComplete) &&
-                  regex.test(country?.name) &&
+                  regex.test(country) &&
                   imageArray.length > 0 &&
                   regex.test(offerTitle) &&
                   regex.test(startDate) &&
@@ -553,36 +586,54 @@ function DraftedRewards() {
                   regex.test(internalOfferCode)
                 ) {
                   const payload = {
-                    rewardId:reward?.rewardId,
-                    advertiserId: user.id,
                     milestone: MilestoneRewardMilestone,
                     offerTitle: offerTitle,
-                    creative: imageArray[0],
+                    offerLogo: imageArray[0],
+                    targetLocation:targetLocation,
                     numberOfOrdersToComplete: 8,
                     maximumOrdersAllowedPerDay: 9,
-                    status: "Draft",
-                    termsAndConditions: country ,
-                    startDate: startDate,
-                    endDate: endDate,
+                    country: country,
+                    startDate: `${new Date(startDate).getFullYear()}-${
+                      new Date(startDate).getMonth() + 1 > 9 ? "" : "0"
+                    }${new Date(startDate).getMonth() + 1}-${
+                      new Date(startDate).getDate() > 9 ? "" : "0"
+                    }${new Date(startDate).getDate()}`,
+                    endDate: `${new Date(endDate).getFullYear()}-${
+                      new Date(endDate).getMonth() + 1 > 9 ? "" : "0"
+                    }${new Date(endDate).getMonth() + 1}-${
+                      new Date(endDate).getDate() > 9 ? "" : "0"
+                    }${new Date(endDate).getDate()}`,
+                    validUpto: `${new Date(validUpto).getFullYear()}-${
+                      new Date(validUpto).getMonth() + 1 > 9 ? "" : "0"
+                    }${new Date(validUpto).getMonth() + 1}-${
+                      new Date(validUpto).getDate() > 9 ? "" : "0"
+                    }${new Date(validUpto).getDate()}`,
                   };
-                  const { data: campaign } = await axios({
-                    url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward/update`,
-                    method: "POST",
-                    headers: {
-                      Authorization: `Bearer ${user.token}`,
-                    },
-                    data: payload,
-                  });
+                  try {
+                    const { data: campaign } = await axios({
+                      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/milestone/${reward?.id}`,
+                      method: "PUT",
+                      headers: {
+                        Authorization: `Bearer ${user.token}`,
+                      },
+                      data: payload,
+                    });
 
-                  if (campaign && campaign.status === "success") {
-                    toast.success("Successfully Updated !", {
+                    if (
+                      campaign &&
+                      campaign.message === "Updated Successfully"
+                    ) {
+                      toast.success("Successfully Updated !", {
+                        position: toast.POSITION.TOP_RIGHT,
+                      });
+                      // addToken(login.accessToken)
+                      navigate(`/${user.id}/draft_reward`);
+                    }
+                  } catch (err: any) {
+                    toast.error(`${err?.message}`, {
                       position: toast.POSITION.TOP_RIGHT,
                     });
-                    // addToken(login.accessToken)
-                    navigate(`/${user.id}/draft_reward`);
                   }
-                } else {
-                  setShowErrorMessage({ ...showErrorMessage, one: true });
                 }
               }}
             >

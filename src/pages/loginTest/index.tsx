@@ -39,7 +39,7 @@ const LoginTest = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
-
+   try{
     const { data: login } = await axios({
       url: `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/advertiser-login`,
       method: "POST",
@@ -61,6 +61,11 @@ const LoginTest = () => {
     else {
       toast.error("Invalid credentials")
     }
+  }catch(err:any){
+    toast.error(`Something went wrong`, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
   }
 
 

@@ -72,7 +72,7 @@ function CreateMilestoneReward() {
     let responseData;
     try {
       const { data } = await axios({
-        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand/list?advertiserId=${user.id}`,
+        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand?advertiserId=${user.id}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -128,11 +128,11 @@ function CreateMilestoneReward() {
                     placeholder="Select"
                     value={brand}
                     onChange={(e: any) => {
-                    //  console.log("000>", e.target.value);
+                      //  console.log("000>", e.target.value);
                       setBrand(e.target.value);
                     }}
                   >
-                    {brandArray.length > 0 &&
+                    {brandArray?.length > 0 &&
                       brandArray?.map((data: any, index: number) => {
                         return (
                           <MenuItem value={data} style={{ fontSize: "14px" }}>
@@ -142,11 +142,12 @@ function CreateMilestoneReward() {
                       })}
                   </Select>
                 </div>
-                {!regex.test(brand?.brandName) && showErrorMessage.one === true && (
-                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                    {errorMessageOne.isRequired}
-                  </div>
-                )}
+                {!brand &&
+                  showErrorMessage.one === true && (
+                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                      {errorMessageOne.isRequired}
+                    </div>
+                  )}
               </div>
               <div className="w-full">
                 <div className="w-full mt-4 flex">
@@ -170,12 +171,15 @@ function CreateMilestoneReward() {
                       setMilestoneRewardMilestone(e.target.value);
                     }}
                   >
-                    <MenuItem value="value 1" style={{ fontSize: "14px" }}>
-                      value 1
-                    </MenuItem>
-                    <MenuItem value="value2 2" style={{ fontSize: "14px" }}>
-                      value 2
-                    </MenuItem>
+                    <MenuItem value="OrderReceipt" style={{ fontSize: "14px" }}>
+                    Order Receipt
+                  </MenuItem>
+                  <MenuItem value="OrderValue" style={{ fontSize: "14px" }}>
+                    Order Value
+                  </MenuItem>
+                  <MenuItem value="Avni" style={{ fontSize: "14px" }}>
+                    Avni
+                  </MenuItem>
                   </Select>
                 </div>
                 {!regex.test(MilestoneRewardMilestone) &&
@@ -231,7 +235,7 @@ function CreateMilestoneReward() {
               </div>
               <div className="w-full flex items-center">
                 <div className="flex mr-2">
-                  {imageArray.length > 0 &&
+                  {imageArray?.length > 0 &&
                     imageArray.map((val: any, index: any) => {
                       return (
                         <div className="m-1" key={index}>
@@ -251,7 +255,7 @@ function CreateMilestoneReward() {
                                   ...imageArray.slice(0, index),
                                   ...imageArray.slice(
                                     index + 1,
-                                    imageArray.length
+                                    imageArray?.length
                                   ),
                                 ]);
                               }}
@@ -269,7 +273,7 @@ function CreateMilestoneReward() {
                     <img src={loader} className="w-5 h-5" />
                   </div>
                 )}
-                {imageArray.length === 0 && (
+                {imageArray?.length === 0 && (
                   <div className="w-full">
                     <label htmlFor="file-upload" className="custom-file-upload">
                       <ImageUploadingButton />
@@ -336,7 +340,7 @@ function CreateMilestoneReward() {
                   {errorMessageOne.isMaxImage}
                 </div>
               )}
-              {imageArray.length === 0 && showErrorMessage.one === true && (
+              {imageArray?.length === 0 && showErrorMessage.one === true && (
                 <div className="w-full text-xs font-semibold text-red-500 mt-2">
                   {errorMessageOne.isRequired}
                 </div>
@@ -466,7 +470,7 @@ function CreateMilestoneReward() {
                   })}
                 </Select>{" "}
               </div>
-              {country.name.length === 0 && showErrorMessage.one === true && (
+              {country.name?.length === 0 && showErrorMessage.one === true && (
                 <div className="w-full text-xs font-semibold text-red-500 mt-1">
                   {errorMessageOne.isRequired}
                 </div>
@@ -482,7 +486,7 @@ function CreateMilestoneReward() {
                 <DatePicker
                   placeholderText="mm/dd/yy"
                   value={
-                    startDate.length > 0
+                    startDate?.length > 0
                       ? new Date(startDate).toDateString().slice(4)
                       : startDate
                   }
@@ -492,7 +496,7 @@ function CreateMilestoneReward() {
                         e
                       ).getDate()}/${new Date(e).getFullYear()}`
                     );
-                    if (endDate.length > 1) {
+                    if (endDate?.length > 1) {
                       if (
                         new Date(
                           `${new Date(e).getMonth() + 1}/${new Date(
@@ -528,7 +532,7 @@ function CreateMilestoneReward() {
                 </div>
                 <DatePicker
                   value={
-                    endDate.length > 0
+                    endDate?.length > 0
                       ? new Date(endDate).toDateString().slice(4)
                       : endDate
                   }
@@ -580,7 +584,7 @@ function CreateMilestoneReward() {
               </div>
               <DatePicker
                 value={
-                  validupto.length > 0
+                  validupto?.length > 0
                     ? new Date(validupto).toDateString().slice(4)
                     : validupto
                 }
@@ -688,7 +692,7 @@ function CreateMilestoneReward() {
                       </MenuItem>
                     </Select>
                   </div>
-                  {gender.length === 0 && showErrorMessage.one === true && (
+                  {gender?.length === 0 && showErrorMessage.one === true && (
                     <div className="w-full text-xs font-semibold text-red-500 mt-1">
                       {errorMessageOne.isRequired}
                     </div>
@@ -725,13 +729,14 @@ function CreateMilestoneReward() {
                   if (
                     regex.test(MilestoneRewardMilestone) &&
                     regex.test(ordersToComplete) &&
-                    imageArray.length > 0 &&
+                    imageArray?.length > 0 &&
                     regex.test(offerTitle) &&
                     regex.test(startDate) &&
                     regex.test(validupto) &&
                     regex.test(endDate) &&
                     regex.test(internalOfferCode) &&
-                    regex.test(country?.name) 
+                    regex.test(country?.name) &&
+                    brand
                   ) {
                     setSwitchTab(2);
                   } else {
@@ -755,7 +760,9 @@ function CreateMilestoneReward() {
             <div className="w-full mt-4 pl-4">
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">Brand Name</div>
-                <div className="w-full text-xs text-gray-400">{brand?.brandName}</div>
+                <div className="w-full text-xs text-gray-400">
+                  {brand?.brandName}
+                </div>
               </div>
               <div className="w-full flex">
                 <div className="w-1/3 text-xs">Milestone Rewards</div>
@@ -797,14 +804,14 @@ function CreateMilestoneReward() {
                   {orderAllowedperDay}
                 </div>
               </div>
-              <div className="w-full flex mt-1">
+              {/* <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">
                   Minimum order value for this offer
                 </div>
                 <div className="w-full text-xs text-gray-400">
                   {minimuOrderValueforthisoffer}
                 </div>
-              </div>
+              </div> */}
 
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Internal offer code</div>
@@ -858,22 +865,22 @@ function CreateMilestoneReward() {
                       regex.test(MilestoneRewardMilestone) &&
                       regex.test(ordersToComplete) &&
                       regex.test(country?.name) &&
-                      imageArray.length > 0 &&
+                      imageArray?.length > 0 &&
                       regex.test(offerTitle) &&
                       regex.test(startDate) &&
                       regex.test(endDate) &&
-                      startDate !== endDate &&
                       regex.test(internalOfferCode)
                     ) {
                       const payload = {
                         advertiserId: user.id,
                         milestone: MilestoneRewardMilestone,
+                        type: "OrderReceipt",
                         offerTitle: offerTitle,
-                        creative: imageArray[0],
+                        offerLogo: imageArray[0],
                         numberOfOrdersToComplete: 8,
                         maximumOrdersAllowedPerDay: 9,
                         status: "Draft",
-                        country: country,
+                        country: country.name,
                         startDate: `${new Date(startDate).getFullYear()}-${
                           new Date(startDate).getMonth() + 1 > 9 ? "" : "0"
                         }${new Date(startDate).getMonth() + 1}-${
@@ -889,31 +896,34 @@ function CreateMilestoneReward() {
                         targetGender: gender,
                         targetAge: sliderValue,
                         brandName: brand?.brandName,
-                        brandId: brand?.brandId,
+                        brandId: brand?.id,
                         validUpto: `${new Date(validupto).getFullYear()}-${
                           new Date(validupto).getMonth() + 1 > 9 ? "" : "0"
                         }${new Date(validupto).getMonth() + 1}-${
                           new Date(validupto).getDate() > 9 ? "" : "0"
                         }${new Date(validupto).getDate()}`,
                       };
-                      const { data: campaign } = await axios({
-                        url: `${process.env.REACT_APP_SERVER_ENDPOINT}/reward`,
-                        method: "POST",
-                        headers: {
-                          Authorization: `Bearer ${user.token}`,
-                        },
-                        data: payload,
-                      });
-
-                      if (campaign && campaign.status === "created") {
-                        toast.success("Successfully Created !", {
+                      try {
+                        const { data: campaign } = await axios({
+                          url: `${process.env.REACT_APP_SERVER_ENDPOINT}/milestone`,
+                          method: "POST",
+                          headers: {
+                            Authorization: `Bearer ${user.token}`,
+                          },
+                          data: payload,
+                        });
+                        if (campaign && campaign.message === "Created successfully") {
+                          toast.success("Successfully Created !", {
+                            position: toast.POSITION.TOP_RIGHT,
+                          });
+                          // addToken(login.accessToken)
+                          navigate(`/${user.id}/draft_reward`);
+                        }
+                      } catch (err: any) {
+                        toast.error(`${err?.message}`, {
                           position: toast.POSITION.TOP_RIGHT,
                         });
-                        // addToken(login.accessToken)
-                        navigate(`/${user.id}/draft_campaign`);
                       }
-                    } else {
-                      setShowErrorMessage({ ...showErrorMessage, one: true });
                     }
                   }}
                 >

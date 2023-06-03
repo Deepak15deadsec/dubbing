@@ -614,8 +614,6 @@ function UpdateBrand() {
                   category.length > 0
                 ) {
                   const payload = {
-                    brandId: `${Brand?.brandId}`,
-                    advertiserId: `${Brand?.advertiserId}`,
                     brandName: brandName,
                     brandImage: brandImage,
                     about: about,
@@ -628,8 +626,8 @@ function UpdateBrand() {
 
                   try{
                   const { data: campaign } = await axios({
-                    url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand/update`,
-                    method: "POST",
+                    url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand/${Brand?.id}`,
+                    method: "PUT",
                     headers: {
                       Authorization: `Bearer ${user.token}`,
                     },

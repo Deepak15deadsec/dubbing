@@ -9,7 +9,7 @@ const leftPage = require("../../../images/leftPage.png");
 async function fetchBrand(user: any, setBrand: any, setBrandFlag: any) {
   const fetchData = async () => {
     const { data: Brand } = await axios({
-      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand/list?advertiserId=${user.id}`,
+      url: `${process.env.REACT_APP_SERVER_ENDPOINT}/brand?advertiserId=${user.id}`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -84,7 +84,7 @@ export function BrandList() {
                         <td
                           className="pl-4"
                           onClick={() => {
-                            navigate(`/update_brand/${Brand?.brandId}`, {
+                            navigate(`/update_brand/${Brand?.id}`, {
                               state: { Brand: Brand },
                             });
                           }}
@@ -103,7 +103,7 @@ export function BrandList() {
                         <td
                           className="pl-1 text-left"
                           onClick={() => {
-                            navigate(`/update_brand/${Brand?.brandId}`, {
+                            navigate(`/update_brand/${Brand?.id}`, {
                               state: { Brand: Brand },
                             });
                           }}
@@ -121,7 +121,7 @@ export function BrandList() {
                         <td
                           className="pl-1 text-left"
                           onClick={() => {
-                            navigate(`/update_brand/${Brand?.brandId}`, {
+                            navigate(`/update_brand/${Brand?.id}`, {
                               state: { Brand: Brand },
                             });
                           }}
@@ -142,7 +142,7 @@ export function BrandList() {
                         <td
                           className="pl-1 text-left"
                           onClick={() => {
-                            navigate(`/active-Brand/${Brand?.brandId}`, {
+                            navigate(`/active-Brand/${Brand?.id}`, {
                               state: { Brand: Brand },
                             });
                           }}
