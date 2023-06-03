@@ -343,7 +343,7 @@ export function ActivevatedRewardList() {
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
                     <th className="text-left font-semibold pl-6"> Title</th>
-                    <th className="text-left font-semibold">Category</th>
+                    
                     <th className="text-left font-semibold">
                       Start Date - End Date
                     </th>
@@ -386,14 +386,7 @@ export function ActivevatedRewardList() {
                             </div>
                           </td>
 
-                          <td
-                            className="pl-1 text-left"
-                            onClick={() => {
-                              navigate(`/active-Rewards/${Reward.rewardId}`,{state:{reward:Reward}});
-                            }}
-                          >
-                            {Reward?.milestone}
-                          </td>
+                          
                           <td
                             className="pl-1 text-left"
                             onClick={() => {
