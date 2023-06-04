@@ -586,7 +586,7 @@ function DraftedRewards() {
                   regex.test(internalOfferCode)
                 ) {
                   const payload = {
-                    milestone: MilestoneRewardMilestone,
+                    type: MilestoneRewardMilestone,
                     offerTitle: offerTitle,
                     offerLogo: imageArray[0],
                     targetLocation:targetLocation,

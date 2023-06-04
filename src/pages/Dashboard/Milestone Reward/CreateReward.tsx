@@ -873,8 +873,7 @@ function CreateMilestoneReward() {
                     ) {
                       const payload = {
                         advertiserId: user.id,
-                        milestone: MilestoneRewardMilestone,
-                        type: "OrderReceipt",
+                        type: MilestoneRewardMilestone,
                         offerTitle: offerTitle,
                         offerLogo: imageArray[0],
                         numberOfOrdersToComplete: 8,
