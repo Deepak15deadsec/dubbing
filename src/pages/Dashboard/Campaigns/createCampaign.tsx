@@ -1134,7 +1134,7 @@ function CreateCampaign(props: any) {
                           }
                         }
                       }}
-                      minDate={new Date()}
+                      minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                       className="border w-full h-10 pl-4 rounded"
                     />
 
@@ -1155,7 +1155,7 @@ function CreateCampaign(props: any) {
                           ? new Date(endDate).toDateString().slice(4)
                           : endDate
                       }
-                      minDate={new Date()}
+                      minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                       placeholderText="mm/dd/yy"
                       className="border w-full h-10 pl-4 border-gray-300 rounded"
                       onChange={(e: any) => {

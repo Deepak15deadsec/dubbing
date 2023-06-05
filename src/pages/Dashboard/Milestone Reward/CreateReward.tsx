@@ -516,7 +516,7 @@ function CreateMilestoneReward() {
                       }
                     }
                   }}
-                  minDate={new Date()}
+                  minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                   className="border w-full h-10  rounded"
                 />
 
@@ -536,7 +536,7 @@ function CreateMilestoneReward() {
                       ? new Date(endDate).toDateString().slice(4)
                       : endDate
                   }
-                  minDate={new Date()}
+                  minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                   placeholderText="mm/dd/yy"
                   className="border w-full h-10  border-gray-300 rounded"
                   onChange={(e: any) => {
@@ -588,7 +588,7 @@ function CreateMilestoneReward() {
                     ? new Date(validupto).toDateString().slice(4)
                     : validupto
                 }
-                minDate={new Date()}
+                minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                 placeholderText="mm/dd/yy"
                 className="border w-full h-10  border-gray-300 rounded"
                 onChange={(e: any) => {

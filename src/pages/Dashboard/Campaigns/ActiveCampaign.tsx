@@ -112,7 +112,6 @@ function Ad(props: any) {
               <MenuItem value="Sign up" style={{ fontSize: "14px" }}>
                 Sign up
               </MenuItem>
-              
             </Select>
           </div>
           {!regex.test(adValue) && showErrorMessage.one === true && (
@@ -239,7 +238,7 @@ function Ad(props: any) {
                           setImageArray([
                             `https://avni-advertiser-campaign.s3.us-east-1.amazonaws.com/${filename}`,
                           ]);
-                          setIsImageUploading(false)
+                          setIsImageUploading(false);
                         })
                         .catch((error) => console.log("error", error));
                     })
@@ -259,15 +258,13 @@ function Ad(props: any) {
             </div>
           )}
         </div>
-
       </div>
       <div className="w-full p-2 rounded-sm">
-       
         <div className="bg-white p-2 rounded-sm">
-        <div className="font-bold text-lg">Campaign</div>
+          <div className="font-bold text-lg">Campaign</div>
           <img src={imageArray[0]} className="max-h-[160px] max-w-[640px]" />
           <div className="mt-3 text-sm">{adTitle}</div>
-          
+
           <div className="w-full flex mt-4">
             <div className="w-full flex items-center text-green-400 font-semibold text-xs">
               +20$ AVNI
@@ -570,7 +567,7 @@ function Settings(props: any) {
                     }
                   }
                 }}
-                minDate={new Date()}
+                minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                 className="border w-full h-10 pl-4 rounded"
               />
 
@@ -584,7 +581,7 @@ function Settings(props: any) {
               <div className="w-full mb-2 text-sm font-semibold">End Date</div>
               <DatePicker
                 value={new Date(endDate).toDateString()}
-                minDate={new Date()}
+                minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                 placeholderText="mm/dd/yy"
                 className="border w-full h-10 pl-4 border-gray-300 rounded"
                 onChange={(e: any) => {
@@ -651,9 +648,7 @@ function Settings(props: any) {
         </div>
         <div className="w-full pl-4">
           <div className="w-full mt-4 flex">
-            <div className="w-full text-sm font-semibold">
-              Website Url
-            </div>
+            <div className="w-full text-sm font-semibold">Website Url</div>
           </div>
           <div className="mt-2 w-full">
             <TextField
@@ -662,7 +657,7 @@ function Settings(props: any) {
               className="w-full bg-white"
               type="number"
               onChange={(e: any) => {
-              //  setNumberOfSignups(e.target.value);
+                //  setNumberOfSignups(e.target.value);
               }}
             />
           </div>
@@ -711,7 +706,6 @@ function Preview(props: any) {
   const { campaign, setEditTab } = props;
   const user = useStoreState((state) => state.user);
 
-
   return (
     <div className="w-1/2 ml-4 rounded-lg bg-white mt-5 pb-4">
       <div
@@ -742,7 +736,7 @@ function Preview(props: any) {
                   {campaign?.data[0]?.campaignType}
                 </div>
               </div>
-              
+
               <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Campaign Title</div>
                 <div className="w-full text-xs text-gray-400">
@@ -862,7 +856,6 @@ function Preview(props: any) {
                   {campaign?.data[0]?.transactionCount}
                 </div>
               </div>
-             
             </div>
           </div>
           <div className=" ml-3 flex items-center mt-2 ">
@@ -966,7 +959,7 @@ function ActiveCampaign() {
       {editTab === false && (
         <Preview campaign={campaign} setEditTab={setEditTab} />
       )}
-         {editTab === true  && (
+      {editTab === true && (
         <div className="w-full pt-4 px-4">
           <div className="w-full flex rounded-lg bg-white">
             <div className="w-full h-12 flex items-center  pl-4 font-bold text-xl">
