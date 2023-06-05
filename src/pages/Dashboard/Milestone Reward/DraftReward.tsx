@@ -1,4 +1,4 @@
-import { MenuItem, Select, TextField } from "@mui/material";
+import { MenuItem, Modal, Select, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SideBar from "../SideBar/sideBar";
 import DatePicker from "react-datepicker";
@@ -8,6 +8,7 @@ import { regex } from "../../signupTest";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ImageUploadingButton, MenuProps } from "../Campaigns/createCampaign";
+import OpenMap from "../Campaigns/Map";
 const loader = require("../../../images/loader.gif");
 const countries = require("../../signupTest/countries.json");
 
@@ -155,6 +156,8 @@ function DraftedRewards() {
     four: false,
     five: false,
   });
+  const [locationArray, setLocationArray] = useState([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setRewardInfo(reward);
@@ -168,10 +171,17 @@ function DraftedRewards() {
     setTargetLocation(reward?.targetLocation)
     setStartDate(reward?.startDate);
     setEndDate(reward?.endDate);
+   // setLocationArray(reward?.location);
     setValidUpto(reward?.validUpto);
   }, [reward]);
 
-  console.log("rewardInfo", rewardInfo)
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const navigate = useNavigate();
 
@@ -244,7 +254,7 @@ function DraftedRewards() {
             <div className="w-full flex items-center">
               <div className="flex mr-2">
                 {imageArray.length > 0 &&
-                  imageArray.map((val: any, index: any) => {
+                  imageArray?.map((val: any, index: any) => {
                     return (
                       <div className="m-1" key={index}>
                         <div
@@ -438,7 +448,7 @@ function DraftedRewards() {
                 size="small"
                 MenuProps={MenuProps}
               >
-                {countries.map((data: any, index: number) => {
+                {countries?.map((data: any, index: number) => {
                   return (
                     <MenuItem value={data.name} key={index}>
                       {data.name}
@@ -453,6 +463,71 @@ function DraftedRewards() {
               </div>
             )}
           </div>
+
+          <div className="w-full ">
+              <div className="w-full p-1 border border-blue-400 rounded mt-4">
+                <div className="w-full border border-gray-500 rounded p-1">
+                  <div className="w-full flex cursor-pointer">
+                    <TextField
+                      variant="standard"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      label="Target Location"
+                      size="small"
+                      className="w-full cursor-pointer"
+                      disabled
+                      onClick={handleClickOpen}
+                    />
+                  </div>
+                  <div className="mt-2 mb-2 flex w-full flex-wrap">
+                    {locationArray?.map((data: any, index: any) => {
+                      if (data !== "") {
+                        return (
+                          <div
+                            key={index}
+                            className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
+                          >
+                            {data?.venue.split(",")[0]}
+                            {" , "}
+                            {data.radius}
+                            {" km"}
+                            <div
+                              className="ml-3 text-blue-500 cursor-pointer"
+                              onClick={() => {
+                                setLocationArray([
+                                  ...locationArray.slice(0, index),
+                                  ...locationArray.slice(
+                                    index + 1,
+                                    locationArray.length
+                                  ),
+                                ]);
+                              }}
+                            >
+                              &#10006;
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Modal
+              className="w-full h-full flex justify-center items-center"
+              open={open}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <div className="w-4/5 h-2/3 bg-white flex items-center justify-center">
+                <OpenMap
+                  handleClose={handleClose}
+                  setLocationArray={setLocationArray}
+                  locationArray={locationArray}
+                />
+              </div>
+            </Modal>
 
           <div className="mt-2 w-full flex">
             <div className="w-full mr-3">
@@ -589,6 +664,7 @@ function DraftedRewards() {
                     type: MilestoneRewardMilestone,
                     offerTitle: offerTitle,
                     offerLogo: imageArray[0],
+                  //  location:locationArray,
                     targetLocation:targetLocation,
                     numberOfOrdersToComplete: 8,
                     maximumOrdersAllowedPerDay: 9,

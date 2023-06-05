@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { Chip, Slider, Stack, TextField, Tooltip } from "@mui/material";
+import { Chip, Modal, Slider, Stack, TextField, Tooltip } from "@mui/material";
 import { regex } from "../../signupTest";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { useStoreState } from "../../../store/easy-peasy/hooks";
 import DatePicker from "react-datepicker";
 import Sidebar from "../SideBar/sideBar";
 import { MenuProps, marks } from "../Campaigns/createCampaign";
+import OpenMap from "../Campaigns/Map";
 const infoLogo = require("../../../images/infoLogo.png");
 const redPlus = require("../../../images/redPlus.png");
 const loader = require("../../../images/loader.gif");
@@ -47,8 +48,10 @@ function CreateMilestoneReward() {
     dial_code: "",
     code: "",
   });
+  const [locationArray, setLocationArray] = useState([]);
   const [validupto, setValidupto] = useState("");
   const [brandArray, setBrandArray] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const [errorMessageOne, setErrorMessageOne] = useState({
     isRequired: "Value is Required",
@@ -98,6 +101,14 @@ function CreateMilestoneReward() {
 
   const navigate = useNavigate();
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className="flex w-full">
       <Sidebar />
@@ -142,12 +153,11 @@ function CreateMilestoneReward() {
                       })}
                   </Select>
                 </div>
-                {!brand &&
-                  showErrorMessage.one === true && (
-                    <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                      {errorMessageOne.isRequired}
-                    </div>
-                  )}
+                {!brand && showErrorMessage.one === true && (
+                  <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                    {errorMessageOne.isRequired}
+                  </div>
+                )}
               </div>
               <div className="w-full">
                 <div className="w-full mt-4 flex">
@@ -172,14 +182,14 @@ function CreateMilestoneReward() {
                     }}
                   >
                     <MenuItem value="OrderReceipt" style={{ fontSize: "14px" }}>
-                    Order Receipt
-                  </MenuItem>
-                  <MenuItem value="OrderValue" style={{ fontSize: "14px" }}>
-                    Order Value
-                  </MenuItem>
-                  <MenuItem value="Avni" style={{ fontSize: "14px" }}>
-                    Avni
-                  </MenuItem>
+                      Order Receipt
+                    </MenuItem>
+                    <MenuItem value="OrderValue" style={{ fontSize: "14px" }}>
+                      Order Value
+                    </MenuItem>
+                    <MenuItem value="Avni" style={{ fontSize: "14px" }}>
+                      Avni
+                    </MenuItem>
                   </Select>
                 </div>
                 {!regex.test(MilestoneRewardMilestone) &&
@@ -477,6 +487,71 @@ function CreateMilestoneReward() {
               )}
             </div>
 
+            <div className="w-full ">
+              <div className="w-full p-1 border border-blue-400 rounded mt-4">
+                <div className="w-full border border-gray-500 rounded p-1">
+                  <div className="w-full flex cursor-pointer">
+                    <TextField
+                      variant="standard"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      label="Target Location"
+                      size="small"
+                      className="w-full cursor-pointer"
+                      disabled
+                      onClick={handleClickOpen}
+                    />
+                  </div>
+                  <div className="mt-2 mb-2 flex w-full flex-wrap">
+                    {locationArray.map((data: any, index: any) => {
+                      if (data !== "") {
+                        return (
+                          <div
+                            key={index}
+                            className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
+                          >
+                            {data?.venue.split(",")[0]}
+                            {" , "}
+                            {data.radius}
+                            {" km"}
+                            <div
+                              className="ml-3 text-blue-500 cursor-pointer"
+                              onClick={() => {
+                                setLocationArray([
+                                  ...locationArray.slice(0, index),
+                                  ...locationArray.slice(
+                                    index + 1,
+                                    locationArray.length
+                                  ),
+                                ]);
+                              }}
+                            >
+                              &#10006;
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Modal
+              className="w-full h-full flex justify-center items-center"
+              open={open}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <div className="w-4/5 h-2/3 bg-white flex items-center justify-center">
+                <OpenMap
+                  handleClose={handleClose}
+                  setLocationArray={setLocationArray}
+                  locationArray={locationArray}
+                />
+              </div>
+            </Modal>
+
             <div className="mt-4 w-full flex">
               <div className="w-full mr-3">
                 <div className="w-full mb-2 text-sm font-semibold">
@@ -516,7 +591,9 @@ function CreateMilestoneReward() {
                       }
                     }
                   }}
-                  minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+                  minDate={
+                    new Date(new Date().setDate(new Date().getDate() + 1))
+                  }
                   className="border w-full h-10  rounded"
                 />
 
@@ -536,7 +613,9 @@ function CreateMilestoneReward() {
                       ? new Date(endDate).toDateString().slice(4)
                       : endDate
                   }
-                  minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+                  minDate={
+                    new Date(new Date().setDate(new Date().getDate() + 1))
+                  }
                   placeholderText="mm/dd/yy"
                   className="border w-full h-10  border-gray-300 rounded"
                   onChange={(e: any) => {
@@ -828,6 +907,41 @@ function CreateMilestoneReward() {
               </div>
 
               <div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Location</div>
+                <div className="mt-2 mb-2 flex w-full flex-wrap">
+                  {locationArray.map((data: any, index: any) => {
+                    if (data !== "") {
+                      return (
+                        <div
+                          key={index}
+                          className="bg-blue-100 text-blue-500 text-xs p-2 font-semibold mx-1 my-1 rounded-sm flex items-center justify-center h-5"
+                        >
+                          {data?.venue.split(",")[0]}
+                          {" , "}
+                          {data.radius}
+                          {" km"}
+                          <div
+                            className="ml-3 text-blue-500 cursor-pointer"
+                            onClick={() => {
+                              setLocationArray([
+                                ...locationArray.slice(0, index),
+                                ...locationArray.slice(
+                                  index + 1,
+                                  locationArray.length
+                                ),
+                              ]);
+                            }}
+                          >
+                            &#10006;
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              </div>
+
+              <div className="w-full flex mt-1">
                 <div className="w-1/3 text-xs">Start Date</div>
                 <div className="w-full text-xs text-gray-400">
                   {new Date(startDate).toDateString().slice(4)}
@@ -845,25 +959,28 @@ function CreateMilestoneReward() {
                   {new Date(validupto).toDateString().slice(4)}
                 </div>
               </div>
-              {gender.length>0&& !showAll &&(<div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Gender</div>
-                <div className="w-full text-xs text-gray-400">
-                {gender.map((data: any, index: number) => {
-                    return (
-                      <div className="text-xs flex">
-                        <div className="mx-1">{index + 1}.</div>{" "}
-                        <div>{data}</div>
-                      </div>
-                    );
-                  })}
+              {gender.length > 0 && !showAll && (
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 text-xs">Gender</div>
+                  <div className="w-full text-xs text-gray-400">
+                    {gender.map((data: any, index: number) => {
+                      return (
+                        <div className="text-xs flex">
+                          <div className="mx-1">{index + 1}.</div>{" "}
+                          <div>{data}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>)}
-              {sliderValue.length>0 && !showAll &&(<div className="w-full flex mt-1">
-                <div className="w-1/3 text-xs">Age Range</div>
-                <div className="w-full text-xs text-gray-400">
-                  {`[${sliderValue[0]} , ${sliderValue[1]}]`}
+              )}
+              {sliderValue.length > 0 && !showAll && (
+                <div className="w-full flex mt-1">
+                  <div className="w-1/3 text-xs">Age Range</div>
+                  <div className="w-full text-xs text-gray-400">
+                    {`[${sliderValue[0]} , ${sliderValue[1]}]`}
+                  </div>
                 </div>
-              </div>
               )}
             </div>
             <div className="w-full flex mt-8">
@@ -893,6 +1010,7 @@ function CreateMilestoneReward() {
                     ) {
                       const payload = {
                         advertiserId: user.id,
+                        targetGeoCordinates: locationArray,
                         type: MilestoneRewardMilestone,
                         offerTitle: offerTitle,
                         offerLogo: imageArray[0],
@@ -914,6 +1032,7 @@ function CreateMilestoneReward() {
                         targetLocation: country.dial_code,
                         targetGender: gender,
                         targetAge: sliderValue,
+                        location:locationArray,
                         brandName: brand?.brandName,
                         brandId: brand?.id,
                         validUpto: `${new Date(validupto).getFullYear()}-${
@@ -921,7 +1040,6 @@ function CreateMilestoneReward() {
                         }${new Date(validupto).getMonth() + 1}-${
                           new Date(validupto).getDate() > 9 ? "" : "0"
                         }${new Date(validupto).getDate()}`,
-
                       };
                       try {
                         const { data: campaign } = await axios({
@@ -932,7 +1050,10 @@ function CreateMilestoneReward() {
                           },
                           data: payload,
                         });
-                        if (campaign && campaign.message === "Created successfully") {
+                        if (
+                          campaign &&
+                          campaign.message === "Created successfully"
+                        ) {
                           toast.success("Successfully Created !", {
                             position: toast.POSITION.TOP_RIGHT,
                           });
