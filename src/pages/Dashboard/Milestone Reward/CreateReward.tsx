@@ -41,7 +41,7 @@ function CreateMilestoneReward() {
   const [switchTab, setSwitchTab] = useState(1);
   const [showAll, setShowAll] = useState(true);
   const [gender, setGender] = useState<string[]>(["All"]);
-  const [sliderValue, setSliderValue] = React.useState([20, 45]);
+  const [sliderValue, setSliderValue] = useState<number[]>([20, 45]);
   const [country, setCountry] = useState({
     name: "",
     dial_code: "",
@@ -845,6 +845,26 @@ function CreateMilestoneReward() {
                   {new Date(validupto).toDateString().slice(4)}
                 </div>
               </div>
+              {gender.length>0&& !showAll &&(<div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Gender</div>
+                <div className="w-full text-xs text-gray-400">
+                {gender.map((data: any, index: number) => {
+                    return (
+                      <div className="text-xs flex">
+                        <div className="mx-1">{index + 1}.</div>{" "}
+                        <div>{data}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>)}
+              {sliderValue.length>0 && !showAll &&(<div className="w-full flex mt-1">
+                <div className="w-1/3 text-xs">Age Range</div>
+                <div className="w-full text-xs text-gray-400">
+                  {`[${sliderValue[0]} , ${sliderValue[1]}]`}
+                </div>
+              </div>
+              )}
             </div>
             <div className="w-full flex mt-8">
               <div className="w-full flex items-start justify-start ">
@@ -901,6 +921,7 @@ function CreateMilestoneReward() {
                         }${new Date(validupto).getMonth() + 1}-${
                           new Date(validupto).getDate() > 9 ? "" : "0"
                         }${new Date(validupto).getDate()}`,
+
                       };
                       try {
                         const { data: campaign } = await axios({
