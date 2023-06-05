@@ -91,7 +91,7 @@ function AddBrands() {
 
             <div className="w-full">
               <div className="w-full mt-4 flex">
-                <div className="text-sm font-semibold">Upload brand image</div>
+                <div className="text-sm font-semibold">Upload brand logo</div>
                 <div className="ml-2 items-center flex justify-end">
                   <Tooltip
                     title="When an unknown printer took a galley of type and scrambled it to make a type specimen book."
@@ -496,7 +496,7 @@ function AddBrands() {
 
               <div className="w-full flex mt-1">
                 <div className="w-1/3 flex items-center text-xs">
-                  Brand Image
+                  Brand logo
                 </div>
                 <div className="w-full items-center flex text-xs text-gray-400">
                   {brandImage.map((val: any, index: number) => {
