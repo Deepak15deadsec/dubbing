@@ -329,7 +329,7 @@ function AddBrands() {
 
             <div className="w-full">
               <div className="w-full mt-4 flex">
-                <div className="w-full text-sm font-semibold">Category</div>
+                <div className="w-full text-sm font-semibold">Categories</div>
               </div>
               <div className="mt-2 w-full">
                 <Select

@@ -555,7 +555,7 @@ export function CompletedCampaignList() {
                 <thead>
                   <tr className="bg-white h-14 border border-sm">
                     <th className="text-left font-semibold pl-6"> Title</th>
-                    <th className="text-left font-semibold">Category</th>
+                    <th className="text-left font-semibold">Categories</th>
                     <th className="text-left font-semibold">
                       Start Date - End Date
                     </th>

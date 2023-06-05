@@ -565,7 +565,7 @@ import {
   
           <div className="w-full">
             <div className="w-full mt-4 flex">
-              <div className="text-sm font-semibold">Category</div>
+              <div className="text-sm font-semibold">Categories</div>
             </div>
             <div className="mt-2 w-full">
               <Select
@@ -881,13 +881,13 @@ import {
                   </div>
                 </div>
                 <div className="w-full flex mt-1">
-                  <div className="w-1/3 text-xs">Category</div>
+                  <div className="w-1/3 text-xs">Categories</div>
                   <div className="w-full text-xs text-gray-400">
                     {campaign?.data[0]?.targetCategory}
                   </div>
                 </div>
                 <div className="w-full flex mt-1">
-                  <div className="w-1/3 text-xs">Sub Category</div>
+                  <div className="w-1/3 text-xs">Sub Categories</div>
                   <div className="w-full text-xs text-gray-400">
                     {campaign?.data[0]?.targetSubCategory}
                   </div>

@@ -82,7 +82,7 @@ function Preview(props: any) {
                   </div>
                 </div>
                 <div className="w-full flex mt-1">
-                  <div className="w-1/3 text-xs">Catogory</div>
+                  <div className="w-1/3 text-xs">Categories</div>
                   <div className="w-full text-xs text-gray-400">
                     {Brand?.category?.map((data: any, index: number) => {
                       return (
@@ -473,7 +473,7 @@ function UpdateBrand() {
 
           <div className="w-full">
             <div className="w-full mt-4 flex">
-              <div className="w-full text-sm font-semibold">Category</div>
+              <div className="w-full text-sm font-semibold">Categories</div>
             </div>
             <div className="mt-2 w-full">
               <Select

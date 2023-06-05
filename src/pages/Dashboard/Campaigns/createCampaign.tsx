@@ -1302,7 +1302,7 @@ function CreateCampaign(props: any) {
                   </div>
 
                   <div className="w-full flex mt-1">
-                    <div className="w-1/3 text-xs">Category</div>
+                    <div className="w-1/3 text-xs">Categories</div>
                     <div className="w-full text-xs text-gray-400">
                       {category.label}
                     </div>
