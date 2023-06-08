@@ -20,8 +20,62 @@ import { MenuItem, Select } from "@mui/material";
 import CountryCode from "../loginTest/Countrycodedropdown";
 import countries from "./countries.json";
 
+const publicEmailDomains = [
+  "gmail.com",
+  "yahoo.com",
+  "outlook.com",
+  "hotmail.com",
+  "aol.com",
+  "icloud.com",
+  "protonmail.com",
+  "zoho.com",
+  "yandex.com",
+  "gmx.com",
+  "mail.com",
+  "fastmail.com",
+  "hushmail.com",
+  "tutanota.com",
+  "mail.ru",
+  "inbox.lv",
+  "rediffmail.com",
+  "sapo.pt",
+  "walla.co.il",
+  "naver.com",
+  "daum.net",
+  "163.com",
+  "126.com",
+  "qq.com",
+  "163.com",
+  "lycos.com",
+  "t-online.de",
+  "web.de",
+  "mailchimp.com",
+  "rackspace.com",
+  "zimbra.com",
+  "godaddy.com",
+  "bluehost.com",
+  "hostgator.com",
+  "ionos.com",
+  "dreamhost.com",
+  "gandi.net",
+  "hover.com",
+  "namecheap.com",
+  "wix.com",
+  "weebly.com",
+  "squareup.com",
+  "shopify.com",
+  "yahoosmallbusiness.com",
+  "zoho.com",
+  "office.com",
+  "icloud.com",
+  "gmail.com",
+  "fastmail.com",
+  "amazonaws.com",
+];
+
 export const regex = /^(?!\s*$).+/;
-export const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
+export const passwordRegex =
+  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
 export const isWbsite =
   /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
@@ -51,21 +105,26 @@ const SignupTest = () => {
     isEmail: "Invalid Email",
     isWebsite: "Invalid Website URL",
     isPhoneNumber: "Contact number should be of 10 digits",
-    isMinimumPassword: 'Password should have minimum 8 and maximum 20 characters at least 1 special symbol and an integer',
+    isMinimumPassword:
+      "Password should have minimum 8 and maximum 20 characters at least 1 special symbol and an integer",
   });
   const [showErrorMessage, setShowErrorMessage] = useState({
     one: false,
     two: false,
-    three:false,
+    three: false,
   });
 
   const [selectCheck, setSelectCheck] = useState(false);
+  const [emailCheck, setEmailcheck] = useState(false);
 
   return (
     <div className="h-full w-full flex justify-center bg-[#30D792] py-8">
-      <div className="z-10 absolute top-4 left-4 flex items-center cursor-pointer" onClick={()=>{
-        navigate('/')
-      }}>
+      <div
+        className="z-10 absolute top-4 left-4 flex items-center cursor-pointer"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <img src={avniWhiteLogo2} className=" h-16 w-16" />{" "}
         <span className="text-white text-3xl ">avni</span>
       </div>
@@ -429,9 +488,16 @@ const SignupTest = () => {
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     />
                     {!regex.test(userDetails.email) &&
-                      showErrorMessage.one === true && (
+                      showErrorMessage.two === true && (
                         <div className="w-full text-xs font-semibold text-red-500 mt-1">
                           {errorMessageOne.isRequired}
+                        </div>
+                      )}
+                    {regex.test(userDetails.email) &&
+                      emailCheck === true &&
+                      showErrorMessage.two === true && (
+                        <div className="w-full text-xs font-semibold text-red-500 mt-1">
+                          Invalid email
                         </div>
                       )}
                   </div>
@@ -458,7 +524,7 @@ const SignupTest = () => {
                           {errorMessageOne.isRequired}
                         </div>
                       )}
-                      {!passwordRegex.test(userDetails.password) &&
+                    {!passwordRegex.test(userDetails.password) &&
                       showErrorMessage.three === true && (
                         <div className="w-full text-xs font-semibold text-red-500 mt-1">
                           {errorMessageOne.isMinimumPassword}
@@ -549,12 +615,20 @@ const SignupTest = () => {
                         marginTop: "10px",
                       }}
                       onClick={async () => {
+                        const domain = userDetails.email.split("@")[1];
+                        if (publicEmailDomains.includes(domain)) {
+                          setEmailcheck(true);
+                        } else {
+                          setEmailcheck(false);
+                        }
                         if (
                           regex.test(userDetails.email) &&
                           regex.test(userDetails.password) &&
                           regex.test(userDetails.confirmpassword) &&
                           userDetails.password ===
-                            userDetails.confirmpassword && passwordRegex.test(userDetails.password) &&
+                            userDetails.confirmpassword &&
+                          passwordRegex.test(userDetails.password) &&
+                          !publicEmailDomains.includes(domain) &&
                           selectCheck
                         ) {
                           const payload = {
@@ -582,9 +656,11 @@ const SignupTest = () => {
                             toast.error("Already created");
                           }
                         } else if (
+                          !publicEmailDomains.includes(domain) &&
                           regex.test(userDetails.email) &&
                           regex.test(userDetails.password) &&
-                          regex.test(userDetails.confirmpassword) && passwordRegex.test(userDetails.password) &&
+                          regex.test(userDetails.confirmpassword) &&
+                          passwordRegex.test(userDetails.password) &&
                           userDetails.password !== userDetails.confirmpassword
                         ) {
                           toast.warn(
@@ -601,7 +677,7 @@ const SignupTest = () => {
                           setShowErrorMessage({
                             ...showErrorMessage,
                             two: true,
-                            three:true
+                            three: true,
                           });
                         }
                       }}
