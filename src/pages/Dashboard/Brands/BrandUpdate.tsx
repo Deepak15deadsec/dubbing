@@ -95,19 +95,19 @@ function Preview(props: any) {
                   </div>
                 </div>
                 <div className="w-full flex mt-1">
-                  <div className="w-1/3 text-xs">Website url</div>
+                  <div className="w-1/3 text-xs">Website URL</div>
                   <div className="w-full text-xs text-gray-400 flex">
                     {Brand?.websiteUrl}
                   </div>
                 </div>
                 <div className="w-full flex mt-1">
-                  <div className="w-1/3 text-xs">IOS app url</div>
+                  <div className="w-1/3 text-xs">IOS app URL</div>
                   <div className="w-full text-xs text-gray-400 flex">
                     {Brand?.iosUrl}
                   </div>
                 </div>
                 <div className="w-full flex mt-1">
-                  <div className="w-1/3 text-xs">Android app url</div>
+                  <div className="w-1/3 text-xs">Android app URL</div>
                   <div className="w-full text-xs text-gray-400 flex">
                     {Brand?.androidUrl}
                   </div>
@@ -532,7 +532,7 @@ function UpdateBrand() {
 
           <div className="w-full">
             <div className="w-full mt-4 flex">
-              <div className="w-full text-sm font-semibold">Website url</div>
+              <div className="w-full text-sm font-semibold">Website URL</div>
             </div>
             <div className="mt-2 w-full">
               <TextField
@@ -549,14 +549,14 @@ function UpdateBrand() {
               showErrorMessage.three === true &&
               websiteUrl.length > 0 && (
                 <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                  Invalid url
+                  Invalid URL
                 </div>
               )}
           </div>
 
           <div className="w-full">
             <div className="w-full mt-4 flex">
-              <div className="w-full text-sm font-semibold">IOS app url</div>
+              <div className="w-full text-sm font-semibold">IOS app URL</div>
             </div>
             <div className="mt-2 w-full">
               <TextField
@@ -573,14 +573,14 @@ function UpdateBrand() {
               showErrorMessage.three === true &&
               IOSappUrl.length > 0 && (
                 <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                  Invalid url
+                  Invalid URL
                 </div>
               )}
           </div>
           <div className="w-full">
             <div className="w-full mt-4 flex">
               <div className="w-full text-sm font-semibold">
-                Android app url
+                Android app URL
               </div>
             </div>
             <div className="mt-2 w-full">
@@ -598,7 +598,7 @@ function UpdateBrand() {
               showErrorMessage.three === true &&
               androidappUrl.length > 0 && (
                 <div className="w-full text-xs font-semibold text-red-500 mt-1">
-                  Invalid url
+                  Invalid URL
                 </div>
               )}
           </div>
