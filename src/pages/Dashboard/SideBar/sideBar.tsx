@@ -15,7 +15,7 @@ import {
   import { toast } from "react-toastify";
   import { Modal } from "@mui/material";
   const loudSpeaker = require("../../../images/loudspeaker.png");
-  const plusSign = require("../../../images/plusSign.png");
+  const plusSign = require("../../../images/hide.png");
   const profileSetting = require("../../../images/profileSetting.png");
   const logoutIcon = require("../../../images/logout.png");
   

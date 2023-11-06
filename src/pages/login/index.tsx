@@ -1,37 +1,18 @@
 import { useState, useEffect, useContext } from "react";
 import { useStoreActions, useStoreState } from "../../store/easy-peasy/hooks";
 import { useNavigate } from "react-router-dom";
-// import SignInlogo from'../../images/SignInlogo.png';
-import { FramLeft } from "../util/framLeft";
-
 import { toast } from "react-toastify";
 const showicon = require("../../images/open.png");
 const hideicon = require("../../images/hide.png");
-const avniWhiteLogo2 = require("../../images/avniWhiteLogo2.png");
+const dublogo = require("../../images/dublogo.png");
 
 
 export const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
 
 const Login = () => {
-  const [loginCredentials, setLoginCredentials] = useState({
-    username: "",
-    password: "",
-  });
+ 
 
-  const [errorMessageOne, setErrorMessageOne] = useState({
-    isRequired: "Value is Required",
-    isEmail: "Invalid Email",
-  });
-  const [showErrorMessage, setShowErrorMessage] = useState({
-    one: false,
-    two: false,
-  });
-
-
-  const user = useStoreState((store) => store.user);
   const [input, setInput] = useState({ email: "", password: "" })
-  const addUser = useStoreActions((state) => state.addUser)
-  const addToken = useStoreActions((state) => state.addToken)
   const [showpassword, setShowpassword] = useState(false);
   const [passwordfocus, setPasswordfocus] = useState(false)
 
@@ -44,16 +25,16 @@ const Login = () => {
 
   const navigate = useNavigate();
   return (
-    <div className="flex h-screen justify-end items-center bg-[#30D792]">
+    <div className="flex h-screen justify-end items-center bg-[#ffffff]">
       <div className="z-10 absolute top-20 right-4 flex items-center cursor-pointer" onClick={() => {
         navigate('/')
       }}>
-        <img src={avniWhiteLogo2} className=" h-16 w-16" />{" "}
+        <img src={dublogo} className=" h-16 w-16" />{" "}
         
       </div>
       <div className="h-[400px] mr-[5rem]">
         <div
-          className="flex flex-col p-6 justify-center items-center bg-white rounded-xl"
+          className="flex flex-col p-6 justify-center items-center bg-white border-2 rounded-xl"
           style={{
             width: "100%",
           }}
