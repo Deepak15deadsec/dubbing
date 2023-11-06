@@ -4,10 +4,10 @@ import Cookies from 'js-cookie'
 
 function queryErrorHandler(error: any): void {
   // error is type unknown because in js, anything can be an error (e.g. throw(5))
-  if (error.message === "Request failed with status code 401") {
-    Cookies.set("key", "")
-    window.location.href = "https://avniads.com"
-  }
+  // if (error.message === "Request failed with status code 401") {
+  //   Cookies.set("key", "")
+  //   window.location.href = "https://avniads.com"
+  // }
   const title = error instanceof Error ? error.message : "error connecting to server";
   // prevent duplicate toasts
   toast.error(title);
