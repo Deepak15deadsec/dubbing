@@ -16,9 +16,6 @@ const Login = () => {
   const [showpassword, setShowpassword] = useState(false);
   const [passwordfocus, setPasswordfocus] = useState(false)
 
-  
-
-
   const onChangeHandler = (value: string, email: string) => {
     setInput({ ...input, [email]: value })
   }

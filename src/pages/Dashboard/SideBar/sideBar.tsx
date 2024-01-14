@@ -1,243 +1,144 @@
 import {
-    Sidebar as SideBar,
-    Menu,
-    MenuItem,
-    useProSidebar,
-    SubMenu,
-  } from "react-pro-sidebar";
-  import {
-    useStoreActions,
-    useStoreState,
-  } from "../../../store/easy-peasy/hooks";
-  import { useEffect, useState, useContext } from "react";
-  import { NavLink, useNavigate, useParams } from "react-router-dom";
-  import axios from "axios";
-  import { toast } from "react-toastify";
-  import { Modal } from "@mui/material";
-  const loudSpeaker = require("../../../images/loudspeaker.png");
-  const plusSign = require("../../../images/hide.png");
-  const profileSetting = require("../../../images/profileSetting.png");
-  const logoutIcon = require("../../../images/logout.png");
-  
-  const Sidebar = () => {
-    const { collapseSidebar, collapsed } = useProSidebar();
-    const [active, setActive] = useState("");
-    const [campaigns, setCampaigns] = useState([]);
-    const user = useStoreState((state) => state.user);
-    const tabSelected = (tabName: string) => {
-      setActive(tabName);
-    };
-    const addUser = useStoreActions((state) => state.addUser);
-    const addToken = useStoreActions((state) => state.addToken);
-  
-    const [openClose, setOpenClose] = useState(false);
-    const handleClose = () => setOpenClose(false);
-  
-    const sideMenu = () => {
-      return (
-        <Menu
-          className="text-black"
-          renderExpandIcon={({ open }) => <span>{open ? "-" : "+"}</span>}
-        >
-          <SubMenu
-            className={`${
-              active === "campaigns" ? "text-[#30D792]" : "text-black"
+  Sidebar as SideBar,
+  Menu,
+  MenuItem,
+  useProSidebar,
+  SubMenu,
+} from "react-pro-sidebar";
+import {
+  useStoreActions,
+  useStoreState,
+} from "../../../store/easy-peasy/hooks";
+import { useEffect, useState, useContext } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Modal } from "@mui/material";
+const loudSpeaker = require("../../../images/loudspeaker.png");
+const plusSign = require("../../../images/hide.png");
+const profileSetting = require("../../../images/profileSetting.png");
+const logoutIcon = require("../../../images/logout.png");
+
+const Sidebar = () => {
+  const { collapseSidebar, collapsed } = useProSidebar();
+  const [active, setActive] = useState("");
+  const [campaigns, setCampaigns] = useState([]);
+  const user = useStoreState((state) => state.user);
+  const tabSelected = (tabName: string) => {
+    setActive(tabName);
+  };
+  const addUser = useStoreActions((state) => state.addUser);
+  const addToken = useStoreActions((state) => state.addToken);
+
+  const [openClose, setOpenClose] = useState(false);
+  const handleClose = () => setOpenClose(false);
+
+  const sideMenu = () => {
+    return (
+      <Menu
+        className="text-black"
+        renderExpandIcon={({ open }) => <span>{open ? "-" : "+"}</span>}
+      >
+        <MenuItem
+          component={
+            <NavLink
+              to={`/dashboard/home`}
+              onClick={() => tabSelected("profile&settings")}
+            />
+          }
+          className={`${active === "profile&settings" ? "text-[#30D792]" : "text-black"
             } font-bold `}
-            defaultOpen
-            label="Campaigns "
-            icon={<img src={loudSpeaker} />}
-          >
-            <MenuItem
-              className={`${
-                active === "active" ? "text-[#30D792]" : "text-black"
-              } font-normal  `}
-              component={
-                <NavLink
-                  to={`/${user.id}/active_campaign`}
-                  onClick={() => tabSelected("active")}
-                  className="ml-10"
-                />
-              }
-            >
-              Active
-            </MenuItem>
-            <MenuItem
-              className={`${
-                active === "draft" ? "text-[#30D792]" : "text-black"
-              } font-normal  `}
-              component={
-                <NavLink
-                  to={`/${user.id}/draft_campaign`}
-                  onClick={() => tabSelected("draft")}
-                  className="ml-10"
-                />
-              }
-            >
-              Draft
-            </MenuItem>
-  
-            <MenuItem
-              className={`${
-                active === "completed" ? "text-[#30D792]" : "text-black"
-              } font-normal `}
-              component={
-                <NavLink
-                  to={`/${user.id}/completed_campaign`}
-                  onClick={() => tabSelected("completed")}
-                  className="ml-10"
-                />
-              }
-            >
-              Completed
-            </MenuItem>
-            <MenuItem
-              className={`${
-                active === "overview" ? "text-[#30D792]" : "text-black"
-              } font-normal  `}
-              component={
-                <NavLink
-                  to={`/dashboard`}
-                  onClick={() => tabSelected("overview")}
-                  className="ml-10"
-                />
-              }
-            >
-              New Campaign
-            </MenuItem>
-          </SubMenu>
-  
-          <SubMenu
-            className={`${
-              active === "MilestoneReward" ? "text-[#30D792]" : "text-black"
-            } font-bold`}
-            defaultOpen
-            label="Rewards "
-            icon={<img src={plusSign} />}
-          >
-            <MenuItem
-              className={`${
-                active === "activeMilestoneReward"
-                  ? "text-[#30D792]"
-                  : "text-black"
-              } font-normal `}
-              component={
-                <NavLink
-                  to={`/${user.id}/active_reward`}
-                  onClick={() => tabSelected("activeMilestoneReward")}
-                  className="ml-10"
-                />
-              }
-            >
-              Active
-            </MenuItem>
-            <MenuItem
-              className={`${
-                active === "draftMilestoneReward"
-                  ? "text-[#30D792]"
-                  : "text-black"
-              } font-normal`}
-              component={
-                <NavLink
-                  to={`/${user.id}/draft_reward`}
-                  onClick={() => tabSelected("draftMilestoneReward")}
-                  className="ml-10"
-                />
-              }
-            >
-              Draft
-            </MenuItem>
-  
-            <MenuItem
-              className={`${
-                active === "completedMilestoneReward"
-                  ? "text-[#30D792]"
-                  : "text-black"
-              } font-normal `}
-              component={
-                <NavLink
-                  to={`/${user.id}/createMilestoneReward`}
-                  onClick={() => tabSelected("completedMilestoneReward")}
-                  className="ml-10"
-                />
-              }
-            >
-              Completed
-            </MenuItem>
-            <MenuItem
-              className={`${
-                active === "overviewMilestoneReward"
-                  ? "text-[#30D792]"
-                  : "text-black"
-              } font-normal `}
-              component={
-                <NavLink
-                  to={`/${user.id}/createMilestoneReward`}
-                  onClick={() => tabSelected("overviewMilestoneReward")}
-                  className="ml-10"
-                />
-              }
-            >
-              New Rewards
-            </MenuItem>
-          </SubMenu>
-  
-          <SubMenu
-            className={`${
-              active === "Brand" ? "text-[#30D792]" : "text-black"
-            } font-bold`}
-            defaultOpen
-            label="Brand"
-            icon={<img src={plusSign} />}
-          >
-            <MenuItem
-              className={`${
-                active === "Brand" ? "text-[#30D792]" : "text-black"
-              } font-normal `}
-              component={
-                <NavLink
-                  to={`/${user.id}/BrandList`}
-                  onClick={() => tabSelected("Brand")}
-                  className="ml-10"
-                />
-              }
-            >
-              Brand
-            </MenuItem>
-  
-            <MenuItem
-              className={`${
-                active === "AddBrand" ? "text-[#30D792]" : "text-black"
-              } font-normal `}
-              component={
-                <NavLink
-                  to={`/${user.id}/addBrand`}
-                  onClick={() => tabSelected("AddBrand")}
-                  className="ml-10"
-                />
-              }
-            >
-            Add Brand
-            </MenuItem>
-  
-          </SubMenu>
-  
+          icon={<img src={profileSetting} />}
+        >
+          {" "}
+          Home{" "}
+        </MenuItem>
+        <MenuItem
+          component={
+            <NavLink
+              to={`/profile_and_settings_/${user.id}`}
+              onClick={() => tabSelected("profile&settings")}
+            />
+          }
+          className={`${active === "profile&settings" ? "text-[#30D792]" : "text-black"
+            } font-bold `}
+          icon={<img src={profileSetting} />}
+        >
+          {" "}
+          My tasks{" "}
+        </MenuItem>
+        <MenuItem
+          component={
+            <NavLink
+              to={`/profile_and_settings_/${user.id}`}
+              onClick={() => tabSelected("profile&settings")}
+            />
+          }
+          className={`${active === "profile&settings" ? "text-[#30D792]" : "text-black"
+            } font-bold `}
+          icon={<img src={profileSetting} />}
+        >
+          {" "}
+          Inbox{" "}
+        </MenuItem>
+        <SubMenu
+          className={`${active === "campaigns" ? "text-[#30D792] ml-2" : "text-black ml-2"
+            } font-bold `}
+          defaultOpen
+          label="Insights "
+         
+        >
           <MenuItem
+            className={`${active === "active" ? "text-[#30D792]" : "text-black"
+              } font-normal  `}
+              icon={<img src={loudSpeaker} />}
             component={
               <NavLink
-                to={`/profile_and_settings_/${user.id}`}
-                onClick={() => tabSelected("profile&settings")}
+                to={`/${user.id}/active_campaign`}
+                onClick={() => tabSelected("active")}
+                className="ml-0"
               />
             }
-            className={`${
-              active === "profile&settings" ? "text-[#30D792]" : "text-black"
-            } font-bold `}
-            icon={<img src={profileSetting} />}
           >
-            {" "}
-            Profile & Settings{" "}
+            Reporting
           </MenuItem>
-  
           <MenuItem
+            className={`${active === "draft" ? "text-[#30D792]" : "text-black"
+              } font-normal  `}
+              icon={<img src={loudSpeaker} />}
+            component={
+              <NavLink
+                to={`/${user.id}/draft_campaign`}
+                onClick={() => tabSelected("draft")}
+                className="ml-0"
+              />
+            }
+          >
+            Portfolios
+          </MenuItem>
+
+          <MenuItem
+            className={`${active === "completed" ? "text-[#30D792]" : "text-black"
+              } font-normal `}
+              icon={<img src={loudSpeaker} />}
+            component={
+              <NavLink
+                to={`/${user.id}/completed_campaign`}
+                onClick={() => tabSelected("completed")}
+                className="ml-0"
+              />
+            }
+          >
+            Goals
+          </MenuItem>
+
+        </SubMenu>
+
+
+
+
+
+        {/* <MenuItem
             onClick={() => {
               setOpenClose(true);
             }}
@@ -296,36 +197,35 @@ import {
                 </div>
               </div>
             </Modal>
-          </MenuItem>
-        </Menu>
-      );
-    };
-  
-    const navigate = useNavigate();
-  
-    return (
-      <SideBar
-        backgroundColor="#fff"
-        style={{ border: "none" }}
-        breakPoint="sm"
-        transitionDuration={1000}
-        className="w-full min-h-screen"
-      >
-        <div className={`w-full flex flex-col items-center `}>
-          <div className="mt-[3rem]">
-            {" "}
-            <img
-              src="https://res.cloudinary.com/dgjxmcrkg/image/upload/v1678950521/just-logo_nmy0bh.webp"
-              height={58}
-              width={92}
-            />
-          </div>
-  
-          <div className="mt-[2rem] w-full">{sideMenu()}</div>
-        </div>
-      </SideBar>
+          </MenuItem> */}
+      </Menu>
     );
   };
-  
-  export default Sidebar;
-  
+
+  const navigate = useNavigate();
+
+  return (
+    <SideBar
+      backgroundColor="#fff"
+      style={{ border: "none" }}
+      breakPoint="sm"
+      transitionDuration={1000}
+      className="w-full min-h-screen"
+    >
+      <div className={`w-full flex flex-col items-center `}>
+        {/* <div className="mt-[3rem]">
+          {" "}
+          <img
+            src="https://res.cloudinary.com/dgjxmcrkg/image/upload/v1678950521/just-logo_nmy0bh.webp"
+            height={58}
+            width={92}
+          />
+        </div> */}
+
+        <div className="mt-[2rem] w-full">{sideMenu()}</div>
+      </div>
+    </SideBar>
+  );
+};
+
+export default Sidebar;
